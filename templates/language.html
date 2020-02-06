@@ -21,119 +21,120 @@ Note that this does not mean that users cannot call the functions of C versions 
 This means that the SPVM compiler and runtime must be C99 compliant.
 
 <h3 id="language-c99-type">Type correspondence with C99</h3><!-- 2019/2/27 almost ok -->
-<p>
-  SPVMの型は、C99の次の型と完全に一致します。
-</p>
+
+SPVM types are exactly the same as the following C99 types:
+
 <table>
   <tr>
     <th>
-      <b>SPVMの型</b>
-    </th>
+      <b> SPVM type </ b>
+    </ th>
     <th>
-      <b>C99の型</b>
-    </th>
+      <b> C99 type </ b>
+    </ th>
     <th>
-      <b>説明</b>
-    </th>
-  </tr>
+      <b> Description </ b>
+    </ th>
+  </ tr>
   <tr>
     <td>
-      <b>byte</b>
-    </td>
+      <b> byte </ b>
+    </ td>
     <td>
       int8_t
-    </td>
+    </ td>
     <td>
-      SPVMの<a href="#language-type-byte">byte型</a>は、C99のint8_t型に一致します。
-    </td>
-  </tr>
+      SPVM <a href="#language-type-byte"> byte type </a> matches C99 int8_t type.
+    </ td>
+  </ tr>
   <tr>
     <td>
-      <b>short</b>
-    </td>
+      <b> short </ b>
+    </ td>
     <td>
       int16_t
-    </td>
+    </ td>
     <td>
-      SPVMの<a href="#language-type-short">short型</a>は、C99のint16_t型に一致します。
-    </td>
-  </tr>
+      SPVM <a href="#language-type-short"> short type</a> matches the C99 int16_t type.
+    </ td>
+  </ tr>
   <tr>
     <td>
-      <b>int</b>
-    </td>
+      <b> int </ b>
+    </ td>
     <td>
       int32_t
-    </td>
+    </ td>
     <td>
-      SPVMの<a href="#language-type-int">int型</a>は、C99のint32_t型に一致します。
-    </td>
-  </tr>
+      SPVM <a href="#language-type-int"> int type </a> matches the C99 int32_t type.
+    </ td>
+  </ tr>
   <tr>
     <td>
-      <b>long</b>
-    </td>
+      <b> long </ b>
+    </ td>
     <td>
       int64_t
-    </td>
+    </ td>
     <td>
-      SPVMの<a href="#language-type-long">long型</a>は、C99のint64_t型に一致します。
-    </td>
-  </tr>
-  <tr>
+      SPVM <a href="#language-type-long"> long type </a> matches C99 int64_t type.
+    </ td>
+  </ tr>
+
+<tr>
     <td>
-      <b>float</b>
-    </td>
+      <b> float </ b>
+    </ td>
     <td>
       float
-    </td>
+    </ td>
     <td>
-      SPVMの<a href="#language-type-float">float型</a>は、C99のfloat型に一致します。
-    </td>
+      SPVM <a href="#language-type-float"> float type </a> matches the C99 float type.
+    </ td>
   <tr>
     <td>
-      <b>double</b>
-    </td>
+      <b> double </ b>
+    </ td>
     <td>
       double
-    </td>
+    </ td>
     <td>
-      SPVMの<a href="#language-type-double">double型</a>は、C99のdouble型に一致します。
-    </td>
-  </tr>
+      SPVM <a href="#language-type-double"> double type</a> matches C99 double.
+    </ td>
+  </ tr>
   <tr>
     <td>
-      <b>オブジェクト型</b>
-    </td>
+      <b> Object type </ b>
+    </ td>
     <td>
       void*
-    </td>
+    </ td>
     <td>
-      SPVMの<a href="#language-type-object">オブジェクト型</a>は、C99のvoid*型に一致します。
-    </td>
-  </tr>
+      SPVM <a href="#language-type-object"> object type </a> matches the C99 void* type.
+    </ td>
+  </ tr>        
   <tr>
     <td>
-      <b>複数数値型</b>
-    </td>
+      <b> Multiple numeric type </ b>
+    </ td>
     <td>
-      複数数値型のフィールドの型と個数が一致する数値の配列型
-    </td>
+      Numeric array type that matches the type and length of SPVM multiple numeric type fields
+    </ td>
     <td>
       <p>
-        たとえば<a href="#language-type-multi-numeric">複数数値型</a>が
-      </p>
+        For example, if SPVM <a href="#language-type-multi-numeric">multiple numeric type</a>
+      </ p>
       <p>
-        package Point_2i : mulnum_t { has x : int; has y : int; }
-      </p>
+        <b>package Point_2i: mulnum_t {has x: int; has y: int;}</b>
+      </ p>
       <p>
-        として定義されていた場合は
-      </p>
+        matches the type declared in C99
+      </ p>
       <p>
-        C99の「int32_t var[2];」で宣言された型に一致します。
+        <b>int32_t var[2];</b>
       </p>
-    </td>
-  </tr>
+    </ td>
+  </ tr>
 </table>
 
 <h2 id="language-parser">構文解析</h2>
