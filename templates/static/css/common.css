@@ -79,7 +79,7 @@
     width:100%;
     font-size:28px;
     padding:19px 10px 15px 73px;
-    background:url(/images/giblog-logo.png) no-repeat 10px 15px;
+    background:url(/images/spvm-logo.png) no-repeat 10px 15px;
     background-size:48px;
   }
   h1 a, h1 a:visited {
@@ -92,7 +92,7 @@
     margin:10px 0;
     padding-left:20px;
     letter-spacing:0.5px;
-    border-left:8px solid #00A78C;
+    border-left:8px solid #4472C2;
   }
   h2 a, h2 a:visited {
     text-decoration:none;
@@ -100,7 +100,7 @@
   }
   h3 {
     font-size:20px;
-    border-top:4px solid #ddd;
+    border-top:4px solid #4472C2;
     padding:16px 0px 15px 18px;
     letter-spacing:0.5px;
     margin:15px 0 10px 0;
@@ -170,7 +170,7 @@
     box-shadow: 0 0 3px rgba(0,0,0,.1);
   }
   .side-list-title {
-    background:#009D82;
+    background:#4472C2;
     color:white;
     font-weight:bold;
     padding: 12px 0px 10px 0px;
