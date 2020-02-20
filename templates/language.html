@@ -191,7 +191,7 @@ Identifier in SPVM is "Package Name", ""Subroutine Name", "Field Name", "Package
 
 <h4 id="language-lex-identifier-package-name">Package Name</h4><!-- 2019/2/27 almost ok -->
 
-Package Name is one or more alphabet characters of ASCII Code or "::".
+Package Name is one or more alphabet(a-zA-Z), number(0-9), underscore(_) or "::" of ASCII Code.
 
 It is not necessary to include "::" in the Package Name.
 
@@ -205,7 +205,7 @@ Underscore cannot be continued twice.
 # Valid Package Name
 Foo
 Foo::Bar
-Foo::Bar::Baz
+Foo::Bar::Baz3
 Foo::bar
 Foo_Bar::Baz_Baz
 
@@ -220,16 +220,16 @@ If Package Name is invalid, a compile-time error occurs.
 
 <h4 id="language-lex-identifier-sub-name">Subroutine Name</h4><!-- 2019/2/27 almost ok -->
 
-Subroutine Name is one or more alphabet of ASCII Code or Underscore.
+Subroutine Name is one or more alphabet(a-zA-Z), number(0-9), or underscore(_) of ASCII Code.
 
-First character must not digit character.
+First character must not number character.
 
 Underscore cannot be continued twice.
 
 <pre>
 # Valid Subroutine Name
 FOO
-FOO_BAR
+FOO_BAR3
 foo
 foo_bar
 _foo
@@ -241,16 +241,16 @@ foo__bar
 
 <h4 id="language-lex-identifier-field-name">Field Name</h4><!-- 2019/2/27 almost ok -->
 
-Field Name is one or more alphabet of ASCII Code or Underscore.
+Field Name is one or more alphabet(a-zA-Z), number(0-9), or underscore(_) of ASCII Code.
 
-First character must not digit character.
+First character must not number character.
   
 Underscore cannot be continued twice.
 
 <pre>
 # Valid Field Name
 FOO
-FOO_BAR
+FOO_BAR3
 foo
 foo_bar
 _foo
@@ -263,7 +263,9 @@ foo__bar
 
 <h4 id="language-lex-identifier-package-var-name">Package Variable Name</h4><!-- 2019/2/27 maybe ok -->
 
-Package Variable Name starts with "$", followed more alphabet characters of ASCII Code or "::".
+Package Variable Name starts with "$", followed more alphabet(a-zA-Z), number(0-9), underscore(_) or "::" of ASCII Code.
+
+Followed character must not start with number.
 
 "::" cannot be continued twice. Last characters cannot end with "::".
 
@@ -272,30 +274,33 @@ Underscore cannot be continued twice.
 <pre>
 # Valid Package Variable Name
 $FOO::BAR
-$Foo::Bar
+$Foo::Bar3
 $FOO
 $FOO_BAR
 $foo
 
 # Invalid Package Variable Name
 $FOO__BAR
+$3FOO
 
 <h4 id="language-lex-identifier-lex-var-name">Lexical Variable Name</h4><!-- 2019/2/27 maybe ok -->
 
 Lexical Variable Name starts with "$", followed more alphabet characters of ASCII Code.
+
+Followed character must not start with number.
 
 Underscore cannot be continued twice.
 
 <pre>
 # Valid Lexical Variable Name
 $foo
-$foo_bar
+$foo_bar3
 $_foo
 $FOO
 
 # Invalid Lexical Variable Name
 $foo__bar
-$
+$3foo
 </pre>
 
 <h3 id="language-lex-keyword">Keywords</h3><!-- 2019/2/27 maybe ok -->
