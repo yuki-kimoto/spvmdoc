@@ -197,7 +197,9 @@ It is not necessary to include "::" in the Package Name.
 
 Package Name must start a uppercase letter in ASCII Code
 
-"::" cannot be continued. Last characters cannot end with "::".
+"::" cannot be continued twice. Last characters cannot end with "::".
+
+Underscore cannot be continued twice.
 
 <pre>
 # Valid Package Name
@@ -209,6 +211,7 @@ Foo_Bar::Baz_Baz
 
 # Invalid Package Name
 foo
+_Foo
 Foo::Bar::
 Foo__Bar
 </pre>
@@ -216,15 +219,13 @@ Foo__Bar
 If Package Name is invalid, a compile-time error occurs.
 
 <h4 id="language-lex-identifier-sub-name">Subroutine Name</h4><!-- 2019/2/27 almost ok -->
-<p>
-  Subroutine Nameは、"ASCII Codeにおける
-Alphabetあるいは
-Underscoreの一文字以上"です。
-</p>
-<p>
-  
-Underscoreは、二つ以上続いてはいけません。
-</p>
+
+Subroutine Name is one or more alphabet of ASCII Code or Underscore.
+
+First character must not digit character.
+
+Underscore cannot be continued twice.
+
 <pre>
 # Valid Subroutine Name
 FOO
@@ -239,15 +240,13 @@ foo__bar
 </pre>
 
 <h4 id="language-lex-identifier-field-name">Field Name</h4><!-- 2019/2/27 almost ok -->
-<p>
-  Field Nameは、"ASCII Codeにおける
-Alphabetあるいは
-Underscoreの一文字以上"です。
-</p>
-<p>
+
+Field Name is one or more alphabet of ASCII Code or Underscore.
+
+First character must not digit character.
   
-Underscoreは、二つ以上続いてはいけません。
-</p>
+Underscore cannot be continued twice.
+
 <pre>
 # Valid Field Name
 FOO
@@ -258,19 +257,18 @@ _foo
 _foo_bar_
 
 # Invalid Field Name
+3foo
 foo__bar
 </pre>
 
 <h4 id="language-lex-identifier-package-var-name">Package Variable Name</h4><!-- 2019/2/27 maybe ok -->
-<p>
-  Package Variable Nameは、先頭が"$"で始まり、その後"ASCII Codeにおける
-Alphabetあるいは
-Underscoreの一文字以上"と"::"の組み合わせが続きます。"::"は含まれていなくてもかまいません。
-</p>
-<p>
-  
-Underscoreは、二つ以上続いてはいけません。
-</p>
+
+Package Variable Name starts with "$", followed more alphabet characters of ASCII Code or "::".
+
+"::" cannot be continued twice. Last characters cannot end with "::".
+
+Underscore cannot be continued twice.
+
 <pre>
 # Valid Package Variable Name
 $FOO::BAR
@@ -281,19 +279,13 @@ $foo
 
 # Invalid Package Variable Name
 $FOO__BAR
-$
-</pre>
 
 <h4 id="language-lex-identifier-lex-var-name">Lexical Variable Name</h4><!-- 2019/2/27 maybe ok -->
-<p>
-  Lexical Variable Nameは、先頭が"$"で始まり、その後"ASCII Codeにおける
-Alphabetあるいは
-Underscoreの一文字以上"が続きます。
-</p>
-<p>
-  
-Underscoreは、二つ以上続いてはいけません。
-</p>
+
+Lexical Variable Name starts with "$", followed more alphabet characters of ASCII Code.
+
+Underscore cannot be continued twice.
+
 <pre>
 # Valid Lexical Variable Name
 $foo
@@ -306,7 +298,7 @@ $foo__bar
 $
 </pre>
 
-<h3 id="language-lex-keyword">Keyword</h3><!-- 2019/2/27 maybe ok -->
+<h3 id="language-lex-keyword">Keywords</h3><!-- 2019/2/27 maybe ok -->
 
 Keywords in SPVM are the followings.
 
@@ -319,7 +311,7 @@ sub string short scalar undef unless use void mulnum_t while
 weaken wo __END__ __PACKAGE__ __FILE__ __LINE__
 </pre>
 
-<h3 id="language-lex-separator">Separator</h3><!-- 2019/2/27 almost ok -->
+<h3 id="language-lex-separator">Separators</h3><!-- 2019/2/27 almost ok -->
 
 Separators in SPVM are the followings.
 
@@ -327,7 +319,7 @@ Separators in SPVM are the followings.
 ( ) { } [ ] ; , -> =>
 </pre>
 
-<h3 id="language-lex-operator">Operator </h3><!-- 2019/2/27 almost ok -->
+<h3 id="language-lex-operator">Operators</h3><!-- 2019/2/27 almost ok -->
 
 Operators in SPVM are the followings.
 
