@@ -1108,7 +1108,7 @@ POD has no meaning in the program execution.
 
 <h3 id="language-package-definition">パッケージの定義</h3>
 <p>
-  パッケージを定義するには以下の構文を使用します。
+  パッケージを定義するにはthe following syntax を使用します。
 </p>
 <pre>
 package PackageName {
@@ -1125,10 +1125,10 @@ Foo::Bar
 Foo::Bar::Baz
 </p>
 <p>
-  "Package Name"の後に":"をつなげてその後ろに"デスクリプタ"を指定することができます。
+  "Package Name"の後に":"をつなげてその後ろに"Descriptor"を指定することができます。
 </p>
 <pre>
-package Package Name : デスクリプタ {
+package Package Name : Descriptor {
 
 }
 </pre>
@@ -1143,22 +1143,22 @@ package Point {
 </pre>
 
 <pre>
-# Package Nameとデスクリプタ
+# Package NameとDescriptor
 package Point : public {
 
 }
 </pre>
 
 <p id="language-package-descriptor">
-  <b>パッケージデスクリプタ</b>
+  <b>パッケージDescriptor</b>
 </p>
 <p>
-  パッケージで指定できるデスクリプタの一覧です。
+  パッケージで指定できるDescriptorの一覧です。
 </p>
 <table>
   <tr>
     <th>
-      デスクリプタ名
+      Descriptor Name
     </th>
     <th>
       役割
@@ -1206,7 +1206,7 @@ package Point : public {
   </tr>
 </table>
 <p>
-  "public"と"private"の両方のデスクリプタが指定された場合は、コンパイル時エラーが発生します。
+  "public"と"private"の両方のDescriptorが指定された場合は、コンパイル時エラーが発生します。
 </p>
 <p>
   "callback_t""mulnum_t""pointer_t"のひとつより多くが同時に指定されている場合は、コンパイル時エラーが発生します。
@@ -1317,7 +1317,7 @@ package Foo::Bar::Baz {
 
 <h3 id="language-module-file-name">モジュールのファイル名</h3>
 <p>
-  モジュールは、モジュールの読み込みパスに、以下のファイル名で配置される必要があります。
+  モジュールは、モジュールの読み込みパスに、the following ファイル名で配置される必要があります。
 </p>
 <p>
   "::"を"/"に変更。末尾に".spvm"をつける。
@@ -1373,7 +1373,7 @@ else {
 </pre>
 
 <p>
-  一つの例を見てみましょう。以下の例で、Fooが存在しない場合は、コンパイルエラーにはならず、ifブロックがないことになります。そのため"$foo = new Foo;"は、存在しないことになっているので、コンパイルエラーになりません。elseブロックは存在するので、警告がされます。
+  一つの例を見てみましょう。the following 例で、Fooが存在しない場合は、コンパイルエラーにはならず、ifブロックがないことになります。そのため"$foo = new Foo;"は、存在しないことになっているので、コンパイルエラーになりません。elseブロックは存在するので、警告がされます。
 </p>
 <pre>
 my $foo : object;
@@ -1433,21 +1433,21 @@ our Package Variable Name : Type Name ;
   Package Variable Nameは、<a href="#language-lex-identifier-package-var-name">Package Variable Name</a>で定義されている名前の規則に従い、かつ"::"が含まれていてはいけません。そうでない場合は、コンパイル時エラーが発生します。
 </p>
 <p>
-  パッケージ変数定義には、デスクリプタを合わせて指定することができます。複数のデスクリプタを空白を使って並べることができます。
+  パッケージ変数定義には、Descriptorを合わせて指定することができます。複数のDescriptorを空白を使って並べることができます。
 </p>
 <pre>
-our Package Variable Name : デスクリプタ Type Name ;
+our Package Variable Name : Descriptor Type Name ;
 </pre>
 <p>
-  <b>パッケージ変数デスクリプタ</b>
+  <b>パッケージ変数Descriptor</b>
 </p>
 <p>
-  パッケージ変数で指定できるデスクリプタの一覧です。
+  パッケージ変数で指定できるDescriptorの一覧です。
 </p>
 <table>
   <tr>
     <th>
-      デスクリプタ名
+      Descriptor Name
     </th>
     <th>
       役割
@@ -1495,7 +1495,7 @@ our Package Variable Name : デスクリプタ Type Name ;
   </tr>
 </table>
 <p>
-  "public"と"private"の両方のデスクリプタが指定された場合は、コンパイル時エラーが発生します。
+  "public"と"private"の両方のDescriptorが指定された場合は、コンパイル時エラーが発生します。
 </p>
 <p>
   "ro""wo""rw"のひとつより多くが同時に指定されている場合は、コンパイル時エラーが発生します。
@@ -1585,21 +1585,21 @@ has Field Name : Type Name ;
   Field Nameには、<a href="#language-lex-keyword">Keyword </a>と同じ名前を使用することができます。
 </p>
 <p>
-  フィールド定義には、デスクリプタを合わせて指定することができます。複数のデスクリプタを空白を使って並べることができます。
+  フィールド定義には、Descriptorを合わせて指定することができます。複数のDescriptorを空白を使って並べることができます。
 </p>
 <pre>
-has Field Name : デスクリプタ Type Name ;
+has Field Name : Descriptor Type Name ;
 </pre>
 <p>
-  <b>フィールドデスクリプタ</b>
+  <b>フィールドDescriptor</b>
 </p>
 <p>
-  フィールドで指定できるデスクリプタの一覧です。
+  フィールドで指定できるDescriptorの一覧です。
 </p>
 <table>
   <tr>
     <th>
-      デスクリプタ名
+      Descriptor Name
     </th>
     <th>
       役割
@@ -1647,7 +1647,7 @@ has Field Name : デスクリプタ Type Name ;
   </tr>
 </table>
 <p>
-  "public"と"private"の両方のデスクリプタが指定された場合は、コンパイル時エラーが発生します。
+  "public"と"private"の両方のDescriptorが指定された場合は、コンパイル時エラーが発生します。
 </p>
 <p>
   "ro""wo""rw"のひとつより多くが同時に指定されている場合は、コンパイル時エラーが発生します。
@@ -1684,13 +1684,13 @@ has num_rw : rw int;
 </pre>
 <h3 id="language-field-access">フィールドへのアクセス</h3>
 <p>
-  フィールドへのアクセスとは、フィールドにアクセスして、値を取得したり、設定したりする操作のことです。また、以下の記述そのものを指します。
+  フィールドへのアクセスとは、フィールドにアクセスして、値を取得したり、設定したりする操作のことです。また、the following 記述そのものを指します。
 </p>
 <pre>
 インボカント->{Field Name}
 </pre>
 <p>
-  フィールドへのアクセスは、一種類の構文で、三つの異なる意味を持ちます。
+  フィールドへのアクセスは、一種類のsyntax で、三つの異なる意味を持ちます。
 </p>
 <p>
   <b>1. クラス型のフィールドへのアクセス</b>
@@ -1792,23 +1792,23 @@ sub Subroutine Name : 戻り値のType Name  (引数名1 : 引数のType Name 1,
 </p>
 
 <p>
-  サブルーチンの定義には、デスクリプタを合わせて指定することができます。複数のデスクリプタを空白を使って並べることができます。
+  サブルーチンの定義には、Descriptorを合わせて指定することができます。複数のDescriptorを空白を使って並べることができます。
 </p>
 <pre>
-デスクリプタ名 sub Subroutine Name : 戻り値のType Name  (引数の変数名1 : 引数のType Name 1, 引数の変数名2 : 引数のType Name 2, 以下続く) {
+Descriptor Name sub Subroutine Name : 戻り値のType Name  (引数の変数名1 : 引数のType Name 1, 引数の変数名2 : 引数のType Name 2, 以下続く) {
 
 }
 </pre>
 <p>
-  <b>サブルーチンデスクリプタ</b>
+  <b>サブルーチンDescriptor</b>
 </p>
 <p>
-  サブルーチンで指定できるデスクリプタの一覧です。
+  サブルーチンで指定できるDescriptorの一覧です。
 </p>
 <table>
   <tr>
     <th>
-      デスクリプタ名
+      Descriptor Name
     </th>
     <th>
       役割
@@ -1832,7 +1832,7 @@ sub Subroutine Name : 戻り値のType Name  (引数名1 : 引数のType Name 1,
   </tr>
 </table>
 <p>
-  "native"と"precompile"の両方のデスクリプタが指定された場合は、コンパイル時エラーが発生します。
+  "native"と"precompile"の両方のDescriptorが指定された場合は、コンパイル時エラーが発生します。
 </p>
 
 <p>
@@ -1899,7 +1899,7 @@ sub foo : int () { return 5 + 3; }
 
 <h3 id="language-sub-new-callback-object">コールバックオブジェクトの生成</h3>
 <p>
-  コールバックオブジェクトの生成とは、コールバックの用途で、特別な構文を使って、コールバック型に適合するオブジェクトを生成する文法のことです。
+  コールバックオブジェクトの生成とは、コールバックの用途で、特別なsyntax を使って、コールバック型に適合するオブジェクトを生成する文法のことです。
 </p>
 <pre>
 sub : Type Name  ($self : self, 引数1, 引数2, ..., 引数n) {
@@ -1907,7 +1907,7 @@ sub : Type Name  ($self : self, 引数1, 引数2, ..., 引数n) {
 }
 </pre>
 <p>
-  コールバックオブジェクトの生成を行うと、内部的に、パッケージの定義がおこなわれ、そのパッケージを元にしたオブジェクトが生成され、<a href="#language-expression">式</a>として返されます。以下のように変数に代入することが可能です。
+  コールバックオブジェクトの生成を行うと、内部的に、パッケージの定義がおこなわれ、そのパッケージを元にしたオブジェクトが生成され、<a href="#language-expression">式</a>として返されます。the following ように変数に代入することが可能です。
 </p>
 <pre>
 my $cb_obj = sub : Type Name  ($self : self, 引数1, 引数2, ..., 引数n) {
@@ -1931,7 +1931,7 @@ my $comparator = sub : int ($self : self, $x1 : object, $x2 : object) {
 
 <h3 id="language-sub-capture">キャプチャ</h3>
 <p>
-  コールバックオブジェクトの生成においては、キャプチャという構文を使って、コールバックオブジェクトの生成によって定義されたサブルーチンの外側で定義された変数を、コールバックオブジェクトの生成によって定義されたサブルーチンの内側で使うことができます。
+  コールバックオブジェクトの生成においては、キャプチャというsyntax を使って、コールバックオブジェクトの生成によって定義されたサブルーチンの外側で定義された変数を、コールバックオブジェクトの生成によって定義されたサブルーチンの内側で使うことができます。
 </p>
 <pre>
 # キャプチャ
@@ -2059,7 +2059,7 @@ void()
   サブルーチンのコールスタックとは、<a href="#language-expression-callsub">サブルーチンの呼び出し</a>が行われるときに、確保されるメモリ領域のことを指します。
 </p>
 <p>
-  サブルーチンのコールスタックには、以下の情報が保存されます。
+  サブルーチンのコールスタックには、the following 情報が保存されます。
 </p>
 <p>
   1. <a href="#language-lex-var">レキシカル変数</a>のためのメモリ領域
@@ -2140,10 +2140,10 @@ FLAG3,
 </p>
 
 <p>
-  <b>列挙デスクリプタ</b>
+  <b>列挙Descriptor</b>
 </p>
 <p>
-  列挙には、デスクリプタを指定することができます。
+  列挙には、Descriptorを指定することができます。
 </p>
 <pre>
 private enum {
@@ -2153,12 +2153,12 @@ FLAG3,
 }
 </pre>
 <p>
-  列挙で指定できるデスクリプタの一覧です。
+  列挙で指定できるDescriptorの一覧です。
 </p>
 <table>
   <tr>
     <th>
-      デスクリプタ名
+      Descriptor Name
     </th>
     <th>
       役割
@@ -2182,7 +2182,7 @@ FLAG3,
   </tr>
 </table>
 <p>
-  "public"と"private"の両方のデスクリプタが指定された場合は、コンパイル時エラーが発生します。
+  "public"と"private"の両方のDescriptorが指定された場合は、コンパイル時エラーが発生します。
 </p>
 
 <h3 id="language-enum-call">列挙の呼び出し</h3>
@@ -2685,7 +2685,7 @@ weaken $foo->{bar};
 
 <h2 id="language-callback">コールバック</h2>
 <p>
-  SPVMにおけるコールバック型とは、実装を持たない名前のないメソッドが一つだけ定義されたパッケージ型のことをいいます。<a href="#language-package-definition">パッケージの定義</a>においてcallback_tデスクリプタを指定すると、コールバック型になります。
+  SPVMにおけるコールバック型とは、実装を持たない名前のないメソッドが一つだけ定義されたパッケージ型のことをいいます。<a href="#language-package-definition">パッケージの定義</a>においてcallback_tDescriptorを指定すると、コールバック型になります。
 </p>
 <p>
   コールバック型の目的は、異なるオブジェクトが、同じメソッド定義を持つときに、どちらも代入できる型を提供することにあります。C言語の関数ポインタに該当する機能をSPVMにおいて実現するものと考えてください。
@@ -2786,7 +2786,7 @@ my $ret = $foo->(5);
 
 <h3 id="language-array-access">配列へのアクセス</h3>
 <p>
-  配列へのアクセスとは、配列にアクセスして、値を取得したり、設定したりする操作のことです。また、以下の記述そのものを指します。
+  配列へのアクセスとは、配列にアクセスして、値を取得したり、設定したりする操作のことです。また、the following 記述そのものを指します。
 </p>
 <pre>
 配列->[添え字]
@@ -2814,7 +2814,7 @@ my $ret = $foo->(5);
   値は、連続した数値を表現します。たとえば、連続した32bit符号付整数が3つであるとか、連続した倍精度浮動小数点が2つなどです。3次元の点、複素数、四元数などを表現することが想定されています。
 </p>
 <p>
-  値を使用するには、最初に、複数数値型を定義します。複数数値型は、<a href="#language-package-definition">パッケージの定義</a>において、mulnum_tデスクリプタを指定することで定義できます。
+  値を使用するには、最初に、複数数値型を定義します。複数数値型は、<a href="#language-package-definition">パッケージの定義</a>において、mulnum_tDescriptorを指定することで定義できます。
 </p>
 <pre>
 # 連続した32bit符号付整数が3つ
@@ -2968,13 +2968,13 @@ my $zs = new Complex_2d[5];
 
 <h3 id="language-array-access">値の配列へのアクセス</h3>
 <p>
-  値の配列へのアクセスとは、値の配列にアクセスして、値を取得したり、設定したりする操作のことです。また、以下の記述そのものを指します。
+  値の配列へのアクセスとは、値の配列にアクセスして、値を取得したり、設定したりする操作のことです。また、the following 記述そのものを指します。
 </p>
 <pre>
 配列->[添え字]
 </pre>
 <p>
-  値の配列へのアクセスは、配列のアクセスと同じ構文で行うことができます。
+  値の配列へのアクセスは、配列のアクセスと同じsyntax で行うことができます。
 </p>
 <p>
   配列の取得については、<a href="#language-expression-get-array-element">配列の要素の値の取得</a>を見てください。
@@ -2999,12 +2999,12 @@ my $point : Point_3i;
 my $z : Complex_2d;
 </pre>
 <p>
-  複数数値型の値は、オブジェクトではないので、<a href="#language-expression-new-object">オブジェクトの生成</a>の構文では生成できないことに注意してください。
+  複数数値型の値は、オブジェクトではないので、<a href="#language-expression-new-object">オブジェクトの生成</a>のsyntax では生成できないことに注意してください。
 </p>
 
 <h3 id="language-value-access">複数数値型のフィールドへのアクセス</h2>
 <p>
-  複数数値型のフィールドへのアクセスとは、複数数値型のフィールドにアクセスして、値を取得したり、設定したりする操作のことです。また、以下の記述そのものを指します。
+  複数数値型のフィールドへのアクセスとは、複数数値型のフィールドにアクセスして、値を取得したり、設定したりする操作のことです。また、the following 記述そのものを指します。
 </p>
 <pre>
 インボカント->{Field Name}
@@ -3158,7 +3158,7 @@ $point_ref->{x} = 1;
   <li><a href="#language-operator-array-length">配列長Operator </a></li>
   <li><a href="#language-operator-string-length">文字列長Operator </a></li>
   <li><a href="#language-operator-arithmetic">算術Operator </a></li>
-  <li><a href="#language-operator-bit">ビットOperator </a></li>
+  <li><a href="#language-operator-bit">Bit Operator </a></li>
   <li><a href="#language-operator-shift">シフトOperator </a></li>
   <li><a href="#language-operator-concat">文字列連結Operator </a></li>
   <li><a href="#language-operator-ref">リファレンスOperator </a></li>
@@ -3209,7 +3209,7 @@ $var = 右式
 
 <h3 id="language-expression-get-package-var">パッケージ変数の値の取得</h3>
 <p>
-  パッケージ変数の値を取得するには以下の構文を使用します。
+  パッケージ変数の値を取得するにはthe following syntax を使用します。
 </p>
 <pre>
 $クラス名::Package Variable Name
@@ -3245,7 +3245,7 @@ my $var2 = $VAR;
 
 <h3 id="language-expression-set-package-var">パッケージ変数の値の設定</h3>
 <p>
-  パッケージ変数の値を設定するには以下の構文を使用します。
+  パッケージ変数の値を設定するにはthe following syntax を使用します。
 </p>
 <pre>
 $クラス名::Package Variable Name = 右式
@@ -3280,7 +3280,7 @@ $VAR = 3;
 
 <h3 id="language-expression-get-exception-var">例外変数の値の取得</h3>
 <p>
-  例外変数の値を取得するには以下の構文を使用します。
+  例外変数の値を取得するにはthe following syntax を使用します。
 </p>
 <pre>
 $@
@@ -3309,7 +3309,7 @@ if (my $message = $@) {
 
 <h3 id="language-expression-set-exception-var">例外変数の値の設定</h3>
 <p>
-  例外変数の値を設定するには以下の構文を使用します。
+  例外変数の値を設定するにはthe following syntax を使用します。
 </p>
 <pre>
 $@ = 右式
@@ -3619,7 +3619,7 @@ $objects->[2] = Point->new(3, 5);;
 
 <h3 id="language-expression-new-object">オブジェクトの生成</h3>
 <p>
-  オブジェクトを生成するには、newKeyword と以下の構文をを使用します。
+  オブジェクトを生成するには、newKeyword とthe following syntax をを使用します。
 </p>
 <pre>
 my $object = new Package Name;
@@ -3654,7 +3654,7 @@ my $object = new Foo;
 
 <h3 id="language-expression-new-array">配列の生成</h3>
 <p>
-  配列を作成するには、newKeyword と以下の構文をを使用します。
+  配列を作成するには、newKeyword とthe following syntax をを使用します。
 </p>
 <pre>
 my $object = new 型[要素数式];
@@ -3663,7 +3663,7 @@ my $object = new 型[要素数式];
   型には、<a href="#language-type-numeric">数値型</a>、<a href="#language-type-object">オブジェクト型</a>、<a href="#language-type-multi-numeric">複数数値型</a>が指定できます。それ以外の型を指定した場合は、コンパイル時エラーが発生します。
 </p>
 <p>
-  要素数式は、int型以下の<a href="#language-type-numeric">数値型</a>でなければなりません。そうでない場合は、コンパイル時エラーが発生します。
+  要素数式は、int型the following <a href="#language-type-numeric">数値型</a>でなければなりません。そうでない場合は、コンパイル時エラーが発生します。
 </p>
 <p>
   要素数式に対して、<a href="#language-type-convertion-unary-numeric-widening">単項数値拡大型変換</a>が行われます。
@@ -3702,7 +3702,7 @@ my $values = new Complex_2d[3]
   <li>配列の長さ</li>
 </ul>
 <p>
-  多次元配列は、上記の構文を使用して、作成できます。要素は、<a href="#language-type-initial-value">型の初期値</a>によって初期化されます。
+  多次元配列は、上記のsyntax を使用して、作成できます。要素は、<a href="#language-type-initial-value">型の初期値</a>によって初期化されます。
 </p>
 <pre>
 my $nums = new int[][3];
@@ -3714,7 +3714,7 @@ my $nums = new int[][][3];
 
 <h3 id="language-expression-array-init">配列の初期化</h3>
 <p>
-  SPVMには、配列の生成を簡単にするための配列の初期化の構文があります。式はなくてもかまいません。
+  SPVMには、配列の生成を簡単にするための配列の初期化のsyntax があります。式はなくてもかまいません。
 </p>
 <pre>
 []
@@ -3740,7 +3740,7 @@ my $nums = new int[][][3];
   関数の呼び出しとは、<a href="#language-sub-method">メソッド</a>ではないサブルーチンを呼び出す方法のことをいいます。メソッドかどうかの判断は、<a href="#language-sub-definition">サブルーチンの定義</a>において、第一引数に<a href="#language-type-self">self型</a>の引数が指定されていた場合が、メソッドになります。
 </p>
 <p>
-  関数の呼び出しは以下の方法で行うことができます。引数は、なくても構いません。最大で255個の引数を指定できます。
+  関数の呼び出しはthe following 方法で行うことができます。引数は、なくても構いません。最大で255個の引数を指定できます。
 </p>
 <pre>
 Package Name->Subroutine Name(引数1, 引数2, 引数3, ..., 引数n);
@@ -3755,7 +3755,7 @@ Package Name->Subroutine Name(引数1, 引数2, 引数3, ..., 引数n);
 Subroutine Name(引数1, 引数2, 引数3, ..., 引数n);
 </pre>
 <p>
-  どのパッケージのサブルーチンが呼び出されるかは、以下の順番によって決まります。
+  どのパッケージのサブルーチンが呼び出されるかは、the following 順番によって決まります。
 </p>
 <p>
   1. 現在のパッケージで定義されているサブルーチン、または現在のパッケージにインポートされたサブルーチン
@@ -3789,7 +3789,7 @@ my $ret = bar(1, 2, 3);
   メソッドの呼び出しとは、<a href="#language-sub-method">メソッド</a>であるサブルーチンを呼び出す方法のことをいいます。メソッドかどうかの判断は、<a href="#language-sub-definition">サブルーチンの定義</a>において、第一引数に<a href="#language-type-self">self型</a>の引数が指定されていた場合が、メソッドになります。
 </p>
 <p>
-  メソッドの呼び出しは、<a href="#language-expression-new-object">オブジェクトの生成</a>によって生成されたオブジェクトを使って以下の構文で行うことができます。
+  メソッドの呼び出しは、<a href="#language-expression-new-object">オブジェクトの生成</a>によって生成されたオブジェクトを使ってthe following syntax で行うことができます。
 </p>
 <pre>
 オブジェクト->Subroutine Name(引数1, 引数2, 引数3, ..., 引数n);
@@ -4227,7 +4227,7 @@ my $line == __LINE__;
       <b>\0</b>
     </td>
     <td>
-      Asciiコードの0"NUL"
+      Ascii Codeの0"NUL"
     </td>
   </tr>
   <tr>
@@ -4235,7 +4235,7 @@ my $line == __LINE__;
       <b>\a</b>
     </td>
     <td>
-      Asciiコードの7"BEL"
+      Ascii Codeの7"BEL"
     </td>
   </tr>
   <tr>
@@ -4243,7 +4243,7 @@ my $line == __LINE__;
       <b>\b</b>
     </td>
     <td>
-      Asciiコードの8"BS"
+      Ascii Codeの8"BS"
     </td>
   </tr>
   <tr>
@@ -4251,7 +4251,7 @@ my $line == __LINE__;
       <b>\t</b>
     </td>
     <td>
-      Asciiコードの9"HT"
+      Ascii Codeの9"HT"
     </td>
   </tr>
   <tr>
@@ -4259,7 +4259,7 @@ my $line == __LINE__;
       <b>\n</b>
     </td>
     <td>
-      Asciiコードの10"LF"
+      Ascii Codeの10"LF"
     </td>
   </tr>
   <tr>
@@ -4267,7 +4267,7 @@ my $line == __LINE__;
       <b>\f</b>
     </td>
     <td>
-      Asciiコードの12"FF"
+      Ascii Codeの12"FF"
     </td>
   </tr>
   <tr>
@@ -4275,7 +4275,7 @@ my $line == __LINE__;
       <b>\r</b>
     </td>
     <td>
-      Asciiコードの13"CR"
+      Ascii Codeの13"CR"
     </td>
   </tr>
   <tr>
@@ -4283,7 +4283,7 @@ my $line == __LINE__;
       <b>\"</b>
     </td>
     <td>
-      Asciiコードの34"""
+      Ascii Codeの34"""
     </td>
   </tr>
   <tr>
@@ -4291,7 +4291,7 @@ my $line == __LINE__;
       <b>\'</b>
     </td>
     <td>
-      Asciiコードの39"'"
+      Ascii Codeの39"'"
     </td>
   </tr>
   <tr>
@@ -4299,7 +4299,7 @@ my $line == __LINE__;
       <b>\\</b>
     </td>
     <td>
-      Asciiコードの92"\"
+      Ascii Codeの92"\"
     </td>
   </tr>
   <tr>
@@ -4307,7 +4307,7 @@ my $line == __LINE__;
       <b>\xの後ろに二桁の16進数</b>
     </td>
     <td>
-      直接Asciiコードを指定します。16進数は"0～9""a～f""A～F"で表現します。
+      直接Ascii Codeを指定します。16進数は"0～9""a～f""A～F"で表現します。
     </td>
   </tr>
 </table>
@@ -4367,7 +4367,7 @@ my $line == __LINE__;
       <b>\0</b>
     </td>
     <td>
-      Asciiコードの0"NUL"
+      Ascii Codeの0"NUL"
     </td>
   </tr>
   <tr>
@@ -4375,7 +4375,7 @@ my $line == __LINE__;
       <b>\a</b>
     </td>
     <td>
-      Asciiコードの7"BEL"
+      Ascii Codeの7"BEL"
     </td>
   </tr>
   <tr>
@@ -4383,7 +4383,7 @@ my $line == __LINE__;
       <b>\b</b>
     </td>
     <td>
-      Asciiコードの8"BS"
+      Ascii Codeの8"BS"
     </td>
   </tr>
   <tr>
@@ -4391,7 +4391,7 @@ my $line == __LINE__;
       <b>\t</b>
     </td>
     <td>
-      Asciiコードの9"HT"
+      Ascii Codeの9"HT"
     </td>
   </tr>
   <tr>
@@ -4399,7 +4399,7 @@ my $line == __LINE__;
       <b>\n</b>
     </td>
     <td>
-      Asciiコードの10"LF"
+      Ascii Codeの10"LF"
     </td>
   </tr>
   <tr>
@@ -4407,7 +4407,7 @@ my $line == __LINE__;
       <b>\f</b>
     </td>
     <td>
-      Asciiコードの12"FF"
+      Ascii Codeの12"FF"
     </td>
   </tr>
   <tr>
@@ -4415,7 +4415,7 @@ my $line == __LINE__;
       <b>\r</b>
     </td>
     <td>
-      Asciiコードの13"CR"
+      Ascii Codeの13"CR"
     </td>
   </tr>
   <tr>
@@ -4423,7 +4423,7 @@ my $line == __LINE__;
       <b>\"</b>
     </td>
     <td>
-      Asciiコードの34"""
+      Ascii Codeの34"""
     </td>
   </tr>
   <tr>
@@ -4431,7 +4431,7 @@ my $line == __LINE__;
       <b>\'</b>
     </td>
     <td>
-      Asciiコードの39"'"
+      Ascii Codeの39"'"
     </td>
   </tr>
   <tr>
@@ -4439,7 +4439,7 @@ my $line == __LINE__;
       <b>\\</b>
     </td>
     <td>
-      Asciiコードの92"\"
+      Ascii Codeの92"\"
     </td>
   </tr>
   <tr>
@@ -4447,7 +4447,7 @@ my $line == __LINE__;
       <b>\xの後ろに二桁の16進数</b>
     </td>
     <td>
-      直接Asciiコードを指定します。16進数は"0～9""a～f""A～F"で表現します。
+      直接Ascii Codeを指定します。16進数は"0～9""a～f""A～F"で表現します。
     </td>
   </tr>
   <tr>
@@ -4463,7 +4463,7 @@ my $line == __LINE__;
       <b>\s</b>
     </td>
     <td>
-      Asciiコードの92、115の並び"\s"
+      Ascii Codeの92、115の並び"\s"
     </td>
   </tr>
   <tr>
@@ -4471,7 +4471,7 @@ my $line == __LINE__;
       <b>\S</b>
     </td>
     <td>
-      Asciiコードの92、83の並び"\S"
+      Ascii Codeの92、83の並び"\S"
     </td>
   </tr>
   <tr>
@@ -4479,7 +4479,7 @@ my $line == __LINE__;
       <b>\d</b>
     </td>
     <td>
-      Asciiコードの92、100の並び"\d"
+      Ascii Codeの92、100の並び"\d"
     </td>
   </tr>
   <tr>
@@ -4487,7 +4487,7 @@ my $line == __LINE__;
       <b>\D</b>
     </td>
     <td>
-      Asciiコードの92、68の並び"\D"
+      Ascii Codeの92、68の並び"\D"
     </td>
   </tr>
   <tr>
@@ -4495,7 +4495,7 @@ my $line == __LINE__;
       <b>\w</b>
     </td>
     <td>
-      Asciiコードの92、119の並び"\w"
+      Ascii Codeの92、119の並び"\w"
     </td>
   </tr>
   <tr>
@@ -4503,15 +4503,15 @@ my $line == __LINE__;
       <b>\W</b>
     </td>
     <td>
-      Asciiコードの92、87の並び"\W"
+      Ascii Codeの92、87の並び"\W"
     </td>
   </tr>
   <tr>
     <td>
-      <b>\の後ろに"a～z""A～Z""0-9"""""'""\""$"以外のAsciiコードがきた場合</b>
+      <b>\の後ろに"a～z""A～Z""0-9"""""'""\""$"以外のAscii Codeがきた場合</b>
     </td>
     <td>
-      Asciiコードの92、アスキーコードで表現される文字の並び。たとえば"\-"の場合は"\-"。
+      Ascii Codeの92、アスキーコードで表現される文字の並び。たとえば"\-"の場合は"\-"。
     </td>
   </tr>
 </table>
@@ -4549,7 +4549,7 @@ my $line == __LINE__;
 "AAA $@ BBB"
 </pre>
 <p>
-  上記は、以下のように展開されます。
+  上記は、the following ように展開されます。
 </p>
 <pre>
 "AAA" . $foo . "BBB"
@@ -4568,7 +4568,7 @@ my $line == __LINE__;
 "AAA ${foo}_ccc BBB"
 </pre>
 <p>
-  上記は、以下のように展開されます。
+  上記は、the following ように展開されます。
 </p>
 <pre>
 "AAA " . ${foo} . "_ccc BBB"
@@ -4683,10 +4683,10 @@ undef
   <li><a href="#language-operator-remainder">剰余Operator </a></li>
   <li><a href="#language-operator-inc">インクリメントOperator </a></li>
   <li><a href="#language-operator-dec">デクリメントOperator </a></li>
-  <li><a href="#language-operator-bit">ビットOperator </a></li>
-  <li><a href="#language-operator-bit-and">ビットANDOperator </a></li>
-  <li><a href="#language-operator-bit-or">ビットOROperator </a></li>
-  <li><a href="#language-operator-bit-not">ビット否定Operator </a></li>
+  <li><a href="#language-operator-bit">Bit Operator </a></li>
+  <li><a href="#language-operator-bit-and">Bit AND Operator </a></li>
+  <li><a href="#language-operator-bit-or">Bit OR Operator </a></li>
+  <li><a href="#language-operator-bit-not">Bit 否定Operator </a></li>
   <li><a href="#language-operator-shift">シフトOperator </a></li>
   <li><a href="#language-operator-left-shift">左シフトOperator </a></li>
   <li><a href="#language-operator-arithmetic-right-shift">算術右シフトOperator </a></li>
@@ -4696,8 +4696,8 @@ undef
   <li><a href="#language-operator-comparison-string">文字列比較Operator </a></li>
   <li><a href="#language-operator-isa">isaOperator </a></li>
   <li><a href="#language-operator-logical">論理Operator </a></li>
-  <li><a href="#language-operator-logical-and">論理ANDOperator </a></li>
-  <li><a href="#language-operator-logical-or">論理OROperator </a></li>
+  <li><a href="#language-operator-logical-and">Logical AND Operator </a></li>
+  <li><a href="#language-operator-logical-or">Logical OR Operator </a></li>
   <li><a href="#language-operator-logical-not">論理NOTOperator </a></li>
   <li><a href="#language-operator-concat">文字列連結Operator </a></li>
   <li><a href="#language-operator-assign">代入Operator </a></li>
@@ -4722,7 +4722,7 @@ undef
 単項Operator  式
 </pre>
 <p>
-  単項Operator には、<a href="#language-operator-unary-plus">単項プラスOperator </a>、<a href="#language-operator-unary-minus">単項マイナスOperator </a>、<a href="#language-operator-bit-not">ビット否定Operator </a>、<a href="#language-operator-logical-not">論理否定Operator </a>、<a href="#language-operator-array-legnth">配列長Operator </a>、<a href="#language-operator-string-legnth">文字列長Operator </a>があります。
+  単項Operator には、<a href="#language-operator-unary-plus">単項プラスOperator </a>、<a href="#language-operator-unary-minus">単項マイナスOperator </a>、<a href="#language-operator-bit-not">Bit 否定Operator </a>、<a href="#language-operator-logical-not">論理否定Operator </a>、<a href="#language-operator-array-legnth">配列長Operator </a>、<a href="#language-operator-string-legnth">文字列長Operator </a>があります。
 </p>
 <p>
   インクリメントOperator とデクリメントOperator は、単項Operator には含まれません。
@@ -4737,7 +4737,7 @@ undef
 </pre>
 
 <p>
-  二項Operator には、<a href="#language-operator-add">加算Operator </a>、<a href="#language-operator-subtract">減算Operator </a>、<a href="#language-operator-multiply">乗算Operator </a>、<a href="#language-operator-divide">除算Operator </a>、<a href="#language-operator-remainder">剰余Operator </a>、<a href="#language-operator-bit-and">ビットANDOperator </a>、<a href="#language-operator-bit-or">ビットOROperator </a>、<a href="#language-operator-logical-and">論理ANDOperator </a>、<a href="#language-operator-logical-or">論理OROperator </a>、<a href="#language-operator-shift">シフトOperator </a>、<a href="#language-operator-concat">文字列連結Operator </a>があります。
+  二項Operator には、<a href="#language-operator-add">加算Operator </a>、<a href="#language-operator-subtract">減算Operator </a>、<a href="#language-operator-multiply">乗算Operator </a>、<a href="#language-operator-divide">除算Operator </a>、<a href="#language-operator-remainder">剰余Operator </a>、<a href="#language-operator-bit-and">Bit AND Operator </a>、<a href="#language-operator-bit-or">Bit OR Operator </a>、<a href="#language-operator-logical-and">Logical AND Operator </a>、<a href="#language-operator-logical-or">Logical OR Operator </a>、<a href="#language-operator-shift">シフトOperator </a>、<a href="#language-operator-concat">文字列連結Operator </a>があります。
 </p>
 
 <h3 id="language-operator-sequential">順次Operator </h3>
@@ -4821,7 +4821,7 @@ my $num = +10;
   <a href="#language-expression">式</a>に対して、<a href="#language-type-convertion-unary-numeric-widening">単項数値拡大型変換</a>が行われます。
 </p>
 <p>
-  その後、単項マイナスOperator は、C99における以下の演算と完全に一致する演算を行います。<a href="#language-c99-type">C99との型の対応</a>に応じた、int型、long型、float型、double型における演算が定義されます。
+  その後、単項マイナスOperator は、C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99との型の対応</a>に応じた、int型、long型、float型、double型における演算が定義されます。
 </p>
 <pre>
 -x
@@ -4855,7 +4855,7 @@ my $num = -10;
   左式と右式に対して、<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大型変換</a>が行われます。
 </p>
 <p>
-  その後、加算Operator は、C99における以下の演算と完全に一致する演算を行います。<a href="#language-c99-type">C99との型の対応</a>に応じた、int型、long型、float型、double型における演算が定義されます。
+  その後、加算Operator は、C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99との型の対応</a>に応じた、int型、long型、float型、double型における演算が定義されます。
 </p>
 <pre>
 x + y;
@@ -4883,7 +4883,7 @@ x + y;
   左式と右式に対して、<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大型変換</a>が行われます。
 </p>
 <p>
-  その後、減算Operator は、C99における以下の演算と完全に一致する演算を行います。<a href="#language-c99-type">C99との型の対応</a>に応じた、int型、long型、float型、double型における演算が定義されます。
+  その後、減算Operator は、C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99との型の対応</a>に応じた、int型、long型、float型、double型における演算が定義されます。
 </p>
 <pre>
 x - y;
@@ -4911,7 +4911,7 @@ x - y;
   左式と右式に対して、<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大型変換</a>が行われます。
 </p>
 <p>
-  その後、乗算Operator は、C99における以下の演算と完全に一致する演算を行います。<a href="#language-c99-type">C99との型の対応</a>に応じた、int型、long型、float型、double型における演算が定義されます。
+  その後、乗算Operator は、C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99との型の対応</a>に応じた、int型、long型、float型、double型における演算が定義されます。
 </p>
 <pre>
 x * y;
@@ -4939,7 +4939,7 @@ x * y;
   左式と右式に対して、<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大型変換</a>が行われます。
 </p>
 <p>
-  その後、除算Operator は、C99における以下の演算と完全に一致する演算を行います。<a href="#language-c99-type">C99との型の対応</a>に応じた、int型、long型、float型、double型における演算が定義されます。
+  その後、除算Operator は、C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99との型の対応</a>に応じた、int型、long型、float型、double型における演算が定義されます。
 </p>
 <pre>
 x / y;
@@ -4971,7 +4971,7 @@ x / y;
   左式と右式に対して、<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大型変換</a>が行われます。
 </p>
 <p>
-  その後、剰余Operator は、C99における以下の演算と完全に一致する演算を行います。<a href="#language-c99-type">C99との型の対応</a>に応じた、int型、long型における演算が定義されます。
+  その後、剰余Operator は、C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99との型の対応</a>に応じた、int型、long型における演算が定義されます。
 </p>
 <pre>
 x % y;
@@ -5114,14 +5114,14 @@ x % y;
 (my $tmp = $num, $num = (byte)($num - 1), $tmp)
 </pre>
 
-<h3 id="language-operator-bit">ビットOperator </h3>
+<h3 id="language-operator-bit">Bit Operator </h3>
 <p>
-  ビットOperator は、ビット演算を行うOperator のことで、><a href="#language-operator-bit-and">ビットANDOperator </a>、<a href="#language-operator-bit-or">ビットOROperator </a>、<a href="#language-operator-bit-not">ビット否定Operator </a>からなります。
+  Bit Operator は、Bit 演算を行うOperator のことで、><a href="#language-operator-bit-and">Bit AND Operator </a>、<a href="#language-operator-bit-or">Bit OR Operator </a>、<a href="#language-operator-bit-not">Bit 否定Operator </a>からなります。
 </p>
 
-<h3 id="language-operator-bit-and">ビットANDOperator </h3>
+<h3 id="language-operator-bit-and">Bit AND Operator </h3>
 <p>
-  ビットANDは"&"で表現される<a href="#language-operator-binary">二項Operator </a>です。
+  Bit ANDは"&"で表現される<a href="#language-operator-binary">二項Operator </a>です。
 </p>
 <pre>
 左式 & 右式
@@ -5133,24 +5133,24 @@ x % y;
   左式と右式に対して、<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大型変換</a>が行われます。
 </p>
 <p>
-  その後、ビットANDOperator の演算結果は、C99における以下の演算と完全に一致する演算を行います。<a href="#language-c99-type">C99との型の対応</a>に応じた、int型、long型における演算が定義されます。
+  その後、Bit AND Operator の演算結果は、C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99との型の対応</a>に応じた、int型、long型における演算が定義されます。
 </p>
 <pre>
 x & y;
 </pre>
 <p>
-  ビットANDOperator は<a href="#language-expression">式</a>を返します。
+  Bit AND Operator は<a href="#language-expression">式</a>を返します。
 </p>
 <p>
-  ビットANDOperator の戻り値の型は、<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大型変換</a>された型です。
+  Bit AND Operator の戻り値の型は、<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大型変換</a>された型です。
 </p>
 <p>
-  ビットANDOperator は、例外を発生させません。
+  Bit AND Operator は、例外を発生させません。
 </p>
 
-<h3 id="language-operator-bit-or">ビットOROperator </h3>
+<h3 id="language-operator-bit-or">Bit OR Operator </h3>
 <p>
-  ビットORは"|"で表現される<a href="#language-operator-binary">二項Operator </a>です。
+  Bit ORは"|"で表現される<a href="#language-operator-binary">二項Operator </a>です。
 </p>
 <pre>
 左式 | 右式
@@ -5162,24 +5162,24 @@ x & y;
   左式と右式に対して、<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大型変換</a>が行われます。
 </p>
 <p>
-  その後、ビットOROperator の演算結果は、C99における以下の演算と完全に一致する演算を行います。<a href="#language-c99-type">C99との型の対応</a>に応じた、int型、long型における演算が定義されます。
+  その後、Bit OR Operator の演算結果は、C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99との型の対応</a>に応じた、int型、long型における演算が定義されます。
 </p>
 <pre>
 x | y;
 </pre>
 <p>
-  ビットOROperator は<a href="#language-expression">式</a>を返します。
+  Bit OR Operator は<a href="#language-expression">式</a>を返します。
 </p>
 <p>
-  ビットOROperator の戻り値の型は、<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大型変換</a>された型です。
+  Bit OR Operator の戻り値の型は、<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大型変換</a>された型です。
 </p>
 <p>
-  ビットOROperator は、例外を発生させません。
+  Bit OR Operator は、例外を発生させません。
 </p>
 
-<h3 id="language-operator-bit-not">ビット否定Operator </h3>
+<h3 id="language-operator-bit-not">Bit 否定Operator </h3>
 <p>
-  ビット否定Operator は"~"で表現される<a href="#language-operator-unary">単項Operator </a>です。
+  Bit 否定Operator は"~"で表現される<a href="#language-operator-unary">単項Operator </a>です。
 </p>
 <pre>
 ~式
@@ -5191,22 +5191,22 @@ x | y;
   <a href="#language-expression">式</a>に対して、<a href="#language-type-convertion-unary-numeric-widening">単項数値拡大型変換</a>が行われます。
 </p>
 <p>
-  その後、ビット否定Operator の演算結果は、C99における以下の演算と完全に一致する演算を行います。<a href="#language-c99-type">C99との型の対応</a>に応じた、int型、long型における演算が定義されます。
+  その後、Bit 否定Operator の演算結果は、C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99との型の対応</a>に応じた、int型、long型における演算が定義されます。
 </p>
 <pre>
 ~x
 </pre>
 <p>
-  ビット否定Operator は<a href="#language-expression">式</a>を返します。
+  Bit 否定Operator は<a href="#language-expression">式</a>を返します。
 </p>
 <p>
-  ビット否定Operator の戻り値の型は、<a href="#language-type-convertion-unary-numeric-widening">単項数値拡大型変換</a>された型です。
+  Bit 否定Operator の戻り値の型は、<a href="#language-type-convertion-unary-numeric-widening">単項数値拡大型変換</a>された型です。
 </p>
 <p>
-  ビット否定Operator は例外を発生させません。
+  Bit 否定Operator は例外を発生させません。
 </p>
 <p>
-  <b>ビット否定Operator のExample</b>
+  <b>Bit 否定Operator のExample</b>
 </p>
 <pre>
 my $num = ~0xFF0A;
@@ -5214,7 +5214,7 @@ my $num = ~0xFF0A;
 
 <h3 id="language-operator-shift">シフトOperator </h3>
 <p>
-  シフトOperator は、ビットシフトを行うOperator で、<a href="#language-operator-left-shift">左シフトOperator </a>、<a href="#language-operator-arithmetic-right-shift">算術右シフトOperator </a>、<a href="#language-operator-logical-right-shift">論理右シフトOperator </a>からなります。
+  シフトOperator は、Bit シフトを行うOperator で、<a href="#language-operator-left-shift">左シフトOperator </a>、<a href="#language-operator-arithmetic-right-shift">算術右シフトOperator </a>、<a href="#language-operator-logical-right-shift">論理右シフトOperator </a>からなります。
 </p>
 <h3 id="language-operator-left-shift">左シフトOperator </h3>
 <p>
@@ -5233,7 +5233,7 @@ my $num = ~0xFF0A;
   右式は、int型でなければなりません。そうでない場合は、コンパイル時エラーが発生します。
 <p>
 <p>
-  左シフトOperator の演算結果は、C99における以下の演算と完全に一致する演算を行います。<a href="#language-c99-type">C99との型の対応</a>に応じた、int型、long型における演算が定義されます。
+  左シフトOperator の演算結果は、C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99との型の対応</a>に応じた、int型、long型における演算が定義されます。
 </p>
 <pre>
 x << y;
@@ -5262,7 +5262,7 @@ x << y;
   右式は、int型でなければなりません。そうでない場合は、コンパイル時エラーが発生します。
 <p>
 <p>
-  算術右シフトOperator の演算結果は、C99における以下の演算と完全に一致する演算を行います。xに対して、<a href="#language-c99-type">C99との型の対応</a>に応じた、int型、long型における演算が定義されます。
+  算術右シフトOperator の演算結果は、C99におけるthe following 演算と完全に一致する演算を行います。xに対して、<a href="#language-c99-type">C99との型の対応</a>に応じた、int型、long型における演算が定義されます。
 </p>
 <pre>
 x >> y;
@@ -5291,7 +5291,7 @@ x >> y;
   右式は、int型でなければなりません。そうでない場合は、コンパイル時エラーが発生します。
 <p>
 <p>
-  論理右シフトOperator の演算結果は、C99における以下の演算と完全に一致する演算を行います。xに対して、<a href="#language-c99-type">C99との型の対応</a>に応じた、int型、long型における演算が定義されます。
+  論理右シフトOperator の演算結果は、C99におけるthe following 演算と完全に一致する演算を行います。xに対して、<a href="#language-c99-type">C99との型の対応</a>に応じた、int型、long型における演算が定義されます。
 </p>
 <pre>
 (符号付整数型キャスト)((符号なし整数型キャスト)x >> y);
@@ -5404,7 +5404,7 @@ x >> y;
   数値型の比較の場合は、左式と右式に対して、<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大型変換</a>が行われます。
 </p>
 <p>
-  その後、数値比較Operator は、C99における以下の演算と完全に一致する演算を行います。<a href="#language-c99-type">C99との型の対応</a>に応じた、int型、long型、float型、double型、オブジェクト型における演算が定義されます。
+  その後、数値比較Operator は、C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99との型の対応</a>に応じた、int型、long型、float型、double型、オブジェクト型における演算が定義されます。
 </p>
 <pre>
 # 数値型の比較、オブジェクト型の比較
@@ -5519,24 +5519,24 @@ x >> y;
 
 <h3 id="language-operator-logical">論理Operator </h3>
 <p>
-  論理Operator は、論理演算を行うOperator のことで、><a href="#language-operator-logical-and">論理ANDOperator </a>、<a href="#language-operator-logical-or">論理OROperator </a>、<a href="#language-operator-logical-not">論理否定Operator </a>からなります。
+  論理Operator は、論理演算を行うOperator のことで、><a href="#language-operator-logical-and">Logical AND Operator </a>、<a href="#language-operator-logical-or">Logical OR Operator </a>、<a href="#language-operator-logical-not">論理否定Operator </a>からなります。
 </p>
 <p>
   論理Operator は、<a href="#language-expression">式</a>を返します。
 </p>
 
-<h3 id="language-operator-logical-and">論理ANDOperator </h3>
+<h3 id="language-operator-logical-and">Logical AND Operator </h3>
 <p>
-  論理ANDOperator とは、論理AND演算を行うために、"&&"で表現される、<a href="#language-expresssion">式</a>をオペランドとする<a href="#language-operator-binary">二項Operator </a>です。
+  Logical AND Operator とは、Logical AND演算を行うために、"&&"で表現される、<a href="#language-expresssion">式</a>をオペランドとする<a href="#language-operator-binary">二項Operator </a>です。
 </p>
 <pre>
 左式 && 右式
 </pre>
 <p>
-  論理ANDOperator の戻り値の型は、int型です。
+  Logical AND Operator の戻り値の型は、int型です。
 </p>
 <p>
-  論理ANDOperator は次のように動作します。
+  Logical AND Operator は次のように動作します。
 </p>
 <p>
   1. 左式に<a href="#language-type-convertion-bool">ブール型変換</a>を実行します。
@@ -5548,24 +5548,24 @@ x >> y;
   3. 左式の値が0であれば、その値を返します。
 </p>
 <p>
-  論理ANDOperator は<a href="#language-expression">式</a>を返します。
+  Logical AND Operator は<a href="#language-expression">式</a>を返します。
 </p>
 <p>
-  論理ANDOperator は、例外を発生させません。
+  Logical AND Operator は、例外を発生させません。
 </p>
 
-<h3 id="language-operator-logical-and">論理OROperator </h3>
+<h3 id="language-operator-logical-and">Logical OR Operator </h3>
 <p>
-  論理OROperator とは、論理OR演算を行うために、"||"で表現される、<a href="#language-expresssion">式</a>をオペランドとする<a href="#language-operator-binary">二項Operator </a>です。
+  Logical OR Operator とは、Logical OR演算を行うために、"||"で表現される、<a href="#language-expresssion">式</a>をオペランドとする<a href="#language-operator-binary">二項Operator </a>です。
 </p>
 <pre>
 左式 || 右式
 </pre>
 <p>
-  論理OROperator は次のように動作します。
+  Logical OR Operator は次のように動作します。
 </p>
 <p>
-  論理OROperator の戻り値の型は、int型です。
+  Logical OR Operator の戻り値の型は、int型です。
 </p>
 <p>
   1. 左式に<a href="#language-type-convertion-bool">ブール型変換</a>を実行します。
@@ -5577,10 +5577,10 @@ x >> y;
   3. 左式の値が0以外であれば、その値を返します。
 </p>
 <p>
-  論理OROperator は<a href="#language-expression">式</a>を返します。
+  Logical OR Operator は<a href="#language-expression">式</a>を返します。
 </p>
 <p>
-  論理OROperator は、例外を発生させません。
+  Logical OR Operator は、例外を発生させません。
 </p>
 
 <h3 id="language-operator-logical-and">論理NOTOperator </h3>
@@ -5692,11 +5692,11 @@ my $str = 123 . 456;
     <td>%=</td>
   </tr>
   <tr>
-    <td>ビットAND代入Operator </td>
+    <td>Bit AND代入Operator </td>
     <td>&=</td>
   </tr>
   <tr>
-    <td>ビットOR代入Operator </td>
+    <td>Bit OR代入Operator </td>
     <td>|=</td>
   </tr>
   <tr>
@@ -5884,7 +5884,7 @@ isweak 変数->{Field Name};
 
 <h2 id="language-operator-precedence">Operator の優先順位</h2>
 <p>
-  Operator の優先順位は、以下の通りです。下にいくほど、優先順位が高くなります。
+  Operator の優先順位は、the following 通りです。下にいくほど、優先順位が高くなります。
 </p>
 <table>
   <tr>
@@ -5903,9 +5903,9 @@ isweak 変数->{Field Name};
       乗算代入Operator "*="<br>
       除算代入Operator "/="<br>
       剰余代入Operator "%="<br>
-      ビットAND代入Operator "&="<br>
-      ビットOR代入Operator "|="<br>
-      ビット排他OR代入Operator "^="<br>
+      Bit AND代入Operator "&="<br>
+      Bit OR代入Operator "|="<br>
+      Bit 排他OR代入Operator "^="<br>
       左シフト代入Operator "<<="<br>
       算術右シフト代入Operator ">>="<br>
       論理右シフトOperator ">>>="<br>
@@ -5917,7 +5917,7 @@ isweak 変数->{Field Name};
       左結合
     </td>
     <td>
-      論理OROperator "||"
+      Logical OR Operator "||"
     </td>
   </tr>
   <tr>
@@ -5925,7 +5925,7 @@ isweak 変数->{Field Name};
       左結合
     </td>
     <td>
-      論理ANDOperator  "&&"
+      Logical AND Operator  "&&"
     </td>
   </tr>
   <tr>
@@ -5933,8 +5933,8 @@ isweak 変数->{Field Name};
       左結合
     </td>
     <td>
-      ビットOROperator "|"<br>
-      ビットXOROperator  "^"
+      Bit OR Operator "|"<br>
+      Bit XOR Operator  "^"
     </td>
   </tr>
   <tr>
@@ -5942,7 +5942,7 @@ isweak 変数->{Field Name};
       左結合
     </td>
     <td>
-      ビットANDOperator "&"
+      Bit AND Operator "&"
     </td>
   </tr>
   <tr>
@@ -6008,7 +6008,7 @@ isweak 変数->{Field Name};
     </td>
     <td>
       論理NOTOperator "!"<br>
-      ビットNOTOperator "~"<br>
+      Bit NOTOperator "~"<br>
       リファレンスOperator "\"<br>
       プラスOperator "+"<br>
       マイナスOperator "-"<br>
@@ -6236,7 +6236,7 @@ default: {
   条件式は、<a href="#language-expression">式</a>を指定できます。条件式には、<a href="#language-type-convertion-bool">ブール型変換</a>が実行されます。
 </p>
 <p>
-  case文で指定される定数は、byte型かint型の定数でなければなりません。byte型の定数の場合は、コンパイル時に、int型に型変換されます。enum型の値や、int型の定数サブルーチンは、int型の定数として、構文解析時に展開されるので、利用することができます。
+  case文で指定される定数は、byte型かint型の定数でなければなりません。byte型の定数の場合は、コンパイル時に、int型に型変換されます。enum型の値や、int型の定数サブルーチンは、int型の定数として、syntax 解析時に展開されるので、利用することができます。
 </p>
 <p>
   case文に指定される定数は、重複してはいけません。重複している場合は、コンパイル時エラーが発生します。
@@ -6439,7 +6439,7 @@ for (初期化式; 条件式; インクリメント式) {
   インクリメント式には、<a href="#language-expression">式</a>を記述できます。一般的には、ループ変数のインクリメントの式を記述します。インクリメント式は省略することが可能です。
 </p>
 <p>
-  for文は以下のwhile文と同じ意味を持ちます。インクリメント式は、ブロックの最後に実行されます。初期化式は、<a href="#language-block-statement-simple">単純なブロック</a>に囲まれています。
+  for文はthe following while文と同じ意味を持ちます。インクリメント式は、ブロックの最後に実行されます。初期化式は、<a href="#language-block-statement-simple">単純なブロック</a>に囲まれています。
 </p>
 <pre>
 {
@@ -6724,7 +6724,7 @@ my $num = 1 + 2;
   レキシカル変数の初期値、<a href="#language-package-var-initial-value">パッケージ変数の初期値</a>、オブジェクトの生成におけるフィールドの初期値は、型の初期値によって決まります。
 </p>
 <p>
-  型の初期化値の一覧です。データにおけるすべてのビット列は0に設定されます。
+  型の初期化値の一覧です。データにおけるすべてのBit 列は0に設定されます。
 </p>
 </p>
 <table>
@@ -6809,7 +6809,7 @@ my $num = 1 + 2;
 
 <h3 id="language-type-integral">整数型</h2>
 <p>
-  SPVMの整数型は以下の4つです。
+  SPVMの整数型はthe following 4つです。
 </p>
 <table>
   <tr>
@@ -6893,7 +6893,7 @@ my $num = 1 + 2;
 
 <h3 id="language-type-floating-point">浮動小数点型</h2>
 <p>
-  SPVMの浮動小数点型は以下の2つです。
+  SPVMの浮動小数点型はthe following 2つです。
 </p>
 <table>
   <tr>
@@ -7000,7 +7000,7 @@ my $object : object = "abc";
 
 <h3 id="language-type-numeric-object">数値オブジェクト型</h3>
 <p>
-  SPVMには、数値オブジェクト型として以下の型があります。
+  SPVMには、数値オブジェクト型としてthe following 型があります。
 </p>
 <table>
   <tr>
@@ -7099,7 +7099,7 @@ my $foo = new Foo;
 
 <h3 id="language-type-pointer">ポインタ型</h3>
 <p>
-  ポインタ型とは"<a href="#language-package-definition">パッケージの定義</a>"において"pointer_t デスクリプタ"が指定されたものをいいます。
+  ポインタ型とは"<a href="#language-package-definition">パッケージの定義</a>"において"pointer_t Descriptor"が指定されたものをいいます。
 </p>
 <pre>
 package Foo : pointer_t {
@@ -7117,7 +7117,7 @@ package Foo : pointer_t {
 </p>
 <h3 id="language-type-callback">コールバック型</h3>
 <p>
-  コールバック型とは"<a href="#language-package-definition">パッケージの定義</a>"において"callback_t デスクリプタ"が指定されたものをいいます。
+  コールバック型とは"<a href="#language-package-definition">パッケージの定義</a>"において"callback_t Descriptor"が指定されたものをいいます。
 </p>
 <pre>
 package SPVM::Comparator : callback_t {
@@ -7245,13 +7245,13 @@ int[][][]
   配列型は、<a href="#language-type-object">オブジェクト型</a>です。
 </p>
 <p>
-  配列を作成するには、newOperator を使用します。以下の例では、要素数が3のint型の配列を作成しています。
+  配列を作成するには、newOperator を使用します。the following 例では、要素数が3のint型の配列を作成しています。
 </p>
 <p>
 my $nums = new int[3];
 </p>
 <p>
-  多次元配列を作成するときも、newOperator を使用します。以下の例では、要素数が3のint[]型の配列を作成しています。
+  多次元配列を作成するときも、newOperator を使用します。the following 例では、要素数が3のint[]型の配列を作成しています。
 </p>
 <p>
 my $nums = new int[][3];
@@ -7451,7 +7451,7 @@ $bytes->[1] = 'd';
   複数数値型とは、連続した数値を表現できる型です。
 </p>
 <p>
-  パッケージの定義において"mulnum_t"デスクリプタを指定することで、複数数値型を定義できます。
+  パッケージの定義において"mulnum_t"Descriptorを指定することで、複数数値型を定義できます。
 </p>
 <pre>
 package Point_3i : mulnum_t {
@@ -7598,7 +7598,7 @@ my $objets : object[] = new int[3];
 (型)式
 </pre>
 <p>
-  int型の値をlong型に変換するExampleは以下のようになります。
+  int型の値をlong型に変換するExampleはthe following ようになります。
 </p>
 <pre>
 my $num = (long)3;
@@ -7772,7 +7772,7 @@ my $num : byte = 123;
 my $num : short = 134;
 </pre>
 <p>
-  移動元の型が数値型で、移動先の型が汎用オブジェクト型の場合は、対応する数値オブジェクト型への<a href="#language-type-convertion-boxing">ボクシング変換</a>が行われます。以下の場合の例では、SPVM::Int型のオブジェクトに変換されたものが、汎用オブジェクトに代入されます。
+  移動元の型が数値型で、移動先の型が汎用オブジェクト型の場合は、対応する数値オブジェクト型への<a href="#language-type-convertion-boxing">ボクシング変換</a>が行われます。the following 場合の例では、SPVM::Int型のオブジェクトに変換されたものが、汎用オブジェクトに代入されます。
 </p>
 <pre>
 # object型への暗黙のボクシング変換
@@ -7788,7 +7788,7 @@ my $num = 123;
 my $object : SPVM::Int = $num;
 </pre>
 <p>
-  移動元の型が汎用オブジェクト型で、移動先の型が数値型の場合は、対応する数値型における<a href="#language-type-convertion-unboxing">アンボクシング変換</a>が行われます。以下の場合の例では、SPVM::Int型のオブジェクトからint型への変換が試みられます。
+  移動元の型が汎用オブジェクト型で、移動先の型が数値型の場合は、対応する数値型における<a href="#language-type-convertion-unboxing">アンボクシング変換</a>が行われます。the following 場合の例では、SPVM::Int型のオブジェクトからint型への変換が試みられます。
 </p>
 <pre>
 # object型からの暗黙のアンボクシング変換 - 
@@ -7803,7 +7803,7 @@ my $num : int = $object;
 my $num_obj = SPVM::Int->new(3);
 my $num : int = $num_obj;
 </pre>
-  移動元の型が数値型で、移動先の型が、文字列型の場合は、<a href="#language-type-convertion-numeric-to-string">数値から文字列への型変換</a>が行われます。以下の場合の例では、数値の"123"が文字列""123""に変換されたものが代入されます。
+  移動元の型が数値型で、移動先の型が、文字列型の場合は、<a href="#language-type-convertion-numeric-to-string">数値から文字列への型変換</a>が行われます。the following 場合の例では、数値の"123"が文字列""123""に変換されたものが代入されます。
 </p>
 <pre>
 # 文字列型への暗黙のボクシング変換
@@ -7820,7 +7820,7 @@ my $str : string = $num;
   単項数値拡大型変換とは、<a href="#language-expression">式</a>がbyte型あるいはshort型であった場合に、int型へ<a href="#language-type-convertion-numeric-widening">数値拡大型変換</a>を行うことをいいます。
 </p>
 <p>
-  単項数値拡大型変換が行われるのは以下の場合です。
+  単項数値拡大型変換が行われるのはthe following 場合です。
 </p>
 <ul class="list">
   <li>配列のインデックス</li>
@@ -7849,7 +7849,7 @@ my $str : string = $num;
   4. それ以外の場合は、int型に変換されます。
 </p>
 <p>
-  二項数値拡大型変換が行われるのは以下の場合です。
+  二項数値拡大型変換が行われるのはthe following 場合です。
 </p>
 <ul class="list">
   <li><a href="#language-operator-add">加算Operator </a></li>
@@ -7857,8 +7857,8 @@ my $str : string = $num;
   <li><a href="#language-operator-multiply">乗算Operator </a></li>
   <li><a href="#language-operator-divide">除算Operator </a></li>
   <li><a href="#language-operator-remainder">剰余Operator </a></li>
-  <li><a href="#language-operator-bit-and">ビットANDOperator </a></li>
-  <li><a href="#language-operator-bit-or">ビットOROperator </a></li>
+  <li><a href="#language-operator-bit-and">Bit AND Operator </a></li>
+  <li><a href="#language-operator-bit-or">Bit OR Operator </a></li>
   <li><a href="#language-operator-comparison-numeric">数値比較Operator </a></li>
 </ul>
 
@@ -7922,13 +7922,13 @@ while (条件部) {
 }
 </pre>
 <p>
-  <b>論理ANDOperator の左右</b>
+  <b>Logical AND Operator の左右</b>
 </p>
 <pre>
 条件部 && 条件部
 </pre>
 <p>
-  <b>論理OROperator の左右</b>
+  <b>Logical OR Operator の左右</b>
 </p>
 <pre>
 条件部 || 条件部
@@ -7955,7 +7955,7 @@ while (条件部) {
   式がint型の場合は、その値が返されます。
 </p>
 <p>
-  式がlong型、float型、double型、オブジェクト型である場合は、C99における以下の演算と完全に一致する演算を行い、結果が返されます。
+  式がlong型、float型、double型、オブジェクト型である場合は、C99におけるthe following 演算と完全に一致する演算を行い、結果が返されます。
 </p>
 <pre>
 !!x
@@ -7975,26 +7975,7 @@ while (条件部) {
   <li>SPVM::Long</li>
   <li>SPVM::Float</li>
   <li>SPVM::Double</li>
-  <li>SPVM::Complex_2f</li>
-  <li>SPVM::Complex_2d</li>
 </ul>
-
-<h2 id="language-other">参考情報</h2>
-<p>
-  SPVMの公式ドキュメントについては、"<a href="/">SPVMドキュメント</a>"を見てください。
-</p>
-<p>
-  PerlからSPVM言語の利用については"<a href="/exchange-api">SPVMエクスチェンジAPI仕様</a>"を見てください。
-</p>
-<p>
-  SPVMからC/C++などのネイティブコードの利用については、"SPVMネイティブAPI"を見てください。
-</p>
-<p>
-  SPVMの標準関数については、"SPVM標準関数"を見てください。
-</p>
-<p>
-  SPVMの標準モジュールについては、"SPVM標準モジュール"を見てください。
-</p>
 
 <h2 id="language-limitation">制限</h2>
 <p>
