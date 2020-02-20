@@ -1100,68 +1100,64 @@ Comment
 
 POD has no meaning in the program execution.
 
-<h2 id="language-package">パッケージ</h2>
+<h2 id="language-package">Package</h2>
 <ul class="list">
-  <li><a href="#language-package-definition">パッケージの定義</a></li>
-  <li><a href="#language-package-destructor">デストラクタ</a></li>
+  <li><a href="#language-package-definition">Package Definition</a></li>
+  <li><a href="#language-package-descriptor">Package Descriptor</a></li>
+  <li><a href="#language-package-destructor">Destructor</a></li>
 </ul>
 
-<h3 id="language-package-definition">パッケージの定義</h3>
-<p>
-  パッケージを定義するにはthe following syntax を使用します。
-</p>
+<h3 id="language-package-definition">Package Definition</h3>
+
+Package Definition is the following syntax.
+
 <pre>
-package PackageName {
+package PACAKGE_NAME {
 
 }
 </pre>
 
-<p>
-  Package Nameは"uppercase letter"で始まる必要があります。Package Nameには"::"を使用することができます。
-</p>
-<p>
-Foo
-Foo::Bar
-Foo::Bar::Baz
-</p>
-<p>
-  "Package Name"の後に":"をつなげてその後ろに"Descriptor"を指定することができます。
-</p>
+PACAKGE_NAME must follow the rule for <a href="#language-lex-identifier-package-name">Package Name</a>.
+
+<a href="#language-package-descriptor">Package Descriptor</a> can be specified by the following syntax.
+
 <pre>
-package Package Name : Descriptor {
+package PACAKGE_NAME : PACAKGE_DESCRIPTOR {
+
+}
+
+package PACAKGE_NAME : PACAKGE_DESCRIPTOR1 PACAKGE_DESCRIPTOR2 PACAKGE_DESCRIPTORN {
 
 }
 </pre>
-<p>
-  パッケージの定義のExampleです。
-</p>
+
+<b>Package Definition Example:</b>
+
 <pre>
-# Package Nameのみ
+# Package Name
 package Point {
 
 }
 </pre>
 
 <pre>
-# Package NameとDescriptor
+# Package Name and Package Descriptor
 package Point : public {
 
 }
 </pre>
 
-<p id="language-package-descriptor">
-  <b>パッケージDescriptor</b>
-</p>
-<p>
-  パッケージで指定できるDescriptorの一覧です。
-</p>
+<h3 id="language-package-descriptor">Package Descriptor</h3>
+
+The descriptions of Package Descriptors.
+
 <table>
   <tr>
     <th>
       Descriptor Name
     </th>
     <th>
-      役割
+      Meaning
     </th>
   </tr>
   <tr>
@@ -1169,7 +1165,7 @@ package Point : public {
       <b>public</b>
     </td>
     <td>
-      このパッケージに対するnewKeyword が他のパッケージから利用できます。
+      This package is public. Other packages can <a href="#language-expression-new-object">new</a> this package.
     </td>
   </tr>
   <tr>
@@ -1177,7 +1173,7 @@ package Point : public {
       <b>private</b>
     </td>
     <td>
-      このパッケージに対するnewKeyword が他のパッケージから利用できません。デフォルトの設定です。
+      This package is private. Other packages can't <a href="#language-expression-new-object">new</a> this package. This is default setting.
     </td>
   </tr>
   <tr>
@@ -1185,7 +1181,7 @@ package Point : public {
       <b>callback_t</b>
     </td>
     <td>
-      このパッケージは"インターフェイス型"になります。
+      This package is <a href="#language-type-callback">Callback Type</a>.
     </td>
   </tr>
   <tr>
@@ -1193,7 +1189,7 @@ package Point : public {
       <b>mulnum_t</b>
     </td>
     <td>
-      このパッケージは"<a href="#language-type-multi-numeric">複数数値型</a>"になります。
+      This package is <a href="#language-type-multi-numeric">Multi Numeric Type</a>.
     </td>
   </tr>
   <tr>
@@ -1201,29 +1197,27 @@ package Point : public {
       <b>pointer_t</b>
     </td>
     <td>
-      このパッケージは"ポインタ型"になります。"ポインタ型"は"クラス型"の一種です。
+      This package is <a href="#language-type-pointer">Pointer Type</a>.
     </td>
   </tr>
 </table>
-<p>
-  "public"と"private"の両方のDescriptorが指定された場合は、コンパイル時エラーが発生します。
-</p>
-<p>
-  "callback_t""mulnum_t""pointer_t"のひとつより多くが同時に指定されている場合は、コンパイル時エラーが発生します。
-</p>
+
+If both "public" and "private" are specifed, a compile-time error occurs.
+
+If more than one of "callback_t", "mulnum_t", "pointer_t" are specified, a compile-time error occurs.
 
 <p>
-  <b>パッケージ内部で定義できるもの</b>
+  <b>Package 内部で定義できるもの</b>
 </p>
 <p>
-  パッケージ内部では<b>"use"</b><b>"パッケージ変数"</b><b>"フィールド"</b><b>"列挙"</b><b>"サブルーチン"</b>が定義できます。
+  Package 内部では<b>"use"</b><b>"Package Variable "</b><b>"フィールド"</b><b>"列挙"</b><b>"サブルーチン"</b>が定義できます。
 </p>
 <pre>
 package Foo {
 # use
 use Point;
 
-# パッケージ変数
+# Package Variable 
 our $VAR int;
 
 # フィールド
@@ -1241,21 +1235,21 @@ sub foo : int ($num : int) {
 }
 </pre>
 
-<h3 id="language-package-destructor">デストラクタ</h3>
+<h3 id="language-package-destructor">Destructor</h3>
 <p>
-  パッケージが<a href="#language-type-class">クラス型</a>である場合は、デストラクタを定義することができます。
+  Package が<a href="#language-type-class">Class Type</a>である場合は、Destructorを定義することができます。
 </p>
 <p>
-  デストラクタとは、オブジェクトが解放されるときに実行される特別な<a href="#language-sub">サブルーチン</a>のことです。
+  Destructorとは、オブジェクトが解放されるときに実行される特別な<a href="#language-sub">サブルーチン</a>のことです。
 </p>
 <p>
-  デストラクタの名前は"DESTROY"でなければなりません。
+  Destructorの名前は"DESTROY"でなければなりません。
 </p>
 <p>
-  デストラクタの戻り値の型は、<a href="#language-type-void">void型</a>でなければなりません。そうでない場合は、コンパイル時エラーが発生します。
+  Destructorの戻り値の型は、<a href="#language-type-void">void型</a>でなければなりません。そうでない場合は、コンパイル時エラーが発生します。
 </p>
 <p>
-  デストラクタの引数は、ひとつで、<a href="#language-type-self">self型</a>でなければなりません。そうでない場合は、コンパイル時エラーが発生します。
+  Destructorの引数は、ひとつで、<a href="#language-type-self">self型</a>でなければなりません。そうでない場合は、コンパイル時エラーが発生します。
 </p>
 <pre>
 sub DESTROY : void ($self : self) {
@@ -1263,13 +1257,13 @@ sub DESTROY : void ($self : self) {
 }
 </pre>
 <p>
-  デストラクタの中で<a href="#language-exception-occur">例外の発生</a>が起こった場合は、プログラムは終了せず、例外メッセージが、標準エラーに出力されます。
+  Destructorの中で<a href="#language-exception-occur">例外の発生</a>が起こった場合は、プログラムは終了せず、例外メッセージが、標準エラーに出力されます。
 </p>
 <p>
-  <b>デストラクタのExample</b>
+  <b>DestructorのExample</b>
 </p>
 <p>
-  デストラクタのExampleです。
+  DestructorのExampleです。
 </p>
 <pre>
 package Foo {
@@ -1302,7 +1296,7 @@ package Foo::Bar {
 }
 </pre>
 <p>
-  モジュールには、複数のパッケージを含むことができます。
+  モジュールには、複数のPackage を含むことができます。
 </p>
 <pre>
 # lib/path/Foo/Bar.spvm
@@ -1343,7 +1337,7 @@ use Foo::Bar;
   モジュールが存在しなかった場合は、コンパイルエラーになります。
 </p>
 <p>
-  useKeyword は、パッケージの定義の直下で定義する必要があります。
+  useKeyword は、Package Definitionの直下で定義する必要があります。
 </p>
 <pre>
 package Foo {
@@ -1387,16 +1381,16 @@ warn "Warning: Can't load Foo";
 
 <h2 id="language-allow-access">アクセス許可</h2>
 <p>
-  デフォルトでは、プライベートなサブルーチン、フィールド、パッケージ変数には、パッケージの外部からは、アクセスすることができません。また、プライベートなパッケージは、パッケージの外部から、オブジェクトの生成を行うことができません。
+  デフォルトでは、プライベートなサブルーチン、フィールド、Package Variable には、Package 外部からは、アクセスすることができません。また、プライベートなPackage は、Package 外部から、オブジェクトの生成を行うことができません。
 </p>
 <p>
-  外部のパッケージに対してアクセス許可を設定すると、外部のパッケージは、プライベートなサブルーチン、フィールド、パッケージ変数にアクセスすることができ、またオブジェクトの生成を行うことができます。
+  外部のPackage に対してアクセス許可を設定すると、外部のPackage は、プライベートなサブルーチン、フィールド、Package Variable にアクセスすることができ、またオブジェクトの生成を行うことができます。
 </p>
 <pre>
 allow Package Name;
 </pre>
 <p>
-  allowKeyword は、パッケージの定義の直下で定義する必要があります。
+  allowKeyword は、Package Definitionの直下で定義する必要があります。
 </p>
 <pre>
 package Foo {
@@ -1404,45 +1398,45 @@ allow Bar;
 }
 </pre>
 <p>
-  この例では、Fooにおいてprivateが指定されているサブルーチン、フィールド、パッケージ変数に、Barからアクセスすることができます。また、BarからFooのオブジェクトの生成を行うことができます。
+  この例では、Fooにおいてprivateが指定されているサブルーチン、フィールド、Package Variable に、Barからアクセスすることができます。また、BarからFooのオブジェクトの生成を行うことができます。
 </p>
 
-<h2 id="language-package-var">パッケージ変数</h2>
+<h2 id="language-package-var">Package Variable </h2>
 <ul class="list">
-  <li><a href="#language-package-var-definition">パッケージ変数の定義</a></li>
-  <li><a href="#language-package-var-initial-value">パッケージ変数の初期値</a></li>
-  <li><a href="#language-package-var-access">パッケージ変数へのアクセス</a></li>
+  <li><a href="#language-package-var-definition">Package Variable の定義</a></li>
+  <li><a href="#language-package-var-initial-value">Package Variable の初期値</a></li>
+  <li><a href="#language-package-var-access">Package Variable へのアクセス</a></li>
 </ul>
-<h3 id="language-package-var-definition">パッケージ変数の定義</h3>
+<h3 id="language-package-var-definition">Package Variable の定義</h3>
 <p>
-  パッケージ変数とは、パッケージに属する、プログラムの開始から終了まで維持されるグローバル変数のことです。
+  Package Variable とは、Package に属する、プログラムの開始から終了まで維持されるグローバル変数のことです。
 </p>
 <p>
-  "our"Keyword を使用してパッケージ変数を定義することができます。
+  "our"Keyword を使用してPackage Variable を定義することができます。
 </p>
 <pre>
 our Package Variable Name : Type Name ;
 </pre>
 <p>
-  パッケージ変数の定義は"<a href="#language-package-definition">パッケージ定義</a>"の直下で行う必要があります。
+  Package Variable の定義は"<a href="#language-package-definition">Package 定義</a>"の直下で行う必要があります。
 </p>
 <p>
-  パッケージ変数の定義には"<a href="#language-type">Type Name </a>"が必要です。Type Name には"数値型"と"オブジェクト型"を指定できます。
+  Package Variable の定義には"<a href="#language-type">Type Name </a>"が必要です。Type Name には"数値型"と"オブジェクト型"を指定できます。
 </p>
 <p>
   Package Variable Nameは、<a href="#language-lex-identifier-package-var-name">Package Variable Name</a>で定義されている名前の規則に従い、かつ"::"が含まれていてはいけません。そうでない場合は、コンパイル時エラーが発生します。
 </p>
 <p>
-  パッケージ変数定義には、Descriptorを合わせて指定することができます。複数のDescriptorを空白を使って並べることができます。
+  Package Variable 定義には、Descriptorを合わせて指定することができます。複数のDescriptorを空白を使って並べることができます。
 </p>
 <pre>
 our Package Variable Name : Descriptor Type Name ;
 </pre>
 <p>
-  <b>パッケージ変数Descriptor</b>
+  <b>Package Variable Descriptor</b>
 </p>
 <p>
-  パッケージ変数で指定できるDescriptorの一覧です。
+  Package Variable で指定できるDescriptorの一覧です。
 </p>
 <table>
   <tr>
@@ -1458,7 +1452,7 @@ our Package Variable Name : Descriptor Type Name ;
       <b>public</b>
     </td>
     <td>
-      このパッケージ変数は、外部のパッケージからアクセスできます。
+      このPackage Variable は、外部のPackage からアクセスできます。
     </td>
   </tr>
   <tr>
@@ -1466,7 +1460,7 @@ our Package Variable Name : Descriptor Type Name ;
       <b>private</b>
     </td>
     <td>
-      このパッケージ変数は、外部のパッケージからアクセスできません。デフォルトの設定です。
+      このPackage Variable は、外部のPackage からアクセスできません。デフォルトの設定です。
     </td>
   </tr>
   <tr>
@@ -1474,7 +1468,7 @@ our Package Variable Name : Descriptor Type Name ;
       <b>ro</b>
     </td>
     <td>
-      このパッケージ変数は、読み込み用のパッケージ変数アクセッサを持ちます。パッケージ変数アクセッサ名は、Package Variable Nameから"$"を除いたものです。Package Variable Nameが"$FOO"の場合は、パッケージ変数アクセッサ名は"FOO"になります。
+      このPackage Variable は、読み込み用のPackage Variable アクセッサを持ちます。Package Variable アクセッサ名は、Package Variable Nameから"$"を除いたものです。Package Variable Nameが"$FOO"の場合は、Package Variable アクセッサ名は"FOO"になります。
     </td>
   </tr>
   <tr>
@@ -1482,7 +1476,7 @@ our Package Variable Name : Descriptor Type Name ;
       <b>wo</b>
     </td>
     <td>
-      このパッケージ変数は、書き込み用のパッケージ変数アクセッサを持ちます。パッケージ変数アクセッサ名は、"SET_Package Variable Nameから$を除いたもの"になります。Package Variable Nameが"$FOO"の場合は、パッケージ変数アクセッサ名は"SET_FOO"になります。
+      このPackage Variable は、書き込み用のPackage Variable アクセッサを持ちます。Package Variable アクセッサ名は、"SET_Package Variable Nameから$を除いたもの"になります。Package Variable Nameが"$FOO"の場合は、Package Variable アクセッサ名は"SET_FOO"になります。
     </td>
   </tr>
   <tr>
@@ -1490,7 +1484,7 @@ our Package Variable Name : Descriptor Type Name ;
       <b>rw</b>
     </td>
     <td>
-      このパッケージ変数は、読み込み用のパッケージ変数アクセッサと書き込み用のパッケージ変数アクセッサを持ちます。読み込み用のパッケージ変数アクセッサ名は"ro"で説明したものと同じです。書き込み用のパッケージ変数アクセッサ名は"wo"で説明したものと同じです。
+      このPackage Variable は、読み込み用のPackage Variable アクセッサと書き込み用のPackage Variable アクセッサを持ちます。読み込み用のPackage Variable アクセッサ名は"ro"で説明したものと同じです。書き込み用のPackage Variable アクセッサ名は"wo"で説明したものと同じです。
     </td>
   </tr>
 </table>
@@ -1501,19 +1495,19 @@ our Package Variable Name : Descriptor Type Name ;
   "ro""wo""rw"のひとつより多くが同時に指定されている場合は、コンパイル時エラーが発生します。
 </p>
 <p>
-  パッケージ変数アクセッサとは、パッケージ変数にアクセスするためのクラスメソッドのことです。
+  Package Variable アクセッサとは、Package Variable にアクセスするためのクラスメソッドのことです。
 </p>
 <p>
-  書き込み用のパッケージ変数アクセッサの戻り値は"void型"です。
+  書き込み用のPackage Variable アクセッサの戻り値は"void型"です。
 </p>
 <p>
-  SPVMのソースコードの中からパッケージ変数アクセッサが呼び出された場合は、パッケージ変数アクセッサはインライン展開されます。それ以外の場合は、インライン展開されません。
+  SPVMのソースコードの中からPackage Variable アクセッサが呼び出された場合は、Package Variable アクセッサはインライン展開されます。それ以外の場合は、インライン展開されません。
 </p>
 <p>
-  <b>パッケージ変数定義のExample</b>
+  <b>Package Variable 定義のExample</b>
 </p>
 <p>
-  パッケージ変数定義のExampleです。
+  Package Variable 定義のExampleです。
 </p>
 <pre>
 package Foo {
@@ -1530,9 +1524,9 @@ our $NUM_WO : wo int;
 our $NUM_RW : rw int;
 }
 </pre>
-<h3 id="language-package-var-initial-value">パッケージ変数の初期値</h3>
+<h3 id="language-package-var-initial-value">Package Variable の初期値</h3>
 <p>
-  パッケージ変数は、コンパイルが終了して、実行時に入る前に、<a href="#language-type-initial-value">型の初期値</a>で初期化されます。
+  Package Variable は、コンパイルが終了して、実行時に入る前に、<a href="#language-type-initial-value">型の初期値</a>で初期化されます。
 </p>
 <p>
   この初期値は、<a href="#language-begin-block">BEGINブロック</a>を使うことで、変更することができます。
@@ -1546,15 +1540,15 @@ $VAR = 3;
 }
 }
 </pre>
-<h3 id="language-package-var-access">パッケージ変数へのアクセス</h3>
+<h3 id="language-package-var-access">Package Variable へのアクセス</h3>
 <p>
-  パッケージ変数へのアクセスとは、パッケージ変数にアクセスして、値を取得したり、設定したりする操作のことです。
+  Package Variable へのアクセスとは、Package Variable にアクセスして、値を取得したり、設定したりする操作のことです。
 </p>
 <p>
-  パッケージ変数の値の取得については、<a href="#language-expression-get-package-var">パッケージ変数の値の取得</a>を見てください。
+  Package Variable の値の取得については、<a href="#language-expression-get-package-var">Package Variable の値の取得</a>を見てください。
 </p>
 <p>
-  パッケージ変数の値の設定については、<a href="#language-expression-set-package-var">パッケージ変数の値の設定</a>を見てください。
+  Package Variable の値の設定については、<a href="#language-expression-set-package-var">Package Variable の値の設定</a>を見てください。
 </p>
 
 <h2 id="language-field">フィールド</h2>
@@ -1573,7 +1567,7 @@ $VAR = 3;
 has Field Name : Type Name ;
 </pre>
 <p>
-  フィールド定義は"<a href="#language-package-definition">パッケージ定義</a>"の直下で行う必要があります。
+  フィールド定義は"<a href="#language-package-definition">Package 定義</a>"の直下で行う必要があります。
 </p>
 <p>
   フィールド定義には"<a href="#language-type">Type Name </a>"が必要です。Type Name には"数値型"と"オブジェクト型"を指定できます。
@@ -1610,7 +1604,7 @@ has Field Name : Descriptor Type Name ;
       <b>public</b>
     </td>
     <td>
-      このフィールドは、外部のパッケージからアクセスできます。
+      このフィールドは、外部のPackage からアクセスできます。
     </td>
   </tr>
   <tr>
@@ -1618,7 +1612,7 @@ has Field Name : Descriptor Type Name ;
       <b>private</b>
     </td>
     <td>
-      このフィールドは、外部のパッケージからアクセスできません。デフォルトの設定です。
+      このフィールドは、外部のPackage からアクセスできません。デフォルトの設定です。
     </td>
   </tr>
   <tr>
@@ -1693,10 +1687,10 @@ has num_rw : rw int;
   フィールドへのアクセスは、一種類のsyntax で、三つの異なる意味を持ちます。
 </p>
 <p>
-  <b>1. クラス型のフィールドへのアクセス</b>
+  <b>1. Class Typeのフィールドへのアクセス</b>
 </p>
 <p>
-  <a href="#language-type-class">クラス型</a>を元に<a href="#language-expression-new-object">オブジェクトの生成</a>が行われた場合は、オブジェクトからフィールドにアクセスすることができます。
+  <a href="#language-type-class">Class Type</a>を元に<a href="#language-expression-new-object">オブジェクトの生成</a>が行われた場合は、オブジェクトからフィールドにアクセスすることができます。
 </p>
 <pre>
 my $point = new Point;
@@ -1704,16 +1698,16 @@ $point->{x} = 1;
 </pre>
 
 <p>
-  クラス型のフィールドの取得については、<a href="#language-expression-get-field-class">クラス型のフィールドの値の取得</a>を見てください。
+  Class Typeのフィールドの取得については、<a href="#language-expression-get-field-class">Class Typeのフィールドの値の取得</a>を見てください。
 </p>
 <p>
-  クラス型のフィールドの設定については、<a href="#language-expression-set-field-class">クラス型のフィールドの値の設定</a>を見てください。
+  Class Typeのフィールドの設定については、<a href="#language-expression-set-field-class">Class Typeのフィールドの値の設定</a>を見てください。
 </p>
 <p>
-  <b>2. 複数数値型のフィールドへのアクセス</b>
+  <b>2. Multi Numeric Typeのフィールドへのアクセス</b>
 </p>
 <p>
-  2. <a href="#language-type-multi-numeric">複数数値型</a>におけるフィールドは、複数数値型の変数の宣言をすれば、その変数からフィールドにアクセスできます。これは、レキシカル変数領域におけるアクセスです。
+  2. <a href="#language-type-multi-numeric">Multi Numeric Type</a>におけるフィールドは、Multi Numeric Typeの変数の宣言をすれば、その変数からフィールドにアクセスできます。これは、レキシカル変数領域におけるアクセスです。
 </p>
 <pre>
 my $z : SPVM::Complex_2d;
@@ -1721,16 +1715,16 @@ $z->{re} = 1;
 $z->{im} = 3;
 </pre>
 <p>
-  複数数値型のフィールドの取得については、<a href="#language-expression-get-field-multi-numeric">複数数値型のフィールドの値の取得</a>を見てください。
+  Multi Numeric Typeのフィールドの取得については、<a href="#language-expression-get-field-multi-numeric">Multi Numeric Typeのフィールドの値の取得</a>を見てください。
 </p>
 <p>
-  複数数値型のフィールドの設定については、<a href="#language-expression-set-field-multi-numeric">複数数値型のフィールドの値の設定</a>を見てください。
+  Multi Numeric Typeのフィールドの設定については、<a href="#language-expression-set-field-multi-numeric">Multi Numeric Typeのフィールドの値の設定</a>を見てください。
 </p>
 <p>
-  <b>3. デリファレンスによる複数数値型のフィールドのアクセス</b>
+  <b>3. デリファレンスによるMulti Numeric Typeのフィールドのアクセス</b>
 </p>
 <p>
-  複数数値型の変数に対するリファレンス型から、デリファレンスを行って直接に複数数値型のフィールドにアクセスできます。
+  Multi Numeric Typeの変数に対するリファレンス型から、デリファレンスを行って直接にMulti Numeric Typeのフィールドにアクセスできます。
 </p>
 <pre>
 my $z : SPVM::Complex_2d;
@@ -1739,10 +1733,10 @@ $z_ref->{re} = 1;
 $z_ref->{im} = 3;
 </pre>
 <p>
-  デリファレンスによる複数数値型のフィールドの取得については、<a href="#language-expression-get-field-multi-numeric-deref">デリファレンスによる複数数値型のフィールドの取得</a>を見てください。
+  デリファレンスによるMulti Numeric Typeのフィールドの取得については、<a href="#language-expression-get-field-multi-numeric-deref">デリファレンスによるMulti Numeric Typeのフィールドの取得</a>を見てください。
 </p>
 <p>
-  デリファレンスによる複数数値型のフィールドの設定については、<a href="#language-expression-set-field-multi-numeric-deref">デリファレンスによる複数数値型のフィールドの設定</a>を見てください。
+  デリファレンスによるMulti Numeric Typeのフィールドの設定については、<a href="#language-expression-set-field-multi-numeric-deref">デリファレンスによるMulti Numeric Typeのフィールドの設定</a>を見てください。
 </p>
 
 <h2 id="language-sub">サブルーチン</h2>
@@ -1766,7 +1760,7 @@ sub Subroutine Name : 戻り値のType Name  (引数名1 : 引数のType Name 1,
 }
 </pre>
 <p>
-  サブルーチンの定義は"<a href="#language-package-definition">パッケージ定義</a>"の直下で行う必要があります。
+  サブルーチンの定義は"<a href="#language-package-definition">Package 定義</a>"の直下で行う必要があります。
 </p>
 <p>
   Subroutine Nameは、1文字以上の"a～z""A～Z""0～9""_"で構成する必要があります。先頭は、数字から始めることはできません。連続した"_"を使用することはできません。
@@ -1899,7 +1893,7 @@ sub foo : int () { return 5 + 3; }
 
 <h3 id="language-sub-new-callback-object">コールバックオブジェクトの生成</h3>
 <p>
-  コールバックオブジェクトの生成とは、コールバックの用途で、特別なsyntax を使って、コールバック型に適合するオブジェクトを生成する文法のことです。
+  コールバックオブジェクトの生成とは、コールバックの用途で、特別なsyntax を使って、Callback Typeに適合するオブジェクトを生成する文法のことです。
 </p>
 <pre>
 sub : Type Name  ($self : self, 引数1, 引数2, ..., 引数n) {
@@ -1907,7 +1901,7 @@ sub : Type Name  ($self : self, 引数1, 引数2, ..., 引数n) {
 }
 </pre>
 <p>
-  コールバックオブジェクトの生成を行うと、内部的に、パッケージの定義がおこなわれ、そのパッケージを元にしたオブジェクトが生成され、<a href="#language-expression">式</a>として返されます。the following ように変数に代入することが可能です。
+  コールバックオブジェクトの生成を行うと、内部的に、Package Definitionがおこなわれ、そのPackage を元にしたオブジェクトが生成され、<a href="#language-expression">式</a>として返されます。the following ように変数に代入することが可能です。
 </p>
 <pre>
 my $cb_obj = sub : Type Name  ($self : self, 引数1, 引数2, ..., 引数n) {
@@ -1962,7 +1956,7 @@ print "$bar\n";
   スコープ内で、キャプチャ変数と同名の<a href="#language-lex-var">レキシカル変数</a>が存在する場合は、レキシカル変数にアクセスします。
 </p>
 <p>
-  キャプチャ変数と同名の<a href="#language-package-var">パッケージ変数</a>が存在する場合は、キャプチャ変数にアクセスします。
+  キャプチャ変数と同名の<a href="#language-package-var">Package Variable </a>が存在する場合は、キャプチャ変数にアクセスします。
 </p>
 <p>
   コールバックオブジェクトの生成とキャプチャをシンタックスシュガーを使わないで記述すると次のようになります。
@@ -2089,7 +2083,7 @@ FLAG3
 }
 </pre>
 <p>
-  列挙の定義は"<a href="#language-package-definition">パッケージ定義</a>"の直下で行う必要があります。
+  列挙の定義は"<a href="#language-package-definition">Package 定義</a>"の直下で行う必要があります。
 </p>
 <pre>
 package Foo {
@@ -2169,7 +2163,7 @@ FLAG3,
       <b>public</b>
     </td>
     <td>
-      この列挙は、外部のパッケージからアクセスできます。デフォルトの設定です。
+      この列挙は、外部のPackage からアクセスできます。デフォルトの設定です。
     </td>
   </tr>
   <tr>
@@ -2177,7 +2171,7 @@ FLAG3,
       <b>private</b>
     </td>
     <td>
-      この列挙は、外部のパッケージからアクセスできません。
+      この列挙は、外部のPackage からアクセスできません。
     </td>
   </tr>
 </table>
@@ -2229,7 +2223,7 @@ BEGIN {
 }
 </pre>
 <p>
-  BEGINブロックは、パッケージの定義の直下にある必要があります。
+  BEGINブロックは、Package Definitionの直下にある必要があります。
 </p>
 <pre>
 package Foo {
@@ -2254,10 +2248,10 @@ my $bar;
   BEGINブロックは、いくつでも定義できます。
 </p>
 <p>
-  BEGINブロックの実行順序は、保証されません。他のパッケージにBEGINブロックが定義されている場合は、そのBEGINブロックが先に実行されることを想定しないでください。
+  BEGINブロックの実行順序は、保証されません。他のPackage にBEGINブロックが定義されている場合は、そのBEGINブロックが先に実行されることを想定しないでください。
 </p>
 <p>
-  BEGINブロックの一般的な用途は、<a href="#language-package-var">パッケージ変数</a>を初期化することです。
+  BEGINブロックの一般的な用途は、<a href="#language-package-var">Package Variable </a>を初期化することです。
 </p>
 <pre>
 package Foo {
@@ -2365,7 +2359,7 @@ while (my $bar = 1) {
   <b>レキシカル変数の値の設定</b>については、<a href="#language-expression-set-lex-var">レキシカル変数の値の設定</a>を見てください。
 </p>
 <p>
-  レキシカル変数と同名の<a href="#language-package-var">パッケージ変数</a>が存在した場合は、レキシカル変数にアクセスします。
+  レキシカル変数と同名の<a href="#language-package-var">Package Variable </a>が存在した場合は、レキシカル変数にアクセスします。
 </p>
 
 <h2 id="language-block">ブロック</h2>
@@ -2685,10 +2679,10 @@ weaken $foo->{bar};
 
 <h2 id="language-callback">コールバック</h2>
 <p>
-  SPVMにおけるコールバック型とは、実装を持たない名前のないメソッドが一つだけ定義されたパッケージ型のことをいいます。<a href="#language-package-definition">パッケージの定義</a>においてcallback_tDescriptorを指定すると、コールバック型になります。
+  SPVMにおけるCallback Typeとは、実装を持たない名前のないメソッドが一つだけ定義されたPackage 型のことをいいます。<a href="#language-package-definition">Package Definition</a>においてcallback_tDescriptorを指定すると、Callback Typeになります。
 </p>
 <p>
-  コールバック型の目的は、異なるオブジェクトが、同じメソッド定義を持つときに、どちらも代入できる型を提供することにあります。C言語の関数ポインタに該当する機能をSPVMにおいて実現するものと考えてください。
+  Callback Typeの目的は、異なるオブジェクトが、同じメソッド定義を持つときに、どちらも代入できる型を提供することにあります。C言語の関数ポインタに該当する機能をSPVMにおいて実現するものと考えてください。
 </p>
 <pre>
 package Foo1 {
@@ -2718,7 +2712,7 @@ sub : int ($self : self, $num : int);
   Foo1とFoo2は同じメソッド定義"sub : int ($self : self, $num : int)"を持ちます。ここで、選択的にFoo1またはFoo2のメソッドを呼び出したいとします。
 </p>
 <p>
-  この場合に、同じメソッド定義を持つコールバック型FooCallbackを定義すると、この型にどちらのオブジェクトも代入できます。そして、このオブジェクトから、メソッドを呼び出すことができます。
+  この場合に、同じメソッド定義を持つCallback TypeFooCallbackを定義すると、この型にどちらのオブジェクトも代入できます。そして、このオブジェクトから、メソッドを呼び出すことができます。
 </p>
 <pre>
 my $foo1 = Foo1->new;
@@ -2740,7 +2734,7 @@ my $ret = $foo->(5);
   $flagが1の場合は、Foo1の無名メソッドが、そうでない場合はFoo2の無名メソッドが呼び出されます。
 </p>
 <p>
-  コールバック型の詳細については、<a href="#language-type-callback">コールバック型</a>を見てください。
+  Callback Typeの詳細については、<a href="#language-type-callback">Callback Type</a>を見てください。
 </p>
 
 <h3 id="language-exception-summary">例外処理の概要</h3>
@@ -2766,7 +2760,7 @@ my $ret = $foo->(5);
     オブジェクト型の配列
   </li>
   <li>
-    複数数値型の配列
+    Multi Numeric Typeの配列
   </li>
 </ul>
 <p>
@@ -2776,7 +2770,7 @@ my $ret = $foo->(5);
   オブジェクト型の配列とは、<a href="#language-type-object">オブジェクト型</a>の値が連続に並んだ配列のことです。
 </p>
 <p>
-  複数数値型の配列とは、<a href="#language-type-multi-numeric">複数数値型</a>の値が連続に並んだ配列のことです。
+  Multi Numeric Typeの配列とは、<a href="#language-type-multi-numeric">Multi Numeric Type</a>の値が連続に並んだ配列のことです。
 </p>
 
 <h3 id="language-array-summary">配列の生成</h3>
@@ -2801,12 +2795,12 @@ my $ret = $foo->(5);
 
 <h2 id="language-value">値</h2>
 <ul class="list">
-  <li><a href="#language-value-definition">複数数値型の定義</a></li>
-  <li><a href="#language-value-usage">複数数値型の使用</a></li>
-  <li><a href="#language-value-access">複数数値型のフィールドへのアクセス</a></li>
+  <li><a href="#language-value-definition">Multi Numeric Typeの定義</a></li>
+  <li><a href="#language-value-usage">Multi Numeric Typeの使用</a></li>
+  <li><a href="#language-value-access">Multi Numeric Typeのフィールドへのアクセス</a></li>
 </ul>
 
-<h3 id="language-value-definition">複数数値型の定義</h2>
+<h3 id="language-value-definition">Multi Numeric Typeの定義</h2>
 <p>
   SPVMには、他の言語ではあまり見ることのない値というものがあります。
 </p>
@@ -2814,7 +2808,7 @@ my $ret = $foo->(5);
   値は、連続した数値を表現します。たとえば、連続した32bit符号付整数が3つであるとか、連続した倍精度浮動小数点が2つなどです。3次元の点、複素数、四元数などを表現することが想定されています。
 </p>
 <p>
-  値を使用するには、最初に、複数数値型を定義します。複数数値型は、<a href="#language-package-definition">パッケージの定義</a>において、mulnum_tDescriptorを指定することで定義できます。
+  値を使用するには、最初に、Multi Numeric Typeを定義します。Multi Numeric Typeは、<a href="#language-package-definition">Package Definition</a>において、mulnum_tDescriptorを指定することで定義できます。
 </p>
 <pre>
 # 連続した32bit符号付整数が3つ
@@ -2834,10 +2828,10 @@ im : double;
   すべてのフィールドは同じ<a href="#language-type-numeric">数値型</a>でなければなりません。
 </p>
 <p>
-  複数数値型の末尾は"_""フィールドの個数""複数数値型のサフィックス"でなければなりません。
+  Multi Numeric Typeの末尾は"_""フィールドの個数""Multi Numeric Typeのサフィックス"でなければなりません。
 </p>
 <p>
-  <b>複数数値型のサフィクスの一覧</b>
+  <b>Multi Numeric Typeのサフィクスの一覧</b>
 </p>
 <table>
   <tr>
@@ -2904,38 +2898,38 @@ im : double;
   数値型の定義において、フィールドの個数の最大は16です。
 </p>
 <p>
-  Invalid 複数数値型の定義の場合は、コンパイル時エラーが発生します。
+  Invalid Multi Numeric Typeの定義の場合は、コンパイル時エラーが発生します。
 </p>
 <p>
-  複数数値型は、<a href="#language-lex-var-declaration">レキシカル変数の宣言</a>の型として利用することができます。
+  Multi Numeric Typeは、<a href="#language-lex-var-declaration">レキシカル変数の宣言</a>の型として利用することができます。
 </p>
 <p>
-  複数数値型は、<a href="#language-sub-definition">サブルーチンの定義</a>における引数の型として利用することができます。
+  Multi Numeric Typeは、<a href="#language-sub-definition">サブルーチンの定義</a>における引数の型として利用することができます。
 </p>
 <p>
-  複数数値型は、<a href="#language-sub-definition">サブルーチンの定義</a>における戻り値の型として利用することができます。
+  Multi Numeric Typeは、<a href="#language-sub-definition">サブルーチンの定義</a>における戻り値の型として利用することができます。
 </p>
 <p>
-  複数数値型は<a href="#language-type-array">配列型</a>の<a href="#language-type-basic">基本型</a>として利用することができます。
+  Multi Numeric Typeは<a href="#language-type-array">配列型</a>の<a href="#language-type-basic">基本型</a>として利用することができます。
 </p>
 <pre>
 my $points = new Point_3i[5];
 </pre>
 <p>
-  複数数値型は、フィールドの型として利用することはできません。
+  Multi Numeric Typeは、フィールドの型として利用することはできません。
 </p>
 <p>
-  複数数値型は、パッケージ変数の型として利用することはできません。
+  Multi Numeric Typeは、Package Variable の型として利用することはできません。
 </p>
 <p>
-  複数数値型の値に対しては、リファレンスを生成することができます。
+  Multi Numeric Typeの値に対しては、リファレンスを生成することができます。
 </p>
 <pre>
 my $point : Point_3i;
 my $point_ref = \$point;
 </pre>
 <p>
-  複数数値型の値に、未定義値を代入することはできません。代入しようとした場合は、コンパイル時エラーが発生します。
+  Multi Numeric Typeの値に、未定義値を代入することはできません。代入しようとした場合は、コンパイル時エラーが発生します。
 </p>
 
 <h2 id="language-value-array">値の配列</h2>
@@ -2946,7 +2940,7 @@ my $point_ref = \$point;
 
 <h3 id="language-array-summary">値の配列の概要</h3>
 <p>
-  複数数値型の値は、<a href="#language-array">配列</a>にすることができます。
+  Multi Numeric Typeの値は、<a href="#language-array">配列</a>にすることができます。
 </p>
 <pre>
 my $points = new Point_3i[5];
@@ -2954,7 +2948,7 @@ my $points = new Point_3i[5];
 my $zs = new Complex_2d[5];
 </pre>
 <p>
-  値の配列は、複数数値型の値が、連続したデータ構造をとります。配列の要素は、オブジェクトではなく、数値がメモリ上に一直線に並んで、配置されます。
+  値の配列は、Multi Numeric Typeの値が、連続したデータ構造をとります。配列の要素は、オブジェクトではなく、数値がメモリ上に一直線に並んで、配置されます。
 </p>
 <p>
   たとえば、Point_3i型の5の長さの配列であれば、Point_3i型は、int型の数値が3つ並んだ型で、長さが5なので、"5 * 3 = 15"個のint型の数値が、メモリ上に一直線に並んだデータになります。
@@ -2963,7 +2957,7 @@ my $zs = new Complex_2d[5];
   値の配列の型は、<a href="#language-type-array">配列型</a>です。
 </p>
 <p>
-  値の配列の要素の型は、<a href="#language-type-multi-numeric">複数数値型</a>です。
+  値の配列の要素の型は、<a href="#language-type-multi-numeric">Multi Numeric Type</a>です。
 </p>
 
 <h3 id="language-array-access">値の配列へのアクセス</h3>
@@ -2983,9 +2977,9 @@ my $zs = new Complex_2d[5];
   配列の設定については、<a href="#language-expression-set-set-array-element">配列の要素の値の設定</a>を見てください。
 </p>
 
-<h3 id="language-value-usage">複数数値型の使用</h2>
+<h3 id="language-value-usage">Multi Numeric Typeの使用</h2>
 <p>
-  複数数値型を使用するにはuse文を使って、モジュールをロードします。
+  Multi Numeric Typeを使用するにはuse文を使って、モジュールをロードします。
 </p>
 <pre>
 use Point_3i;
@@ -2999,27 +2993,27 @@ my $point : Point_3i;
 my $z : Complex_2d;
 </pre>
 <p>
-  複数数値型の値は、オブジェクトではないので、<a href="#language-expression-new-object">オブジェクトの生成</a>のsyntax では生成できないことに注意してください。
+  Multi Numeric Typeの値は、オブジェクトではないので、<a href="#language-expression-new-object">オブジェクトの生成</a>のsyntax では生成できないことに注意してください。
 </p>
 
-<h3 id="language-value-access">複数数値型のフィールドへのアクセス</h2>
+<h3 id="language-value-access">Multi Numeric Typeのフィールドへのアクセス</h2>
 <p>
-  複数数値型のフィールドへのアクセスとは、複数数値型のフィールドにアクセスして、値を取得したり、設定したりする操作のことです。また、the following 記述そのものを指します。
+  Multi Numeric Typeのフィールドへのアクセスとは、Multi Numeric Typeのフィールドにアクセスして、値を取得したり、設定したりする操作のことです。また、the following 記述そのものを指します。
 </p>
 <pre>
 インボカント->{Field Name}
 </pre>
 <p>
-  複数数値型のフィールドの取得については、<a href="#language-expression-get-field-multi-numeric">複数数値型のフィールドの値の取得</a>を見てください。
+  Multi Numeric Typeのフィールドの取得については、<a href="#language-expression-get-field-multi-numeric">Multi Numeric Typeのフィールドの値の取得</a>を見てください。
 </p>
 <p>
-  複数数値型のフィールドの設定については、<a href="#language-expression-set-field-multi-numeric">複数数値型のフィールドの値の設定</a>を見てください。
+  Multi Numeric Typeのフィールドの設定については、<a href="#language-expression-set-field-multi-numeric">Multi Numeric Typeのフィールドの値の設定</a>を見てください。
 </p>
 <p>
-  <b>複数数値型のフィールドの値の取得・設定のExample</b>
+  <b>Multi Numeric Typeのフィールドの値の取得・設定のExample</b>
 </p>
 <p>
-  複数数値型のフィールドの値の取得・設定のExampleです。
+  Multi Numeric Typeのフィールドの値の取得・設定のExampleです。
 </p>
 <pre>
 $ival2->{x} = 1;
@@ -3040,14 +3034,14 @@ my $z = $dval4->{z};
   リファレンスとは、レキシカル変数のアドレスのことをいいます。リファレンスは、C言語のポインタに該当する機能を実現するために、設計されました。
 </p>
 <p>
-  レキシカル変数のアドレスは、<a href="#language-operator-ref">リファレンスOperator </a>を使用して取得できます。<a href="#language-type-ref">リファレンス型</a>は、<a href="#language-type-numeric">数値型</a>あるいは<a href="#language-type-multi-numeric">複数数値型</a>の後ろに"&"を続けたものになります。
+  レキシカル変数のアドレスは、<a href="#language-operator-ref">リファレンスOperator </a>を使用して取得できます。<a href="#language-type-ref">リファレンス型</a>は、<a href="#language-type-numeric">数値型</a>あるいは<a href="#language-type-multi-numeric">Multi Numeric Type</a>の後ろに"&"を続けたものになります。
 </p>
 <pre>
 # 数値型の変数のリファレンス
 my $num : int;
 my $num_ref : int& = \$num;
 
-# 複数数値型の変数のリファレンス
+# Multi Numeric Typeの変数のリファレンス
 my $point : Point_3d;
 my $point_ref : Point_3d& = \$point;
 </pre>
@@ -3055,7 +3049,7 @@ my $point_ref : Point_3d& = \$point;
   $num_refの値は、レキシカル変数"$num"のアドレスになります。$point_refの値は、レキシカル変数"$point"のアドレスになります。
 </p>
 <p>
-  リファレンスOperator の対象は、<a href="#language-type-numeric">数値型</a>あるいは<a href="#language-type-multi-numeric">複数数値型</a>の値が格納された変数だけです。オブジェクト型の変数や定数に対して、使うことはできません。
+  リファレンスOperator の対象は、<a href="#language-type-numeric">数値型</a>あるいは<a href="#language-type-multi-numeric">Multi Numeric Type</a>の値が格納された変数だけです。オブジェクト型の変数や定数に対して、使うことはできません。
 </p>
 <p>
   <a href="#language-type-ref">リファレンス型</a>の値は、サブルーチンの引数として利用することができます。
@@ -3088,21 +3082,21 @@ my $num2 = $$num_ref;
 # 数値型の値を変更
 $$num_ref = 3;
 
-# 複数数値型の値を取得
+# Multi Numeric Typeの値を取得
 my $point2 = $$point_ref;
 
-# 複数数値型の値を設定
+# Multi Numeric Typeの値を設定
 $$point_ref = $point2;
 </pre>
 
 <p>
-  リファレンス型の対象が複数数値型であった場合に、複数数値型のフィールドの設定と取得は、アローOperator で行うことができます。
+  リファレンス型の対象がMulti Numeric Typeであった場合に、Multi Numeric Typeのフィールドの設定と取得は、アローOperator で行うことができます。
 </p>
 <pre>
-# リファレンス型の対象が複数数値型であった場合に、複数数値型のフィールドを取得
+# リファレンス型の対象がMulti Numeric Typeであった場合に、Multi Numeric Typeのフィールドを取得
 my $x = $point_ref->{x};
 
-# リファレンス型の対象が複数数値型であった場合に、複数数値型のフィールドを設定
+# リファレンス型の対象がMulti Numeric Typeであった場合に、Multi Numeric Typeのフィールドを設定
 $point_ref->{x} = 1;
 </pre>
 
@@ -3112,7 +3106,7 @@ $point_ref->{x} = 1;
 </p>
 <h3 id="language-type-ref-multi-numeric">複数数値のリファレンス型</h3>
 <p>
-  複数数値のリファレンス型とは、<a href="#language-type-multi-numeric">複数数値型</a>の変数に対する<a href="#language-type-ref">リファレンス型</a>のことをいいます。
+  複数数値のリファレンス型とは、<a href="#language-type-multi-numeric">Multi Numeric Type</a>の変数に対する<a href="#language-type-ref">リファレンス型</a>のことをいいます。
 </p>
 
 </p>
@@ -3135,19 +3129,19 @@ $point_ref->{x} = 1;
 <ul class="list">
   <li><a href="#language-expression-get-lex-var">レキシカル変数の値の取得</a></li>
   <li><a href="#language-expression-set-lex-var">レキシカル変数の値の設定</a></li>
-  <li><a href="#language-expression-get-package-var">パッケージ変数の値の設定</a></li>
-  <li><a href="#language-expression-set-package-var">パッケージ変数の値の取得</a></li>
+  <li><a href="#language-expression-get-package-var">Package Variable の値の設定</a></li>
+  <li><a href="#language-expression-set-package-var">Package Variable の値の取得</a></li>
   <li><a href="#language-expression-get-exception-var">例外変数の値の設定</a></li>
   <li><a href="#language-expression-set-exception-var">例外変数の値の取得</a></li>
   <li><a href="#language-literal">Literal </a></li>
   <li><a href="#language-undef">未定義値</a></li>
   <li><a href="#language-expression-callsub">サブルーチンの呼び出し</a></li>
-  <li><a href="#language-expression-get-field-class">クラス型のフィールドの値の取得</a></li>
-  <li><a href="#language-expression-set-field-class">クラス型のフィールドの値の設定</a></li>
-  <li><a href="#language-expression-get-field-multi-numeric">複数数値型のフィールドの値の取得</a></li>
-  <li><a href="#language-expression-set-field-multi-numeric">複数数値型のフィールドの値の設定</a></li>
-  <li><a href="#language-expression-get-field-multi-numeric-deref">デリファレンスによる複数数値型のフィールドの取得</a></li>
-  <li><a href="#language-expression-set-field-multi-numeric-deref">デリファレンスによる複数数値型のフィールドの設定</a></li>
+  <li><a href="#language-expression-get-field-class">Class Typeのフィールドの値の取得</a></li>
+  <li><a href="#language-expression-set-field-class">Class Typeのフィールドの値の設定</a></li>
+  <li><a href="#language-expression-get-field-multi-numeric">Multi Numeric Typeのフィールドの値の取得</a></li>
+  <li><a href="#language-expression-set-field-multi-numeric">Multi Numeric Typeのフィールドの値の設定</a></li>
+  <li><a href="#language-expression-get-field-multi-numeric-deref">デリファレンスによるMulti Numeric Typeのフィールドの取得</a></li>
+  <li><a href="#language-expression-set-field-multi-numeric-deref">デリファレンスによるMulti Numeric Typeのフィールドの設定</a></li>
   <li><a href="#language-expression-get-array-element">配列の要素の値の取得</a></li>
   <li><a href="#language-expression-set-array-element">配列の要素の値の設定</a></li>
   <li><a href="#language-expression-typecast">型キャスト</a></li>
@@ -3207,30 +3201,30 @@ $var = 右式
   代入前に、すでに$varにオブジェクトが代入されていた場合は、そのオブジェクトのリファレンスカウントが1減らされます。
 </p>
 
-<h3 id="language-expression-get-package-var">パッケージ変数の値の取得</h3>
+<h3 id="language-expression-get-package-var">Package Variable の値の取得</h3>
 <p>
-  パッケージ変数の値を取得するにはthe following syntax を使用します。
+  Package Variable の値を取得するにはthe following syntax を使用します。
 </p>
 <pre>
 $クラス名::Package Variable Name
 </pre>
 <p>
-  自分自身のパッケージに属するパッケージ変数の場合は"クラス名::"を省略できます。
+  自分自身のPackage に属するPackage Variable の場合は"クラス名::"を省略できます。
 </p>
 <pre>
 $Package Variable Name
 </pre>
 <p>
- パッケージ変数の値の取得は、<a href="#language-expression">式</a>を返します。
+ Package Variable の値の取得は、<a href="#language-expression">式</a>を返します。
 </p>
 <p>
-  定義されていないパッケージ変数の値を取得しようとした場合は、コンパイル時エラーが発生します。
+  定義されていないPackage Variable の値を取得しようとした場合は、コンパイル時エラーが発生します。
 </p>
 <p>
-  パッケージの外側からプライベートなパッケージ変数にアクセスしようとした場合は、コンパイル時エラーが発生します。
+  Package 外側からプライベートなPackage Variable にアクセスしようとした場合は、コンパイル時エラーが発生します。
 </p>
 <p>
-  <b>パッケージ変数の値の取得のExample</b>
+  <b>Package Variable の値の取得のExample</b>
 </p>
 <pre>
 package Foo {
@@ -3243,29 +3237,29 @@ my $var2 = $VAR;
 }
 </pre>
 
-<h3 id="language-expression-set-package-var">パッケージ変数の値の設定</h3>
+<h3 id="language-expression-set-package-var">Package Variable の値の設定</h3>
 <p>
-  パッケージ変数の値を設定するにはthe following syntax を使用します。
+  Package Variable の値を設定するにはthe following syntax を使用します。
 </p>
 <pre>
 $クラス名::Package Variable Name = 右式
 </pre>
-  自分自身のパッケージに属するパッケージ変数の場合は"クラス名::"を省略できます。
+  自分自身のPackage に属するPackage Variable の場合は"クラス名::"を省略できます。
 </p>
 <pre>
 $Package Variable Name = 右式
 </pre>
 <p>
-  パッケージ変数設定は、<a href="#language-expression">式</a>を返します。返される結果は、代入後のパッケージ変数の値です。
+  Package Variable 設定は、<a href="#language-expression">式</a>を返します。返される結果は、代入後のPackage Variable の値です。
 </p>
 <p>
-  定義されていないパッケージ変数の値を設定しようとした場合は、コンパイル時エラーが設定します。
+  定義されていないPackage Variable の値を設定しようとした場合は、コンパイル時エラーが設定します。
 </p>
 <p>
-  パッケージの外側からプライベートなパッケージ変数にアクセスしようとした場合は、コンパイル時エラーが発生します。
+  Package 外側からプライベートなPackage Variable にアクセスしようとした場合は、コンパイル時エラーが発生します。
 </p>
 <p>
-  <b>パッケージ変数の値の設定のExample</b>
+  <b>Package Variable の値の設定のExample</b>
 </p>
 <pre>
 package Foo {
@@ -3333,45 +3327,45 @@ $@ = 右式
 $@ = "Error";
 </pre>
 
-<h3 id="language-expression-get-field-class">クラス型のフィールドの値の取得</h3>
+<h3 id="language-expression-get-field-class">Class Typeのフィールドの値の取得</h3>
 <p>
-  クラス型のフィールドの値の取得は、次のように記述します。
+  Class Typeのフィールドの値の取得は、次のように記述します。
 </p>
 <pre>
 インボカント式->{Field Name}
 </pre>
 <p>
-  インボカント式は、<a href="#language-type-class">クラス型</a>の値でなければなりません。インボカント式が、<a href="#language-type-multi-numeric">複数数値型</a>の値であった場合は、<a href="#language-expression-get-field-multi-numeric">複数数値型のフィールドの値の取得</a>になり、<a href="#language-type-ref-multi-numeric">複数数値のリファレンス型</a>の値であった場合は、<a href="#language-expression-get-field-multi-numeric-deref">デリファレンスによる複数数値型のフィールドの取得</a>になり、それ以外の場合は、コンパイル時エラーが発生します。
+  インボカント式は、<a href="#language-type-class">Class Type</a>の値でなければなりません。インボカント式が、<a href="#language-type-multi-numeric">Multi Numeric Type</a>の値であった場合は、<a href="#language-expression-get-field-multi-numeric">Multi Numeric Typeのフィールドの値の取得</a>になり、<a href="#language-type-ref-multi-numeric">複数数値のリファレンス型</a>の値であった場合は、<a href="#language-expression-get-field-multi-numeric-deref">デリファレンスによるMulti Numeric Typeのフィールドの取得</a>になり、それ以外の場合は、コンパイル時エラーが発生します。
 </p>
 <p>
   Field Nameが、存在しない場合は、コンパイル時エラーが発生します。
 </p>
 <p>
-  クラス型のフィールドの値の取得は、オブジェクトに保存されているフィールドの値を返します。これは<a href="#language-expression">式</a>です。
+  Class Typeのフィールドの値の取得は、オブジェクトに保存されているフィールドの値を返します。これは<a href="#language-expression">式</a>です。
 </p>
 <p>
   返される値の型は、フィールドの型です。
 </p>
 <p>
-  <b>クラス型のフィールドの値の取得のExample</b>
+  <b>Class Typeのフィールドの値の取得のExample</b>
 </p>
 <p>
-  クラス型のフィールドの値の取得のExampleです。
+  Class Typeのフィールドの値の取得のExampleです。
 </p>
 <pre>
 my $point = Point->new;
 my $x = $point->{x};
 </pre>
 
-<h3 id="language-expression-set-field-class">クラス型のフィールドの値の設定</h3>
+<h3 id="language-expression-set-field-class">Class Typeのフィールドの値の設定</h3>
 <p>
-  クラス型のフィールドの値の設定は、次のように記述します。
+  Class Typeのフィールドの値の設定は、次のように記述します。
 </p>
 <pre>
 インボカント式->{Field Name} = 右式
 </pre>
 <p>
-  インボカント式は、<a href="#language-type-class">クラス型</a>の値でなければなりません。インボカント式が、<a href="#language-type-multi-numeric">複数数値型</a>の値であった場合は、<a href="#language-expression-get-field-multi-numeric">複数数値型のフィールドの値の設定</a>になり、<a href="#language-type-ref-multi-numeric">複数数値のリファレンス型</a>の値であった場合は、<a href="#language-expression-get-field-multi-numeric-deref">デリファレンスによる複数数値型のフィールドの設定</a>になり、それ以外の場合は、コンパイル時エラーが発生します。
+  インボカント式は、<a href="#language-type-class">Class Type</a>の値でなければなりません。インボカント式が、<a href="#language-type-multi-numeric">Multi Numeric Type</a>の値であった場合は、<a href="#language-expression-get-field-multi-numeric">Multi Numeric Typeのフィールドの値の設定</a>になり、<a href="#language-type-ref-multi-numeric">複数数値のリファレンス型</a>の値であった場合は、<a href="#language-expression-get-field-multi-numeric-deref">デリファレンスによるMulti Numeric Typeのフィールドの設定</a>になり、それ以外の場合は、コンパイル時エラーが発生します。
 </p>
 <p>
   Field Nameが、存在しない場合は、コンパイル時エラーが発生します。
@@ -3380,7 +3374,7 @@ my $x = $point->{x};
   右式の型は、フィールドの型と同じでなければなりません。そうでない場合は、コンパイル時エラーが発生します。
 </p>
 <p>
-  クラス型のフィールドの値の設定は、設定後のオブジェクトに保存されているフィールドの値を返します。これは<a href="#language-expression">式</a>です。
+  Class Typeのフィールドの値の設定は、設定後のオブジェクトに保存されているフィールドの値を返します。これは<a href="#language-expression">式</a>です。
 </p>
 <p>
   返される値の型は、フィールドの型です。
@@ -3392,55 +3386,55 @@ my $x = $point->{x};
   代入前に、すでにフィールドにオブジェクトが代入されていた場合は、そのオブジェクトのリファレンスカウントが1減らされます。
 </p>
 <p>
-  <b>クラス型のフィールドの値の設定のExample</b>
+  <b>Class Typeのフィールドの値の設定のExample</b>
 </p>
 <p>
-  クラス型のフィールドの値の設定のExampleです。
+  Class Typeのフィールドの値の設定のExampleです。
 </p>
 <pre>
 my $point = Point->new;
 $point->{x} = 1;
 </pre>
 
-<h3 id="language-expression-get-field-multi-numeric">複数数値型のフィールドの値の取得</h3>
+<h3 id="language-expression-get-field-multi-numeric">Multi Numeric Typeのフィールドの値の取得</h3>
 <p>
-  複数数値型のフィールドの値の取得は、次のように記述します。
+  Multi Numeric Typeのフィールドの値の取得は、次のように記述します。
 </p>
 <pre>
 インボカント式->{Field Name}
 </pre>
 <p>
-  インボカント式は、<a href="#language-type-class">複数数値型</a>の値でなければなりません。インボカント式が、<a href="#language-type-class">クラス型</a>の値であった場合は、<a href="#language-expression-get-field-class">クラス型のフィールドの値の取得</a>になり、<a href="#language-type-ref-multi-numeric">複数数値のリファレンス型</a>の値であった場合は、<a href="#language-expression-get-field-multi-numeric-deref">デリファレンスによる複数数値型のフィールドの取得</a>になり、それ以外の場合は、コンパイル時エラーが発生します。
+  インボカント式は、<a href="#language-type-class">Multi Numeric Type</a>の値でなければなりません。インボカント式が、<a href="#language-type-class">Class Type</a>の値であった場合は、<a href="#language-expression-get-field-class">Class Typeのフィールドの値の取得</a>になり、<a href="#language-type-ref-multi-numeric">複数数値のリファレンス型</a>の値であった場合は、<a href="#language-expression-get-field-multi-numeric-deref">デリファレンスによるMulti Numeric Typeのフィールドの取得</a>になり、それ以外の場合は、コンパイル時エラーが発生します。
 </p>
 <p>
   Field Nameが、存在しない場合は、コンパイル時エラーが発生します。
 </p>
 <p>
-  複数数値型のフィールドの値の取得は、<a href="#language-sub-stack">サブルーチンのコールスタック</a>に保存されている該当するフィールドの値を返します。これは<a href="#language-expression">式</a>です。
+  Multi Numeric Typeのフィールドの値の取得は、<a href="#language-sub-stack">サブルーチンのコールスタック</a>に保存されている該当するフィールドの値を返します。これは<a href="#language-expression">式</a>です。
 </p>
 <p>
   返される値の型は、フィールドの型です。
 </p>
 <p>
-  <b>複数数値型のフィールドの値の取得のExample</b>
+  <b>Multi Numeric Typeのフィールドの値の取得のExample</b>
 </p>
 <p>
-  複数数値型のフィールドの値の取得のExampleです。
+  Multi Numeric Typeのフィールドの値の取得のExampleです。
 </p>
 <pre>
 my $z : SPVM::Complex_2d;
 my $re = $z->{re};
 </pre>
 
-<h3 id="language-expression-set-field-multi-numeric">複数数値型のフィールドの値の設定</h3>
+<h3 id="language-expression-set-field-multi-numeric">Multi Numeric Typeのフィールドの値の設定</h3>
 <p>
-  複数数値型のフィールドの値の設定は、次のように記述します。
+  Multi Numeric Typeのフィールドの値の設定は、次のように記述します。
 </p>
 <pre>
 インボカント式->{Field Name} = 右式
 </pre>
 <p>
-  インボカント式は、<a href="#language-type-class">複数数値型</a>の値でなければなりません。インボカント式が、<a href="#language-type-class">クラス型</a>の値であった場合は、<a href="#language-expression-set-field-class">クラス型のフィールドの値の設定</a>になり、<a href="#language-type-ref-multi-numeric">複数数値のリファレンス型</a>の値であった場合は、<a href="#language-expression-set-field-multi-numeric-deref">デリファレンスによる複数数値型のフィールドの設定</a>になり、それ以外の場合は、コンパイル時エラーが発生します。
+  インボカント式は、<a href="#language-type-class">Multi Numeric Type</a>の値でなければなりません。インボカント式が、<a href="#language-type-class">Class Type</a>の値であった場合は、<a href="#language-expression-set-field-class">Class Typeのフィールドの値の設定</a>になり、<a href="#language-type-ref-multi-numeric">複数数値のリファレンス型</a>の値であった場合は、<a href="#language-expression-set-field-multi-numeric-deref">デリファレンスによるMulti Numeric Typeのフィールドの設定</a>になり、それ以外の場合は、コンパイル時エラーが発生します。
 </p>
 <p>
   Field Nameが、存在しない場合は、コンパイル時エラーが発生します。
@@ -3449,46 +3443,46 @@ my $re = $z->{re};
   右式の型は、フィールドの型と同じでなければなりません。そうでない場合は、コンパイル時エラーが発生します。
 </p>
 <p>
-  複数数値型のフィールドの値の設定は、設定後の<a href="#language-sub-stack">サブルーチンのコールスタック</a>に保存されている該当するフィールドの値を返します。これは<a href="#language-expression">式</a>です。
+  Multi Numeric Typeのフィールドの値の設定は、設定後の<a href="#language-sub-stack">サブルーチンのコールスタック</a>に保存されている該当するフィールドの値を返します。これは<a href="#language-expression">式</a>です。
 </p>
 <p>
   返される値の型は、フィールドの型です。
 </p>
 <p>
-  <b>複数数値型のフィールドの値の設定のExample</b>
+  <b>Multi Numeric Typeのフィールドの値の設定のExample</b>
 </p>
 <p>
-  複数数値型のフィールドの値の設定のExampleです。
+  Multi Numeric Typeのフィールドの値の設定のExampleです。
 </p>
 <pre>
 my $z : SPVM::Complex_2d;
 $z->{re} = 2.5;
 </pre>
 
-<h3 id="language-expression-get-field-multi-numeric-deref">デリファレンスによる複数数値型のフィールドの値の取得</h3>
+<h3 id="language-expression-get-field-multi-numeric-deref">デリファレンスによるMulti Numeric Typeのフィールドの値の取得</h3>
 <p>
-  デリファレンスによる複数数値型のフィールドの値の取得は、次のように記述します。
+  デリファレンスによるMulti Numeric Typeのフィールドの値の取得は、次のように記述します。
 </p>
 <pre>
 インボカント式->{Field Name}
 </pre>
 <p>
-  インボカント式は、<a href="#language-type-ref-multi-numeric">複数数値のリファレンス型</a>の値でなければなりません。インボカント式が、<a href="#language-type-class">クラス型</a>の値であった場合は、<a href="#language-expression-get-field-class">クラス型のフィールドの値の取得</a>になり、<a href="#language-type-multi-numeric">複数数値型</a>の値であった場合は、<a href="#language-expression-get-field-multi-numeric">複数数値型のフィールドの値の取得</a>になり、それ以外の場合は、コンパイル時エラーが発生します。
+  インボカント式は、<a href="#language-type-ref-multi-numeric">複数数値のリファレンス型</a>の値でなければなりません。インボカント式が、<a href="#language-type-class">Class Type</a>の値であった場合は、<a href="#language-expression-get-field-class">Class Typeのフィールドの値の取得</a>になり、<a href="#language-type-multi-numeric">Multi Numeric Type</a>の値であった場合は、<a href="#language-expression-get-field-multi-numeric">Multi Numeric Typeのフィールドの値の取得</a>になり、それ以外の場合は、コンパイル時エラーが発生します。
 </p>
 <p>
   Field Nameが、存在しない場合は、コンパイル時エラーが発生します。
 </p>
 <p>
-  デリファレンスによる複数数値型のフィールドの値の取得は、<a href="#language-sub-stack">サブルーチンのコールスタック</a>に保存されている該当するフィールドの値を返します。これは<a href="#language-expression">式</a>です。
+  デリファレンスによるMulti Numeric Typeのフィールドの値の取得は、<a href="#language-sub-stack">サブルーチンのコールスタック</a>に保存されている該当するフィールドの値を返します。これは<a href="#language-expression">式</a>です。
 </p>
 <p>
   返される値の型は、フィールドの型です。
 </p>
 <p>
-  <b>デリファレンスによる複数数値型のフィールドの値の取得のExample</b>
+  <b>デリファレンスによるMulti Numeric Typeのフィールドの値の取得のExample</b>
 </p>
 <p>
-  デリファレンスによる複数数値型のフィールドの値の取得のExampleです。
+  デリファレンスによるMulti Numeric Typeのフィールドの値の取得のExampleです。
 </p>
 <pre>
 my $z : SPVM::Complex_2d;
@@ -3496,15 +3490,15 @@ my $z_ref = \$z;
 my $re = $z_ref->{re};
 </pre>
 
-<h3 id="language-expression-set-field-multi-numeric-deref">デリファレンスによる複数数値型のフィールドの値の設定</h3>
+<h3 id="language-expression-set-field-multi-numeric-deref">デリファレンスによるMulti Numeric Typeのフィールドの値の設定</h3>
 <p>
-  デリファレンスによる複数数値型のフィールドの値の設定は、次のように記述します。
+  デリファレンスによるMulti Numeric Typeのフィールドの値の設定は、次のように記述します。
 </p>
 <pre>
 インボカント式->{Field Name} = 右式
 </pre>
 <p>
-  インボカント式は、<a href="#language-type-ref-multi-numeric">複数数値のリファレンス型</a>の値でなければなりません。インボカント式が、<a href="#language-type-class">クラス型</a>の値であった場合は、<a href="#language-expression-set-field-class">クラス型のフィールドの値の設定</a>になり、<a href="#language-type-multi-numeric">複数数値型</a>の値であった場合は、<a href="#language-expression-set-field-multi-numeric">複数数値型のフィールドの値の設定</a>になり、それ以外の場合は、コンパイル時エラーが発生します。
+  インボカント式は、<a href="#language-type-ref-multi-numeric">複数数値のリファレンス型</a>の値でなければなりません。インボカント式が、<a href="#language-type-class">Class Type</a>の値であった場合は、<a href="#language-expression-set-field-class">Class Typeのフィールドの値の設定</a>になり、<a href="#language-type-multi-numeric">Multi Numeric Type</a>の値であった場合は、<a href="#language-expression-set-field-multi-numeric">Multi Numeric Typeのフィールドの値の設定</a>になり、それ以外の場合は、コンパイル時エラーが発生します。
 </p>
 <p>
   Field Nameが、存在しない場合は、コンパイル時エラーが発生します。
@@ -3513,16 +3507,16 @@ my $re = $z_ref->{re};
   右式の型は、フィールドの型と同じでなければなりません。そうでない場合は、コンパイル時エラーが発生します。
 </p>
 <p>
-  デリファレンスによる複数数値型のフィールドの値の設定は、設定後の<a href="#language-sub-stack">サブルーチンのコールスタック</a>に保存されている該当するフィールドの値を返します。これは<a href="#language-expression">式</a>です。
+  デリファレンスによるMulti Numeric Typeのフィールドの値の設定は、設定後の<a href="#language-sub-stack">サブルーチンのコールスタック</a>に保存されている該当するフィールドの値を返します。これは<a href="#language-expression">式</a>です。
 </p>
 <p>
   返される値の型は、フィールドの型です。
 </p>
 <p>
-  <b>デリファレンスによる複数数値型のフィールドの値の設定のExample</b>
+  <b>デリファレンスによるMulti Numeric Typeのフィールドの値の設定のExample</b>
 </p>
 <p>
-  デリファレンスによる複数数値型のフィールドの値の設定のExampleです。
+  デリファレンスによるMulti Numeric Typeのフィールドの値の設定のExampleです。
 </p>
 <pre>
 my $z : SPVM::Complex_2d;
@@ -3622,10 +3616,10 @@ $objects->[2] = Point->new(3, 5);;
   オブジェクトを生成するには、newKeyword とthe following syntax をを使用します。
 </p>
 <pre>
-my $object = new Package Name;
+my $object = new PACKAGE_NAME;
 </pre>
 <p>
-  指定されたパッケージは、<a href="#language-type-class">クラス型</a>でなければなりません。そうでない場合は、コンパイル時エラーが発生します。
+  指定されたPackage は、<a href="#language-type-class">Class Type</a>でなければなりません。そうでない場合は、コンパイル時エラーが発生します。
 </p>
 <p>
   フィールドは、すべて<a href="language-type-initial-value">型の初期値</a>で初期化されます。
@@ -3660,7 +3654,7 @@ my $object = new Foo;
 my $object = new 型[要素数式];
 </pre>
 <p>
-  型には、<a href="#language-type-numeric">数値型</a>、<a href="#language-type-object">オブジェクト型</a>、<a href="#language-type-multi-numeric">複数数値型</a>が指定できます。それ以外の型を指定した場合は、コンパイル時エラーが発生します。
+  型には、<a href="#language-type-numeric">数値型</a>、<a href="#language-type-object">オブジェクト型</a>、<a href="#language-type-multi-numeric">Multi Numeric Type</a>が指定できます。それ以外の型を指定した場合は、コンパイル時エラーが発生します。
 </p>
 <p>
   要素数式は、int型the following <a href="#language-type-numeric">数値型</a>でなければなりません。そうでない場合は、コンパイル時エラーが発生します。
@@ -3755,13 +3749,13 @@ Package Name->Subroutine Name(引数1, 引数2, 引数3, ..., 引数n);
 Subroutine Name(引数1, 引数2, 引数3, ..., 引数n);
 </pre>
 <p>
-  どのパッケージのサブルーチンが呼び出されるかは、the following 順番によって決まります。
+  どのPackage サブルーチンが呼び出されるかは、the following 順番によって決まります。
 </p>
 <p>
-  1. 現在のパッケージで定義されているサブルーチン、または現在のパッケージにインポートされたサブルーチン
+  1. 現在のPackage で定義されているサブルーチン、または現在のPackage にインポートされたサブルーチン
 </p>
 <p>
-  2. 標準関数 - COREパッケージで定義されているサブルーチン
+  2. 標準関数 - COREPackage で定義されているサブルーチン
 </p>
 
 <p>
@@ -3974,7 +3968,7 @@ my $line == __LINE__;
   オブジェクトが、オブジェクト型の値を要素として持つ配列だった場合は、オブジェクトの解放の前に、未定義値ではないすべての配列の要素のリファレンスカウントが1減らされます
 </p>
 <p>
-  オブジェクトが、クラス型で、オブジェクト型のフィールドを持つときは、オブジェクトの解放の前に、未定義値ではないすべてのオブジェクト型のフィールドが所有するオブジェクトのリファレンスカウントが1減らされます。フィールドに保存されているオブジェクトにウィークリファレンスが設定されていた場合は、リファレンスカウントが1減らされる前に、ウィークリファレンスが解除されます。
+  オブジェクトが、Class Typeで、オブジェクト型のフィールドを持つときは、オブジェクトの解放の前に、未定義値ではないすべてのオブジェクト型のフィールドが所有するオブジェクトのリファレンスカウントが1減らされます。フィールドに保存されているオブジェクトにウィークリファレンスが設定されていた場合は、リファレンスカウントが1減らされる前に、ウィークリファレンスが解除されます。
 </p>
 <p>
   オブジェクトがウィークリファレンスのバックリファレンスを持つときは、バックリファレンスとして登録されているフィールドすべてに、未定義値を代入し、バックリファレンスをすべて削除します。
@@ -4537,7 +4531,7 @@ my $line == __LINE__;
 
 <h3 id="language-literal-string-variable-expansion">変数展開</h2>
 <p>
-  文字列Literal 中のレキシカル変数、パッケージ変数、デリファレンス、フィールドアクセス、定数の添え字の配列アクセス、例外変数の場合は、変数展開が行われます。
+  文字列Literal 中のレキシカル変数、Package Variable 、デリファレンス、フィールドアクセス、定数の添え字の配列アクセス、例外変数の場合は、変数展開が行われます。
 </p>
 <pre>
 "AAA $foo BBB"
@@ -4993,20 +4987,20 @@ x % y;
 <pre>
 # 前置のインクリメント
 ++レキシカル変数
-++パッケージ変数
+++Package Variable 
 ++フィールドへのアクセス
 ++配列へのアクセス
 ++デリファレンス
 
 # 後置のインクリメント
 レキシカル変数++
-パッケージ変数++
+Package Variable ++
 フィールドへのアクセス++
 配列へのアクセス++
 デリファレンス++
 </pre>
 <p>
-  インクリメントOperator の対象は、<a href="#language-lex-var">レキシカル変数</a>、<a href="#language-package-var">パッケージ変数</a>、<a href="#language-field-access">フィールドへのアクセス</a>、<a href="#language-array-access">配列へのアクセス</a>、<a href="#language-deref">デリファレンス</a>でなければなりません。そうでない場合は、コンパイル時エラーが発生します。
+  インクリメントOperator の対象は、<a href="#language-lex-var">レキシカル変数</a>、<a href="#language-package-var">Package Variable </a>、<a href="#language-field-access">フィールドへのアクセス</a>、<a href="#language-array-access">配列へのアクセス</a>、<a href="#language-deref">デリファレンス</a>でなければなりません。そうでない場合は、コンパイル時エラーが発生します。
 </p>
 <p>
   インクリメントOperator の対象の型は、<a href="#language-type-numeric">数値型</a>でなければなりません。そうでない場合は、コンパイルエラーが発生します。
@@ -5057,20 +5051,20 @@ x % y;
 <pre>
 # 前置のデクリメント
 --レキシカル変数
---パッケージ変数
+--Package Variable 
 --フィールドへのアクセス
 --配列へのアクセス
 --デリファレンス
 
 # 後置のデクリメント
 レキシカル変数--
-パッケージ変数--
+Package Variable --
 フィールドへのアクセス--
 配列へのアクセス--
 デリファレンス--
 </pre>
 <p>
-  デクリメントOperator の対象は、<a href="#language-lex-var">レキシカル変数</a>、<a href="#language-package-var">パッケージ変数</a>、<a href="#language-field-access">フィールドへのアクセス</a>、<a href="#language-array-access">配列へのアクセス</a>、<a href="#language-deref">デリファレンス</a>でなければなりません。そうでない場合は、コンパイル時エラーが発生します。
+  デクリメントOperator の対象は、<a href="#language-lex-var">レキシカル変数</a>、<a href="#language-package-var">Package Variable </a>、<a href="#language-field-access">フィールドへのアクセス</a>、<a href="#language-array-access">配列へのアクセス</a>、<a href="#language-deref">デリファレンス</a>でなければなりません。そうでない場合は、コンパイル時エラーが発生します。
 </p>
 <p>
   デクリメントOperator の対象の型は、<a href="#language-type-numeric">数値型</a>でなければなりません。そうでない場合は、コンパイルエラーが発生します。
@@ -5508,13 +5502,13 @@ x >> y;
   isaOperator は、右型に応じて、3種類の動作をします。
 </p>
 <p>
-  1. 右型が、<a href="#language-type-numeric">数値型</a>、<a href="#language-type-multi-numeric">複数数値型</a>、<a href="#language-type-any-object">汎用オブジェクト型</a>、<a href="#language-type-ref">リファレンス型</a>の場合は、コンパイル時に左式の型が右型と同一のものであるかをチェックします。同一であった場合はint型で1を、そうでない場合は0を返します。
+  1. 右型が、<a href="#language-type-numeric">数値型</a>、<a href="#language-type-multi-numeric">Multi Numeric Type</a>、<a href="#language-type-any-object">汎用オブジェクト型</a>、<a href="#language-type-ref">リファレンス型</a>の場合は、コンパイル時に左式の型が右型と同一のものであるかをチェックします。同一であった場合はint型で1を、そうでない場合は0を返します。
 </p>
 <p>
-  2. 右型が、<a href="#language-type-class">クラス型</a>であった場合は、実行時に左式の型が、クラス型と一致するかをチェックします。一致した場合はint型で1を、そうでない場合は0を返します。左式の型は、オブジェクト型でなければなりません。そうでない場合は、コンパイル時エラーが発生します。
+  2. 右型が、<a href="#language-type-class">Class Type</a>であった場合は、実行時に左式の型が、Class Typeと一致するかをチェックします。一致した場合はint型で1を、そうでない場合は0を返します。左式の型は、オブジェクト型でなければなりません。そうでない場合は、コンパイル時エラーが発生します。
 </p>
 <p>
-  3. 右型が、<a href="#language-type-callback">コールバック型</a>であった場合は、実行時に左式の型がクラス型であり、そのクラスがコールバック型を満たすかどうかをチェックします。満たした場合はint型の1を、そうでない場合は0を返します。左式の型は、オブジェクト型でなければなりません。そうでない場合は、コンパイル時エラーが発生します。
+  3. 右型が、<a href="#language-type-callback">Callback Type</a>であった場合は、実行時に左式の型がClass Typeであり、そのクラスがCallback Typeを満たすかどうかをチェックします。満たした場合はint型の1を、そうでない場合は0を返します。左式の型は、オブジェクト型でなければなりません。そうでない場合は、コンパイル時エラーが発生します。
 </p>
 
 <h3 id="language-operator-logical">論理Operator </h3>
@@ -5753,13 +5747,13 @@ $x >>>= 1;
 </pre>
 <h3 id="language-operator-ref">リファレンスOperator </h3>
 <p>
-  リファレンスOperator は、<a href="#language-type-numeric">数値型</a>または<a href="#language-type-multi-numeric">複数数値型</a>の変数のアドレスを取得するOperator です。C言語のアドレスOperator "&"を実現するために設計されました。
+  リファレンスOperator は、<a href="#language-type-numeric">数値型</a>または<a href="#language-type-multi-numeric">Multi Numeric Type</a>の変数のアドレスを取得するOperator です。C言語のアドレスOperator "&"を実現するために設計されました。
 </p>
 <pre>
 \変数
 </pre>
 <p>
-  変数が数値型または複数数値型でなかった場合は、コンパイル時エラーが発生します。
+  変数が数値型またはMulti Numeric Typeでなかった場合は、コンパイル時エラーが発生します。
 </p>
 <p>
   リファレンスOperator は式を返します。返される型は、<a href="#language-type-ref">リファレンス型</a>です。
@@ -5867,7 +5861,7 @@ foo(scalar @$nums);
 isweak 変数->{Field Name};
 </pre>
 <p>
-  オブジェクト式の型は、<a href="#language-type-class">クラス型</a>でなければなりません。そうでない場合は、コンパイル時エラーが発生します。
+  オブジェクト式の型は、<a href="#language-type-class">Class Type</a>でなければなりません。そうでない場合は、コンパイル時エラーが発生します。
 </p>
 <p>
   Field Nameは、存在するField Nameでなければなりません。そうでない場合は、コンパイル時エラーが発生します。
@@ -6528,7 +6522,7 @@ die 式;
 weaken 変数->{Field Name};
 </pre>
 <p>
-  オブジェクト式の型は、<a href="#language-type-class">クラス型</a>でなければなりません。そうでない場合は、コンパイル時エラーが発生します。
+  オブジェクト式の型は、<a href="#language-type-class">Class Type</a>でなければなりません。そうでない場合は、コンパイル時エラーが発生します。
 </p>
 <p>
   Field Nameは、存在するField Nameでなければなりません。そうでない場合は、コンパイル時エラーが発生します。
@@ -6590,7 +6584,7 @@ weaken $baz->{foo};
 unweaken 変数->{Field Name};
 </pre>
 <p>
-  オブジェクト式の型は、<a href="#language-type-class">クラス型</a>でなければなりません。そうでない場合は、コンパイル時エラーが発生します。
+  オブジェクト式の型は、<a href="#language-type-class">Class Type</a>でなければなりません。そうでない場合は、コンパイル時エラーが発生します。
 </p>
 <p>
   Field Nameは、存在するField Nameでなければなりません。そうでない場合は、コンパイル時エラーが発生します。
@@ -6688,12 +6682,12 @@ my $num = 1 + 2;
   <li><a href="#language-type-floating-point">浮動小数点型</a></li>
   <li><a href="#language-type-float">float型</a></li>
   <li><a href="#language-type-double">double型</a></li>
-  <li><a href="#language-type-package">パッケージ型</a></li>
+  <li><a href="#language-type-package">Package 型</a></li>
   <li><a href="#language-type-object">オブジェクト型</a></li>
   <li><a href="#language-type-numeric-object">数値オブジェクト型</a></li>
   <li><a href="#language-type-undef">未定義型</a></li>
-  <li><a href="#language-type-class">クラス型</a></li>
-  <li><a href="#language-type-callback">コールバック型</a></li>
+  <li><a href="#language-type-class">Class Type</a></li>
+  <li><a href="#language-type-callback">Callback Type</a></li>
   <li><a href="#language-type-any-object">汎用オブジェクト型</a></li>
   <li><a href="#language-type-self">self型</a></li>
   <li><a href="#language-type-array">配列型</a></li>
@@ -6704,7 +6698,7 @@ my $num = 1 + 2;
   <li><a href="#language-type-any-object-array">汎用オブジェクト配列型</a></li>
   <li><a href="#language-type-string">文字列型</a></li>
   <li><a href="#language-type-string-compatible">文字列互換型</a></li>
-  <li><a href="#language-type-multi-numeric">複数数値型</a></li>
+  <li><a href="#language-type-multi-numeric">Multi Numeric Type</a></li>
   <li><a href="#language-type-ref">リファレンス型</a></li>
   <li><a href="#language-type-ref-numeric">数値のリファレンス型</a></li>
   <li><a href="#language-type-ref-multi-numeric">複数数値のリファレンス型</a></li>
@@ -6714,14 +6708,14 @@ my $num = 1 + 2;
   SPVMは、静的型言語です。すべてのデータは静的な型を持ちます。
 </p>
 <p>
-  レキシカル変数の宣言、フィールドの定義、パッケージ変数の定義、サブルーチンの定義の引数と戻り値において、型が指定される必要があります。
+  レキシカル変数の宣言、フィールドの定義、Package Variable の定義、サブルーチンの定義の引数と戻り値において、型が指定される必要があります。
 </p>
 <p>
   レキシカル変数の宣言においては、型推論を利用して、暗黙的に型を指定することもできます。
 </p>
 <h3 id="language-type-initial-value">型の初期値</h2>
 <p>
-  レキシカル変数の初期値、<a href="#language-package-var-initial-value">パッケージ変数の初期値</a>、オブジェクトの生成におけるフィールドの初期値は、型の初期値によって決まります。
+  レキシカル変数の初期値、<a href="#language-package-var-initial-value">Package Variable の初期値</a>、オブジェクトの生成におけるフィールドの初期値は、型の初期値によって決まります。
 </p>
 <p>
   型の初期化値の一覧です。データにおけるすべてのBit 列は0に設定されます。
@@ -6794,7 +6788,7 @@ my $num = 1 + 2;
   </tr>
   <tr>
     <td>
-      <b>複数数値型</b>
+      <b>Multi Numeric Type</b>
     </td>
     <td>
       すべてのフィールドが0
@@ -6944,9 +6938,9 @@ my $num = 1 + 2;
   double型は、倍精度浮動小数点(64bit)を表現する<a href="#language-type-floating-point">浮動小数点型</a>です。C99のdouble型と同じ型です。
 </p>
 
-<h3 id="language-type-package">パッケージ型</h3>
+<h3 id="language-type-package">Package 型</h3>
 <p>
-  パッケージ型とは"<a href="#language-package-definition">パッケージの定義</a>"によって定義される型のことをいいます。
+  Package 型とは"<a href="#language-package-definition">Package Definition</a>"によって定義される型のことをいいます。
 </p>
 <pre>
 package Foo {
@@ -6954,29 +6948,29 @@ package Foo {
 }
 </pre>
 <p>
-  パッケージ型は"<a href="#language-type-class">クラス型</a>""<a href="#language-type-callback">コールバック型</a>""<a href="#language-type-multi-numeric">複数数値型</a>"からなります。
+  Package 型は"<a href="#language-type-class">Class Type</a>""<a href="#language-type-callback">Callback Type</a>""<a href="#language-type-multi-numeric">Multi Numeric Type</a>"からなります。
 </p>
 <pre>
-# クラス型
+# Class Type
 package Foo {
 
 }
 
-# コールバック型
+# Callback Type
 package Foo : callback_t {
 
 }
 
-# 複数数値型
+# Multi Numeric Type
 package Foo : mulnum_t {
 
 }
 </pre>
 <p>
-  <a href="#language-type-pointer">ポインタ型</a>は、クラス型でもあるので、ポインタ型もパッケージ型になります。
+  <a href="#language-type-pointer">Pointer Type</a>は、Class Typeでもあるので、Pointer TypeもPackage 型になります。
 </p>
 <pre>
-# ポインタ型
+# Pointer Type
 package Foo : pointer_t {
 
 }
@@ -6984,7 +6978,7 @@ package Foo : pointer_t {
 
 <h3 id="language-type-object">オブジェクト型</h3>
 <p>
-  オブジェクト型とは"<a href="#language-type-class">クラス型</a>""<a href="#language-type-callback">コールバック型</a>""<a href="#language-type-array">配列型</a>""<a href="#language-type-string">文字列型</a>""<a href="#language-type-any-object">汎用オブジェクト型</a>"を合わせたものをいいます。"複数数値型""リファレンス型"は含みません。
+  オブジェクト型とは"<a href="#language-type-class">Class Type</a>""<a href="#language-type-callback">Callback Type</a>""<a href="#language-type-array">配列型</a>""<a href="#language-type-string">文字列型</a>""<a href="#language-type-any-object">汎用オブジェクト型</a>"を合わせたものをいいます。"Multi Numeric Type""リファレンス型"は含みません。
 </p>
 <p>
   オブジェクト型の値は"汎用オブジェクト型"に代入できます。
@@ -7072,9 +7066,9 @@ my $object : object = "abc";
   未定義型の値は、オブジェクト型に代入できます。他の型に代入した場合は、コンパイル時エラーが発生します。
 </p>
 
-<h3 id="language-type-class">クラス型</h3>
+<h3 id="language-type-class">Class Type</h3>
 <p>
-  クラス型とは"<a href="#language-package-definition">パッケージの定義</a>"によって定義される型で"複数数値型""コールバック型"ではない型のことをいいます。
+  Class Typeとは"<a href="#language-package-definition">Package Definition</a>"によって定義される型で"Multi Numeric Type""Callback Type"ではない型のことをいいます。
 </p>
 <pre>
 packag Foo {
@@ -7082,24 +7076,24 @@ packag Foo {
 }
 </pre>
 <p>
-  クラス型はnewOperator によって、オブジェクトを生成することができます。
+  Class TypeはnewOperator によって、オブジェクトを生成することができます。
 </p>
 <pre>
 my $foo = new Foo;
 </pre>
 <p>
-  クラス型は<a href="#language-type-object">オブジェクト型</a>です。
+  Class Typeは<a href="#language-type-object">オブジェクト型</a>です。
 </p>
 <p>
-  クラス型は<a href="#language-type-package">パッケージ型</a>です。
+  Class Typeは<a href="#language-type-package">Package 型</a>です。
 </p>
 <p>
-  "<a href="#language-type-pointer">ポインタ型</a>はクラス型です。
+  "<a href="#language-type-pointer">Pointer Type</a>はClass Typeです。
 </p>
 
-<h3 id="language-type-pointer">ポインタ型</h3>
+<h3 id="language-type-pointer">Pointer Type</h3>
 <p>
-  ポインタ型とは"<a href="#language-package-definition">パッケージの定義</a>"において"pointer_t Descriptor"が指定されたものをいいます。
+  Pointer Typeとは"<a href="#language-package-definition">Package Definition</a>"において"pointer_t Descriptor"が指定されたものをいいます。
 </p>
 <pre>
 package Foo : pointer_t {
@@ -7107,17 +7101,17 @@ package Foo : pointer_t {
 }
 </pre>
 <p>
-  ポインタ型は、クラス型の一種です。
+  Pointer Typeは、Class Typeの一種です。
 </p>
 <p>
-  ポインタ型のデータには、C言語のポインタを保存することができます。
+  Pointer Typeのデータには、C言語のポインタを保存することができます。
 </p>
 <p>
-  ポインタ型には、フィールドを定義することはできません。定義されていた場合は、コンパイル時エラーが発生します。
+  Pointer Typeには、フィールドを定義することはできません。定義されていた場合は、コンパイル時エラーが発生します。
 </p>
-<h3 id="language-type-callback">コールバック型</h3>
+<h3 id="language-type-callback">Callback Type</h3>
 <p>
-  コールバック型とは"<a href="#language-package-definition">パッケージの定義</a>"において"callback_t Descriptor"が指定されたものをいいます。
+  Callback Typeとは"<a href="#language-package-definition">Package Definition</a>"において"callback_t Descriptor"が指定されたものをいいます。
 </p>
 <pre>
 package SPVM::Comparator : callback_t {
@@ -7125,34 +7119,34 @@ sub : int ($self : self, $x1 : object, $x2 : object);
 }
 </pre>
 <p>
-  コールバック型は、C言語における関数ポインタに該当する機能を提供するために設計されました。
+  Callback Typeは、C言語における関数ポインタに該当する機能を提供するために設計されました。
 </p>
 <p>
-  コールバック型は、サブルーチンの定義を一つだけ持ちます。サブルーチンは、<a href="#language-sub-method">メソッド</a>でなければなりません。
+  Callback Typeは、サブルーチンの定義を一つだけ持ちます。サブルーチンは、<a href="#language-sub-method">メソッド</a>でなければなりません。
 </p>
 <p>
-  コールバック型のSubroutine Nameは、無名でなければなりません。
+  Callback TypeのSubroutine Nameは、無名でなければなりません。
 </p>
 <p>
-  コールバック型は"<a href="#language-field-definition">フィールドの定義</a>""<a href="#language-package-var-definition">パッケージ変数の定義</a>"を持つことはできません。
+  Callback Typeは"<a href="#language-field-definition">フィールドの定義</a>""<a href="#language-package-var-definition">Package Variable の定義</a>"を持つことはできません。
 </p>
 <p>
-  コールバック型の値を、newOperator によって実体化することはできません。
+  Callback Typeの値を、newOperator によって実体化することはできません。
 </p>
 <p>
-  コールバック型は"パッケージ型"です。
+  Callback Typeは"Package 型"です。
 </p>
 <p>
-  コールバック型は"オブジェクト型"です。
+  Callback Typeは"オブジェクト型"です。
 </p>
 <p>
-  コールバック型には、コールバックを満たしたクラス型のオブジェクトを代入できます。この場合、クラス型はコールバック型に適合するといいます。クラス型がコールバック型を満たすのは次の二つの場合です。
+  Callback Typeには、コールバックを満たしたClass Typeのオブジェクトを代入できます。この場合、Class TypeはCallback Typeに適合するといいます。Class TypeがCallback Typeを満たすのは次の二つの場合です。
 </p>
 <p>
-  1. コールバック型として定義されたサブルーチンと同一の名前とシグネチャを持つクラス型のオブジェクトは、コールバック型に代入できます。
+  1. Callback Typeとして定義されたサブルーチンと同一の名前とシグネチャを持つClass Typeのオブジェクトは、Callback Typeに代入できます。
 </p>
 <pre>
-# コールバック型の定義
+# Callback Typeの定義
 package SPVM::Comparator : callback_t {
 sub : int ($self : self, $x1 : object, $x2 : object);
 }
@@ -7168,19 +7162,19 @@ sub : int ($self : self, $x1 : object, $x2 : object) {
 }
 }
 
-# コールバック型への代入
+# Callback Typeへの代入
 my $comparator : SPVM::Comparator = SomeComparator->new;
 </pre>
 <p>
-  2. コールバック型として定義されたサブルーチンと同一のシグネチャを持つコールバックオブジェクトの生成を行うと、コールバック型に代入できます。
+  2. Callback Typeとして定義されたサブルーチンと同一のシグネチャを持つコールバックオブジェクトの生成を行うと、Callback Typeに代入できます。
 </p>
 <pre>
-# コールバック型の定義
+# Callback Typeの定義
 package SPVM::Comparator : callback_t {
 sub : int ($self : self, $x1 : object, $x2 : object);
 }
 
-# コールバック型への代入
+# Callback Typeへの代入
 my $comparator : SPVM::Comparator = sub : int ($self : self, $x1 : object, $x2 : object) {
 
 }
@@ -7204,7 +7198,7 @@ my $object : object = new Foo[3];
 
 <h3 id="language-type-self">self型</h3>
 <p>
-  self型とは、自身の属するパッケージ型を表現し、引数がインボカントであることを示します。
+  self型とは、自身の属するPackage 型を表現し、引数がインボカントであることを示します。
 </p>
 <p>
   <a href="#language-sub-definition">サブルーチンの定義</a>において第一引数の型としてのみ利用できます。
@@ -7217,7 +7211,7 @@ my $object : object = new Foo[3];
 
 <h3 id="language-type-basic">基本型</h3>
 <p>
-  次元を持たない型を基本型と呼びます。<a href="#language-type-numeric">数値型</a>、<a href="#language-type-package">パッケージ型</a>、<a href="#language-type-any-object">汎用オブジェクト型</a>、<a href="#language-type-string">文字列型</a>は、基本型です。
+  次元を持たない型を基本型と呼びます。<a href="#language-type-numeric">数値型</a>、<a href="#language-type-package">Package 型</a>、<a href="#language-type-any-object">汎用オブジェクト型</a>、<a href="#language-type-string">文字列型</a>は、基本型です。
 </p>
 
 <h3 id="language-type-array">配列型</h3>
@@ -7330,7 +7324,7 @@ byte[]
 
 <h3 id="language-type-array-value">値の配列型</h3>
 <p>
-  値の配列型とは、<a href="#language-type-multi-numeric">複数数値型</a>の値を要素に持つ<a href="#language-type-array">配列型</a>のことです。
+  値の配列型とは、<a href="#language-type-multi-numeric">Multi Numeric Type</a>の値を要素に持つ<a href="#language-type-array">配列型</a>のことです。
 </p>
 <p>
   <b>値の配列型のExample</b>
@@ -7344,7 +7338,7 @@ byte[]
   </li>
 </ul>
 <p>
-  値の配列型によって表現されるデータは、要素が<a href="#language-type-numeric">複数数値型</a>のサイズで、配列の長さの個数で連続していなければなりません。
+  値の配列型によって表現されるデータは、要素が<a href="#language-type-numeric">Multi Numeric Type</a>のサイズで、配列の長さの個数で連続していなければなりません。
 </p>
 <p>
   値の配列型のすべての要素は、配列の生成が行われたときに<a href="#language-type-initial-value">型の初期値</a>によって初期化されます。
@@ -7446,12 +7440,12 @@ $bytes->[1] = 'd';
   文字列互換型の値が生成される場合には、値のために確保されたメモリ領域の最後のひとつ後ろは"\0"になることが保証されます。(たとえば"abc"であれば"c"の後ろは"\0")SPVM言語から見た場合、この"\0"は意味を持ちませんが、ネイティブAPIを使う場合は、文字列互換型を、C言語の文字列として扱うことができます。
 </p>
 
-<h3 id="language-type-multi-numeric">複数数値型</h3>
+<h3 id="language-type-multi-numeric">Multi Numeric Type</h3>
 <p>
-  複数数値型とは、連続した数値を表現できる型です。
+  Multi Numeric Typeとは、連続した数値を表現できる型です。
 </p>
 <p>
-  パッケージの定義において"mulnum_t"Descriptorを指定することで、複数数値型を定義できます。
+  Package Definitionにおいて"mulnum_t"Descriptorを指定することで、Multi Numeric Typeを定義できます。
 </p>
 <pre>
 package Point_3i : mulnum_t {
@@ -7461,12 +7455,12 @@ has z : int;
 }
 </pre>
 <p>
-  複数数値型の詳しい解説については、<a href="#language-value">値</a>を見てください。
+  Multi Numeric Typeの詳しい解説については、<a href="#language-value">値</a>を見てください。
 </p>
 
 <h3 id="language-type-ref">リファレンス型</h3>
 <p>
-  リファレンス型とは、変数のアドレスが格納できる型のことです。<a href="#language-type-numeric">数値型</a>あるいは<a href="#language-type-multi-numeric">複数数値型</a>の後ろに"&"を付けることで定義できます。
+  リファレンス型とは、変数のアドレスが格納できる型のことです。<a href="#language-type-numeric">数値型</a>あるいは<a href="#language-type-multi-numeric">Multi Numeric Type</a>の後ろに"&"を付けることで定義できます。
 </p>
 <pre>
 my $num : int;
@@ -7491,10 +7485,10 @@ my $point_ref : Point_3i& = \$point;
   リファレンス型は、<a href="#language-sub-definition">サブルーチンの定義</a>における戻り値の型として利用できません。
 </p>
 <p>
-  リファレンス型は、<a href="#language-package-definition">パッケージの定義</a>におけるフィールドの型として利用できません。
+  リファレンス型は、<a href="#language-package-definition">Package Definition</a>におけるフィールドの型として利用できません。
 </p>
 <p>
-  リファレンス型は、<a href="#language-package-definition">パッケージの定義</a>におけるパッケージ変数の型として利用できません。
+  リファレンス型は、<a href="#language-package-definition">Package Definition</a>におけるPackage Variable の型として利用できません。
 </p>
 <p>
   Invalid 場所で、リファレンス型が使用された場合は、コンパイル時エラーが発生します。
@@ -7987,17 +7981,17 @@ while (条件部) {
   SPVMのサブルーチンの引数の個数の最大は256個です。
 </p>
 <p>
-  複数数値型の引数を渡すときは、フィールドの個数が、引数の個数としてカウントされます。たとえばSPVM::Complex_2d型が引数で指定された場合は、2個と数えます。
+  Multi Numeric Typeの引数を渡すときは、フィールドの個数が、引数の個数としてカウントされます。たとえばSPVM::Complex_2d型が引数で指定された場合は、2個と数えます。
 </p>
 <p>
-  複数数値のリファレンス型の引数を渡すときは、複数数値型のフィールドの個数が、引数の個数としてカウントされます。たとえばSPVM::Complex_2d&型が引数で指定された場合は、2個と数えます。
+  複数数値のリファレンス型の引数を渡すときは、Multi Numeric Typeのフィールドの個数が、引数の個数としてカウントされます。たとえばSPVM::Complex_2d&型が引数で指定された場合は、2個と数えます。
 </p>
 <p>
   もし、最大値を超えた場合は、コンパイル時エラーが発生します。
 </p>
 
-<h3 id="language-limitation-value-type-fileds-count">複数数値型のフィールドの個数の制限</h3>
+<h3 id="language-limitation-value-type-fileds-count">Multi Numeric Typeのフィールドの個数の制限</h3>
 <p>
-  複数数値型のフィールドの個数の最大値は、256個で、少なくともひとつのフィールドが必要です。そうでない場合は、コンパイル時エラーが発生します。
+  Multi Numeric Typeのフィールドの個数の最大値は、256個で、少なくともひとつのフィールドが必要です。そうでない場合は、コンパイル時エラーが発生します。
 </p>
 
