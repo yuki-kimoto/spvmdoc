@@ -1147,6 +1147,31 @@ package Point : public {
 }
 </pre>
 
+In direct children of the package block, <a href="#language-module-use">use</a>, "<a href="#language-package-var-definition">our</a>, <a href="#language-field-definition">has</a>, <a href="#language-enum-definition">enum</a>, <a href="#language-sub-definition">sub</a> can be defined.
+
+<pre>
+package Foo {
+# use
+use Point;
+
+# Package Variable Definition
+our $VAR int;
+
+# Field Defintion
+has var : int;
+
+# Enumeration Definition
+enum {
+  CONST_VAL1,
+  CONST_VAL2,
+}
+
+# Subroutine Definition
+sub foo : int ($num : int) {
+
+}
+</pre>
+
 <h3 id="language-package-descriptor">Package Descriptor</h3>
 
 The descriptions of Package Descriptors.
@@ -1206,83 +1231,46 @@ If both "public" and "private" are specifed, a compile-time error occurs.
 
 If more than one of "callback_t", "mulnum_t", "pointer_t" are specified, a compile-time error occurs.
 
-<p>
-  <b>Package 内部で定義できるもの</b>
-</p>
-<p>
-  Package 内部では<b>"use"</b><b>"Package Variable "</b><b>"フィールド"</b><b>"列挙"</b><b>"サブルーチン"</b>が定義できます。
-</p>
-<pre>
-package Foo {
-# use
-use Point;
-
-# Package Variable 
-our $VAR int;
-
-# フィールド
-has var : int;
-
-# 列挙
-enum {
-CONST_VAL
-}
-
-# サブルーチン
-sub foo : int ($num : int) {
-
-}
-}
-</pre>
-
 <h3 id="language-package-destructor">Destructor</h3>
-<p>
-  Package が<a href="#language-type-class">Class Type</a>である場合は、Destructorを定義することができます。
-</p>
-<p>
-  Destructorとは、オブジェクトが解放されるときに実行される特別な<a href="#language-sub">サブルーチン</a>のことです。
-</p>
-<p>
-  Destructorの名前は"DESTROY"でなければなりません。
-</p>
-<p>
-  Destructorの戻り値の型は、<a href="#language-type-void">void型</a>でなければなりません。そうでない場合は、コンパイル時エラーが発生します。
-</p>
-<p>
-  Destructorの引数は、ひとつで、<a href="#language-type-self">self型</a>でなければなりません。そうでない場合は、コンパイル時エラーが発生します。
-</p>
+
+If the package is <a href="#language-type-class">Class Type</a>, the package defined a destructor.
+
+Destructor is a special <a href="#language-sub">Subroutine</a> called when the object of this class is freed.
+
+Destructor name must be "DESTROY".
+
+Destructor Retrun Value must be <a href="#language-type-void">void type</a>, otherwise a compile-time error occurs
+
+Destructor arguments must be one and the type must be <a href="#language-type-self">self type</a>, otherwise a compile-time error occurs
+
 <pre>
 sub DESTROY : void ($self : self) {
 
 }
 </pre>
-<p>
-  Destructorの中で<a href="#language-exception-occur">例外の発生</a>が起こった場合は、プログラムは終了せず、例外メッセージが、標準エラーに出力されます。
-</p>
-<p>
-  <b>DestructorのExample</b>
-</p>
-<p>
-  DestructorのExampleです。
-</p>
+
+If a <a href="#language-exception-occur">Exception</a> occurs in Destructor, the program don't exit, print the message of the exception to STDERR.
+
+<b>Destructor Example:</b>
+
 <pre>
 package Foo {
-sub new : Foo {
-return new Foo;
-}
+  sub new : Foo {
+    return new Foo;
+  }
 
-sub DESTROY : void ($self : self) {
-print "DESTROY";
-}
+  sub DESTROY : void ($self : self) {
+    print "DESTROY";
+  }
 }
 </pre>
 
 <h2 id="language-module">モジュール</h2>
 <ul class="list">
-  <li href="#language-module-summary">モジュールの概要</li>
-  <li href="#language-module-file-name">モジュールのファイル名</li>
-  <li href="#language-module-use">モジュールの読み込み</li>
-  <li href="#language-module-if-require">選択的なモジュールの読み込み</li>
+  <li><a href="#language-module-summary">モジュールの概要</a></li>
+  <li><a href="#language-module-file-name">モジュールのファイル名</a></li>
+  <li><a href="#language-module-use">モジュールの読み込み</a></li>
+  <li><a href="#language-module-if-require">選択的なモジュールの読み込み</a></li>
 </ul>
 
 <h3 id="language-module-summary">モジュールの概要</h3>
@@ -1347,7 +1335,7 @@ use Foo;
 
 <h3 id="language-module-if-require">選択的なモジュールの読み込み</h3>
 <p>
-  SPVMでは、モジュールが、検索パスに存在する場合だけ読み込み、そうでない場合は、ブロックの内部が存在しないことにできるif require文があります。これはC言語の"#ifdef"の一部の機能を実現するために設計されました。
+  SPVMでは、モジュールが、検索パスに存在する場合だけ読み込み、otherwise ブロックの内部が存在しないことにできるif require文があります。これはC言語の"#ifdef"の一部の機能を実現するために設計されました。
 </p>
 <pre>
 if (require Foo) {
@@ -1381,10 +1369,10 @@ warn "Warning: Can't load Foo";
 
 <h2 id="language-allow-access">アクセス許可</h2>
 <p>
-  デフォルトでは、プライベートなサブルーチン、フィールド、Package Variable には、Package 外部からは、アクセスすることができません。また、プライベートなPackage は、Package 外部から、オブジェクトの生成を行うことができません。
+  デフォルトでは、プライベートなSubroutine 、フィールド、Package Variable には、Package 外部からは、アクセスすることができません。また、プライベートなPackage は、Package 外部から、オブジェクトの生成を行うことができません。
 </p>
 <p>
-  外部のPackage に対してアクセス許可を設定すると、外部のPackage は、プライベートなサブルーチン、フィールド、Package Variable にアクセスすることができ、またオブジェクトの生成を行うことができます。
+  外部のPackage に対してアクセス許可を設定すると、外部のPackage は、プライベートなSubroutine 、フィールド、Package Variable にアクセスすることができ、またオブジェクトの生成を行うことができます。
 </p>
 <pre>
 allow Package Name;
@@ -1398,16 +1386,16 @@ allow Bar;
 }
 </pre>
 <p>
-  この例では、Fooにおいてprivateが指定されているサブルーチン、フィールド、Package Variable に、Barからアクセスすることができます。また、BarからFooのオブジェクトの生成を行うことができます。
+  この例では、Fooにおいてprivateが指定されているSubroutine 、フィールド、Package Variable に、Barからアクセスすることができます。また、BarからFooのオブジェクトの生成を行うことができます。
 </p>
 
 <h2 id="language-package-var">Package Variable </h2>
 <ul class="list">
-  <li><a href="#language-package-var-definition">Package Variable の定義</a></li>
+  <li><a href="#language-package-var-definition">Package Variable Definition</a></li>
   <li><a href="#language-package-var-initial-value">Package Variable の初期値</a></li>
   <li><a href="#language-package-var-access">Package Variable へのアクセス</a></li>
 </ul>
-<h3 id="language-package-var-definition">Package Variable の定義</h3>
+<h3 id="language-package-var-definition">Package Variable Definition</h3>
 <p>
   Package Variable とは、Package に属する、プログラムの開始から終了まで維持されるグローバル変数のことです。
 </p>
@@ -1418,13 +1406,13 @@ allow Bar;
 our Package Variable Name : Type Name ;
 </pre>
 <p>
-  Package Variable の定義は"<a href="#language-package-definition">Package 定義</a>"の直下で行う必要があります。
+  Package Variable Definitionは"<a href="#language-package-definition">Package Definition</a>"の直下で行う必要があります。
 </p>
 <p>
-  Package Variable の定義には"<a href="#language-type">Type Name </a>"が必要です。Type Name には"数値型"と"オブジェクト型"を指定できます。
+  Package Variable Definitionには"<a href="#language-type">Type Name </a>"が必要です。Type Name には"数値型"と"オブジェクト型"を指定できます。
 </p>
 <p>
-  Package Variable Nameは、<a href="#language-lex-identifier-package-var-name">Package Variable Name</a>で定義されている名前の規則に従い、かつ"::"が含まれていてはいけません。そうでない場合は、コンパイル時エラーが発生します。
+  Package Variable Nameは、<a href="#language-lex-identifier-package-var-name">Package Variable Name</a>で定義されている名前の規則に従い、かつ"::"が含まれていてはいけません。otherwise a compile-time error occurs
 </p>
 <p>
   Package Variable 定義には、Descriptorを合わせて指定することができます。複数のDescriptorを空白を使って並べることができます。
@@ -1489,16 +1477,16 @@ our Package Variable Name : Descriptor Type Name ;
   </tr>
 </table>
 <p>
-  "public"と"private"の両方のDescriptorが指定された場合は、コンパイル時エラーが発生します。
+  "public"と"private"の両方のDescriptorが指定された場合は、a compile-time error occurs
 </p>
 <p>
-  "ro""wo""rw"のひとつより多くが同時に指定されている場合は、コンパイル時エラーが発生します。
+  "ro""wo""rw"のひとつより多くが同時に指定されている場合は、a compile-time error occurs
 </p>
 <p>
   Package Variable アクセッサとは、Package Variable にアクセスするためのクラスメソッドのことです。
 </p>
 <p>
-  書き込み用のPackage Variable アクセッサの戻り値は"void型"です。
+  書き込み用のPackage Variable アクセッサの戻り値は"void type"です。
 </p>
 <p>
   SPVMのソースコードの中からPackage Variable アクセッサが呼び出された場合は、Package Variable アクセッサはインライン展開されます。それ以外の場合は、インライン展開されません。
@@ -1553,10 +1541,10 @@ $VAR = 3;
 
 <h2 id="language-field">フィールド</h2>
 <ul class="list">
-  <li><a href="#language-field-definition">フィールドの定義</a></li>
-  <li><a href="#language-field-access">フィールドへのアクセス</a></li>
+  <li><a href="#language-field-definition">Field Definition</a></li>
+  <li><a href="#language-field-access">Field Access</a></li>
 </ul>
-<h3 id="language-field-definition">フィールドの定義</h3>
+<h3 id="language-field-definition">Field Definition</h3>
 <p>
   フィールドとは"new"を使ってオブジェクト生成した場合に、オブジェクトからアクセスできるデータ領域のことです。
 </p>
@@ -1567,7 +1555,7 @@ $VAR = 3;
 has Field Name : Type Name ;
 </pre>
 <p>
-  フィールド定義は"<a href="#language-package-definition">Package 定義</a>"の直下で行う必要があります。
+  フィールド定義は"<a href="#language-package-definition">Package Definition</a>"の直下で行う必要があります。
 </p>
 <p>
   フィールド定義には"<a href="#language-type">Type Name </a>"が必要です。Type Name には"数値型"と"オブジェクト型"を指定できます。
@@ -1641,16 +1629,16 @@ has Field Name : Descriptor Type Name ;
   </tr>
 </table>
 <p>
-  "public"と"private"の両方のDescriptorが指定された場合は、コンパイル時エラーが発生します。
+  "public"と"private"の両方のDescriptorが指定された場合は、a compile-time error occurs
 </p>
 <p>
-  "ro""wo""rw"のひとつより多くが同時に指定されている場合は、コンパイル時エラーが発生します。
+  "ro""wo""rw"のひとつより多くが同時に指定されている場合は、a compile-time error occurs
 </p>
 <p>
   フィールドアクセッサとは、フィールドにアクセスするためのメソッドのことです。
 </p>
 <p>
-  書き込み用のフィールドアクセッサの戻り値は"void型"です。
+  書き込み用のフィールドアクセッサの戻り値は"void type"です。
 </p>
 <p>
   SPVMのソースコードの中からフィールドアクセッサが呼び出された場合は、フィールドアクセッサはインライン展開されます。それ以外の場合は、インライン展開されません。
@@ -1676,18 +1664,18 @@ has num_wo : wo int;
 has num_rw : rw int;
 }
 </pre>
-<h3 id="language-field-access">フィールドへのアクセス</h3>
+<h3 id="language-field-access">Field Access</h3>
 <p>
-  フィールドへのアクセスとは、フィールドにアクセスして、値を取得したり、設定したりする操作のことです。また、the following 記述そのものを指します。
+  Field Accessとは、フィールドにアクセスして、値を取得したり、設定したりする操作のことです。また、the following 記述そのものを指します。
 </p>
 <pre>
 インボカント->{Field Name}
 </pre>
 <p>
-  フィールドへのアクセスは、一種類のsyntax で、三つの異なる意味を持ちます。
+  Field Accessは、一種類のsyntax で、三つの異なる意味を持ちます。
 </p>
 <p>
-  <b>1. Class Typeのフィールドへのアクセス</b>
+  <b>1. Class TypeのField Access</b>
 </p>
 <p>
   <a href="#language-type-class">Class Type</a>を元に<a href="#language-expression-new-object">オブジェクトの生成</a>が行われた場合は、オブジェクトからフィールドにアクセスすることができます。
@@ -1704,7 +1692,7 @@ $point->{x} = 1;
   Class Typeのフィールドの設定については、<a href="#language-expression-set-field-class">Class Typeのフィールドの値の設定</a>を見てください。
 </p>
 <p>
-  <b>2. Multi Numeric Typeのフィールドへのアクセス</b>
+  <b>2. Multi Numeric TypeのField Access</b>
 </p>
 <p>
   2. <a href="#language-type-multi-numeric">Multi Numeric Type</a>におけるフィールドは、Multi Numeric Typeの変数の宣言をすれば、その変数からフィールドにアクセスできます。これは、レキシカル変数領域におけるアクセスです。
@@ -1739,20 +1727,20 @@ $z_ref->{im} = 3;
   デリファレンスによるMulti Numeric Typeのフィールドの設定については、<a href="#language-expression-set-field-multi-numeric-deref">デリファレンスによるMulti Numeric Typeのフィールドの設定</a>を見てください。
 </p>
 
-<h2 id="language-sub">サブルーチン</h2>
+<h2 id="language-sub">Subroutine </h2>
 <ul class="list">
-  <li><a href="#language-sub-definition">サブルーチンの定義</a></li>
-  <li><a href="#language-sub-constant">定数サブルーチン</a></li>
+  <li><a href="#language-sub-definition">Subroutine Definition</a></li>
+  <li><a href="#language-sub-constant">定数Subroutine</a></li>
   <li><a href="#language-sub-new-callback-object">コールバックオブジェクトの生成</a></li>
   <li><a href="#language-sub-capture">キャプチャ</a></li>
   <li><a href="#language-sub-method">メソッド</a></li>
   <li><a href="#language-sub-signature">シグネチャ</a></li>
   <li><a href="#language-sub-invocant">インボカント</a></li>
-  <li><a href="#language-sub-stack">サブルーチンのコールスタック</a></li>
+  <li><a href="#language-sub-stack">Subroutine Callstack</a></li>
 </ul>
-<h3 id="language-sub-definition">サブルーチンの定義</h3>
+<h3 id="language-sub-definition">Subroutine Definition</h3>
 <p>
-  "sub"Keyword を使用してサブルーチンを定義することができます。
+  "sub"Keyword を使用してSubroutine を定義することができます。
 </p>
 <pre>
 sub Subroutine Name : 戻り値のType Name  (引数名1 : 引数のType Name 1, 引数名2 : 引数のType Name 2, 以下続く) {
@@ -1760,7 +1748,7 @@ sub Subroutine Name : 戻り値のType Name  (引数名1 : 引数のType Name 1,
 }
 </pre>
 <p>
-  サブルーチンの定義は"<a href="#language-package-definition">Package 定義</a>"の直下で行う必要があります。
+  Subroutine Definitionは"<a href="#language-package-definition">Package Definition</a>"の直下で行う必要があります。
 </p>
 <p>
   Subroutine Nameは、1文字以上の"a～z""A～Z""0～9""_"で構成する必要があります。先頭は、数字から始めることはできません。連続した"_"を使用することはできません。
@@ -1769,10 +1757,10 @@ sub Subroutine Name : 戻り値のType Name  (引数名1 : 引数のType Name 1,
   Subroutine Nameには、<a href="#language-lex-keyword">Keyword </a>と同じ名前を使用することができます。
 </p>
 <p>
-  戻りのType Name には、"void型""数値型""オブジェクト型"を指定することができます。
+  戻りのType Name には、"void type""数値型""オブジェクト型"を指定することができます。
 </p>
 <p>
-  サブルーチンの定義には"戻り値のType Name "と"0個以上の引数の定義"が必要です。"引数の定義"は"引数名"と"引数のType Name "からなります。
+  Subroutine Definitionには"戻り値のType Name "と"0個以上の引数の定義"が必要です。"引数の定義"は"引数名"と"引数のType Name "からなります。
 </p>
 <p>
   引数名は、変数名でなければなりません。
@@ -1782,11 +1770,11 @@ sub Subroutine Name : 戻り値のType Name  (引数名1 : 引数のType Name 1,
 </p>
 
 <p>
-  サブルーチンのブロックの中には、0個以上のステートメントを記述できます。
+  Subroutine Blockの中には、0個以上のステートメントを記述できます。
 </p>
 
 <p>
-  サブルーチンの定義には、Descriptorを合わせて指定することができます。複数のDescriptorを空白を使って並べることができます。
+  Subroutine Definitionには、Descriptorを合わせて指定することができます。複数のDescriptorを空白を使って並べることができます。
 </p>
 <pre>
 Descriptor Name sub Subroutine Name : 戻り値のType Name  (引数の変数名1 : 引数のType Name 1, 引数の変数名2 : 引数のType Name 2, 以下続く) {
@@ -1794,10 +1782,10 @@ Descriptor Name sub Subroutine Name : 戻り値のType Name  (引数の変数名
 }
 </pre>
 <p>
-  <b>サブルーチンDescriptor</b>
+  <b>Subroutine Descriptor</b>
 </p>
 <p>
-  サブルーチンで指定できるDescriptorの一覧です。
+  Subroutine で指定できるDescriptorの一覧です。
 </p>
 <table>
   <tr>
@@ -1813,7 +1801,7 @@ Descriptor Name sub Subroutine Name : 戻り値のType Name  (引数の変数名
       <b>native</b>
     </td>
     <td>
-      このサブルーチンは、ネイティブサブルーチンです。
+      このSubroutine は、ネイティブSubroutine です。
     </td>
   </tr>
   <tr>
@@ -1821,12 +1809,12 @@ Descriptor Name sub Subroutine Name : 戻り値のType Name  (引数の変数名
       <b>precompile</b>
     </td>
     <td>
-      このサブルーチンはプリコンパイルされます。
+      このSubroutine はプリコンパイルされます。
     </td>
   </tr>
 </table>
 <p>
-  "native"と"precompile"の両方のDescriptorが指定された場合は、コンパイル時エラーが発生します。
+  "native"と"precompile"の両方のDescriptorが指定された場合は、a compile-time error occurs
 </p>
 
 <p>
@@ -1845,16 +1833,16 @@ sub Subroutine Name : 戻り値のType Name  (引数名1 : 引数のType Name 1,
   可変長引数のExampleです。
 </p>
 <pre>
-# 可変長引数を持つサブルーチンの定義
+# 可変長引数を持つSubroutine Definition
 sub sprintf : string ($format : string, $values : object[]...) {
 
 }
 
-# 可変長引数を持つサブルーチンの呼び出し
+# 可変長引数を持つSubroutine Call
 foo("aaa %d %f", SPVM::Int->new(1), SPVM::Double->new(2.0));
 </pre>
 <p>
-  可変長引数を持つサブルーチンに配列を渡すと、配列のまま呼び出す事ができます。
+  可変長引数を持つSubroutine に配列を渡すと、配列のまま呼び出す事ができます。
 </p>
 <pre>
 foo("aaa %d %f", [(object)SPVM::Int->new(1), SPVM::Double->new(2.0)]);
@@ -1867,12 +1855,12 @@ foo("aaa %d %f", (object)[(object)SPVM::Int->new(1), SPVM::Double->new(2.0)]);
 </pre>
 
 <p>
-  定義されたサブルーチンは、呼び出すことができます。サブルーチンの呼び出しについては、<a href="language-expression-callsub">サブルーチンの呼び出し</a>を見てください。
+  定義されたSubroutine は、呼び出すことができます。Subroutine Callについては、<a href="language-expression-callsub">Subroutine Call</a>を見てください。
 </p>
 
-<h3 id="language-sub-constant">定数サブルーチン</h3>
+<h3 id="language-sub-constant">定数Subroutine </h3>
 <p>
-  数値型の戻り値を持つサブルーチンで、戻り値が定数であるサブルーチンを定数サブルーチンといいます。
+  数値型の戻り値を持つSubroutine で、戻り値が定数であるSubroutine を定数Subroutine といいます。
 </p>
 <pre>
 sub foo : int () { return 5; }
@@ -1881,13 +1869,13 @@ sub foo : float () { return 5.0f; }
 sub foo : double () { return 5.0; }
 </pre>
 <p>
-  定数サブルーチンは、インライン展開されます。
+  定数Subroutine は、インライン展開されます。
 </p>
 <p>
-  SPVMは定数畳み込み最適化を行わないので、定数が演算されている場合は、定数サブルーチンにならず、インライン展開されないことに注意してください。
+  SPVMは定数畳み込み最適化を行わないので、定数が演算されている場合は、定数Subroutine にならず、インライン展開されないことに注意してください。
 </p>
 <pre>
-# 定数サブルーチンではなくインライン展開されない
+# 定数Subroutine ではなくインライン展開されない
 sub foo : int () { return 5 + 3; }
 </pre>
 
@@ -1909,7 +1897,7 @@ my $cb_obj = sub : Type Name  ($self : self, 引数1, 引数2, ..., 引数n) {
 };
 </pre>
 <p>
-  コールバックオブジェクトの生成で定義されるサブルーチンは、<a href="#language-sub-method">メソッド</a>でなければなりません。また名前を持たないサブルーチンでなければなりません。
+  コールバックオブジェクトの生成で定義されるSubroutine は、<a href="#language-sub-method">メソッド</a>でなければなりません。また名前を持たないSubroutine でなければなりません。
 </p>
 <p>
   <b>コールバックオブジェクトの生成のExample</b>
@@ -1920,12 +1908,12 @@ my $comparator = sub : int ($self : self, $x1 : object, $x2 : object) {
 }
 </pre>
 <p>
-  コールバックオブジェクトの生成によって生成されたオブジェクトは、通常のオブジェクトなので、メソッドを呼び出すことができます。コールバックオブジェクトの生成の呼び出しについては、<a href="language-expression-callsub">サブルーチンの呼び出し</a>を見てください。
+  コールバックオブジェクトの生成によって生成されたオブジェクトは、通常のオブジェクトなので、メソッドを呼び出すことができます。コールバックオブジェクトの生成の呼び出しについては、<a href="language-expression-callsub">Subroutine Call</a>を見てください。
 <p>
 
 <h3 id="language-sub-capture">キャプチャ</h3>
 <p>
-  コールバックオブジェクトの生成においては、キャプチャというsyntax を使って、コールバックオブジェクトの生成によって定義されたサブルーチンの外側で定義された変数を、コールバックオブジェクトの生成によって定義されたサブルーチンの内側で使うことができます。
+  コールバックオブジェクトの生成においては、キャプチャというsyntax を使って、コールバックオブジェクトの生成によって定義されたSubroutine の外側で定義された変数を、コールバックオブジェクトの生成によって定義されたSubroutine の内側で使うことができます。
 </p>
 <pre>
 # キャプチャ
@@ -1950,7 +1938,7 @@ print "$bar\n";
   キャプチャで使用する変数名は、<a href="#language-lex-identifier-field-name">Field Name</a>の先頭に"$"を付けたものでなければなりません。
 </p>
 <p>
-  キャプチャは、実際には、クラスのフィールドとして定義されます。キャプチャは、フィールドの定義と値の設定のシンタックスシュガーです。
+  キャプチャは、実際には、クラスのフィールドとして定義されます。キャプチャは、Field Definitionと値の設定のシンタックスシュガーです。
 </p>
 <p>
   スコープ内で、キャプチャ変数と同名の<a href="#language-lex-var">レキシカル変数</a>が存在する場合は、レキシカル変数にアクセスします。
@@ -1988,7 +1976,7 @@ $comparator->{bar} = $bar;
 
 <h3 id="language-sub-method">メソッド</h3>
 <p>
-  メソッドとは、第一引数に<a href="#language-type-self">self型</a>を持つサブルーチンのことです。
+  メソッドとは、第一引数に<a href="#language-type-self">self type</a>を持つSubroutine のことです。
 </p>
 <pre>
 sub Subroutine Name : Type Name  ($self : self, 引数1 : 型1, 引数2 : 型2, ..., 引数n : 型n) {
@@ -1996,12 +1984,12 @@ sub Subroutine Name : Type Name  ($self : self, 引数1 : 型1, 引数2 : 型2, 
 }
 </pre>
 <p>
-  メソッドは、<a href="#language-expression-new-object">オブジェクトの生成</a>によって生成されたオブジェクトから呼び出すことができます。メソッドの呼び出しについては、<a href="language-expression-callsub">サブルーチンの呼び出し</a>を見てください。
+  メソッドは、<a href="#language-expression-new-object">オブジェクトの生成</a>によって生成されたオブジェクトから呼び出すことができます。メソッドの呼び出しについては、<a href="language-expression-callsub">Subroutine Call</a>を見てください。
 </p>
 
 <h3 id="language-sub-invocant">インボカント</h3>
 <p>
-  インボカントとは、self型が指定された第一引数のことをいいます。
+  インボカントとは、self typeが指定された第一引数のことをいいます。
 </p>
 <pre>
 sub Subroutine Name : Type Name  ($self : self, 引数1 : 型1, 引数2 : 型2, ..., 引数n : 型n) {
@@ -2014,7 +2002,7 @@ sub Subroutine Name : Type Name  ($self : self, 引数1 : 型1, 引数2 : 型2, 
 
 <h3 id="language-sub-signature">シグネチャ</h3>
 <p>
-  シグネチャとは、サブルーチンの戻り値と引数を次の規則で並べたものをいいます。引数は、存在しなくても構いません。間に空白を含むことはできません。
+  シグネチャとは、Subroutine Retrun Valueと引数を次の規則で並べたものをいいます。引数は、存在しなくても構いません。間に空白を含むことはできません。
 </p>
 <p>
   1. 戻り値のType Name 
@@ -2032,28 +2020,28 @@ sub Subroutine Name : Type Name  ($self : self, 引数1 : 型1, 引数2 : 型2, 
   シグネチャのExampleです。
 </p>
 <pre>
-# サブルーチン定義
+# Subroutine 定義
 sub foo : int ($num1 : double, $num2 : long[])
 
 # シグネチャ
 int(double,long[])
 
-# サブルーチン定義
+# Subroutine 定義
 sub foo : void ()
 
 # シグネチャ
 void()
 </pre>
 <p>
-  シグネチャは、SPVMを記述しているときには、意識する必要はありません。ネイティブからSPVMのサブルーチンを呼び出すときに使用します。
+  シグネチャは、SPVMを記述しているときには、意識する必要はありません。ネイティブからSPVMのSubroutine を呼び出すときに使用します。
 </p>
 
-<h3 id="language-sub-stack">サブルーチンのコールスタック</h3>
+<h3 id="language-sub-stack">Subroutine Callstack</h3>
 <p>
-  サブルーチンのコールスタックとは、<a href="#language-expression-callsub">サブルーチンの呼び出し</a>が行われるときに、確保されるメモリ領域のことを指します。
+  Subroutine Callstackとは、<a href="#language-expression-callsub">Subroutine Call</a>が行われるときに、確保されるメモリ領域のことを指します。
 </p>
 <p>
-  サブルーチンのコールスタックには、the following 情報が保存されます。
+  Subroutine Callstackには、the following 情報が保存されます。
 </p>
 <p>
   1. <a href="#language-lex-var">レキシカル変数</a>のためのメモリ領域
@@ -2065,13 +2053,13 @@ void()
 <h2 id="language-enum">列挙</h2>
 <ul class="list">
   <li>
-    <a href="#language-enum-definition">列挙の定義</a>
+    <a href="#language-enum-definition">Enumeration Definition</a>
   </li>
   <li>
     <a href="#language-enum-call">列挙の呼び出し</a>
   </li>
 </ul>
-<h3 id="language-enum-definition">列挙の定義</h3>
+<h3 id="language-enum-definition">Enumeration Definition</h3>
 <p>
   列挙はint型の定数を定義したい場合に利用します。連続したint型の定数を簡単に定義できます。"enum"Keyword を使って定義します。
 </p>
@@ -2083,7 +2071,7 @@ FLAG3
 }
 </pre>
 <p>
-  列挙の定義は"<a href="#language-package-definition">Package 定義</a>"の直下で行う必要があります。
+  Enumeration Definitionは"<a href="#language-package-definition">Package Definition</a>"の直下で行う必要があります。
 </p>
 <pre>
 package Foo {
@@ -2109,7 +2097,7 @@ FLAG3,
 }
 </pre>
 <p>
-  列挙はint型を戻り値とする"定数サブルーチン"のエイリアスです。次のサブルーチンの定義と等価です。
+  列挙はint型を戻り値とする"定数Subroutine "のエイリアスです。次のSubroutine Definitionと等価です。
 </p>
 <pre>
 sub FLAG1 : int () { return 0; }
@@ -2130,7 +2118,7 @@ FLAG3,
   上記の場合は"FLAG1"は"0"、"FALG2"は"4"、"FLAG3"は"5"になります。
 </p>
 <p>
-  enumの定義がInvalid 場合は、コンパイル時エラーが発生します。
+  enumの定義がInvalid 場合は、a compile-time error occurs
 </p>
 
 <p>
@@ -2176,12 +2164,12 @@ FLAG3,
   </tr>
 </table>
 <p>
-  "public"と"private"の両方のDescriptorが指定された場合は、コンパイル時エラーが発生します。
+  "public"と"private"の両方のDescriptorが指定された場合は、a compile-time error occurs
 </p>
 
 <h3 id="language-enum-call">列挙の呼び出し</h3>
 <p>
-  列挙は、定数サブルーチンのエイリアスなので、サブルーチン呼び出しとまったく同じ方法で呼び出すことができます。
+  列挙は、定数Subroutine のエイリアスなので、Subroutine 呼び出しとまったく同じ方法で呼び出すことができます。
 </p>
 <pre>
 my $flag1 = Foo->FLAG1;
@@ -2242,7 +2230,7 @@ my $bar;
 }
 </pre>
 <p>
-  return文を書くことはできません。BEGINブロックは、引数がなく、戻り値がvoidのサブルーチンとして定義されます。
+  return文を書くことはできません。BEGINブロックは、引数がなく、戻り値がvoidのSubroutine として定義されます。
 </p>
 <p>
   BEGINブロックは、いくつでも定義できます。
@@ -2423,7 +2411,7 @@ $num++;
 <p>
 <ul class="list">
   <li><a href="#language-block-statement-simple">単純なブロック</a></li>
-  <li><a href="#language-block-statement-sub">サブルーチンブロック</a></li>
+  <li><a href="#language-block-statement-sub">Subroutine Block</a></li>
   <li><a href="#language-block-statement-eval">evalブロック</a></li>
   <li><a href="#language-block-statement-if">ifブロック</a></li>
   <li><a href="#language-block-statement-elsif">elsifブロック</a></li>
@@ -2441,9 +2429,9 @@ $num++;
 }
 </pre>
 
-<h4 id="language-block-statement-sub">サブルーチンブロック</h4>
+<h4 id="language-block-statement-sub">Subroutine Block</h4>
 <pre>
-# サブルーチンのブロック
+# Subroutine Block
 sub foo : int () {
 
 }
@@ -2797,7 +2785,7 @@ my $ret = $foo->(5);
 <ul class="list">
   <li><a href="#language-value-definition">Multi Numeric Typeの定義</a></li>
   <li><a href="#language-value-usage">Multi Numeric Typeの使用</a></li>
-  <li><a href="#language-value-access">Multi Numeric Typeのフィールドへのアクセス</a></li>
+  <li><a href="#language-value-access">Multi Numeric TypeのField Access</a></li>
 </ul>
 
 <h3 id="language-value-definition">Multi Numeric Typeの定義</h2>
@@ -2898,16 +2886,16 @@ im : double;
   数値型の定義において、フィールドの個数の最大は16です。
 </p>
 <p>
-  Invalid Multi Numeric Typeの定義の場合は、コンパイル時エラーが発生します。
+  Invalid Multi Numeric Typeの定義の場合は、a compile-time error occurs
 </p>
 <p>
   Multi Numeric Typeは、<a href="#language-lex-var-declaration">レキシカル変数の宣言</a>の型として利用することができます。
 </p>
 <p>
-  Multi Numeric Typeは、<a href="#language-sub-definition">サブルーチンの定義</a>における引数の型として利用することができます。
+  Multi Numeric Typeは、<a href="#language-sub-definition">Subroutine Definition</a>における引数の型として利用することができます。
 </p>
 <p>
-  Multi Numeric Typeは、<a href="#language-sub-definition">サブルーチンの定義</a>における戻り値の型として利用することができます。
+  Multi Numeric Typeは、<a href="#language-sub-definition">Subroutine Definition</a>における戻り値の型として利用することができます。
 </p>
 <p>
   Multi Numeric Typeは<a href="#language-type-array">配列型</a>の<a href="#language-type-basic">基本型</a>として利用することができます。
@@ -2929,7 +2917,7 @@ my $point : Point_3i;
 my $point_ref = \$point;
 </pre>
 <p>
-  Multi Numeric Typeの値に、未定義値を代入することはできません。代入しようとした場合は、コンパイル時エラーが発生します。
+  Multi Numeric Typeの値に、未定義値を代入することはできません。代入しようとした場合は、a compile-time error occurs
 </p>
 
 <h2 id="language-value-array">値の配列</h2>
@@ -2986,7 +2974,7 @@ use Point_3i;
 use Complex_2d;
 </pre>
 <p>
-  次に、レキシカル変数の宣言を行います。レキシカル変数の宣言を行うと、連続した領域が、<a href="#language-sub-stack">サブルーチンのコールスタック</a>上に確保されます。フィールドのすべての値は、<a href="language-type-initial-value">型の初期値</a>で初期化されます。
+  次に、レキシカル変数の宣言を行います。レキシカル変数の宣言を行うと、連続した領域が、<a href="#language-sub-stack">Subroutine Callstack</a>上に確保されます。フィールドのすべての値は、<a href="language-type-initial-value">型の初期値</a>で初期化されます。
 </p>
 <pre>
 my $point : Point_3i;
@@ -2996,9 +2984,9 @@ my $z : Complex_2d;
   Multi Numeric Typeの値は、オブジェクトではないので、<a href="#language-expression-new-object">オブジェクトの生成</a>のsyntax では生成できないことに注意してください。
 </p>
 
-<h3 id="language-value-access">Multi Numeric Typeのフィールドへのアクセス</h2>
+<h3 id="language-value-access">Multi Numeric TypeのField Access</h2>
 <p>
-  Multi Numeric Typeのフィールドへのアクセスとは、Multi Numeric Typeのフィールドにアクセスして、値を取得したり、設定したりする操作のことです。また、the following 記述そのものを指します。
+  Multi Numeric TypeのField Accessとは、Multi Numeric Typeのフィールドにアクセスして、値を取得したり、設定したりする操作のことです。また、the following 記述そのものを指します。
 </p>
 <pre>
 インボカント->{Field Name}
@@ -3052,15 +3040,15 @@ my $point_ref : Point_3d& = \$point;
   リファレンスOperator の対象は、<a href="#language-type-numeric">数値型</a>あるいは<a href="#language-type-multi-numeric">Multi Numeric Type</a>の値が格納された変数だけです。オブジェクト型の変数や定数に対して、使うことはできません。
 </p>
 <p>
-  <a href="#language-type-ref">リファレンス型</a>の値は、サブルーチンの引数として利用することができます。
+  <a href="#language-type-ref">リファレンス型</a>の値は、Subroutine Argumentsとして利用することができます。
 </p>
 <pre>
-# サブルーチンの定義
+# Subroutine Definition
 sub sum : void ($out_ref : int&, $in1 : int, $in2 : int) {
 $$out_ref = $in1 + $in2;
 }
 
-# サブルーチンの利用
+# Subroutine の利用
 my $num1 = 1;
 my $num2 = 2;
 my $out : int;
@@ -3135,7 +3123,7 @@ $point_ref->{x} = 1;
   <li><a href="#language-expression-set-exception-var">例外変数の値の取得</a></li>
   <li><a href="#language-literal">Literal </a></li>
   <li><a href="#language-undef">未定義値</a></li>
-  <li><a href="#language-expression-callsub">サブルーチンの呼び出し</a></li>
+  <li><a href="#language-expression-callsub">Subroutine Call</a></li>
   <li><a href="#language-expression-get-field-class">Class Typeのフィールドの値の取得</a></li>
   <li><a href="#language-expression-set-field-class">Class Typeのフィールドの値の設定</a></li>
   <li><a href="#language-expression-get-field-multi-numeric">Multi Numeric Typeのフィールドの値の取得</a></li>
@@ -3186,7 +3174,7 @@ $var
 $var = 右式
 </pre>
 <p>
-  代入が<a href="#language-type-compatible">型の互換性</a>を満たさない場合は、コンパイル時エラーが発生します。
+  代入が<a href="#language-type-compatible">型の互換性</a>を満たさない場合は、a compile-time error occurs
 </p>
 <p>
   レキシカル変数の値の設定は、設定後の値を返します。
@@ -3218,10 +3206,10 @@ $Package Variable Name
  Package Variable の値の取得は、<a href="#language-expression">式</a>を返します。
 </p>
 <p>
-  定義されていないPackage Variable の値を取得しようとした場合は、コンパイル時エラーが発生します。
+  定義されていないPackage Variable の値を取得しようとした場合は、a compile-time error occurs
 </p>
 <p>
-  Package 外側からプライベートなPackage Variable にアクセスしようとした場合は、コンパイル時エラーが発生します。
+  Package 外側からプライベートなPackage Variable にアクセスしようとした場合は、a compile-time error occurs
 </p>
 <p>
   <b>Package Variable の値の取得のExample</b>
@@ -3256,7 +3244,7 @@ $Package Variable Name = 右式
   定義されていないPackage Variable の値を設定しようとした場合は、コンパイル時エラーが設定します。
 </p>
 <p>
-  Package 外側からプライベートなPackage Variable にアクセスしようとした場合は、コンパイル時エラーが発生します。
+  Package 外側からプライベートなPackage Variable にアクセスしようとした場合は、a compile-time error occurs
 </p>
 <p>
   <b>Package Variable の値の設定のExample</b>
@@ -3335,10 +3323,10 @@ $@ = "Error";
 インボカント式->{Field Name}
 </pre>
 <p>
-  インボカント式は、<a href="#language-type-class">Class Type</a>の値でなければなりません。インボカント式が、<a href="#language-type-multi-numeric">Multi Numeric Type</a>の値であった場合は、<a href="#language-expression-get-field-multi-numeric">Multi Numeric Typeのフィールドの値の取得</a>になり、<a href="#language-type-ref-multi-numeric">複数数値のリファレンス型</a>の値であった場合は、<a href="#language-expression-get-field-multi-numeric-deref">デリファレンスによるMulti Numeric Typeのフィールドの取得</a>になり、それ以外の場合は、コンパイル時エラーが発生します。
+  インボカント式は、<a href="#language-type-class">Class Type</a>の値でなければなりません。インボカント式が、<a href="#language-type-multi-numeric">Multi Numeric Type</a>の値であった場合は、<a href="#language-expression-get-field-multi-numeric">Multi Numeric Typeのフィールドの値の取得</a>になり、<a href="#language-type-ref-multi-numeric">複数数値のリファレンス型</a>の値であった場合は、<a href="#language-expression-get-field-multi-numeric-deref">デリファレンスによるMulti Numeric Typeのフィールドの取得</a>になり、それ以外の場合は、a compile-time error occurs
 </p>
 <p>
-  Field Nameが、存在しない場合は、コンパイル時エラーが発生します。
+  Field Nameが、存在しない場合は、a compile-time error occurs
 </p>
 <p>
   Class Typeのフィールドの値の取得は、オブジェクトに保存されているフィールドの値を返します。これは<a href="#language-expression">式</a>です。
@@ -3365,13 +3353,13 @@ my $x = $point->{x};
 インボカント式->{Field Name} = 右式
 </pre>
 <p>
-  インボカント式は、<a href="#language-type-class">Class Type</a>の値でなければなりません。インボカント式が、<a href="#language-type-multi-numeric">Multi Numeric Type</a>の値であった場合は、<a href="#language-expression-get-field-multi-numeric">Multi Numeric Typeのフィールドの値の設定</a>になり、<a href="#language-type-ref-multi-numeric">複数数値のリファレンス型</a>の値であった場合は、<a href="#language-expression-get-field-multi-numeric-deref">デリファレンスによるMulti Numeric Typeのフィールドの設定</a>になり、それ以外の場合は、コンパイル時エラーが発生します。
+  インボカント式は、<a href="#language-type-class">Class Type</a>の値でなければなりません。インボカント式が、<a href="#language-type-multi-numeric">Multi Numeric Type</a>の値であった場合は、<a href="#language-expression-get-field-multi-numeric">Multi Numeric Typeのフィールドの値の設定</a>になり、<a href="#language-type-ref-multi-numeric">複数数値のリファレンス型</a>の値であった場合は、<a href="#language-expression-get-field-multi-numeric-deref">デリファレンスによるMulti Numeric Typeのフィールドの設定</a>になり、それ以外の場合は、a compile-time error occurs
 </p>
 <p>
-  Field Nameが、存在しない場合は、コンパイル時エラーが発生します。
+  Field Nameが、存在しない場合は、a compile-time error occurs
 </p>
 <p>
-  右式の型は、フィールドの型と同じでなければなりません。そうでない場合は、コンパイル時エラーが発生します。
+  右式の型は、フィールドの型と同じでなければなりません。otherwise a compile-time error occurs
 </p>
 <p>
   Class Typeのフィールドの値の設定は、設定後のオブジェクトに保存されているフィールドの値を返します。これは<a href="#language-expression">式</a>です。
@@ -3404,13 +3392,13 @@ $point->{x} = 1;
 インボカント式->{Field Name}
 </pre>
 <p>
-  インボカント式は、<a href="#language-type-class">Multi Numeric Type</a>の値でなければなりません。インボカント式が、<a href="#language-type-class">Class Type</a>の値であった場合は、<a href="#language-expression-get-field-class">Class Typeのフィールドの値の取得</a>になり、<a href="#language-type-ref-multi-numeric">複数数値のリファレンス型</a>の値であった場合は、<a href="#language-expression-get-field-multi-numeric-deref">デリファレンスによるMulti Numeric Typeのフィールドの取得</a>になり、それ以外の場合は、コンパイル時エラーが発生します。
+  インボカント式は、<a href="#language-type-class">Multi Numeric Type</a>の値でなければなりません。インボカント式が、<a href="#language-type-class">Class Type</a>の値であった場合は、<a href="#language-expression-get-field-class">Class Typeのフィールドの値の取得</a>になり、<a href="#language-type-ref-multi-numeric">複数数値のリファレンス型</a>の値であった場合は、<a href="#language-expression-get-field-multi-numeric-deref">デリファレンスによるMulti Numeric Typeのフィールドの取得</a>になり、それ以外の場合は、a compile-time error occurs
 </p>
 <p>
-  Field Nameが、存在しない場合は、コンパイル時エラーが発生します。
+  Field Nameが、存在しない場合は、a compile-time error occurs
 </p>
 <p>
-  Multi Numeric Typeのフィールドの値の取得は、<a href="#language-sub-stack">サブルーチンのコールスタック</a>に保存されている該当するフィールドの値を返します。これは<a href="#language-expression">式</a>です。
+  Multi Numeric Typeのフィールドの値の取得は、<a href="#language-sub-stack">Subroutine Callstack</a>に保存されている該当するフィールドの値を返します。これは<a href="#language-expression">式</a>です。
 </p>
 <p>
   返される値の型は、フィールドの型です。
@@ -3434,16 +3422,16 @@ my $re = $z->{re};
 インボカント式->{Field Name} = 右式
 </pre>
 <p>
-  インボカント式は、<a href="#language-type-class">Multi Numeric Type</a>の値でなければなりません。インボカント式が、<a href="#language-type-class">Class Type</a>の値であった場合は、<a href="#language-expression-set-field-class">Class Typeのフィールドの値の設定</a>になり、<a href="#language-type-ref-multi-numeric">複数数値のリファレンス型</a>の値であった場合は、<a href="#language-expression-set-field-multi-numeric-deref">デリファレンスによるMulti Numeric Typeのフィールドの設定</a>になり、それ以外の場合は、コンパイル時エラーが発生します。
+  インボカント式は、<a href="#language-type-class">Multi Numeric Type</a>の値でなければなりません。インボカント式が、<a href="#language-type-class">Class Type</a>の値であった場合は、<a href="#language-expression-set-field-class">Class Typeのフィールドの値の設定</a>になり、<a href="#language-type-ref-multi-numeric">複数数値のリファレンス型</a>の値であった場合は、<a href="#language-expression-set-field-multi-numeric-deref">デリファレンスによるMulti Numeric Typeのフィールドの設定</a>になり、それ以外の場合は、a compile-time error occurs
 </p>
 <p>
-  Field Nameが、存在しない場合は、コンパイル時エラーが発生します。
+  Field Nameが、存在しない場合は、a compile-time error occurs
 </p>
 <p>
-  右式の型は、フィールドの型と同じでなければなりません。そうでない場合は、コンパイル時エラーが発生します。
+  右式の型は、フィールドの型と同じでなければなりません。otherwise a compile-time error occurs
 </p>
 <p>
-  Multi Numeric Typeのフィールドの値の設定は、設定後の<a href="#language-sub-stack">サブルーチンのコールスタック</a>に保存されている該当するフィールドの値を返します。これは<a href="#language-expression">式</a>です。
+  Multi Numeric Typeのフィールドの値の設定は、設定後の<a href="#language-sub-stack">Subroutine Callstack</a>に保存されている該当するフィールドの値を返します。これは<a href="#language-expression">式</a>です。
 </p>
 <p>
   返される値の型は、フィールドの型です。
@@ -3467,13 +3455,13 @@ $z->{re} = 2.5;
 インボカント式->{Field Name}
 </pre>
 <p>
-  インボカント式は、<a href="#language-type-ref-multi-numeric">複数数値のリファレンス型</a>の値でなければなりません。インボカント式が、<a href="#language-type-class">Class Type</a>の値であった場合は、<a href="#language-expression-get-field-class">Class Typeのフィールドの値の取得</a>になり、<a href="#language-type-multi-numeric">Multi Numeric Type</a>の値であった場合は、<a href="#language-expression-get-field-multi-numeric">Multi Numeric Typeのフィールドの値の取得</a>になり、それ以外の場合は、コンパイル時エラーが発生します。
+  インボカント式は、<a href="#language-type-ref-multi-numeric">複数数値のリファレンス型</a>の値でなければなりません。インボカント式が、<a href="#language-type-class">Class Type</a>の値であった場合は、<a href="#language-expression-get-field-class">Class Typeのフィールドの値の取得</a>になり、<a href="#language-type-multi-numeric">Multi Numeric Type</a>の値であった場合は、<a href="#language-expression-get-field-multi-numeric">Multi Numeric Typeのフィールドの値の取得</a>になり、それ以外の場合は、a compile-time error occurs
 </p>
 <p>
-  Field Nameが、存在しない場合は、コンパイル時エラーが発生します。
+  Field Nameが、存在しない場合は、a compile-time error occurs
 </p>
 <p>
-  デリファレンスによるMulti Numeric Typeのフィールドの値の取得は、<a href="#language-sub-stack">サブルーチンのコールスタック</a>に保存されている該当するフィールドの値を返します。これは<a href="#language-expression">式</a>です。
+  デリファレンスによるMulti Numeric Typeのフィールドの値の取得は、<a href="#language-sub-stack">Subroutine Callstack</a>に保存されている該当するフィールドの値を返します。これは<a href="#language-expression">式</a>です。
 </p>
 <p>
   返される値の型は、フィールドの型です。
@@ -3498,16 +3486,16 @@ my $re = $z_ref->{re};
 インボカント式->{Field Name} = 右式
 </pre>
 <p>
-  インボカント式は、<a href="#language-type-ref-multi-numeric">複数数値のリファレンス型</a>の値でなければなりません。インボカント式が、<a href="#language-type-class">Class Type</a>の値であった場合は、<a href="#language-expression-set-field-class">Class Typeのフィールドの値の設定</a>になり、<a href="#language-type-multi-numeric">Multi Numeric Type</a>の値であった場合は、<a href="#language-expression-set-field-multi-numeric">Multi Numeric Typeのフィールドの値の設定</a>になり、それ以外の場合は、コンパイル時エラーが発生します。
+  インボカント式は、<a href="#language-type-ref-multi-numeric">複数数値のリファレンス型</a>の値でなければなりません。インボカント式が、<a href="#language-type-class">Class Type</a>の値であった場合は、<a href="#language-expression-set-field-class">Class Typeのフィールドの値の設定</a>になり、<a href="#language-type-multi-numeric">Multi Numeric Type</a>の値であった場合は、<a href="#language-expression-set-field-multi-numeric">Multi Numeric Typeのフィールドの値の設定</a>になり、それ以外の場合は、a compile-time error occurs
 </p>
 <p>
-  Field Nameが、存在しない場合は、コンパイル時エラーが発生します。
+  Field Nameが、存在しない場合は、a compile-time error occurs
 </p>
 <p>
-  右式の型は、フィールドの型と同じでなければなりません。そうでない場合は、コンパイル時エラーが発生します。
+  右式の型は、フィールドの型と同じでなければなりません。otherwise a compile-time error occurs
 </p>
 <p>
-  デリファレンスによるMulti Numeric Typeのフィールドの値の設定は、設定後の<a href="#language-sub-stack">サブルーチンのコールスタック</a>に保存されている該当するフィールドの値を返します。これは<a href="#language-expression">式</a>です。
+  デリファレンスによるMulti Numeric Typeのフィールドの値の設定は、設定後の<a href="#language-sub-stack">Subroutine Callstack</a>に保存されている該当するフィールドの値を返します。これは<a href="#language-expression">式</a>です。
 </p>
 <p>
   返される値の型は、フィールドの型です。
@@ -3532,10 +3520,10 @@ $z_ref->{re} = 2.5;
 配列式->[インデックス式]
 </p>
 <p>
-  配列式は、<a href="#language-type-array">配列型</a>の値でなければなりません。そうでない場合は、コンパイル時エラーが発生します。
+  配列式は、<a href="#language-type-array">配列型</a>の値でなければなりません。otherwise a compile-time error occurs
 </p>
 <p>
-  インデックス式は、int型の値でなければなりません。そうでない場合は、コンパイル時エラーが発生します。
+  インデックス式は、int型の値でなければなりません。otherwise a compile-time error occurs
 </p>
 <p>
   配列の要素の値を取得は、指定したインデックスの要素の値を返します。これは、式です。
@@ -3571,13 +3559,13 @@ my $object = (Point)$objects->[1];
 配列式->[インデックス式] = 右式
 </p>
 <p>
-  配列式は、<a href="#language-type-array">配列型</a>の値でなければなりません。そうでない場合は、コンパイル時エラーが発生します。
+  配列式は、<a href="#language-type-array">配列型</a>の値でなければなりません。otherwise a compile-time error occurs
 </p>
 <p>
-  インデックス式は、int型の値でなければなりません。そうでない場合は、コンパイル時エラーが発生します。
+  インデックス式は、int型の値でなければなりません。otherwise a compile-time error occurs
 </p>
 <p>
-  右式の型は、配列の要素の型と<a href="#language-type-compatible">型の互換性</a>がなければなりません。そうでない場合は、コンパイル時エラーが発生します。
+  右式の型は、配列の要素の型と<a href="#language-type-compatible">型の互換性</a>がなければなりません。otherwise a compile-time error occurs
 </p>
 <p>
   配列の要素の値を設定は、設定後の値を返します。これは、式です。
@@ -3619,7 +3607,7 @@ $objects->[2] = Point->new(3, 5);;
 my $object = new PACKAGE_NAME;
 </pre>
 <p>
-  指定されたPackage は、<a href="#language-type-class">Class Type</a>でなければなりません。そうでない場合は、コンパイル時エラーが発生します。
+  指定されたPackage は、<a href="#language-type-class">Class Type</a>でなければなりません。otherwise a compile-time error occurs
 </p>
 <p>
   フィールドは、すべて<a href="language-type-initial-value">型の初期値</a>で初期化されます。
@@ -3654,10 +3642,10 @@ my $object = new Foo;
 my $object = new 型[要素数式];
 </pre>
 <p>
-  型には、<a href="#language-type-numeric">数値型</a>、<a href="#language-type-object">オブジェクト型</a>、<a href="#language-type-multi-numeric">Multi Numeric Type</a>が指定できます。それ以外の型を指定した場合は、コンパイル時エラーが発生します。
+  型には、<a href="#language-type-numeric">数値型</a>、<a href="#language-type-object">オブジェクト型</a>、<a href="#language-type-multi-numeric">Multi Numeric Type</a>が指定できます。それ以外の型を指定した場合は、a compile-time error occurs
 </p>
 <p>
-  要素数式は、int型the following <a href="#language-type-numeric">数値型</a>でなければなりません。そうでない場合は、コンパイル時エラーが発生します。
+  要素数式は、int型the following <a href="#language-type-numeric">数値型</a>でなければなりません。otherwise a compile-time error occurs
 </p>
 <p>
   要素数式に対して、<a href="#language-type-convertion-unary-numeric-widening">単項数値拡大型変換</a>が行われます。
@@ -3724,14 +3712,14 @@ my $nums = new int[][][3];
   式2以降が、<a href="#language-type-compatible">型の互換性</a>を満たさない場合は、コンパイルエラーになります。
 </p>
 
-<h3 id="language-expression-callsub">サブルーチンの呼び出し</h3>
+<h3 id="language-expression-callsub">Subroutine Call</h3>
 <p>
-  <a href="#language-sub-definition">サブルーチンの定義</a>によって定義されたサブルーチンは呼び出すことができます。呼び出しには、2種類あって、<b>関数の呼び出し</b>と<b>メソッドの呼び出し</b>があります。
+  <a href="#language-sub-definition">Subroutine Definition</a>によって定義されたSubroutine は呼び出すことができます。呼び出しには、2種類あって、<b>関数の呼び出し</b>と<b>メソッドの呼び出し</b>があります。
 </p>
 
 <h4 id="language-expression-callsub-func">関数の呼び出し</h4>
 <p>
-  関数の呼び出しとは、<a href="#language-sub-method">メソッド</a>ではないサブルーチンを呼び出す方法のことをいいます。メソッドかどうかの判断は、<a href="#language-sub-definition">サブルーチンの定義</a>において、第一引数に<a href="#language-type-self">self型</a>の引数が指定されていた場合が、メソッドになります。
+  関数の呼び出しとは、<a href="#language-sub-method">メソッド</a>ではないSubroutine を呼び出す方法のことをいいます。メソッドかどうかの判断は、<a href="#language-sub-definition">Subroutine Definition</a>において、第一引数に<a href="#language-type-self">self type</a>の引数が指定されていた場合が、メソッドになります。
 </p>
 <p>
   関数の呼び出しはthe following 方法で行うことができます。引数は、なくても構いません。最大で255個の引数を指定できます。
@@ -3749,29 +3737,29 @@ Package Name->Subroutine Name(引数1, 引数2, 引数3, ..., 引数n);
 Subroutine Name(引数1, 引数2, 引数3, ..., 引数n);
 </pre>
 <p>
-  どのPackage サブルーチンが呼び出されるかは、the following 順番によって決まります。
+  どのPackage Subroutine が呼び出されるかは、the following 順番によって決まります。
 </p>
 <p>
-  1. 現在のPackage で定義されているサブルーチン、または現在のPackage にインポートされたサブルーチン
+  1. 現在のPackage で定義されているSubroutine 、または現在のPackage にインポートされたSubroutine 
 </p>
 <p>
-  2. 標準関数 - COREPackage で定義されているサブルーチン
+  2. 標準関数 - COREPackage で定義されているSubroutine 
 </p>
 
 <p>
-  関数の呼び出しは、引数を受け取ります。引数の個数が、サブルーチンの定義で定義されている引数の個数と一致しない場合は、コンパイル時エラーが発生します。それぞれの引数の型が、サブルーチン定義で定義されている引数の型と<a href="#language-type-compatible">型の互換性</a>がない場合は、コンパイル時エラーが発生します。
+  関数の呼び出しは、引数を受け取ります。引数の個数が、Subroutine Definitionで定義されている引数の個数と一致しない場合は、a compile-time error occursそれぞれの引数の型が、Subroutine 定義で定義されている引数の型と<a href="#language-type-compatible">型の互換性</a>がない場合は、a compile-time error occurs
 </p>
 <p>
-  関数の呼び出しは、戻り値がvoid型以外の場合は、戻り値を返します。
+  関数の呼び出しは、戻り値がvoid type以外の場合は、戻り値を返します。
 </p>
 <p>
   関数の呼び出しは、<a href="#language-expression">式</a>です。
 <p>
 <p>
-  <b>サブルーチン呼び出しのExample</b>
+  <b>Subroutine 呼び出しのExample</b>
 </p>
 <p>
-  サブルーチン呼び出しのExampleです。
+  Subroutine 呼び出しのExampleです。
 </p>
 <pre>
 my $ret = Foo->bar(1, 2, 3);
@@ -3780,7 +3768,7 @@ my $ret = bar(1, 2, 3);
 
 <h4 id="language-expression-callsub-method">メソッドの呼び出し</h4>
 <p>
-  メソッドの呼び出しとは、<a href="#language-sub-method">メソッド</a>であるサブルーチンを呼び出す方法のことをいいます。メソッドかどうかの判断は、<a href="#language-sub-definition">サブルーチンの定義</a>において、第一引数に<a href="#language-type-self">self型</a>の引数が指定されていた場合が、メソッドになります。
+  メソッドの呼び出しとは、<a href="#language-sub-method">メソッド</a>であるSubroutine を呼び出す方法のことをいいます。メソッドかどうかの判断は、<a href="#language-sub-definition">Subroutine Definition</a>において、第一引数に<a href="#language-type-self">self type</a>の引数が指定されていた場合が、メソッドになります。
 </p>
 <p>
   メソッドの呼び出しは、<a href="#language-expression-new-object">オブジェクトの生成</a>によって生成されたオブジェクトを使ってthe following syntax で行うことができます。
@@ -3789,10 +3777,10 @@ my $ret = bar(1, 2, 3);
 オブジェクト->Subroutine Name(引数1, 引数2, 引数3, ..., 引数n);
 </pre>
 <p>
-  メソッドの呼び出しは、引数を受け取ります。引数の個数が、サブルーチンの定義で定義されている引数の個数と一致しない場合は、コンパイル時エラーが発生します。それぞれの引数の型が、サブルーチン定義で定義されている引数の型と<a href="#language-type-compatible">型の互換性</a>がない場合は、コンパイル時エラーが発生します。
+  メソッドの呼び出しは、引数を受け取ります。引数の個数が、Subroutine Definitionで定義されている引数の個数と一致しない場合は、a compile-time error occursそれぞれの引数の型が、Subroutine 定義で定義されている引数の型と<a href="#language-type-compatible">型の互換性</a>がない場合は、a compile-time error occurs
 </p>
 <p>
-  メソッドの呼び出しは、戻り値がvoid型以外の場合は、戻り値を返します。
+  メソッドの呼び出しは、戻り値がvoid type以外の場合は、戻り値を返します。
 </p>
 <p>
   メソッドの呼び出しは、<a href="#language-expression">式</a>です。
@@ -3836,7 +3824,7 @@ my $ret = $cb_obj->(1, 2);
 $変数
 </pre>
 <p>
-  変数の型は、リファレンス型でなければなりません。そうでない場合は、コンパイル時エラーが発生します。
+  変数の型は、リファレンス型でなければなりません。otherwise a compile-time error occurs
 </p>
 <p>
   デリファレンスによる値の取得は、<a href="#language-expression">式</a>を返します。
@@ -3862,10 +3850,10 @@ my $z_deref : SPVM::Complex_2d = $$z_ref;
 $変数 = 式
 </pre>
 <p>
-  変数の型は、リファレンス型でなければなりません。そうでない場合は、コンパイル時エラーが発生します。
+  変数の型は、リファレンス型でなければなりません。otherwise a compile-time error occurs
 </p>
 <p>
-  式の型は、デリファレンスされた場合の変数の型に一致していなければなりません。そうでない場合は、コンパイル時エラーが発生します。
+  式の型は、デリファレンスされた場合の変数の型に一致していなければなりません。otherwise a compile-time error occurs
 </p>
 <p>
   デリファレンスによる値の設定は、設定された値を返します。これは<a href="#language-expression">式</a>です。
@@ -3999,25 +3987,25 @@ my $line == __LINE__;
   Integer Literal  の型は、デフォルトでは"int型"になります。
 </p>
 <p>
-  Integer Literal  がint型で表現できる数値の範囲を超えている場合は、コンパイル時エラーが発生します。
+  Integer Literal  がint型で表現できる数値の範囲を超えている場合は、a compile-time error occurs
 </p>
 <p>
   末尾に"L"あるいは"l"のサフィックスをつけることで"long型"のInteger Literal  を表現できます。
 </p>
 <p>
-  long型のInteger Literal  の場合は、long型で表現できる数値の範囲を超えている場合は、コンパイル時エラーが発生します。
+  long型のInteger Literal  の場合は、long型で表現できる数値の範囲を超えている場合は、a compile-time error occurs
 </p>
 <p>
   Separatorとして"_"を使用することができます。Separatorは意味を持ちません。
 </p>
 <p>
-  Invalid Integer Literal  の表現はコンパイル時エラーが発生します。
+  Invalid Integer Literal  の表現はa compile-time error occurs
 </p>
 <p>
-  Integer Literal  がbyte型の変数に代入される場合、あるいはbyte型のサブルーチンの引数として渡される場合で、byte型で表現できる数値の範囲を超えていない場合は、<a href="#language-type-convertion-numeric-narrowing">数値縮小型変換</a>によって、byte型に自動的に変換されます。範囲を超えている場合は、コンパイル時エラーとなります。
+  Integer Literal  がbyte型の変数に代入される場合、あるいはbyte型のSubroutine Argumentsとして渡される場合で、byte型で表現できる数値の範囲を超えていない場合は、<a href="#language-type-convertion-numeric-narrowing">数値縮小型変換</a>によって、byte型に自動的に変換されます。範囲を超えている場合は、コンパイル時エラーとなります。
 </p>
 <p>
-  Integer Literal  がshort型の変数に代入される場合、あるいはshort型のサブルーチンの引数として渡される場合で、short型で表現できる数値の範囲を超えていない場合は、<a href="#language-type-convertion-numeric-narrowing">数値縮小型変換</a>によって、short型に自動的に変換されます。範囲を超えている場合は、コンパイル時エラーとなります。
+  Integer Literal  がshort型の変数に代入される場合、あるいはshort型のSubroutine Argumentsとして渡される場合で、short型で表現できる数値の範囲を超えていない場合は、<a href="#language-type-convertion-numeric-narrowing">数値縮小型変換</a>によって、short型に自動的に変換されます。範囲を超えている場合は、コンパイル時エラーとなります。
 </p>
 <p>
   Integer Literal  のExampleです。
@@ -4044,7 +4032,7 @@ my $line == __LINE__;
   その後ろに"0～9""a～f""A～F"のひとつ以上の連続した文字が続きます。
 </p>
 <p>
-  Invalid 16進数表現は、コンパイル時エラーが発生します。
+  Invalid 16進数表現は、a compile-time error occurs
 </p>
 <p>
   Integer Literal  を16進数で表現したExampleです。
@@ -4069,7 +4057,7 @@ my $line == __LINE__;
   その後ろに"0～7"のひとつ以上の連続した文字が続きます。
 </p>
 <p>
-  Invalid 8進数表現は、コンパイル時エラーが発生します。
+  Invalid 8進数表現は、a compile-time error occurs
 </p>
 <p>
   Integer Literal  を8進数で表現したExampleです。
@@ -4093,7 +4081,7 @@ my $line == __LINE__;
   その後ろに"0"か"1"のひとつ以上の連続した文字が続きます。
 </p>
 <p>
-  Invalid 2進数表現は、コンパイル時エラーが発生します。
+  Invalid 2進数表現は、a compile-time error occurs
 </p>
 <p>
   Integer Literal  を2進数で表現したExampleです。
@@ -4162,10 +4150,10 @@ my $line == __LINE__;
   サフィックスが省略された場合は、浮動小数点Literal の型は"double型"になります。
 </p>
 <p>
-  浮動小数点Literal が"float型"の場合はC標準の"strtof関数"を使って、文字列からfloat型への変換が行われます。変換が失敗した場合は、コンパイル時エラーが発生します。
+  浮動小数点Literal が"float型"の場合はC標準の"strtof関数"を使って、文字列からfloat型への変換が行われます。変換が失敗した場合は、a compile-time error occurs
 </p>
 <p>
-  浮動小数点Literal が"double型"の場合はC標準の"strtod関数"を使って、文字列からdouble型への変換が行われます。変換が失敗した場合は、コンパイル時エラーが発生します。
+  浮動小数点Literal が"double型"の場合はC標準の"strtod関数"を使って、文字列からdouble型への変換が行われます。変換が失敗した場合は、a compile-time error occurs
 </p>
 <p>
   無限大を表現する浮動小数点Literal はありません。標準関数である"<a href="#stdfunc-INFINITY">INFINITY関数</a>""<a href="#stdfunc-INFINITYF">INFINITYF関数</a>"を使用してください。
@@ -4202,7 +4190,7 @@ my $line == __LINE__;
   文字Literal の型は"byte型"になります。
 </p>
 <p>
-  Invalid 文字Literal の場合は、コンパイル時エラーが発生します。
+  Invalid 文字Literal の場合は、a compile-time error occurs
 </p>
 <p>
   <b>エスケープ文字</b>
@@ -4342,7 +4330,7 @@ my $line == __LINE__;
   文字列Literal の型は"string型"になります。
 </p>
 <p>
-  Invalid 文字列Literal の場合は、コンパイル時エラーが発生します。
+  Invalid 文字列Literal の場合は、a compile-time error occurs
 </p>
 <p>
   <b>エスケープ文字</b>
@@ -4577,7 +4565,7 @@ my $line == __LINE__;
   1. その後ろに、続く文字が"a-z""A-Z""0-9""_""{""["であった場合は、解釈を進めます。
 </p>
 <p>
-  2. "1."の後ろに続く文字が"}""]"であった場合は、その次の文字が"->""{""["であった場合は、解釈を進め、1に戻ります。そうでない場合は、解釈を止めます。
+  2. "1."の後ろに続く文字が"}""]"であった場合は、その次の文字が"->""{""["であった場合は、解釈を進め、1に戻ります。otherwise 解釈を止めます。
 </p>
 <p>
   末尾の$は変数展開の開始としては扱われず"$"として扱われます。
@@ -4778,7 +4766,7 @@ my $ret = ($x += 2, $x + $y);
 +式
 </pre>
 <p>
-  式は<a href="#language-type-numeric">数値型</a>でなければなりません。そうでない場合は、コンパイル時エラーが発生します。
+  式は<a href="#language-type-numeric">数値型</a>でなければなりません。otherwise a compile-time error occurs
 </p>
 <p>
   <a href="#language-expression">式</a>に対して、<a href="#language-type-convertion-unary-numeric-widening">単項数値拡大型変換</a>が行われます。
@@ -4809,7 +4797,7 @@ my $num = +10;
 -式
 </pre>
 <p>
-  式は<a href="#language-type-numeric">数値型</a>でなければなりません。そうでない場合は、コンパイル時エラーが発生します。
+  式は<a href="#language-type-numeric">数値型</a>でなければなりません。otherwise a compile-time error occurs
 </p>
 <p>
   <a href="#language-expression">式</a>に対して、<a href="#language-type-convertion-unary-numeric-widening">単項数値拡大型変換</a>が行われます。
@@ -4843,7 +4831,7 @@ my $num = -10;
 左式 + 右式
 </pre>
 <p>
-  左式と右式は、<a href="#language-type-numeric">数値型</a>でなければなりません。そうでない場合は、コンパイル時エラーが発生します。
+  左式と右式は、<a href="#language-type-numeric">数値型</a>でなければなりません。otherwise a compile-time error occurs
 <p>
 <p>
   左式と右式に対して、<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大型変換</a>が行われます。
@@ -4871,7 +4859,7 @@ x + y;
 左式 - 右式
 </pre>
 <p>
-  左式と右式は、<a href="#language-type-numeric">数値型</a>でなければなりません。そうでない場合は、コンパイル時エラーが発生します。
+  左式と右式は、<a href="#language-type-numeric">数値型</a>でなければなりません。otherwise a compile-time error occurs
 <p>
 <p>
   左式と右式に対して、<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大型変換</a>が行われます。
@@ -4899,7 +4887,7 @@ x - y;
 左式 * 右式
 </pre>
 <p>
-  左式と右式は、<a href="#language-type-numeric">数値型</a>でなければなりません。そうでない場合は、コンパイル時エラーが発生します。
+  左式と右式は、<a href="#language-type-numeric">数値型</a>でなければなりません。otherwise a compile-time error occurs
 <p>
 <p>
   左式と右式に対して、<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大型変換</a>が行われます。
@@ -4927,7 +4915,7 @@ x * y;
 左式 / 右式
 </pre>
 <p>
-  左式と右式は、<a href="#language-type-numeric">数値型</a>でなければなりません。そうでない場合は、コンパイル時エラーが発生します。
+  左式と右式は、<a href="#language-type-numeric">数値型</a>でなければなりません。otherwise a compile-time error occurs
 <p>
 <p>
   左式と右式に対して、<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大型変換</a>が行われます。
@@ -4959,7 +4947,7 @@ x / y;
 左式 % 右式
 </pre>
 <p>
-  左式と右式は、<a href="#language-type-integral">整数型</a>でなければなりません。そうでない場合は、コンパイル時エラーが発生します。
+  左式と右式は、<a href="#language-type-integral">整数型</a>でなければなりません。otherwise a compile-time error occurs
 <p>
 <p>
   左式と右式に対して、<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大型変換</a>が行われます。
@@ -4988,22 +4976,22 @@ x % y;
 # 前置のインクリメント
 ++レキシカル変数
 ++Package Variable 
-++フィールドへのアクセス
+++Field Access
 ++配列へのアクセス
 ++デリファレンス
 
 # 後置のインクリメント
 レキシカル変数++
 Package Variable ++
-フィールドへのアクセス++
+Field Access++
 配列へのアクセス++
 デリファレンス++
 </pre>
 <p>
-  インクリメントOperator の対象は、<a href="#language-lex-var">レキシカル変数</a>、<a href="#language-package-var">Package Variable </a>、<a href="#language-field-access">フィールドへのアクセス</a>、<a href="#language-array-access">配列へのアクセス</a>、<a href="#language-deref">デリファレンス</a>でなければなりません。そうでない場合は、コンパイル時エラーが発生します。
+  インクリメントOperator の対象は、<a href="#language-lex-var">レキシカル変数</a>、<a href="#language-package-var">Package Variable </a>、<a href="#language-field-access">Field Access</a>、<a href="#language-array-access">配列へのアクセス</a>、<a href="#language-deref">デリファレンス</a>でなければなりません。otherwise a compile-time error occurs
 </p>
 <p>
-  インクリメントOperator の対象の型は、<a href="#language-type-numeric">数値型</a>でなければなりません。そうでない場合は、コンパイルエラーが発生します。
+  インクリメントOperator の対象の型は、<a href="#language-type-numeric">数値型</a>でなければなりません。otherwise コンパイルエラーが発生します。
 </p>
 <p>
   <b>前置のインクリメントOperator </b>
@@ -5052,22 +5040,22 @@ Package Variable ++
 # 前置のデクリメント
 --レキシカル変数
 --Package Variable 
---フィールドへのアクセス
+--Field Access
 --配列へのアクセス
 --デリファレンス
 
 # 後置のデクリメント
 レキシカル変数--
 Package Variable --
-フィールドへのアクセス--
+Field Access--
 配列へのアクセス--
 デリファレンス--
 </pre>
 <p>
-  デクリメントOperator の対象は、<a href="#language-lex-var">レキシカル変数</a>、<a href="#language-package-var">Package Variable </a>、<a href="#language-field-access">フィールドへのアクセス</a>、<a href="#language-array-access">配列へのアクセス</a>、<a href="#language-deref">デリファレンス</a>でなければなりません。そうでない場合は、コンパイル時エラーが発生します。
+  デクリメントOperator の対象は、<a href="#language-lex-var">レキシカル変数</a>、<a href="#language-package-var">Package Variable </a>、<a href="#language-field-access">Field Access</a>、<a href="#language-array-access">配列へのアクセス</a>、<a href="#language-deref">デリファレンス</a>でなければなりません。otherwise a compile-time error occurs
 </p>
 <p>
-  デクリメントOperator の対象の型は、<a href="#language-type-numeric">数値型</a>でなければなりません。そうでない場合は、コンパイルエラーが発生します。
+  デクリメントOperator の対象の型は、<a href="#language-type-numeric">数値型</a>でなければなりません。otherwise コンパイルエラーが発生します。
 </p>
 <p>
   <b>前置のデクリメントOperator </b>
@@ -5121,7 +5109,7 @@ Package Variable --
 左式 & 右式
 </pre>
 <p>
-  左式と右式は、<a href="#language-type-integral">整数型</a>でなければなりません。そうでない場合は、コンパイル時エラーが発生します。
+  左式と右式は、<a href="#language-type-integral">整数型</a>でなければなりません。otherwise a compile-time error occurs
 <p>
 <p>
   左式と右式に対して、<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大型変換</a>が行われます。
@@ -5150,7 +5138,7 @@ x & y;
 左式 | 右式
 </pre>
 <p>
-  左式と右式は、<a href="#language-type-integral">整数型</a>でなければなりません。そうでない場合は、コンパイル時エラーが発生します。
+  左式と右式は、<a href="#language-type-integral">整数型</a>でなければなりません。otherwise a compile-time error occurs
 <p>
 <p>
   左式と右式に対して、<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大型変換</a>が行われます。
@@ -5179,7 +5167,7 @@ x | y;
 ~式
 </pre>
 <p>
-  式は<a href="#language-type-integral">整数型</a>でなければなりません。そうでない場合は、コンパイル時エラーが発生します。
+  式は<a href="#language-type-integral">整数型</a>でなければなりません。otherwise a compile-time error occurs
 </p>
 <p>
   <a href="#language-expression">式</a>に対して、<a href="#language-type-convertion-unary-numeric-widening">単項数値拡大型変換</a>が行われます。
@@ -5218,13 +5206,13 @@ my $num = ~0xFF0A;
 左式 << 右式
 </pre>
 <p>
-  左式は、<a href="#language-type-integral">整数型</a>でなければなりません。そうでない場合は、コンパイル時エラーが発生します。
+  左式は、<a href="#language-type-integral">整数型</a>でなければなりません。otherwise a compile-time error occurs
 <p>
 <p>
   最初に<a href="#language-expression">左式</a>に対して、<a href="#language-type-convertion-unary-numeric-widening">単項数値拡大型変換</a>が行われます。
 </p>
 <p>
-  右式は、int型でなければなりません。そうでない場合は、コンパイル時エラーが発生します。
+  右式は、int型でなければなりません。otherwise a compile-time error occurs
 <p>
 <p>
   左シフトOperator の演算結果は、C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99との型の対応</a>に応じた、int型、long型における演算が定義されます。
@@ -5247,13 +5235,13 @@ x << y;
 左式 >> 右式
 </pre>
 <p>
-  左式は、<a href="#language-type-integral">整数型</a>でなければなりません。そうでない場合は、コンパイル時エラーが発生します。
+  左式は、<a href="#language-type-integral">整数型</a>でなければなりません。otherwise a compile-time error occurs
 <p>
 <p>
   最初に<a href="#language-expression">左式</a>に対して、<a href="#language-type-convertion-unary-numeric-widening">単項数値拡大型変換</a>が行われます。
 </p>
 <p>
-  右式は、int型でなければなりません。そうでない場合は、コンパイル時エラーが発生します。
+  右式は、int型でなければなりません。otherwise a compile-time error occurs
 <p>
 <p>
   算術右シフトOperator の演算結果は、C99におけるthe following 演算と完全に一致する演算を行います。xに対して、<a href="#language-c99-type">C99との型の対応</a>に応じた、int型、long型における演算が定義されます。
@@ -5276,13 +5264,13 @@ x >> y;
 左式 >>> 右式
 </pre>
 <p>
-  左式は、<a href="#language-type-integral">整数型</a>でなければなりません。そうでない場合は、コンパイル時エラーが発生します。
+  左式は、<a href="#language-type-integral">整数型</a>でなければなりません。otherwise a compile-time error occurs
 <p>
 <p>
   最初に<a href="#language-expression">左式</a>に対して、<a href="#language-type-convertion-unary-numeric-widening">単項数値拡大型変換</a>が行われます。
 </p>
 <p>
-  右式は、int型でなければなりません。そうでない場合は、コンパイル時エラーが発生します。
+  右式は、int型でなければなりません。otherwise a compile-time error occurs
 <p>
 <p>
   論理右シフトOperator の演算結果は、C99におけるthe following 演算と完全に一致する演算を行います。xに対して、<a href="#language-c99-type">C99との型の対応</a>に応じた、int型、long型における演算が定義されます。
@@ -5392,7 +5380,7 @@ x >> y;
   </tr>
 </table>
 <p>
-  左辺と右辺の型は、比較可能な型でなければなりません。そうでない場合は、コンパイル時エラーが発生します。
+  左辺と右辺の型は、比較可能な型でなければなりません。otherwise a compile-time error occurs
 </p>
 <p>
   数値型の比較の場合は、左式と右式に対して、<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大型変換</a>が行われます。
@@ -5505,10 +5493,10 @@ x >> y;
   1. 右型が、<a href="#language-type-numeric">数値型</a>、<a href="#language-type-multi-numeric">Multi Numeric Type</a>、<a href="#language-type-any-object">汎用オブジェクト型</a>、<a href="#language-type-ref">リファレンス型</a>の場合は、コンパイル時に左式の型が右型と同一のものであるかをチェックします。同一であった場合はint型で1を、そうでない場合は0を返します。
 </p>
 <p>
-  2. 右型が、<a href="#language-type-class">Class Type</a>であった場合は、実行時に左式の型が、Class Typeと一致するかをチェックします。一致した場合はint型で1を、そうでない場合は0を返します。左式の型は、オブジェクト型でなければなりません。そうでない場合は、コンパイル時エラーが発生します。
+  2. 右型が、<a href="#language-type-class">Class Type</a>であった場合は、実行時に左式の型が、Class Typeと一致するかをチェックします。一致した場合はint型で1を、そうでない場合は0を返します。左式の型は、オブジェクト型でなければなりません。otherwise a compile-time error occurs
 </p>
 <p>
-  3. 右型が、<a href="#language-type-callback">Callback Type</a>であった場合は、実行時に左式の型がClass Typeであり、そのクラスがCallback Typeを満たすかどうかをチェックします。満たした場合はint型の1を、そうでない場合は0を返します。左式の型は、オブジェクト型でなければなりません。そうでない場合は、コンパイル時エラーが発生します。
+  3. 右型が、<a href="#language-type-callback">Callback Type</a>であった場合は、実行時に左式の型がClass Typeであり、そのクラスがCallback Typeを満たすかどうかをチェックします。満たした場合はint型の1を、そうでない場合は0を返します。左式の型は、オブジェクト型でなければなりません。otherwise a compile-time error occurs
 </p>
 
 <h3 id="language-operator-logical">論理Operator </h3>
@@ -5608,7 +5596,7 @@ x >> y;
   左式あるいは右式が、<a href="#language-type-numeric">数値型</a>であった場合は、<a href="#language-type-convertion-numeric-to-string">数値から文字列への型変換</a>によって文字列に変換されます。
 </p>
 <p>
-  左式と右式はどちらも<a href="#language-type-string-compatible">文字列互換型</a>でなければなりません。そうでない場合は、コンパイルエラーになります。
+  左式と右式はどちらも<a href="#language-type-string-compatible">文字列互換型</a>でなければなりません。otherwise コンパイルエラーになります。
 </p>
 <p>
   文字列連結Operator は、左式と右式で表現される<a href="#language-string">文字列</a>を連結し、新しい文字列を返します。
@@ -5656,7 +5644,7 @@ my $str = 123 . 456;
 左式 特殊代入Operator  右式
 </pre>
 <p>
-  左式と右式が<a href="#language-type-compatible">型の互換性</a>を満たさない場合は、コンパイル時エラーが発生します。
+  左式と右式が<a href="#language-type-compatible">型の互換性</a>を満たさない場合は、a compile-time error occurs
 </p>
 <p>
   <b>特殊代入Operator の一覧</b>
@@ -5753,7 +5741,7 @@ $x >>>= 1;
 \変数
 </pre>
 <p>
-  変数が数値型またはMulti Numeric Typeでなかった場合は、コンパイル時エラーが発生します。
+  変数が数値型またはMulti Numeric Typeでなかった場合は、a compile-time error occurs
 </p>
 <p>
   リファレンスOperator は式を返します。返される型は、<a href="#language-type-ref">リファレンス型</a>です。
@@ -5780,7 +5768,7 @@ my $z_ref : SPVM::Complex_2d& = \$z;
 @右式
 </pre>
 <p>
-  右式は、配列型でなければなりません。そうでない場合は、コンパイル時エラーが発生します。
+  右式は、配列型でなければなりません。otherwise a compile-time error occurs
 </p>
 <p>
   配列長Operator は、配列の長さをint型の値で返します。
@@ -5810,7 +5798,7 @@ my $length = @$nums;
 length 右式
 </pre>
 <p>
-  右式は、<a href="#language-type-string-compatible">文字列互換型</a>でなければなりません。そうでない場合は、コンパイル時エラーが発生します。
+  右式は、<a href="#language-type-string-compatible">文字列互換型</a>でなければなりません。otherwise a compile-time error occurs
 </p>
 <p>
   文字列長Operator は、文字列の長さをint型の値で返します。文字列長Operator が返す文字列の長さは、バイト列としてみたときの長さでです。
@@ -5837,7 +5825,7 @@ my $length = length $nums;
 scalar 右式
 </pre>
 <p>
-  右式は<a href="language-operator-array-length">配列長Operator </a>でなければなりません。そうでない場合は、コンパイル時エラーが発生します。
+  右式は<a href="language-operator-array-length">配列長Operator </a>でなければなりません。otherwise a compile-time error occurs
 </p>
 <p>
   スカラOperator は、式を返します。
@@ -5861,13 +5849,13 @@ foo(scalar @$nums);
 isweak 変数->{Field Name};
 </pre>
 <p>
-  オブジェクト式の型は、<a href="#language-type-class">Class Type</a>でなければなりません。そうでない場合は、コンパイル時エラーが発生します。
+  オブジェクト式の型は、<a href="#language-type-class">Class Type</a>でなければなりません。otherwise a compile-time error occurs
 </p>
 <p>
-  Field Nameは、存在するField Nameでなければなりません。そうでない場合は、コンパイル時エラーが発生します。
+  Field Nameは、存在するField Nameでなければなりません。otherwise a compile-time error occurs
 </p>
 <p>
-  フィールドに保存される値の型は、<a href="#language-type-object">オブジェクト型</a>でなければなりません。そうでない場合は、コンパイル時エラーが発生します。
+  フィールドに保存される値の型は、<a href="#language-type-object">オブジェクト型</a>でなければなりません。otherwise a compile-time error occurs
 </p>
 <p>
   実行時にフィールドに保存されている値が、<a href="#language-undef">未定義値</a>だった場合は、偽を返します。これは、<a href="#language-expression">式</a>です。
@@ -6230,10 +6218,10 @@ default: {
   条件式は、<a href="#language-expression">式</a>を指定できます。条件式には、<a href="#language-type-convertion-bool">ブール型変換</a>が実行されます。
 </p>
 <p>
-  case文で指定される定数は、byte型かint型の定数でなければなりません。byte型の定数の場合は、コンパイル時に、int型に型変換されます。enum型の値や、int型の定数サブルーチンは、int型の定数として、syntax 解析時に展開されるので、利用することができます。
+  case文で指定される定数は、byte型かint型の定数でなければなりません。byte型の定数の場合は、コンパイル時に、int型に型変換されます。enum型の値や、int型の定数Subroutine は、int型の定数として、syntax 解析時に展開されるので、利用することができます。
 </p>
 <p>
-  case文に指定される定数は、重複してはいけません。重複している場合は、コンパイル時エラーが発生します。
+  case文に指定される定数は、重複してはいけません。重複している場合は、a compile-time error occurs
 </p>
 <p>
   条件式で指定された値が、case文で指定された値にマッチした場合は、そのcase文の位置にジャンプします。
@@ -6242,7 +6230,7 @@ default: {
   マッチしなかった場合でdefault文が指定されている場合は、default文の位置にジャンプします。default文が指定されていなかった場合は、switchブロックは実行されません。
 </p>
 <p>
-  switch文には、少なくともひとつのcase文が必要です。そうでない場合は、コンパイルエラーが発生します。
+  switch文には、少なくともひとつのcase文が必要です。otherwise コンパイルエラーが発生します。
 </p>
 <p>
   default文は省略可能です。
@@ -6284,7 +6272,7 @@ default: {
 }
 </pre>
 <p>
-  caseのブロックが存在する場合は、最後の文はbreak文あるいは、return文でなければなりません。そうでない場合は、コンパイルエラーが発生します。
+  caseのブロックが存在する場合は、最後の文はbreak文あるいは、return文でなければなりません。otherwise コンパイルエラーが発生します。
 </p>
 
 <p>
@@ -6340,7 +6328,7 @@ while (条件式) {
 }
 </pre>
 <p>
-  条件式に、<a href="#language-expresssion">式</a>を記述できます。条件式に<a href="#language-type-convertion-bool">ブール型変換</a>が実行され、値が0以外の場合に、ブロックが実行されます。そうでない場合は、ブロックを抜けます。
+  条件式に、<a href="#language-expresssion">式</a>を記述できます。条件式に<a href="#language-type-convertion-bool">ブール型変換</a>が実行され、値が0以外の場合に、ブロックが実行されます。otherwise ブロックを抜けます。
 </p>
 <p>
   <b>while文のExample</b>
@@ -6427,7 +6415,7 @@ for (初期化式; 条件式; インクリメント式) {
   初期化式には、<a href="#language-expression">式</a>を記述できます。一般的には、ループ変数の初期化などの式を記述します。初期化式は省略することが可能です。
 </p>
 <p>
-  条件式、<a href="#language-expresssion">式</a>を記述できます。条件式に<a href="#language-type-convertion-bool">ブール型変換</a>が実行され、値が0以外の場合に、ブロックが実行されます。そうでない場合は、ブロックを抜けます。
+  条件式、<a href="#language-expresssion">式</a>を記述できます。条件式に<a href="#language-type-convertion-bool">ブール型変換</a>が実行され、値が0以外の場合に、ブロックが実行されます。otherwise ブロックを抜けます。
 </p>
 <p>
   インクリメント式には、<a href="#language-expression">式</a>を記述できます。一般的には、ループ変数のインクリメントの式を記述します。インクリメント式は省略することが可能です。
@@ -6482,7 +6470,7 @@ next;
 
 <h3 id="language-statement-return">return文</h3>
 <p>
-  return文を使うと、サブルーチンから脱出します。モータル変数に代入されているオブジェクトは、自動的に解放されます。
+  return文を使うと、Subroutine から脱出します。モータル変数に代入されているオブジェクトは、自動的に解放されます。
 </p>
 <pre>
 return;
@@ -6494,10 +6482,10 @@ return;
 return 式;
 </pre>
 <p>
-  <a href="#language-sub-definition">サブルーチンの定義</a>において戻り値の型が"void型"である場合は、式が存在してはいけません。そうでない場合は、コンパイル時エラーが発生します。
+  <a href="#language-sub-definition">Subroutine Definition</a>において戻り値の型が"void type"である場合は、式が存在してはいけません。otherwise a compile-time error occurs
 </p>
 <p>
-  <a href="#language-sub-definition">サブルーチンの定義</a>において戻り値の型が"void型"以外の場合は、式の型と一致していなければなりません。そうでない場合は、コンパイル時エラーが発生します。
+  <a href="#language-sub-definition">Subroutine Definition</a>において戻り値の型が"void type"以外の場合は、式の型と一致していなければなりません。otherwise a compile-time error occurs
 </p>
 
 <h3 id="language-statement-die">die文</h3>
@@ -6522,13 +6510,13 @@ die 式;
 weaken 変数->{Field Name};
 </pre>
 <p>
-  オブジェクト式の型は、<a href="#language-type-class">Class Type</a>でなければなりません。そうでない場合は、コンパイル時エラーが発生します。
+  オブジェクト式の型は、<a href="#language-type-class">Class Type</a>でなければなりません。otherwise a compile-time error occurs
 </p>
 <p>
-  Field Nameは、存在するField Nameでなければなりません。そうでない場合は、コンパイル時エラーが発生します。
+  Field Nameは、存在するField Nameでなければなりません。otherwise a compile-time error occurs
 </p>
 <p>
-  フィールドに保存される値の型は、<a href="#language-type-object">オブジェクト型</a>でなければなりません。そうでない場合は、コンパイル時エラーが発生します。
+  フィールドに保存される値の型は、<a href="#language-type-object">オブジェクト型</a>でなければなりません。otherwise a compile-time error occurs
 </p>
 <p>
   実行時にフィールドに保存されている値が、<a href="#language-undef">未定義値</a>だった場合は、weaken文は、何もしません。
@@ -6584,13 +6572,13 @@ weaken $baz->{foo};
 unweaken 変数->{Field Name};
 </pre>
 <p>
-  オブジェクト式の型は、<a href="#language-type-class">Class Type</a>でなければなりません。そうでない場合は、コンパイル時エラーが発生します。
+  オブジェクト式の型は、<a href="#language-type-class">Class Type</a>でなければなりません。otherwise a compile-time error occurs
 </p>
 <p>
-  Field Nameは、存在するField Nameでなければなりません。そうでない場合は、コンパイル時エラーが発生します。
+  Field Nameは、存在するField Nameでなければなりません。otherwise a compile-time error occurs
 </p>
 <p>
-  フィールドに保存される値の型は、<a href="#language-type-object">オブジェクト型</a>でなければなりません。そうでない場合は、コンパイル時エラーが発生します。
+  フィールドに保存される値の型は、<a href="#language-type-object">オブジェクト型</a>でなければなりません。otherwise a compile-time error occurs
 </p>
 <p>
   実行時にフィールドに保存されている値が、<a href="#language-undef">未定義値</a>だった場合は、unweaken文は、何もしません。
@@ -6672,7 +6660,7 @@ my $num = 1 + 2;
 <ul class="list">
   <li><a href="#language-type-summary">型の概要</a></li>
   <li><a href="#language-type-initial-value">型の初期値</a></li>
-  <li><a href="#language-type-void">void型</a></li>
+  <li><a href="#language-type-void">void type</a></li>
   <li><a href="#language-type-numeric">数値型</a></li>
   <li><a href="#language-type-integral">整数型</a></li>
   <li><a href="#language-type-byte">byte型</a></li>
@@ -6689,7 +6677,7 @@ my $num = 1 + 2;
   <li><a href="#language-type-class">Class Type</a></li>
   <li><a href="#language-type-callback">Callback Type</a></li>
   <li><a href="#language-type-any-object">汎用オブジェクト型</a></li>
-  <li><a href="#language-type-self">self型</a></li>
+  <li><a href="#language-type-self">self type</a></li>
   <li><a href="#language-type-array">配列型</a></li>
   <li><a href="#language-type-array-numeric">数値配列型</a></li>
   <li><a href="#language-type-array-byte">byte[]型</a></li>
@@ -6708,7 +6696,7 @@ my $num = 1 + 2;
   SPVMは、静的型言語です。すべてのデータは静的な型を持ちます。
 </p>
 <p>
-  レキシカル変数の宣言、フィールドの定義、Package Variable の定義、サブルーチンの定義の引数と戻り値において、型が指定される必要があります。
+  レキシカル変数の宣言、Field Definition、Package Variable Definition、Subroutine Definitionの引数と戻り値において、型が指定される必要があります。
 </p>
 <p>
   レキシカル変数の宣言においては、型推論を利用して、暗黙的に型を指定することもできます。
@@ -7063,7 +7051,7 @@ my $object : object = "abc";
   未定義型の値は<a href="#language-undef">未定義値</a>のみです。
 </p>
 <p>
-  未定義型の値は、オブジェクト型に代入できます。他の型に代入した場合は、コンパイル時エラーが発生します。
+  未定義型の値は、オブジェクト型に代入できます。他の型に代入した場合は、a compile-time error occurs
 </p>
 
 <h3 id="language-type-class">Class Type</h3>
@@ -7107,7 +7095,7 @@ package Foo : pointer_t {
   Pointer Typeのデータには、C言語のポインタを保存することができます。
 </p>
 <p>
-  Pointer Typeには、フィールドを定義することはできません。定義されていた場合は、コンパイル時エラーが発生します。
+  Pointer Typeには、フィールドを定義することはできません。定義されていた場合は、a compile-time error occurs
 </p>
 <h3 id="language-type-callback">Callback Type</h3>
 <p>
@@ -7122,13 +7110,13 @@ sub : int ($self : self, $x1 : object, $x2 : object);
   Callback Typeは、C言語における関数ポインタに該当する機能を提供するために設計されました。
 </p>
 <p>
-  Callback Typeは、サブルーチンの定義を一つだけ持ちます。サブルーチンは、<a href="#language-sub-method">メソッド</a>でなければなりません。
+  Callback Typeは、Subroutine Definitionを一つだけ持ちます。Subroutine は、<a href="#language-sub-method">メソッド</a>でなければなりません。
 </p>
 <p>
   Callback TypeのSubroutine Nameは、無名でなければなりません。
 </p>
 <p>
-  Callback Typeは"<a href="#language-field-definition">フィールドの定義</a>""<a href="#language-package-var-definition">Package Variable の定義</a>"を持つことはできません。
+  Callback Typeは"<a href="#language-field-definition">Field Definition</a>""<a href="#language-package-var-definition">Package Variable Definition</a>"を持つことはできません。
 </p>
 <p>
   Callback Typeの値を、newOperator によって実体化することはできません。
@@ -7143,7 +7131,7 @@ sub : int ($self : self, $x1 : object, $x2 : object);
   Callback Typeには、コールバックを満たしたClass Typeのオブジェクトを代入できます。この場合、Class TypeはCallback Typeに適合するといいます。Class TypeがCallback Typeを満たすのは次の二つの場合です。
 </p>
 <p>
-  1. Callback Typeとして定義されたサブルーチンと同一の名前とシグネチャを持つClass Typeのオブジェクトは、Callback Typeに代入できます。
+  1. Callback Typeとして定義されたSubroutine と同一の名前とシグネチャを持つClass Typeのオブジェクトは、Callback Typeに代入できます。
 </p>
 <pre>
 # Callback Typeの定義
@@ -7166,7 +7154,7 @@ sub : int ($self : self, $x1 : object, $x2 : object) {
 my $comparator : SPVM::Comparator = SomeComparator->new;
 </pre>
 <p>
-  2. Callback Typeとして定義されたサブルーチンと同一のシグネチャを持つコールバックオブジェクトの生成を行うと、Callback Typeに代入できます。
+  2. Callback Typeとして定義されたSubroutine と同一のシグネチャを持つコールバックオブジェクトの生成を行うと、Callback Typeに代入できます。
 </p>
 <pre>
 # Callback Typeの定義
@@ -7196,17 +7184,17 @@ my $object : object = "abc";
 my $object : object = new Foo[3];
 </pre>
 
-<h3 id="language-type-self">self型</h3>
+<h3 id="language-type-self">self type</h3>
 <p>
-  self型とは、自身の属するPackage 型を表現し、引数がインボカントであることを示します。
+  self typeとは、自身の属するPackage 型を表現し、引数がインボカントであることを示します。
 </p>
 <p>
-  <a href="#language-sub-definition">サブルーチンの定義</a>において第一引数の型としてのみ利用できます。
+  <a href="#language-sub-definition">Subroutine Definition</a>において第一引数の型としてのみ利用できます。
 </p>
 
-<h3 id="language-type-void">void型</h3>
+<h3 id="language-type-void">void type</h3>
 <p>
-  void型とは、<a href="#language-sub-definition">サブルーチンの定義</a>において戻り値の型としてだけ利用できる、存在しないことを示す特別な型です。
+  void typeとは、<a href="#language-sub-definition">Subroutine Definition</a>において戻り値の型としてだけ利用できる、存在しないことを示す特別な型です。
 </p>
 
 <h3 id="language-type-basic">基本型</h3>
@@ -7353,7 +7341,7 @@ my $array : oarray = new Point[3];
 my $array : oarray = new object[3];
 </pre>
 <p>
-  オブジェクト型以外の型を持つ値が代入された場合は、コンパイル時エラーが発生します。
+  オブジェクト型以外の型を持つ値が代入された場合は、a compile-time error occurs
 </p>
 <p>
   "oarray型"は"object[]型"と異なる型であることに注意してください。oarray型は、オブジェクト型の値を要素として持つ任意の配列型の値を代入できる型であるのに対して、"object[]型"は、"object型の値を要素に持つ配列"を表現する型で、任意の配列型の値を代入することはできません。
@@ -7398,7 +7386,7 @@ my $str : string = "abc";
 my $ch = $str->[1];
 </pre>
 <p>
-  要素を変更しようとした場合は、コンパイル時エラーが発生します。
+  要素を変更しようとした場合は、a compile-time error occurs
 </p>
 <pre>
 # 要素の変更はコンパイルエラー
@@ -7473,16 +7461,16 @@ my $point_ref : Point_3i& = \$point;
   リファレンス型の値に代入できるのは、<a href="#language-operator-ref">リファレンスOperator </a>で取得したレキシカル変数のアドレスだけです。
 </p>
 <p>
-  リファレンス型のレキシカル変数の宣言だけが行われた場合は、コンパイル時エラーが発生します。
+  リファレンス型のレキシカル変数の宣言だけが行われた場合は、a compile-time error occurs
 </p>
 <p>
-  リファレンス型は、<a href="#language-lex-var-declaration">レキシカル変数の宣言</a>の型として利用できます。必ずリファレンスOperator によって、レキシカル変数のアドレスが格納される必要があります。レキシカル変数の宣言だけの場合は、コンパイル時エラーが発生します。
+  リファレンス型は、<a href="#language-lex-var-declaration">レキシカル変数の宣言</a>の型として利用できます。必ずリファレンスOperator によって、レキシカル変数のアドレスが格納される必要があります。レキシカル変数の宣言だけの場合は、a compile-time error occurs
 </p>
 <p>
-  リファレンス型は、<a href="#language-sub-definition">サブルーチンの定義</a>における引数の型として利用できます。
+  リファレンス型は、<a href="#language-sub-definition">Subroutine Definition</a>における引数の型として利用できます。
 </p>
 <p>
-  リファレンス型は、<a href="#language-sub-definition">サブルーチンの定義</a>における戻り値の型として利用できません。
+  リファレンス型は、<a href="#language-sub-definition">Subroutine Definition</a>における戻り値の型として利用できません。
 </p>
 <p>
   リファレンス型は、<a href="#language-package-definition">Package Definition</a>におけるフィールドの型として利用できません。
@@ -7491,7 +7479,7 @@ my $point_ref : Point_3i& = \$point;
   リファレンス型は、<a href="#language-package-definition">Package Definition</a>におけるPackage Variable の型として利用できません。
 </p>
 <p>
-  Invalid 場所で、リファレンス型が使用された場合は、コンパイル時エラーが発生します。
+  Invalid 場所で、リファレンス型が使用された場合は、a compile-time error occurs
 </p>
 <p>
   リファレンスの詳しい解説については、<a href="#language-ref">リファレンス</a>を見てください。
@@ -7564,7 +7552,7 @@ $objects_dim1_dist = $objects_dim2_src;
 my $objets : object[] = new int[3];
 </pre>
 <p>
-  型に互換性がない場合は、<a href="#language-type-convertion-implicite">暗黙的な型変換</a>が試みられます。暗黙の型変換に失敗した場合は、コンパイル時エラーが発生します。
+  型に互換性がない場合は、<a href="#language-type-convertion-implicite">暗黙的な型変換</a>が試みられます。暗黙の型変換に失敗した場合は、a compile-time error occurs
 </p>
 
 <h2 id="language-type-convertion">型変換</h2>
@@ -7610,7 +7598,7 @@ my $num : int = (int)4;
   <b>型キャストにおける型変換の一覧</b>
 </p>
 <p>
-  型キャストにおける型変換の一覧です。この表にない型キャストが行われた場合は、コンパイル時エラーが発生します。
+  型キャストにおける型変換の一覧です。この表にない型キャストが行われた場合は、a compile-time error occurs
 </p>
 <table>
   <tr>
@@ -7743,7 +7731,7 @@ int64_t dist = (int64_t)src;
 </p>
 <ul class="list">
   <li>異なる型に代入する場合</li>
-  <li>異なる型のサブルーチンの引数に渡す場合</li>
+  <li>異なる型のSubroutine Argumentsに渡す場合</li>
   <li>戻り値とは異なる型を返却する場合</li>
 </ul>
 <p>
@@ -7934,7 +7922,7 @@ while (条件部) {
 !条件部
 </pre>
 <p>
-  ブール型変換で指定される式は、<a href="#language-type-numeric">数値型</a>あるいは<a href="#language-type-object">オブジェクト型</a>あるいは<a href="#language-type-undef">未定義型</a>でなければなりません。そうでない場合は、コンパイル時エラーが発生します。
+  ブール型変換で指定される式は、<a href="#language-type-numeric">数値型</a>あるいは<a href="#language-type-object">オブジェクト型</a>あるいは<a href="#language-type-undef">未定義型</a>でなければなりません。otherwise a compile-time error occurs
 </p>
 <p>
   ブール型変換の戻り値は、int型の式です。
@@ -7976,9 +7964,9 @@ while (条件部) {
   SPVMにおける制限です。
 </p>
 
-<h3 id="language-limitation-sub-arguments-count">サブルーチンの引数の個数の制限</h3>
+<h3 id="language-limitation-sub-arguments-count">Subroutine Argumentsの個数の制限</h3>
 <p>
-  SPVMのサブルーチンの引数の個数の最大は256個です。
+  SPVMのSubroutine Argumentsの個数の最大は256個です。
 </p>
 <p>
   Multi Numeric Typeの引数を渡すときは、フィールドの個数が、引数の個数としてカウントされます。たとえばSPVM::Complex_2d型が引数で指定された場合は、2個と数えます。
@@ -7987,11 +7975,11 @@ while (条件部) {
   複数数値のリファレンス型の引数を渡すときは、Multi Numeric Typeのフィールドの個数が、引数の個数としてカウントされます。たとえばSPVM::Complex_2d&型が引数で指定された場合は、2個と数えます。
 </p>
 <p>
-  もし、最大値を超えた場合は、コンパイル時エラーが発生します。
+  もし、最大値を超えた場合は、a compile-time error occurs
 </p>
 
 <h3 id="language-limitation-value-type-fileds-count">Multi Numeric Typeのフィールドの個数の制限</h3>
 <p>
-  Multi Numeric Typeのフィールドの個数の最大値は、256個で、少なくともひとつのフィールドが必要です。そうでない場合は、コンパイル時エラーが発生します。
+  Multi Numeric Typeのフィールドの個数の最大値は、256個で、少なくともひとつのフィールドが必要です。otherwise a compile-time error occurs
 </p>
 
