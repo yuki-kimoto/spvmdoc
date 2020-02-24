@@ -1329,7 +1329,7 @@ use Foo::Bar;
 </p>
 <pre>
 package Foo {
-use Foo;
+  use Foo;
 }
 </pre>
 
@@ -1360,10 +1360,10 @@ else {
 <pre>
 my $foo : object;
 if (require Foo) {
-$foo = new Foo;
+  $foo = new Foo;
 }
 else {
-warn "Warning: Can't load Foo";
+  warn "Warning: Can't load Foo";
 }
 </pre>
 
@@ -1382,7 +1382,7 @@ allow Package Name;
 </p>
 <pre>
 package Foo {
-allow Bar;
+  allow Bar;
 }
 </pre>
 <p>
@@ -1392,7 +1392,7 @@ allow Bar;
 <h2 id="language-package-var">Package Variable </h2>
 <ul class="list">
   <li><a href="#language-package-var-definition">Package Variable Definition</a></li>
-  <li><a href="#language-package-var-initial-value">Package Variable の初期値</a></li>
+  <li><a href="#language-package-var-initial-value">Package Variable Initial Value</a></li>
   <li><a href="#language-package-var-access">Package Variable へのアクセス</a></li>
 </ul>
 <h3 id="language-package-var-definition">Package Variable Definition</h3>
@@ -1486,10 +1486,10 @@ our Package Variable Name : Descriptor Type Name ;
   Package Variable アクセッサとは,Package Variable にアクセスするためのクラスメソッドのことです。
 </p>
 <p>
-  書き込み用のPackage Variable アクセッサの戻り値は"void type"です。
+  書き込み用のPackage Variable アクセッサのReturn Valueは"void type"です。
 </p>
 <p>
-  SPVMのソースコードの中からPackage Variable アクセッサが呼び出された場合は,Package Variable アクセッサはインライン展開されます。それ以外の場合は,インライン展開されません。
+  SPVMのソースコードの中からPackage Variable アクセッサが呼び出された場合は,Package Variable アクセッサはInline Expansionされます。それ以外の場合は,Inline Expansionされません。
 </p>
 <p>
   <b>Package Variable 定義のExample</b>
@@ -1499,33 +1499,33 @@ our Package Variable Name : Descriptor Type Name ;
 </p>
 <pre>
 package Foo {
-our $NUM1 : byte;
-our $NUM2 : short;
-our $NUM3 : int;
-our $NUM4 : long;
-our $NUM5 : float;
-our $NUM6 : double;
+  our $NUM1 : byte;
+  our $NUM2 : short;
+  our $NUM3 : int;
+  our $NUM4 : long;
+  our $NUM5 : float;
+  our $NUM6 : double;
 
-our $NUM_PUBLIC : public int;
-our $NUM_RO : ro int;
-our $NUM_WO : wo int;
-our $NUM_RW : rw int;
+  our $NUM_PUBLIC : public int;
+  our $NUM_RO : ro int;
+  our $NUM_WO : wo int;
+  our $NUM_RW : rw int;
 }
 </pre>
-<h3 id="language-package-var-initial-value">Package Variable の初期値</h3>
+<h3 id="language-package-var-initial-value">Package Variable Initial Value</h3>
 <p>
-  Package Variable は,コンパイルが終了して,実行時に入る前に,<a href="#language-type-initial-value">型の初期値</a>で初期化されます。
+  Package Variable は,コンパイルが終了して,実行時に入る前に,<a href="#language-type-initial-value">Type Initial Value</a>で初期化されます。
 </p>
 <p>
   この初期値は,<a href="#language-begin-block">BEGINブロック</a>を使うことで,変更することができます。
 </p>
 <pre>
 package Foo {
-our $VAR : int;
+  our $VAR : int;
 
-BEGIN {
-$VAR = 3;
-}
+  BEGIN {
+    $VAR = 3;
+  }
 }
 </pre>
 <h3 id="language-package-var-access">Package Variable へのアクセス</h3>
@@ -1638,10 +1638,10 @@ has Field Name : Descriptor Type Name ;
   フィールドアクセッサとは,フィールドにアクセスするためのメソッドのことです。
 </p>
 <p>
-  書き込み用のフィールドアクセッサの戻り値は"void type"です。
+  書き込み用のフィールドアクセッサのReturn Valueは"void type"です。
 </p>
 <p>
-  SPVMのソースコードの中からフィールドアクセッサが呼び出された場合は,フィールドアクセッサはインライン展開されます。それ以外の場合は,インライン展開されません。
+  SPVMのソースコードの中からフィールドアクセッサが呼び出された場合は,フィールドアクセッサはInline Expansionされます。それ以外の場合は,Inline Expansionされません。
 </p>
 <p>
   <b>フィールド定義のExample</b>
@@ -1651,17 +1651,17 @@ has Field Name : Descriptor Type Name ;
 </p>
 <pre>
 package Foo {
-has num1 : byte;
-has num2 : short;
-has num3 : int;
-has num4 : long;
-has num5 : float;
-has num6 : double;
+  has num1 : byte;
+  has num2 : short;
+  has num3 : int;
+  has num4 : long;
+  has num5 : float;
+  has num6 : double;
 
-has num_public : public int;
-has num_ro : ro int;
-has num_wo : wo int;
-has num_rw : rw int;
+  has num_public : public int;
+  has num_ro : ro int;
+  has num_wo : wo int;
+  has num_rw : rw int;
 }
 </pre>
 <h3 id="language-field-access">Field Access</h3>
@@ -1695,7 +1695,7 @@ $point->{x} = 1;
   <b>2. Multi Numeric TypeのField Access</b>
 </p>
 <p>
-  2. <a href="#language-type-multi-numeric">Multi Numeric Type</a>におけるフィールドは,Multi Numeric Typeの変数の宣言をすれば,その変数からフィールドにアクセスできます。これは,レキシカル変数領域におけるアクセスです。
+  2. <a href="#language-type-multi-numeric">Multi Numeric Type</a>におけるフィールドは,Multi Numeric Typeの変数の宣言をすれば,その変数からフィールドにアクセスできます。これは,Lexical Variable 領域におけるアクセスです。
 </p>
 <pre>
 my $z : SPVM::Complex_2d;
@@ -1730,7 +1730,7 @@ $z_ref->{im} = 3;
 <h2 id="language-sub">Subroutine </h2>
 <ul class="list">
   <li><a href="#language-sub-definition">Subroutine Definition</a></li>
-  <li><a href="#language-sub-constant">定数Subroutine</a></li>
+  <li><a href="#language-sub-constant">Constant Subroutine</a></li>
   <li><a href="#language-sub-new-callback-object">コールバックオブジェクトの生成</a></li>
   <li><a href="#language-sub-capture">キャプチャ</a></li>
   <li><a href="#language-sub-method">メソッド</a></li>
@@ -1743,7 +1743,7 @@ $z_ref->{im} = 3;
   "sub"Keyword を使用してSubroutine を定義することができます。
 </p>
 <pre>
-sub Subroutine Name : 戻り値のType Name  (引数名1 : 引数のType Name 1, 引数名2 : 引数のType Name 2, 以下続く) {
+sub Subroutine Name : Return ValueのType Name  (引数名1 : 引数のType Name 1, 引数名2 : 引数のType Name 2, 以下続く) {
 
 }
 </pre>
@@ -1760,7 +1760,7 @@ sub Subroutine Name : 戻り値のType Name  (引数名1 : 引数のType Name 1,
   戻りのType Name には,"void type""numeric type""object type "を指定することができます。
 </p>
 <p>
-  Subroutine Definitionには"戻り値のType Name "と"0個以上の引数の定義"が必要です。"引数の定義"は"引数名"と"引数のType Name "からなります。
+  Subroutine Definitionには"Return ValueのType Name "と"0個以上の引数の定義"が必要です。"引数の定義"は"引数名"と"引数のType Name "からなります。
 </p>
 <p>
   引数名は,変数名でなければなりません。
@@ -1777,7 +1777,7 @@ sub Subroutine Name : 戻り値のType Name  (引数名1 : 引数のType Name 1,
   Subroutine Definitionには,Descriptorを合わせて指定することができます。複数のDescriptorを空白を使って並べることができます。
 </p>
 <pre>
-Descriptor Name sub Subroutine Name : 戻り値のType Name  (引数の変数名1 : 引数のType Name 1, 引数の変数名2 : 引数のType Name 2, 以下続く) {
+Descriptor Name sub Subroutine Name : Return ValueのType Name  (引数の変数名1 : 引数のType Name 1, 引数の変数名2 : 引数のType Name 2, 以下続く) {
 
 }
 </pre>
@@ -1822,7 +1822,7 @@ Descriptor Name sub Subroutine Name : 戻り値のType Name  (引数の変数名
 </p>
 <pre>
 # 可変長引数の定義
-sub Subroutine Name : 戻り値のType Name  (引数名1 : 引数のType Name 1, 引数名2 : 引数のType Name 2...) {
+sub Subroutine Name : Return ValueのType Name  (引数名1 : 引数のType Name 1, 引数名2 : 引数のType Name 2...) {
 
 }
 </pre>
@@ -1858,9 +1858,9 @@ foo("aaa %d %f", (object)[(object)SPVM::Int->new(1), SPVM::Double->new(2.0)]);
   定義されたSubroutine は,呼び出すことができます。Subroutine Callについては,<a href="language-expression-callsub">Subroutine Call</a>を見てください。
 </p>
 
-<h3 id="language-sub-constant">定数Subroutine </h3>
+<h3 id="language-sub-constant">Constant Subroutine </h3>
 <p>
-  numeric typeの戻り値を持つSubroutine で,戻り値が定数であるSubroutine を定数Subroutine といいます。
+  numeric typeのReturn Valueを持つSubroutine で,Return Valueが定数であるSubroutine をConstant Subroutine といいます。
 </p>
 <pre>
 sub foo : int () { return 5; }
@@ -1869,13 +1869,13 @@ sub foo : float () { return 5.0f; }
 sub foo : double () { return 5.0; }
 </pre>
 <p>
-  定数Subroutine は,インライン展開されます。
+  Constant Subroutine は,Inline Expansionされます。
 </p>
 <p>
-  SPVMは定数畳み込み最適化を行わないので,定数が演算されている場合は,定数Subroutine にならず,インライン展開されないことに注意してください。
+  SPVMは定数畳み込み最適化を行わないので,定数が演算されている場合は,Constant Subroutine にならず,Inline Expansionされないことに注意してください。
 </p>
 <pre>
-# 定数Subroutine ではなくインライン展開されない
+# Constant Subroutine ではなくInline Expansionされない
 sub foo : int () { return 5 + 3; }
 </pre>
 
@@ -1930,8 +1930,8 @@ my $bar = 5L;
 
 my $comparator = [$foo : int, $bar : long] sub : int ($self : self, $x1 : object, $x2 : object) {
 
-print "$foo\n";
-print "$bar\n";
+  print "$foo\n";
+  print "$bar\n";
 }
 </pre>
 <p>
@@ -1941,7 +1941,7 @@ print "$bar\n";
   キャプチャは,実際には,クラスのフィールドとして定義されます。キャプチャは,Field Definitionと値の設定のシンタックスシュガーです。
 </p>
 <p>
-  スコープ内で,キャプチャ変数と同名の<a href="#language-lex-var">レキシカル変数</a>が存在する場合は,レキシカル変数にアクセスします。
+  スコープ内で,キャプチャ変数と同名の<a href="#language-lex-var">Lexical Variable </a>が存在する場合は,Lexical Variable にアクセスします。
 </p>
 <p>
   キャプチャ変数と同名の<a href="#language-package-var">Package Variable</a>が存在する場合は,キャプチャ変数にアクセスします。
@@ -1951,16 +1951,16 @@ print "$bar\n";
 </p>
 <pre>
 package ComapartorImpl {
-has foo : int;
-has bar : long;
+  has foo : int;
+  has bar : long;
 
-sub : int ($self : self, $x1 : object, $x2 : object) {
+  sub : int ($self : self, $x1 : object, $x2 : object) {
 
-print $self->{foo} . "\n";
-print $self->{bar} . "\n";
+  print $self->{foo} . "\n";
+  print $self->{bar} . "\n";
+  }
 }
-}
-<pre>
+</pre>
 
 </pre>
 my $foo = 1;
@@ -2005,7 +2005,7 @@ sub Subroutine Name : Type Name  ($self : self, 引数1 : 型1, 引数2 : 型2, 
   シグネチャとは,Subroutine Retrun Valueと引数を次の規則で並べたものをいいます。引数は,存在しなくても構いません。間に空白を含むことはできません。
 </p>
 <p>
-  1. 戻り値のType Name 
+  1. Return ValueのType Name 
 </p>
 <p>
   2. (
@@ -2044,7 +2044,7 @@ void()
   Subroutine Callstackには,the following 情報が保存されます。
 </p>
 <p>
-  1. <a href="#language-lex-var">レキシカル変数</a>のためのメモリ領域
+  1. <a href="#language-lex-var">Lexical Variable </a>のためのメモリ領域
 </p>
 <p>
   2. モータル変数の場所
@@ -2065,9 +2065,9 @@ void()
 </p>
 <pre>
 enum {
-FLAG1,
-FLAG2,
-FLAG3
+  FLAG1,
+  FLAG2,
+  FLAG3
 }
 </pre>
 <p>
@@ -2075,11 +2075,11 @@ FLAG3
 </p>
 <pre>
 package Foo {
-enum {
-FLAG1,
-FLAG2,
-FLAG3
-}
+  enum {
+    FLAG1,
+    FLAG2,
+    FLAG3
+  }
 }
 </pre>
 
@@ -2091,13 +2091,13 @@ FLAG3
 </p>
 <pre>
 enum {
-FLAG1,
-FLAG2,
-FLAG3,
+  FLAG1,
+  FLAG2,
+  FLAG3,
 }
 </pre>
 <p>
-  列挙はint type を戻り値とする"定数Subroutine "のエイリアスです。次のSubroutine Definitionと等価です。
+  列挙はint type をReturn Valueとする"Constant Subroutine "のエイリアスです。次のSubroutine Definitionと等価です。
 </p>
 <pre>
 sub FLAG1 : int () { return 0; }
@@ -2109,9 +2109,9 @@ sub FLAG3 : int () { return 2; }
 </p>
 <pre>
 enum {
-FLAG1,
-FLAG2 = 4,
-FLAG3,
+  FLAG1,
+  FLAG2 = 4,
+  FLAG3,
 }
 </pre>
 <p>
@@ -2129,9 +2129,9 @@ FLAG3,
 </p>
 <pre>
 private enum {
-FLAG1,
-FLAG2 = 4,
-FLAG3,
+  FLAG1,
+  FLAG2 = 4,
+  FLAG3,
 }
 </pre>
 <p>
@@ -2169,7 +2169,7 @@ FLAG3,
 
 <h3 id="language-enum-call">列挙の呼び出し</h3>
 <p>
-  列挙は,定数Subroutine のエイリアスなので,Subroutine 呼び出しとまったく同じ方法で呼び出すことができます。
+  列挙は,Constant Subroutine のエイリアスなので,Subroutine 呼び出しとまったく同じ方法で呼び出すことができます。
 </p>
 <pre>
 my $flag1 = Foo->FLAG1;
@@ -2181,21 +2181,21 @@ my $flag3 = Foo->FLAG3;
 </p>
 <pre>
 switch ($num) {
-case Foo->FLAG1: {
+  case Foo->FLAG1: {
 
-break;
-}
-case Foo->FLAG2: {
+    break;
+  }
+  case Foo->FLAG2: {
 
-break:
-}
-case Foo->FLAG3: {
+    break:
+  }
+  case Foo->FLAG3: {
 
-break:
-}
-default: {
+    break:
+  }
+  default: {
 
-}
+  }
 }
 </pre>
 <h2 id="language-begin-block">BEGINブロック</h2>
@@ -2215,9 +2215,9 @@ BEGIN {
 </p>
 <pre>
 package Foo {
-BEGIN {
+  BEGIN {
 
-}
+  }
 }
 </pre>
 <p>
@@ -2225,12 +2225,12 @@ BEGIN {
 </p>
 <pre>
 BEGIN {
-my $foo = 1 + 1;
-my $bar;
+  my $foo = 1 + 1;
+  my $bar;
 }
 </pre>
 <p>
-  returnl statementを書くことはできません。BEGINブロックは,引数がなく,戻り値がvoidのSubroutine として定義されます。
+  returnl statementを書くことはできません。BEGINブロックは,引数がなく,Return ValueがvoidのSubroutine として定義されます。
 </p>
 <p>
   BEGINブロックは,いくつでも定義できます。
@@ -2243,38 +2243,38 @@ my $bar;
 </p>
 <pre>
 package Foo {
-our $NUM : int;
-our $POINT : Point;
-BEGIN {
-$NUM = 3;
-$POINT = Point->new;
-}
+  our $NUM : int;
+  our $POINT : Point;
+  BEGIN {
+  $NUM = 3;
+    $POINT = Point->new;
+  }
 }
 </pre>
 
-<h2 id="language-lex-var">レキシカル変数</h2>
+<h2 id="language-lex-var">Lexical Variable </h2>
 <ul class="list">
   <li><a href="#language-lex-var-declaration">Lexical Variable Declaration</a></li>
-  <li><a href="#language-lex-var-initial-value">レキシカル変数の初期値</a></li>
-  <li><a href="#language-lex-var-access">レキシカル変数へのアクセス</a></li>
+  <li><a href="#language-lex-var-initial-value">Lexical Variable Initial Value</a></li>
+  <li><a href="#language-lex-var-access">Lexical Variable Access</a></li>
 </ul>
 <h3 id="language-lex-var-declaration">Lexical Variable Declaration </h3>
 <p>
-  レキシカル変数とは,<a href="#language-scope-block">スコープブロック</a>の中で利用できる,<a href="#language-scope">スコープ</a>を持つ変数のことです。C言語のローカル変数に該当します。
+  Lexical Variable とは,<a href="#language-scope-block">Scope Block </a>の中で利用できる,<a href="#language-scope">スコープ</a>を持つ変数のことです。C言語のローカル変数に該当します。
 </p>
 <pre>
 {
-my $num : int;
+  my $num : int;
 }
 </pre>
 <p>
-  レキシカル変数は"my"Keyword によって宣言します。":"の後ろに"<a href="#language-type">型</a>"を指定する必要があります。
+  Lexical Variable は"my"Keyword によって宣言します。":"の後ろに"<a href="#language-type">型</a>"を指定する必要があります。
 </p>
 <pre>
 my $num : int;
 </pre>
 <p>
-  レキシカル変数は,<a href="#language-lex-var-initial-value">レキシカル変数の初期値</a>によって初期化されます。
+  Lexical Variable is initialized by <a href="#language-lex-var-initial-value">Lexical Variable Initial Value</a>.
 </p>
 <pre>
 # 0で初期化される
@@ -2313,7 +2313,7 @@ my $num = 1;
 my $num = 1.0;
 </pre>
 <p>
-  Lexical Variable Declaration は,レキシカル変数の値を返します。これは,<a href="#language-expression">式</a>として利用できます。
+  Lexical Variable Declaration は,Lexical Variable の値を返します。これは,<a href="#language-expression">式</a>として利用できます。
 </p>
 <pre>
 my $ppp = my $bar = 4;
@@ -2328,26 +2328,26 @@ while (my $bar = 1) {
 </pre>
 
 <p>
-  Lexical Variable Declaration は,レキシカル変数が<a href="#language-type-object">object type </a>であった場合に,レキシカル変数を,モータル変数として,実行時に登録します。モータル変数として登録されたレキシカル変数に代入されているオブジェクトは,<a href="#language-scope">スコープ</a>の末尾で,リファレンスカウントが自動的に1減らされます。
+  Lexical Variable Declaration は,Lexical Variable が<a href="#language-type-object">object type </a>であった場合に,Lexical Variable を,モータル変数として,実行時に登録します。モータル変数として登録されたLexical Variable に代入されているオブジェクトは,<a href="#language-scope">スコープ</a>の末尾で,リファレンスカウントが自動的に1減らされます。
 </p>
 
-<h3 id="language-lex-var-initial-value">レキシカル変数の初期値</h3>
+<h3 id="language-lex-var-initial-value">Lexical Variable Initial Value</h3>
 <p>
-  レキシカル変数は,<a href="#language-type-initial-value">型の初期値</a>で初期化されます。
+  Lexical Variable is initialized by <a href="#language-type-initial-value">Type Initial Value</a>.
 </p>
 
-<h3 id="language-lex-var-access">レキシカル変数へのアクセス</h3>
+<h3 id="language-lex-var-access">Lexical Variable Access</h3>
 <p>
-  レキシカル変数へのアクセスとは,レキシカル変数にアクセスして,値を取得したり,設定したりする操作のことです。
+  Lexical Variable Accessとは,Lexical Variable にアクセスして,値を取得したり,設定したりする操作のことです。
 </p>
 <p>
-  <b>レキシカル変数の値の取得</b>については,<a href="#language-expression-get-lex-var">レキシカル変数の値の取得</a>を見てください。
+  <b>Lexical Variable の値の取得</b>については,<a href="#language-expression-get-lex-var">Lexical Variable の値の取得</a>を見てください。
 </p>
 <p>
-  <b>レキシカル変数の値の設定</b>については,<a href="#language-expression-set-lex-var">レキシカル変数の値の設定</a>を見てください。
+  <b>Lexical Variable の値の設定</b>については,<a href="#language-expression-set-lex-var">Lexical Variable の値の設定</a>を見てください。
 </p>
 <p>
-  レキシカル変数と同名の<a href="#language-package-var">Package Variable</a>が存在した場合は,レキシカル変数にアクセスします。
+  Lexical Variable と同名の<a href="#language-package-var">Package Variable</a>が存在した場合は,Lexical Variable にアクセスします。
 </p>
 
 <h2 id="language-block">ブロック</h2>
@@ -2361,53 +2361,53 @@ while (my $bar = 1) {
 }
 </pre>
 <p>
-  ブロックの中には,スコープを作る<a href="#language-scope-block">スコープブロック</a>があります。
+  ブロックの中には,スコープを作る<a href="#language-scope-block">Scope Block </a>があります。
 </p>
 
 <h2 id="language-scope">スコープ</h2>
 <ul class="list">
   <li><a href="#language-scope-role">スコープの役割</a>
-  <li><a href="#language-scope-block">スコープブロック</a>
+  <li><a href="#language-scope-block">Scope Block </a>
 </ul>
 
 <h3 id="language-scope-role">スコープの役割</h3>
 <p>
-  スコープとは<a href="#language-scope-block">スコープブロック</a>に囲まれた範囲のことをいいます。
+  スコープとは<a href="#language-scope-block">Scope Block </a>に囲まれた範囲のことをいいます。
 </p>
 <pre>
-# スコープブロック
+# Scope Block 
 {
 
 }
 </pre>
 <p>
-  スコープの中で宣言されたレキシカル変数は,実行時に,宣言されている位置で,モータルなレキシカル変数として登録されます。
+  スコープの中で宣言されたLexical Variable は,実行時に,宣言されている位置で,モータルなLexical Variable として登録されます。
 </p>
 <pre>
 {
-# レキシカル変数をモータルとして登録
-my $num = new Foo;
+  # Lexical Variable をモータルとして登録
+  my $num = new Foo;
 }
 </pre>
 <p>
-  モータルなレキシカル変数に代入されたオブジェクトが,未定義値ではない場合は,リファレンスカウントが1増やされます。
+  モータルなLexical Variable に代入されたオブジェクトが,未定義値ではない場合は,リファレンスカウントが1増やされます。
 </p>
 <p>
-  スコープの終わりに到達すると,モータルなレキシカル変数に代入されているオブジェクトは,未定義値でない場合,リファレンスカウントが1減らされ,0になった場合は,解放されます。
+  スコープの終わりに到達すると,モータルなLexical Variable に代入されているオブジェクトは,未定義値でない場合,リファレンスカウントが1減らされ,0になった場合は,解放されます。
 </p>
-<h3 id="language-scope-block">スコープブロック</h3>
+<h3 id="language-scope-block">Scope Block </h3>
 <p>
-  スコープブロックとは,スコープを作るブロックのことです。スコープブロックには,0個以上の<a href="#language-statement">文</a>を記述することができます。
+  Scope Block とは,スコープを作るブロックのことです。Scope Block には,0個以上の<a href="#language-statement">文</a>を記述することができます。
 </p>
 <pre>
-# スコープブロック
+# Scope Block 
 {
-my $num = 1;
-$num++;
+  my $num = 1;
+  $num++;
 }
 </pre>
 <p>
-  <b>スコープブロックの一覧</b>
+  <b>Scope Block の一覧</b>
 <p>
 <ul class="list">
   <li><a href="#language-block-statement-simple">Simple Block</a></li>
@@ -2570,7 +2570,7 @@ from TestCase->main at TestCase.spvm line 1198
 </p>
 <pre>
 eval {
-# 例外を投げる可能性のある処理
+  # 例外を投げる可能性のある処理
 };
 </pre>
 <p>
@@ -2606,11 +2606,11 @@ $@
 </p>
 <pre>
 {
-my $foo = new Foo;
-my $bar = new Bar;
+  my $foo = new Foo;
+  my $bar = new Bar;
 
-$foo->{bar} = $bar;
-$bar->{foo} = $foo;
+  $foo->{bar} = $bar;
+  $bar->{foo} = $foo;
 }
 </pre>
 <p>
@@ -2624,13 +2624,13 @@ $bar->{foo} = $foo;
 </p>
 <pre>
 {
-my $foo = new Foo;
-my $bar = new Bar;
+  my $foo = new Foo;
+  my $bar = new Bar;
 
-$foo->{bar} = $bar;
-$bar->{foo} = $foo;
+  $foo->{bar} = $bar;
+  $bar->{foo} = $foo;
 
-weaken $foo->{bar};
+  weaken $foo->{bar};
 }
 </pre>
 <p>
@@ -2650,15 +2650,15 @@ weaken $foo->{bar};
 </p>
 <pre>
 {
-my $foo = new Foo;
-my $bar = new Bar;
-my $baz = new Baz;
+  my $foo = new Foo;
+  my $bar = new Bar;
+  my $baz = new Baz;
 
-$foo->{bar} = $bar;
-$bar->{baz} = $baz;
-$baz->{foo} = $foo;
+  $foo->{bar} = $bar;
+  $bar->{baz} = $baz;
+  $baz->{foo} = $foo;
 
-weaken $foo->{bar};
+  weaken $foo->{bar};
 }
 </pre>
 <p>
@@ -2674,21 +2674,21 @@ weaken $foo->{bar};
 </p>
 <pre>
 package Foo1 {
-sub new : Foo1 () {
-new Foo1;
-}
-sub : int ($self : self, $num : int) {
-return 1 + $num;
-}
+  sub new : Foo1 () {
+    new Foo1;
+  }
+  sub : int ($self : self, $num : int) {
+    return 1 + $num;
+  }
 }
 
 package Foo2 {
-sub new : Foo2 () {
-new Foo2;
-}
-sub : int ($self : self, $num : int) {
-return 2 + $num;
-}
+  sub new : Foo2 () {
+    new Foo2;
+  }
+  sub : int ($self : self, $num : int) {
+    return 2 + $num;
+  }
 }
 
 package FooCallback : callback_t {
@@ -2710,10 +2710,10 @@ my $foo : FooCallback;
 
 my $flag = 1;
 if ($flag) {
-$foo = $foo1;
+  $foo = $foo1;
 }
 else {
-$foo = $foo2;
+  $foo = $foo2;
 }
 
 my $ret = $foo->(5);
@@ -2801,15 +2801,15 @@ my $ret = $foo->(5);
 <pre>
 # 連続した32bit符号付整数が3つ
 package Point_3i : mulnum_t {
-has x : int;
-has y : int;
-has z : int;
+  has x : int;
+  has y : int;
+  has z : int;
 }
 
 連続した倍精度浮動小数点が2つ
 package Complex_2d : mulnum_t {
-re : double;
-im : double;
+  x : double;
+  y : double;
 }
 </pre>
 <p>
@@ -2895,7 +2895,7 @@ im : double;
   Multi Numeric Typeは,<a href="#language-sub-definition">Subroutine Definition</a>における引数の型として利用することができます。
 </p>
 <p>
-  Multi Numeric Typeは,<a href="#language-sub-definition">Subroutine Definition</a>における戻り値の型として利用することができます。
+  Multi Numeric Typeは,<a href="#language-sub-definition">Subroutine Definition</a>におけるReturn Valueの型として利用することができます。
 </p>
 <p>
   Multi Numeric Typeは<a href="#language-type-array">配列型</a>の<a href="#language-type-basic">基本型</a>として利用することができます。
@@ -2974,7 +2974,7 @@ use Point_3i;
 use Complex_2d;
 </pre>
 <p>
-  次に,Lexical Variable Declaration を行います。Lexical Variable Declaration を行うと,連続した領域が,<a href="#language-sub-stack">Subroutine Callstack</a>上に確保されます。フィールドのすべての値は,<a href="language-type-initial-value">型の初期値</a>で初期化されます。
+  次に,Lexical Variable Declaration を行います。Lexical Variable Declaration を行うと,連続した領域が,<a href="#language-sub-stack">Subroutine Callstack</a>上に確保されます。フィールドのすべての値は,<a href="language-type-initial-value">Type Initial Value</a>で初期化されます。
 </p>
 <pre>
 my $point : Point_3i;
@@ -3019,10 +3019,10 @@ my $z = $dval4->{z};
 
 <h3 id="language-ref">リファレンスの概要</h3>
 <p>
-  リファレンスとは,レキシカル変数のアドレスのことをいいます。リファレンスは,C言語のポインタに該当する機能を実現するために,設計されました。
+  リファレンスとは,Lexical Variable のアドレスのことをいいます。リファレンスは,C言語のポインタに該当する機能を実現するために,設計されました。
 </p>
 <p>
-  レキシカル変数のアドレスは,<a href="#language-operator-ref">リファレンスOperator</a>を使用して取得できます。<a href="#language-type-ref">リファレンス型</a>は,<a href="#language-type-numeric">numeric type</a>あるいは<a href="#language-type-multi-numeric">Multi Numeric Type</a>の後ろに"&"を続けたものになります。
+  Lexical Variable のアドレスは,<a href="#language-operator-ref">リファレンスOperator</a>を使用して取得できます。<a href="#language-type-ref">リファレンス型</a>は,<a href="#language-type-numeric">numeric type</a>あるいは<a href="#language-type-multi-numeric">Multi Numeric Type</a>の後ろに"&"を続けたものになります。
 </p>
 <pre>
 # numeric typeの変数のリファレンス
@@ -3034,7 +3034,7 @@ my $point : Point_3d;
 my $point_ref : Point_3d& = \$point;
 </pre>
 <p>
-  $num_refの値は,レキシカル変数"$num"のアドレスになります。$point_refの値は,レキシカル変数"$point"のアドレスになります。
+  $num_refの値は,Lexical Variable "$num"のアドレスになります。$point_refの値は,Lexical Variable "$point"のアドレスになります。
 </p>
 <p>
   リファレンスOperator の対象は,<a href="#language-type-numeric">numeric type</a>あるいは<a href="#language-type-multi-numeric">Multi Numeric Type</a>の値が格納された変数だけです。object type の変数や定数に対して,使うことはできません。
@@ -3045,7 +3045,7 @@ my $point_ref : Point_3d& = \$point;
 <pre>
 # Subroutine Definition
 sub sum : void ($out_ref : int&, $in1 : int, $in2 : int) {
-$$out_ref = $in1 + $in2;
+  $$out_ref = $in1 + $in2;
 }
 
 # Subroutine の利用
@@ -3058,7 +3058,7 @@ sum($out_ref, $num1, $num2);
 
 <h3 id="language-ref-deref">Dereference </h3>
 <p>
-  Dereference とは,アドレスの場所にあるレキシカル変数の値を取得・設定する操作をいいます。
+  Dereference とは,アドレスの場所にあるLexical Variable の値を取得・設定する操作をいいます。
 </p>
 <p>
   Dereference することで,アドレスを通して値を取得したり,変更することができます。
@@ -3115,8 +3115,8 @@ $point_ref->{x} = 1;
   <b>式の一覧</b>
 </p>
 <ul class="list">
-  <li><a href="#language-expression-get-lex-var">レキシカル変数の値の取得</a></li>
-  <li><a href="#language-expression-set-lex-var">レキシカル変数の値の設定</a></li>
+  <li><a href="#language-expression-get-lex-var">Lexical Variable の値の取得</a></li>
+  <li><a href="#language-expression-set-lex-var">Lexical Variable の値の設定</a></li>
   <li><a href="#language-expression-get-package-var">Package Variable の値の設定</a></li>
   <li><a href="#language-expression-set-package-var">Package Variable の値の取得</a></li>
   <li><a href="#language-expression-get-exception-var">例外変数の値の設定</a></li>
@@ -3155,20 +3155,20 @@ $point_ref->{x} = 1;
   <li>(式)</li>
 </ul>
 
-<h3 id="language-expression-get-lex-var">レキシカル変数の値の取得</h3>
+<h3 id="language-expression-get-lex-var">Lexical Variable の値の取得</h3>
 <p>
-  レキシカル変数の値の取得をするには,レキシカル変数自体を記述します。
+  Lexical Variable の値の取得をするには,Lexical Variable 自体を記述します。
 </p>
 <pre>
 $var
 </pre>
 <p>
-  レキシカル変数の値の取得は,<a href="#language-expression">式</a>です。
+  Lexical Variable の値の取得は,<a href="#language-expression">式</a>です。
 </p>
 
-<h3 id="language-expression-set-lex-var">レキシカル変数の値の設定</h3>
+<h3 id="language-expression-set-lex-var">Lexical Variable の値の設定</h3>
 <p>
-  レキシカル変数の値の設定を行うには,<a href="#language-operator-assign">代入Operator</a>を使用します。
+  Lexical Variable の値の設定を行うには,<a href="#language-operator-assign">代入Operator</a>を使用します。
 </p>
 <pre>
 $var = 右式
@@ -3177,10 +3177,10 @@ $var = 右式
   代入が<a href="#language-type-compatible">型の互換性</a>を満たさない場合は,a compile-time error occurs
 </p>
 <p>
-  レキシカル変数の値の設定は,設定後の値を返します。
+  Lexical Variable の値の設定は,設定後の値を返します。
 </p>
 <p>
-  レキシカル変数の値の設定は,<a href="#language-expression">式</a>です。
+  Lexical Variable の値の設定は,<a href="#language-expression">式</a>です。
 </p>
 <p>
   右式が,object type であった場合は,オブジェクトのリファレンスカウントが1増やされます。
@@ -3216,12 +3216,12 @@ $Package Variable Name
 </p>
 <pre>
 package Foo {
-our $VAR : int;
+  our $VAR : int;
 
-sub bar : int () {
-my $var1 = $Foo::VAR;
-my $var2 = $VAR;
-}
+  sub bar : int () {
+    my $var1 = $Foo::VAR;
+    my $var2 = $VAR;
+  }
 }
 </pre>
 
@@ -3251,12 +3251,12 @@ $Package Variable Name = 右式
 </p>
 <pre>
 package Foo {
-our $VAR : int;
+  our $VAR : int;
 
-sub bar : int () {
-$Foo::VAR = 1;
-$VAR = 3;
-}
+  sub bar : int () {
+    $Foo::VAR = 1;
+    $VAR = 3;
+  }
 }
 </pre>
 
@@ -3281,7 +3281,7 @@ $@
 </p>
 <pre>
 eval {
-foo();
+  foo();
 };
 
 if (my $message = $@) {
@@ -3610,7 +3610,7 @@ my $object = new PACKAGE_NAME;
   指定されたPackage は,<a href="#language-type-class">Class Type</a>でなければなりません。otherwise a compile-time error occurs
 </p>
 <p>
-  フィールドは,すべて<a href="language-type-initial-value">型の初期値</a>で初期化されます。
+  フィールドは,すべて<a href="language-type-initial-value">Type Initial Value</a>で初期化されます。
 </p>
 <p>
   オブジェクトの生成は,<a href="#language-expression">式</a>を返します。
@@ -3654,7 +3654,7 @@ my $object = new 型[要素数式];
   要素数式で指定された長さの配列が生成されます。
 </p>
 <p>
-  配列の要素は,すべて<a href="language-type-initial-value">型の初期値</a>で初期化されます。
+  配列の要素は,すべて<a href="language-type-initial-value">Type Initial Value</a>で初期化されます。
 </p>
 <p>
   配列において,要素は,メモリ上に連続していることが保証されます。
@@ -3684,7 +3684,7 @@ my $values = new Complex_2d[3]
   <li>配列の長さ</li>
 </ul>
 <p>
-  多次元配列は,上記のsyntax を使用して,作成できます。要素は,<a href="#language-type-initial-value">型の初期値</a>によって初期化されます。
+  多次元配列は,上記のsyntax を使用して,作成できます。要素は,<a href="#language-type-initial-value">Type Initial Value</a>によって初期化されます。
 </p>
 <pre>
 my $nums = new int[][3];
@@ -3750,7 +3750,7 @@ Subroutine Name(引数1, 引数2, 引数3, ..., 引数n);
   関数の呼び出しは,引数を受け取ります。引数の個数が,Subroutine Definitionで定義されている引数の個数と一致しない場合は,a compile-time error occursそれぞれの引数の型が,Subroutine 定義で定義されている引数の型と<a href="#language-type-compatible">型の互換性</a>がない場合は,a compile-time error occurs
 </p>
 <p>
-  関数の呼び出しは,戻り値がvoid type以外の場合は,戻り値を返します。
+  関数の呼び出しは,Return Valueがvoid type以外の場合は,Return Valueを返します。
 </p>
 <p>
   関数の呼び出しは,<a href="#language-expression">式</a>です。
@@ -3780,7 +3780,7 @@ my $ret = bar(1, 2, 3);
   メソッドの呼び出しは,引数を受け取ります。引数の個数が,Subroutine Definitionで定義されている引数の個数と一致しない場合は,a compile-time error occursそれぞれの引数の型が,Subroutine 定義で定義されている引数の型と<a href="#language-type-compatible">型の互換性</a>がない場合は,a compile-time error occurs
 </p>
 <p>
-  メソッドの呼び出しは,戻り値がvoid type以外の場合は,戻り値を返します。
+  メソッドの呼び出しは,Return Valueがvoid type以外の場合は,Return Valueを返します。
 </p>
 <p>
   メソッドの呼び出しは,<a href="#language-expression">式</a>です。
@@ -3810,7 +3810,7 @@ $point->set_x(3);
 </p>
 <pre>
 my $cb_obj = sub : int ($self: self, $num1 : int, $num2 : int) {
-return $num1 + $num2;
+  return $num1 + $num2;
 };
 
 my $ret = $cb_obj->(1, 2);
@@ -3889,10 +3889,10 @@ __PACKAGE__
 </p>
 <pre>
 package Foo::Bar {
-sub baz : void () {
-# Foo::Bar
-my $package_name == __PACKAGE__;
-}
+  sub baz : void () {
+    # Foo::Bar
+    my $package_name == __PACKAGE__;
+  }
 }
 </pre>
 <h3 id="language-expression-current-package">Current File Nameの取得</h3>
@@ -3914,16 +3914,16 @@ __FILE__
 <pre>
 # Foo/Bar.spvm
 package Foo::Bar {
-sub baz : void () {
-# Foo/Bar.spvm
-my $file_name == __FILE__;
-}
+  sub baz : void () {
+    # Foo/Bar.spvm
+    my $file_name == __FILE__;
+  }
 }
 package Foo::Bar2 {
-sub baz : void () {
-# Foo/Bar.spvm
-my $file_name == __FILE__;
-}
+  sub baz : void () {
+    # Foo/Bar.spvm
+    my $file_name == __FILE__;
+  }
 }
 </pre>
 <h3 id="language-expression-current-package">Current Line Numberの取得</h3>
@@ -3941,10 +3941,10 @@ __LINE__
 </p>
 <pre>
 package Foo::Bar {
-sub baz : void () {
-# 4
-my $line == __LINE__;
-}
+  sub baz : void () {
+    # 4
+    my $line == __LINE__;
+  }
 }
 </pre>
 
@@ -4519,7 +4519,7 @@ my $line == __LINE__;
 
 <h3 id="language-literal-string-variable-expansion">変数展開</h2>
 <p>
-  String Literal 中のレキシカル変数,Package Variable ,Dereference ,フィールドアクセス,定数の添え字の配列アクセス,例外変数の場合は,変数展開が行われます。
+  String Literal 中のLexical Variable ,Package Variable ,Dereference ,フィールドアクセス,定数の添え字の配列アクセス,例外変数の場合は,変数展開が行われます。
 </p>
 <pre>
 "AAA $foo BBB"
@@ -4778,7 +4778,7 @@ my $ret = ($x += 2, $x + $y);
   Unary Plus Operator は<a href="#language-expression">式</a>を返します。
 </p>
 <p>
-  Unary Plus Operator の戻り値の型は,<a href="#language-type-convertion-unary-numeric-widening">単項数値拡大型変換</a>された型です。
+  Unary Plus Operator のReturn Valueの型は,<a href="#language-type-convertion-unary-numeric-widening">単項数値拡大型変換</a>された型です。
 </p>
 <p>
   Unary Plus Operator は例外を発生させません。
@@ -4812,7 +4812,7 @@ my $num = +10;
   Unary Minus Operator は<a href="#language-expression">式</a>を返します。
 </p>
 <p>
-  Unary Minus Operator の戻り値の型は,<a href="#language-type-convertion-unary-numeric-widening">単項数値拡大型変換</a>された型です。
+  Unary Minus Operator のReturn Valueの型は,<a href="#language-type-convertion-unary-numeric-widening">単項数値拡大型変換</a>された型です。
 </p>
 <p>
   Unary Minus Operator は例外を発生させません。
@@ -4846,7 +4846,7 @@ x + y;
   Addition Operator は<a href="#language-expression">式</a>を返します。
 </p>
 <p>
-  Addition Operator の戻り値の型は,<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大型変換</a>された型です。
+  Addition Operator のReturn Valueの型は,<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大型変換</a>された型です。
 </p>
 <p>
   Addition Operator は,例外を発生させません。
@@ -4874,7 +4874,7 @@ x - y;
   Subtraction Operator は<a href="#language-expression">式</a>を返します。
 </p>
 <p>
-  Subtraction Operator の戻り値の型は,<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大型変換</a>された型です。
+  Subtraction Operator のReturn Valueの型は,<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大型変換</a>された型です。
 </p>
 <p>
   Subtraction Operator は,例外を発生させません。
@@ -4902,7 +4902,7 @@ x * y;
   Multiplication Operator は<a href="#language-expression">式</a>を返します。
 </p>
 <p>
-  Multiplication Operator の戻り値の型は,<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大型変換</a>された型です。
+  Multiplication Operator のReturn Valueの型は,<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大型変換</a>された型です。
 </p>
 <p>
   Multiplication Operator は,例外を発生させません。
@@ -4930,7 +4930,7 @@ x / y;
   Division Operator は<a href="#language-expression">式</a>を返します。
 </p>
 <p>
-  Division Operator の戻り値の型は,<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大型変換</a>された型です。
+  Division Operator のReturn Valueの型は,<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大型変換</a>された型です。
 </p>
 <p>
   整数型に対する演算の場合には,Division Operator は,右辺が0であった場合に,例外が発生します。
@@ -4962,7 +4962,7 @@ x % y;
   Remainder Operator は<a href="#language-expression">式</a>を返します。
 </p>
 <p>
-  Remainder Operator の戻り値の型は,<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大型変換</a>された型です。
+  Remainder Operator のReturn Valueの型は,<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大型変換</a>された型です。
 </p>
 <p>
   Remainder Operator は,右辺が0であった場合に,例外が発生します。
@@ -4974,21 +4974,21 @@ x % y;
 </p>
 <pre>
 # 前置のインクリメント
-++レキシカル変数
+++Lexical Variable 
 ++Package Variable 
 ++Field Access
 ++配列へのアクセス
 ++Dereference 
 
 # 後置のインクリメント
-レキシカル変数++
+Lexical Variable ++
 Package Variable ++
 Field Access++
 配列へのアクセス++
 Dereference ++
 </pre>
 <p>
-  インクリメントOperator の対象は,<a href="#language-lex-var">レキシカル変数</a>,<a href="#language-package-var">Package Variable</a>,<a href="#language-field-access">Field Access</a>,<a href="#language-array-access">配列へのアクセス</a>,<a href="#language-deref">Dereference</a>でなければなりません。otherwise a compile-time error occurs
+  インクリメントOperator の対象は,<a href="#language-lex-var">Lexical Variable </a>,<a href="#language-package-var">Package Variable</a>,<a href="#language-field-access">Field Access</a>,<a href="#language-array-access">配列へのアクセス</a>,<a href="#language-deref">Dereference</a>でなければなりません。otherwise a compile-time error occurs
 </p>
 <p>
   インクリメントOperator の対象の型は,<a href="#language-type-numeric">numeric type</a>でなければなりません。otherwise コンパイルエラーが発生します。
@@ -5038,21 +5038,21 @@ Dereference ++
 </p>
 <pre>
 # 前置のデクリメント
---レキシカル変数
+--Lexical Variable 
 --Package Variable 
 --Field Access
 --配列へのアクセス
 --Dereference 
 
 # 後置のデクリメント
-レキシカル変数--
+Lexical Variable --
 Package Variable --
 Field Access--
 配列へのアクセス--
 Dereference --
 </pre>
 <p>
-  デクリメントOperator の対象は,<a href="#language-lex-var">レキシカル変数</a>,<a href="#language-package-var">Package Variable</a>,<a href="#language-field-access">Field Access</a>,<a href="#language-array-access">配列へのアクセス</a>,<a href="#language-deref">Dereference</a>でなければなりません。otherwise a compile-time error occurs
+  デクリメントOperator の対象は,<a href="#language-lex-var">Lexical Variable </a>,<a href="#language-package-var">Package Variable</a>,<a href="#language-field-access">Field Access</a>,<a href="#language-array-access">配列へのアクセス</a>,<a href="#language-deref">Dereference</a>でなければなりません。otherwise a compile-time error occurs
 </p>
 <p>
   デクリメントOperator の対象の型は,<a href="#language-type-numeric">numeric type</a>でなければなりません。otherwise コンパイルエラーが発生します。
@@ -5124,7 +5124,7 @@ x & y;
   Bit AND Operator は<a href="#language-expression">式</a>を返します。
 </p>
 <p>
-  Bit AND Operator の戻り値の型は,<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大型変換</a>された型です。
+  Bit AND Operator のReturn Valueの型は,<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大型変換</a>された型です。
 </p>
 <p>
   Bit AND Operator は,例外を発生させません。
@@ -5153,7 +5153,7 @@ x | y;
   Bit OR Operator は<a href="#language-expression">式</a>を返します。
 </p>
 <p>
-  Bit OR Operator の戻り値の型は,<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大型変換</a>された型です。
+  Bit OR Operator のReturn Valueの型は,<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大型変換</a>された型です。
 </p>
 <p>
   Bit OR Operator は,例外を発生させません。
@@ -5182,7 +5182,7 @@ x | y;
   Bit 否定Operator は<a href="#language-expression">式</a>を返します。
 </p>
 <p>
-  Bit 否定Operator の戻り値の型は,<a href="#language-type-convertion-unary-numeric-widening">単項数値拡大型変換</a>された型です。
+  Bit 否定Operator のReturn Valueの型は,<a href="#language-type-convertion-unary-numeric-widening">単項数値拡大型変換</a>された型です。
 </p>
 <p>
   Bit 否定Operator は例外を発生させません。
@@ -5400,7 +5400,7 @@ x >> y;
 (int32_t)(x <= y);
 </pre>
 <p>
-  数値比較Operator の戻り値の型は,int type です。
+  数値比較Operator のReturn Valueの型は,int type です。
 </p>
 <p>
   数値比較Operator は,例外を発生させません。
@@ -5474,7 +5474,7 @@ x >> y;
   </tr>
 </table>
 <p>
-  文字列比較Operator の戻り値の型は,int type です。条件が満たされた場合は1を,そうでない場合は0を返します。
+  文字列比較Operator のReturn Valueの型は,int type です。条件が満たされた場合は1を,そうでない場合は0を返します。
 </p>
 <h3 id="language-operator-isa">isaOperator </h3>
 <p>
@@ -5515,7 +5515,7 @@ x >> y;
 左式 && 右式
 </pre>
 <p>
-  Logical AND Operator の戻り値の型は,int type です。
+  Logical AND Operator のReturn Valueの型は,int type です。
 </p>
 <p>
   Logical AND Operator は次のように動作します。
@@ -5547,7 +5547,7 @@ x >> y;
   Logical OR Operator は次のように動作します。
 </p>
 <p>
-  Logical OR Operator の戻り値の型は,int type です。
+  Logical OR Operator のReturn Valueの型は,int type です。
 </p>
 <p>
   1. 左式に<a href="#language-type-convertion-bool">ブール型変換</a>を実行します。
@@ -5573,7 +5573,7 @@ x >> y;
 !式
 </pre>
 <p>
-  論理NOTOperator の戻り値の型は,int type です。
+  論理NOTOperator のReturn Valueの型は,int type です。
 </p>
 <p>
   論理NOTOperator は,式に<a href="#language-type-convertion-bool">ブール型変換</a>を実行し,その値が0の場合は1を,0以外の値の場合は,0を返します。
@@ -5633,7 +5633,7 @@ my $str = 123 . 456;
 </p>
 
 <ul>
-  <li><a href="#language-expression-set-lex-var">レキシカル変数の値の設定</a></li>
+  <li><a href="#language-expression-set-lex-var">Lexical Variable の値の設定</a></li>
 </ul>
 
 <h3 id="language-operator-assign-special">特殊代入Operator </h3>
@@ -6035,7 +6035,7 @@ a * (b + c)
 
 <h2 id="language-statement">文</h2>
 <p>
-  文は,ひとつの処理のことで"<a href="#language-scope-block">スコープブロック</a>"の中に複数記述することができます。<a href="#language-expression">式</a>のように値として評価されることはありません。
+  文は,ひとつの処理のことで"<a href="#language-scope-block">Scope Block </a>"の中に複数記述することができます。<a href="#language-expression">式</a>のように値として評価されることはありません。
 </p>
 <p>
   <b>文の一覧</b>
@@ -6198,27 +6198,27 @@ else {
 </p>
 <pre>
 switch (条件式) {
-case 定数1: {
+  case 定数1: {
 
-break;
-}
-case 定数2: {
+    break;
+  }
+  case 定数2: {
 
-break;
-}
-case 定数n: {
-break;
-}
-default: {
+    break;
+  }
+  case 定数n: {
+    break;
+  }
+  default: {
 
-}
+  }
 }
 </pre>
 <p>
   条件式は,<a href="#language-expression">式</a>を指定できます。条件式には,<a href="#language-type-convertion-bool">ブール型変換</a>が実行されます。
 </p>
 <p>
-  case statementで指定される定数は,byte型かint type の定数でなければなりません。byte型の定数の場合は,コンパイル時に,int type に型変換されます。enum型の値や,int type の定数Subroutine は,int type の定数として,syntax 解析時に展開されるので,利用することができます。
+  case statementで指定される定数は,byte型かint type の定数でなければなりません。byte型の定数の場合は,コンパイル時に,int type に型変換されます。enum型の値や,int type のConstant Subroutine は,int type の定数として,syntax 解析時に展開されるので,利用することができます。
 </p>
 <p>
   case statementに指定される定数は,重複してはいけません。重複している場合は,a compile-time error occurs
@@ -6243,12 +6243,12 @@ default: {
 </p>
 <pre>
 switch (条件式) {
-case 定数1:
-case 定数2:
-{
-break;
-}
-default:
+  case 定数1:
+  case 定数2:
+  {
+    break;
+  }
+  default:
 }
 </pre>
 <p>
@@ -6257,18 +6257,18 @@ default:
 
 <pre>
 switch (条件式) {
-case 定数1: {
-break;
-}
-case 定数2: {
-break;
-}
-case 定数n: {
-break;
-}
-default: {
+  case 定数1: {
+    break;
+  }
+  case 定数2: {
+    break;
+  }
+  case 定数n: {
+    break;
+  }
+  default: {
 
-}
+  }
 }
 </pre>
 <p>
@@ -6284,27 +6284,27 @@ default: {
 <pre>
 my $code = 2;
 switch ($code) {
-case 1: {
-print "1\n";
-break;
-}
-case 2: {
-print "2\n";
-break;
-}
-case 3: {
-print "3\n";
-break;
-}
-case 4:
-case 5:
-{
-print "4 or 5\n"; {
-break;
-}
-default: {
-print "Other\n";
-}
+  case 1: {
+  print "1\n";
+    break;
+  }
+  case 2: {
+  print "2\n";
+    break;
+  }
+  case 3: {
+  print "3\n";
+    break;
+  }
+  case 4:
+  case 5:
+  {
+  print "4 or 5\n"; {
+    break;
+  }
+  default: {
+    print "Other\n";
+  }
 }
 </pre>
 
@@ -6340,9 +6340,9 @@ while (条件式) {
 my $i = 0;
 while ($i < 5) {
 
-print "$i\n";
+  print "$i\n";
 
-$i++;
+  $i++;
 }
 </pre>
 <p>
@@ -6350,7 +6350,7 @@ $i++;
 </p>
 <pre>
 while (1) {
-last;
+  last;
 }
 </pre>
 
@@ -6361,13 +6361,13 @@ last;
 my $i = 0;
 while ($i < 5) {
 
-if ($i == 3) {
-$i++;
-next;
-}
+  if ($i == 3) {
+    $i++;
+    next;
+  }
 
-print "$i\n";
-$i++;
+  print "$i\n";
+  $i++;
 }
 </pre>
 
@@ -6376,9 +6376,9 @@ $i++;
 </p>
 <pre>
 {
-while (条件式) {
+  while (条件式) {
 
-}
+  }
 }
 </pre>
 <p>
@@ -6389,16 +6389,16 @@ while (条件式) {
 my $num = 5;
 while (my $num = 3) {
 
-$i++;
+  $i++;
 }
 
 # 展開後
 my $num = 5;
 {
-while (my $num = 3) {
+  while (my $num = 3) {
 
-$i++;
-}
+    $i++;
+  }
 }
 </pre>
 
@@ -6425,13 +6425,13 @@ for (初期化式; 条件式; インクリメント式) {
 </p>
 <pre>
 {
-初期化式;
-while (条件式) {
+  初期化式;
+  while (条件式) {
 
 
 
-インクリメント式;
-}
+    インクリメント式;
+  }
 }
 </pre>
 <p>
@@ -6443,7 +6443,7 @@ while (条件式) {
 <pre>
 for (my $i = 0; $i < 5; $i++) {
 
-print "$i\n";
+  print "$i\n";
 }
 </pre>
 <p>
@@ -6462,9 +6462,9 @@ for (初期化式; 条件式; インクリメント式) {
 <pre>
 for (my $i = 0; $i < 5; $i++) {
 
-if ($i == 3) {
-next;
-}
+  if ($i == 3) {
+    next;
+  }
 }
 </pre>
 
@@ -6476,16 +6476,16 @@ next;
 return;
 </pre>
 <p>
-  戻り値がある場合は,<a href="#language-expression">式</a>を指定することができます。
+  Return Valueがある場合は,<a href="#language-expression">式</a>を指定することができます。
 </p>
 <pre>
 return 式;
 </pre>
 <p>
-  <a href="#language-sub-definition">Subroutine Definition</a>において戻り値の型が"void type"である場合は,式が存在してはいけません。otherwise a compile-time error occurs
+  <a href="#language-sub-definition">Subroutine Definition</a>においてReturn Valueの型が"void type"である場合は,式が存在してはいけません。otherwise a compile-time error occurs
 </p>
 <p>
-  <a href="#language-sub-definition">Subroutine Definition</a>において戻り値の型が"void type"以外の場合は,式の型と一致していなければなりません。otherwise a compile-time error occurs
+  <a href="#language-sub-definition">Subroutine Definition</a>においてReturn Valueの型が"void type"以外の場合は,式の型と一致していなければなりません。otherwise a compile-time error occurs
 </p>
 
 <h3 id="language-statement-die">die statement </h3>
@@ -6659,7 +6659,7 @@ my $num = 1 + 2;
 <h2 id="language-type">型</h2>
 <ul class="list">
   <li><a href="#language-type-summary">型の概要</a></li>
-  <li><a href="#language-type-initial-value">型の初期値</a></li>
+  <li><a href="#language-type-initial-value">Type Initial Value</a></li>
   <li><a href="#language-type-void">void type</a></li>
   <li><a href="#language-type-numeric">numeric type</a></li>
   <li><a href="#language-type-integral">整数型</a></li>
@@ -6696,17 +6696,17 @@ my $num = 1 + 2;
   SPVMは,静的型言語です。すべてのデータは静的な型を持ちます。
 </p>
 <p>
-  Lexical Variable Declaration ,Field Definition,Package Variable Definition,Subroutine Definitionの引数と戻り値において,型が指定される必要があります。
+  Lexical Variable Declaration ,Field Definition,Package Variable Definition,Subroutine Definitionの引数とReturn Valueにおいて,型が指定される必要があります。
 </p>
 <p>
   Lexical Variable Declaration においては,型推論を利用して,暗黙的に型を指定することもできます。
 </p>
-<h3 id="language-type-initial-value">型の初期値</h2>
+<h3 id="language-type-initial-value">Type Initial Value</h2>
 <p>
-  レキシカル変数の初期値,<a href="#language-package-var-initial-value">Package Variable の初期値</a>,オブジェクトの生成におけるフィールドの初期値は,型の初期値によって決まります。
+  Lexical Variable Initial Value,<a href="#language-package-var-initial-value">Package Variable Initial Value</a>,オブジェクトの生成におけるフィールドの初期値は,Type Initial Valueによって決まります。
 </p>
 <p>
-  型の初期化値の一覧です。データにおけるすべてのBit 列は0に設定されます。
+  Type Initial Valueの一覧です。データにおけるすべてのBit 列は0に設定されます。
 </p>
 </p>
 <table>
@@ -7103,7 +7103,7 @@ package Foo : pointer_t {
 </p>
 <pre>
 package SPVM::Comparator : callback_t {
-sub : int ($self : self, $x1 : object, $x2 : object);
+  sub : int ($self : self, $x1 : object, $x2 : object);
 }
 </pre>
 <p>
@@ -7136,18 +7136,18 @@ sub : int ($self : self, $x1 : object, $x2 : object);
 <pre>
 # Callback Typeの定義
 package SPVM::Comparator : callback_t {
-sub : int ($self : self, $x1 : object, $x2 : object);
+  sub : int ($self : self, $x1 : object, $x2 : object);
 }
 
 # クラスの定義
 package SomeComparator {
-sub new : int () {
-return new SomeComparator;
-}
+  sub new : int () {
+    return new SomeComparator;
+  }
 
-sub : int ($self : self, $x1 : object, $x2 : object) {
+  sub : int ($self : self, $x1 : object, $x2 : object) {
 
-}
+  }
 }
 
 # Callback Typeへの代入
@@ -7159,7 +7159,7 @@ my $comparator : SPVM::Comparator = SomeComparator->new;
 <pre>
 # Callback Typeの定義
 package SPVM::Comparator : callback_t {
-sub : int ($self : self, $x1 : object, $x2 : object);
+  sub : int ($self : self, $x1 : object, $x2 : object);
 }
 
 # Callback Typeへの代入
@@ -7194,7 +7194,7 @@ my $object : object = new Foo[3];
 
 <h3 id="language-type-void">void type</h3>
 <p>
-  void typeとは,<a href="#language-sub-definition">Subroutine Definition</a>において戻り値の型としてだけ利用できる,存在しないことを示す特別な型です。
+  void typeとは,<a href="#language-sub-definition">Subroutine Definition</a>においてReturn Valueの型としてだけ利用できる,存在しないことを示す特別な型です。
 </p>
 
 <h3 id="language-type-basic">基本型</h3>
@@ -7269,7 +7269,7 @@ my $nums = new int[][3];
   数値の配列型によって表現されるデータは,要素が<a href="#language-type-numeric">numeric type</a>のサイズで,配列の長さの個数で連続していなければなりません。
 </p>
 <p>
-  数値の配列型のすべての要素は,配列の生成が行われたときに<a href="#language-type-initial-value">型の初期値</a>によって初期化されます。
+  数値の配列型のすべての要素は,配列の生成が行われたときに<a href="#language-type-initial-value">Type Initial Value</a>によって初期化されます。
 </p>
 <h3 id="language-type-array-byte">byte[]型</h3>
 <p>
@@ -7307,7 +7307,7 @@ byte[]
   オブジェクトの配列型によって表現されるデータは,要素が<a href="#language-type-object">object type </a>のサイズで,配列の長さの個数で連続していなければなりません。
 </p>
 <p>
-  オブジェクトの配列型のすべての要素は,配列の生成が行われたときに<a href="#language-type-initial-value">型の初期値</a>によって初期化されます。
+  オブジェクトの配列型のすべての要素は,配列の生成が行われたときに<a href="#language-type-initial-value">Type Initial Value</a>によって初期化されます。
 </p>
 
 <h3 id="language-type-array-value">値の配列型</h3>
@@ -7329,7 +7329,7 @@ byte[]
   値の配列型によって表現されるデータは,要素が<a href="#language-type-numeric">Multi Numeric Type</a>のサイズで,配列の長さの個数で連続していなければなりません。
 </p>
 <p>
-  値の配列型のすべての要素は,配列の生成が行われたときに<a href="#language-type-initial-value">型の初期値</a>によって初期化されます。
+  値の配列型のすべての要素は,配列の生成が行われたときに<a href="#language-type-initial-value">Type Initial Value</a>によって初期化されます。
 </p>
 
 <h3 id="language-type-any-object-array">汎用オブジェクト配列型</h3>
@@ -7458,19 +7458,19 @@ my $point : Point_3i;;
 my $point_ref : Point_3i& = \$point;
 </pre>
 <p>
-  リファレンス型の値に代入できるのは,<a href="#language-operator-ref">リファレンスOperator</a>で取得したレキシカル変数のアドレスだけです。
+  リファレンス型の値に代入できるのは,<a href="#language-operator-ref">リファレンスOperator</a>で取得したLexical Variable のアドレスだけです。
 </p>
 <p>
   リファレンス型のLexical Variable Declaration だけが行われた場合は,a compile-time error occurs
 </p>
 <p>
-  リファレンス型は,<a href="#language-lex-var-declaration">Lexical Variable Declaration</a>の型として利用できます。必ずリファレンスOperator によって,レキシカル変数のアドレスが格納される必要があります。Lexical Variable Declaration だけの場合は,a compile-time error occurs
+  リファレンス型は,<a href="#language-lex-var-declaration">Lexical Variable Declaration</a>の型として利用できます。必ずリファレンスOperator によって,Lexical Variable のアドレスが格納される必要があります。Lexical Variable Declaration だけの場合は,a compile-time error occurs
 </p>
 <p>
   リファレンス型は,<a href="#language-sub-definition">Subroutine Definition</a>における引数の型として利用できます。
 </p>
 <p>
-  リファレンス型は,<a href="#language-sub-definition">Subroutine Definition</a>における戻り値の型として利用できません。
+  リファレンス型は,<a href="#language-sub-definition">Subroutine Definition</a>におけるReturn Valueの型として利用できません。
 </p>
 <p>
   リファレンス型は,<a href="#language-package-definition">Package Definition</a>におけるフィールドの型として利用できません。
@@ -7732,7 +7732,7 @@ int64_t dist = (int64_t)src;
 <ul class="list">
   <li>異なる型に代入する場合</li>
   <li>異なる型のSubroutine Argumentsに渡す場合</li>
-  <li>戻り値とは異なる型を返却する場合</li>
+  <li>Return Valueとは異なる型を返却する場合</li>
 </ul>
 <p>
   次の場合に暗黙的な型変換が行われます。
@@ -7925,7 +7925,7 @@ while (条件部) {
   ブール型変換で指定される式は,<a href="#language-type-numeric">numeric type</a>あるいは<a href="#language-type-object">object type </a>あるいは<a href="#language-type-undef">未定義型</a>でなければなりません。otherwise a compile-time error occurs
 </p>
 <p>
-  ブール型変換の戻り値は,int type の式です。
+  ブール型変換のReturn Valueは,int type の式です。
 </p>
 <p>
   式が<a href="#language-undef">未定義値</a>である場合は,0が返されます。
@@ -7959,12 +7959,12 @@ while (条件部) {
   <li>SPVM::Double</li>
 </ul>
 
-<h2 id="language-limitation">制限</h2>
+<h2 id="language-limitation">Limitation </h2>
 <p>
-  SPVMにおける制限です。
+  SPVMにおけるLimitation です。
 </p>
 
-<h3 id="language-limitation-sub-arguments-count">Subroutine Argumentsの個数の制限</h3>
+<h3 id="language-limitation-sub-arguments-count">Subroutine Argumentsの個数のLimitation </h3>
 <p>
   SPVMのSubroutine Argumentsの個数の最大は256個です。
 </p>
@@ -7978,7 +7978,7 @@ while (条件部) {
   もし,最大値を超えた場合は,a compile-time error occurs
 </p>
 
-<h3 id="language-limitation-value-type-fileds-count">Multi Numeric Typeのフィールドの個数の制限</h3>
+<h3 id="language-limitation-value-type-fileds-count">Multi Numeric Typeのフィールドの個数のLimitation </h3>
 <p>
   Multi Numeric Typeのフィールドの個数の最大値は,256個で,少なくともひとつのフィールドが必要です。otherwise a compile-time error occurs
 </p>
