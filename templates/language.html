@@ -163,7 +163,7 @@ SPVM programs are written in UTF-8.
 
 <h3 id="language-lex-component">Component</h3><!-- 2019/2/27 almost ok -->
 
-Component in SPVM is "<a href="#language-lex-space-character">Space Character</a>","<a href="#language-comment">Comment</a>", "<a href="#language-pod">POD</a>", "<a href="#language-literal">Literal</a>", "<a href="#language-lex-identifier">Identifier</a>", "<a href="#language-lex-keyword">Keyword</a>", "<a href="#language-lex-separator">Separator</a>", or "<a href="#language-lex-operator">Operator</a>".
+Component in SPVM is "<a href="#language-lex-space-character">Space Character</a>","<a href="#language-comment">Comment</a>", "<a href="#language-pod">POD</a>", "<a href="#language-literal">Literal</a>", "<a href="#language-lex-identifier">Identifier</a>", "<a href="#language-lex-keyword"> Keyword</a>", "<a href="#language-lex-separator">Separator</a>", or "<a href="#language-lex-operator">Operator</a>".
 
 <h3 id="language-lex-line-terminator">Line Terminator</h3><!-- 2019/7/1 check -->
 
@@ -1151,24 +1151,25 @@ In direct children of the package block, <a href="#language-module-use">use</a>,
 
 <pre>
 package Foo {
-# use
-use Point;
+  # use
+  use Point;
 
-# Package Variable Definition
-our $VAR int;
+  # Package Variable Definition
+  our $VAR int;
 
-# Field Defintion
-has var : int;
+  # Field Defintion
+  has var : int;
 
-# Enumeration Definition
-enum {
-  CONST_VAL1,
-  CONST_VAL2,
-}
+  # Enumeration Definition
+  enum {
+    CONST_VAL1,
+    CONST_VAL2,
+  }
 
-# Subroutine Definition
-sub foo : int ($num : int) {
+  # Subroutine Definition
+  sub foo : int ($num : int) {
 
+  }
 }
 </pre>
 
@@ -1265,27 +1266,28 @@ package Foo {
 }
 </pre>
 
-<h2 id="language-module">モジュール</h2>
+<h2 id="language-module">Module</h2>
 <ul class="list">
-  <li><a href="#language-module-summary">モジュールの概要</a></li>
-  <li><a href="#language-module-file-name">モジュールのファイル名</a></li>
-  <li><a href="#language-module-use">モジュールの読み込み</a></li>
-  <li><a href="#language-module-if-require">選択的なモジュールの読み込み</a></li>
+  <li><a href="#language-module-summary">Module Summary</a></li>
+  <li><a href="#language-module-file-name">Module File Name</a></li>
+  <li><a href="#language-module-use">Module Loading</a></li>
+  <li><a href="#language-module-if-require">Selective Module Loading</a></li>
 </ul>
 
-<h3 id="language-module-summary">モジュールの概要</h3>
-<p>
-  モジュールとは,SPVMのソースコードとして読み込むことができるひとつのファイルのことをいいます。
-</p>
+<h3 id="language-module-summary">Module Summary</h3>
+
+Module is a single file that can be read as SPVM source code.
+
 <pre>
 # lib/path/Foo/Bar.spvm
 package Foo::Bar {
 
 }
 </pre>
-<p>
-  モジュールには,複数のPackage を含むことができます。
-</p>
+
+
+Module can contain multiple Packages.
+
 <pre>
 # lib/path/Foo/Bar.spvm
 package Foo::Bar {
@@ -1297,54 +1299,56 @@ package Foo::Bar::Baz {
 }
 </pre>
 
-<h3 id="language-module-file-name">モジュールのファイル名</h3>
-<p>
-  モジュールは,モジュールの読み込みパスに,the following ファイル名で配置される必要があります。
-</p>
-<p>
-  "::"を"/"に変更。末尾に".spvm"をつける。
-</p>
+<h3 id="language-module-file-name">Module File Name</h3>
+
+Modules must be placed in the module loading path with the following File Name.
+
+Change "::" to "/". Add ".spvm" at the end.
+
 <pre>
 Foo.spvm
 Foo/Bar.spvm
 Foo/Bar/Baz.spvm
 </pre>
 
-<h3 id="language-module-use">モジュールの読み込み</h3>
-<p>
-  モジュールを読み込むには,useKeyword を使用します。
-</p>
+<h3 id="language-module-use">Module Loading</h3>
+
+Use use keyword to load a Module.
+
 <pre>
 use Foo;
 use Foo::Bar;
 </pre>
-<p>
-  モジュールはコンパイル時に読み込まれます。
-</p>
-<p>
-  モジュールが存在しなかった場合は,コンパイルエラーになります。
-</p>
-<p>
-  useKeyword は,Package Definitionの直下で定義する必要があります。
-</p>
+
+
+Modules are loaded at compile-time.
+
+
+If the Module does not exist, a compile-time error will occur.
+
+
+use Keyword must be defined directly under <a href="#language-package-definition">Package Definition</a>.
+
 <pre>
 package Foo {
   use Foo;
 }
 </pre>
 
-<h3 id="language-module-if-require">選択的なモジュールの読み込み</h3>
-<p>
-  SPVMでは,モジュールが,検索パスに存在する場合だけ読み込み,otherwise ブロックの内部が存在しないことにできるif require文があります。これはC言語の"#ifdef"の一部の機能を実現するために設計されました。
-</p>
+<h3 id="language-module-if-require">Selective Module Loading</h3>
+
+In SPVM, there is an if require statement that loads a Module only if it exists in the module path, and if it does not exist, the block does not exist.
+
+It was designed to implement a part of features of "#ifdef" in C language.
+
 <pre>
 if (require Foo) {
 
 }
 </pre>
-<p>
-  if require文はelse文を続けることができます。elsif statementは,指定できないので注意してください。
-</p>
+
+if require statement can be followed by else statement. 
+
 <pre>
 if (require Foo) {
 
@@ -1354,9 +1358,15 @@ else {
 }
 </pre>
 
-<p>
-  一つの例を見てみましょう。the following 例で,Fooが存在しない場合は,コンパイルエラーにはならず,ifブロックがないことになります。そのため"$foo = new Foo;"は,存在しないことになっているので,コンパイルエラーになりません。elseブロックは存在するので,警告がされます。
-</p>
+Note that elsif statement cannot be followed.
+
+
+Let's look at an example. if Foo does not exist, no compile-time error occurs and it is assumed that there is no if block
+
+Therefore, "$foo = new Foo;" does not result in a compile-time error because it is assumed that there is no if block.
+
+In the other hand, the else block exists, so a warning is issued.
+
 <pre>
 my $foo : object;
 if (require Foo) {
@@ -1367,40 +1377,42 @@ else {
 }
 </pre>
 
-<h2 id="language-allow-access">アクセス許可</h2>
-<p>
-  デフォルトでは,プライベートなSubroutine ,フィールド,Package Variable には,Package 外部からは,アクセスすることができません。また,プライベートなPackage は,Package 外部から,Object Creatingを行うことができません。
-</p>
-<p>
-  外部のPackage に対してアクセス許可を設定すると,外部のPackage は,プライベートなSubroutine ,フィールド,Package Variable にアクセスすることができ,またObject Creatingを行うことができます。
-</p>
+<h2 id="language-allow-access">Access Allowing</h2>
+
+By default, private Subroutines, Fields, and Package Variables cannot be accessed from outside the Package.
+
+Also, Private Package cannot <a href="#language-expression-new-object">Create Object</a> from outside of Package.
+
+
+If the package allow other package, the other package can access private Subroutines, Fields, and Package Variables, and can <a href="#language-expression-new-object">Create Object</a> of the package.
+
 <pre>
-allow Package Name;
+allow PACKAGE_NAME;
 </pre>
-<p>
-  allowKeyword は,Package Definitionの直下で定義する必要があります。
-</p>
+
+
+allow must be defined directory under <a href="#language-package-definition">Package Definition</a>.
+
 <pre>
 package Foo {
   allow Bar;
 }
 </pre>
-<p>
-  この例では,Fooにおいてprivateが指定されているSubroutine ,フィールド,Package Variable に,Barからアクセスすることができます。また,BarからFooのObject Creatingを行うことができます。
-</p>
+
+In this example, Bar can access the private Subroutine, Field, and Package Variable of Foo can be accessed and can Create Object of Foo.
 
 <h2 id="language-package-var">Package Variable </h2>
 <ul class="list">
   <li><a href="#language-package-var-definition">Package Variable Definition</a></li>
   <li><a href="#language-package-var-initial-value">Package Variable Initial Value</a></li>
-  <li><a href="#language-package-var-access">Package Variable へのアクセス</a></li>
+  <li><a href="#language-package-var-access">Package Variable Access</a></li>
 </ul>
 <h3 id="language-package-var-definition">Package Variable Definition</h3>
 <p>
   Package Variable とは,Package に属する,プログラムの開始から終了まで維持されるグローバル変数のことです。
 </p>
 <p>
-  "our" Keyword を使用してPackage Variable を定義することができます。
+  "our"  Keyword を使用してPackage Variable を定義することができます。
 </p>
 <pre>
 our Package Variable Name : Type Name ;
@@ -1528,9 +1540,9 @@ package Foo {
   }
 }
 </pre>
-<h3 id="language-package-var-access">Package Variable へのアクセス</h3>
+<h3 id="language-package-var-access">Package Variable Access</h3>
 <p>
-  Package Variable へのアクセスとは,Package Variable にアクセスして,値を取得したり,設定したりする操作のことです。
+  Package Variable Accessとは,Package Variable にアクセスして,値を取得したり,設定したりする操作のことです。
 </p>
 <p>
   Package Variable の値の取得については,<a href="#language-expression-get-package-var">Package Variable の値の取得</a>を見てください。
@@ -1549,7 +1561,7 @@ package Foo {
   フィールドとは"new"を使ってオブジェクト生成した場合に,オブジェクトからアクセスできるデータ領域のことです。
 </p>
 <p>
-  "has" Keyword を使用してフィールドを定義することができます。
+  "has"  Keyword を使用してフィールドを定義することができます。
 </p>
 <pre>
 has Field Name : Type Name ;
@@ -1564,7 +1576,7 @@ has Field Name : Type Name ;
   Field Nameは,1文字以上の"a～z""A～Z""0～9""_"で構成する必要があります。先頭は,数字から始めることはできません。連続した"_"を使用することはできません。
 </p>
 <p>
-  Field Nameには,<a href="#language-lex-keyword">Keyword</a>と同じ名前を使用することができます。
+  Field Nameには,<a href="#language-lex-keyword"> Keyword</a>と同じ名前を使用することができます。
 </p>
 <p>
   フィールド定義には,Descriptorを合わせて指定することができます。複数のDescriptorを空白を使って並べることができます。
@@ -1740,7 +1752,7 @@ $z_ref->{im} = 3;
 </ul>
 <h3 id="language-sub-definition">Subroutine Definition</h3>
 <p>
-  "sub" Keyword を使用してSubroutine を定義することができます。
+  "sub"  Keyword を使用してSubroutine を定義することができます。
 </p>
 <pre>
 sub Subroutine Name : Return ValueのType Name  (引数名1 : 引数のType Name 1, 引数名2 : 引数のType Name 2, 以下続く) {
@@ -1754,7 +1766,7 @@ sub Subroutine Name : Return ValueのType Name  (引数名1 : 引数のType Name
   Subroutine Nameは,1文字以上の"a～z""A～Z""0～9""_"で構成する必要があります。先頭は,数字から始めることはできません。連続した"_"を使用することはできません。
 </p>
 <p>
-  Subroutine Nameには,<a href="#language-lex-keyword">Keyword</a>と同じ名前を使用することができます。
+  Subroutine Nameには,<a href="#language-lex-keyword"> Keyword</a>と同じ名前を使用することができます。
 </p>
 <p>
   戻りのType Name には,"void type""numeric type""object type "を指定することができます。
@@ -2061,7 +2073,7 @@ void()
 </ul>
 <h3 id="language-enum-definition">Enumeration Definition</h3>
 <p>
-  列挙はint type の定数を定義したい場合に利用します。連続したint type の定数を簡単に定義できます。"enum" Keyword を使って定義します。
+  列挙はint type の定数を定義したい場合に利用します。連続したint type の定数を簡単に定義できます。"enum"  Keyword を使って定義します。
 </p>
 <pre>
 enum {
@@ -2203,7 +2215,7 @@ switch ($num) {
   BEGIN Block とは,コンパイル時が終了し,実行時に入る前に,実行されるブロックのことです。
 </p>
 <p>
-  BEGIN Keyword を使用してBEGIN Block を定義することができます。
+  BEGIN  Keyword を使用してBEGIN Block を定義することができます。
 </p>
 <pre>
 BEGIN {
@@ -2268,7 +2280,7 @@ package Foo {
 }
 </pre>
 <p>
-  Lexical Variable は"my" Keyword によって宣言します。":"の後ろに"<a href="#language-type">型</a>"を指定する必要があります。
+  Lexical Variable は"my"  Keyword によって宣言します。":"の後ろに"<a href="#language-type">型</a>"を指定する必要があります。
 </p>
 <pre>
 my $num : int;
@@ -2506,7 +2518,7 @@ warn 式;
   末尾が改行文字"\n"であった場合は,標準エラー出力に式で指定されている文字列が出力されます。
 </p>
 <p>
-  末尾が改行文字でない場合は,末尾にファイル名と行番号が追加され,標準エラー出力されます。
+  末尾が改行文字でない場合は,末尾にFile Nameと行番号が追加され,標準エラー出力されます。
 </p>
 <p>
   式で指定された文字列の長さが0あるいは,Undefined Valueであった場合は,指定されたメッセージが"Warning: something's wrong"であるとしてふるまいます。
@@ -2553,7 +2565,7 @@ die 式;
   式は,<a href="#language-type-string-compatible">文字列互換型</a>でなければなりません。
 </p>
 <p>
-  die statement が実行されると,スタックトレースと式で指定された文字列を表示して,プログラムは終了します。スタックトレースは,Package Name,Subroutine Name,ファイル名,行番号を含みます。ファイル名は,モジュールをロードしたパスからの相対ファイル名です。
+  die statement が実行されると,スタックトレースと式で指定された文字列を表示して,プログラムは終了します。スタックトレースは,Package Name,Subroutine Name,File Name,行番号を含みます。File Nameは,Moduleをロードしたパスからの相対File Nameです。
 </p>
 <pre>
 Error
@@ -2965,7 +2977,7 @@ my $zs = new Complex_2d[5];
 
 <h3 id="language-value-usage">Multi Numeric Typeの使用</h2>
 <p>
-  Multi Numeric Typeを使用するにはuse文を使って,モジュールをロードします。
+  Multi Numeric Typeを使用するにはuse文を使って,Moduleをロードします。
 </p>
 <pre>
 use Point_3i;
@@ -3598,7 +3610,7 @@ $objects->[2] = Point->new(3, 5);;
 
 <h3 id="language-expression-new-object">Object Creating</h3>
 <p>
-  オブジェクトを生成するには,new Keyword とthe following syntax をを使用します。
+  オブジェクトを生成するには,new  Keyword とthe following syntax をを使用します。
 </p>
 <pre>
 my $object = new PACKAGE_NAME;
@@ -3633,7 +3645,7 @@ my $object = new Foo;
 
 <h3 id="language-expression-new-array">Array Creating</h3>
 <p>
-  配列を作成するには,new Keyword とthe following syntax をを使用します。
+  配列を作成するには,new  Keyword とthe following syntax をを使用します。
 </p>
 <pre>
 my $object = new 型[要素数式];
@@ -3873,7 +3885,7 @@ $$z_ref = $z2;
 
 <h3 id="language-expression-current-package">Current Package Nameの取得</h3>
 <p>
-  Current Package Nameの取得を行う"__PACKAGE__" Keyword を使用します。
+  Current Package Nameの取得を行う"__PACKAGE__"  Keyword を使用します。
 </p>
 <pre>
 __PACKAGE__
@@ -3894,7 +3906,7 @@ package Foo::Bar {
 </pre>
 <h3 id="language-expression-current-package">Current File Nameの取得</h3>
 <p>
-  Current File Nameの取得を行う"__FILE__" Keyword を使用します。
+  Current File Nameの取得を行う"__FILE__"  Keyword を使用します。
 </p>
 <pre>
 __FILE__
@@ -3903,7 +3915,7 @@ __FILE__
   Current File Nameの取得は<a href="#language-expression">式</a>を返します。
 </p>
 <p>
-  Current File Nameとは,モジュールの読み込みパスを基準とした,ファイルの相対パスのことをいいます。たとえば,ファイルの読み込みパスが"/mypath"でモジュール名が"Foo::Bar"であった場合は,絶対パスは"/mypath/Foo/Bar.spvm"で,相対パスは"Foo/Bar.spvm"です。相対パスである"Foo/Bar.spvm"が,Current File Nameになります。
+  Current File Nameとは,Moduleの読み込みパスを基準とした,ファイルの相対パスのことをいいます。たとえば,ファイルの読み込みパスが"/mypath"でModule名が"Foo::Bar"であった場合は,絶対パスは"/mypath/Foo/Bar.spvm"で,相対パスは"Foo/Bar.spvm"です。相対パスである"Foo/Bar.spvm"が,Current File Nameになります。
 </p>
 <p>
   <b>Current File Nameの取得のExample</b>
@@ -3925,7 +3937,7 @@ package Foo::Bar2 {
 </pre>
 <h3 id="language-expression-current-package">Current Line Numberの取得</h3>
 <p>
-  Current Line Numberの取得を行う"__LINE__" Keyword を使用します。
+  Current Line Numberの取得を行う"__LINE__"  Keyword を使用します。
 </p>
 <pre>
 __LINE__
@@ -7943,9 +7955,9 @@ while (条件部) {
   式がobject type の場合は,Undefined Valueの場合は0,そうでない場合は1が返されます。
 </p>
 
-<h2 id="language-auto-loaded-module">自動的に読み込まれるモジュール</h2>
+<h2 id="language-auto-loaded-module">自動的に読み込まれるModule</h2>
 <p>
-  自動的に読み込まれるモジュールです。<a href="#language-module-use">モジュールの読み込み</a>を行わないで利用することができます。
+  自動的に読み込まれるModuleです。<a href="#language-module-use">Moduleの読み込み</a>を行わないで利用することができます。
 </p>
 <ul class="list">
   <li>SPVM::Byte</li>
