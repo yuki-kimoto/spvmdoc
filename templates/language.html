@@ -282,6 +282,7 @@ $foo
 # Invalid Package Variable Name
 $FOO__BAR
 $3FOO
+</pre>
 
 <h4 id="language-lex-identifier-lex-var-name">Lexical Variable Name</h4><!-- 2019/2/27 maybe ok -->
 
@@ -2212,7 +2213,7 @@ switch ($num) {
 </pre>
 <h2 id="language-begin-block">BEGIN Block </h2>
 <p>
-  BEGIN Block とは,コンパイル時が終了し,実行時に入る前に,実行されるブロックのことです。
+  BEGIN Block とは,コンパイル時が終了し,実行時に入る前に,実行されるBlock のことです。
 </p>
 <p>
   BEGIN  Keyword を使用してBEGIN Block を定義することができます。
@@ -2362,19 +2363,18 @@ while (my $bar = 1) {
   Lexical Variable と同名の<a href="#language-package-var">Package Variable</a>が存在した場合は,Lexical Variable にアクセスします。
 </p>
 
-<h2 id="language-block">ブロック</h2>
-<p>
-  "{"と"}"で囲まれた部分のことをブロックと呼びます。
-</p>
+<h2 id="language-block">Block </h2>
+
+The part enclosed by "{" and "}" is called <b>Block</b>.
+
 <pre>
-# ブロック
+# Block 
 {
 
 }
 </pre>
-<p>
-  ブロックの中には,スコープを作る<a href="#language-scope-block">Scope Block</a>があります。
-</p>
+
+There are <a href="#language-scope-block">Scope Block</a> that creates a scope and Non Scope Block that does not create a scope.
 
 <h2 id="language-scope">スコープ</h2>
 <ul class="list">
@@ -2409,7 +2409,7 @@ while (my $bar = 1) {
 </p>
 <h3 id="language-scope-block">Scope Block </h3>
 <p>
-  Scope Block とは,スコープを作るブロックのことです。Scope Block には,0個以上の<a href="#language-statement">文</a>を記述することができます。
+  Scope Block とは,スコープを作るBlock のことです。Scope Block には,0個以上の<a href="#language-statement">文</a>を記述することができます。
 </p>
 <pre>
 # Scope Block 
@@ -2418,19 +2418,19 @@ while (my $bar = 1) {
   $num++;
 }
 </pre>
-<p>
-  <b>Scope Block の一覧</b>
-<p>
+
+<b>List of Scope Blocks</b>
+
 <ul class="list">
   <li><a href="#language-block-statement-simple">Simple Block</a></li>
   <li><a href="#language-block-statement-sub">Subroutine Block</a></li>
-  <li><a href="#language-block-statement-eval">evalブロック</a></li>
-  <li><a href="#language-block-statement-if">ifブロック</a></li>
-  <li><a href="#language-block-statement-elsif">elsifブロック</a></li>
-  <li><a href="#language-block-statement-else">elseブロック</a></li>
-  <li><a href="#language-block-statement-for">forブロック</a></li>
-  <li><a href="#language-block-statement-while">whileブロック</a></li>
-  <li><a href="#language-block-statement-switch">switchブロック</a></li>
+  <li><a href="#language-block-statement-eval">eval Block</a></li>
+  <li><a href="#language-block-statement-if">if Block</a></li>
+  <li><a href="#language-block-statement-elsif">elsif Block</a></li>
+  <li><a href="#language-block-statement-else">else Block</a></li>
+  <li><a href="#language-block-statement-for">for Block</a></li>
+  <li><a href="#language-block-statement-while">while Block</a></li>
+  <li><a href="#language-block-statement-switch">switch Block</a></li>
 </ul>
 
 <h4 id="language-block-statement-simple">Simple Block</h4>
@@ -2449,55 +2449,55 @@ sub foo : int () {
 }
 </pre>
 
-<h4 id="language-block-statement-eval">evalブロック</h4>
+<h4 id="language-block-statement-eval">eval Block</h4>
 <pre>
-# evalブロック
+# eval Block
 eval {
 
 }
 </pre>
 
-<h4 id="language-block-statement-if">ifブロック</h4>
+<h4 id="language-block-statement-if">if Block</h4>
 <pre>
-# ifブロック
+# if Block
 if (式) {
 
 }
 </pre>
 
-<h4 id="language-block-statement-elsif">elsifブロック</h4>
+<h4 id="language-block-statement-elsif">elsif Block</h4>
 <pre>
-#elsifブロック
+#elsif Block
 elsif (式) {
 
 }
 </pre>
 
-<h4 id="language-block-statement-else">elseブロック</h4>
+<h4 id="language-block-statement-else">else Block</h4>
 <pre>
-# elseブロック
+# else Block
 else {
 
 }
 </pre>
 
-<h4 id="language-block-statement-for">forブロック</h4>
+<h4 id="language-block-statement-for">for Block</h4>
 <pre>
-# for ブロック
+# for Block 
 for (my $i = 0; $i < 3; $i++) {
 
 }
 </pre>
 
-<h4 id="language-block-statement-while">whileブロック</h4>
+<h4 id="language-block-statement-while">while Block</h4>
 <pre>
-# whileブロック
+# while Block
 while (式) {
 
 }
 </pre>
 
-<h4 id="language-block-statement-switch">switchブロック</h4>
+<h4 id="language-block-statement-switch">switch Block</h4>
 <pre>
 switch (式) {
 
@@ -2578,7 +2578,7 @@ from TestCase->main at TestCase.spvm line 1198
   例外のキャッチとは,例外がスローされた場合に,プログラムが終了するのを止め,エラーメッセージを取得できる機能のことです。
 </p>
 <p>
-  例外のキャッチは,evalブロック文を使って行います。evalブロック文は,末尾にセミコロンが必要なので気をつけてください。
+  例外のキャッチは,eval Block文を使って行います。eval Block文は,末尾にセミコロンが必要なので気をつけてください。
 </p>
 <pre>
 eval {
@@ -2586,7 +2586,7 @@ eval {
 };
 </pre>
 <p>
-  evalブロックで例外をキャッチした場合は,プログラムの終了は止められ,<a href="#language-exception-var">例外変数</a>に<a href="#language-exception-occur">例外の発生</a>で指定したメッセージが代入されます。
+  eval Blockで例外をキャッチした場合は,プログラムの終了は止められ,<a href="#language-exception-var">例外変数</a>に<a href="#language-exception-occur">例外の発生</a>で指定したメッセージが代入されます。
 </p>
 
 <h3 id="language-exception-var">例外変数</h3>
@@ -3088,7 +3088,7 @@ $$point_ref = $point2;
 </pre>
 
 <p>
-  reference type の対象がMulti Numeric Typeであった場合に,Multi Numeric Typeのフィールドの設定と取得は,アローOperator で行うことができます。
+  reference type の対象がMulti Numeric Typeであった場合に,Multi Numeric Typeのフィールドの設定と取得は,Arrow Operator で行うことができます。
 </p>
 <pre>
 # reference type の対象がMulti Numeric Typeであった場合に,Multi Numeric Typeのフィールドを取得
@@ -4689,7 +4689,7 @@ undef
   <li><a href="#language-operator-logical">論理Operator</a></li>
   <li><a href="#language-operator-logical-and">Logical AND Operator</a></li>
   <li><a href="#language-operator-logical-or">Logical OR Operator</a></li>
-  <li><a href="#language-operator-logical-not">論理NOTOperator</a></li>
+  <li><a href="#language-operator-logical-not">Logical NOT Operator</a></li>
   <li><a href="#language-operator-concat">文字列連結Operator</a></li>
   <li><a href="#language-operator-assign">Assignment Operator</a></li>
   <li><a href="#language-operator-assign-special">Special Assignment Operator</a></li>
@@ -5574,24 +5574,24 @@ Left Expression || Right Expression
   Logical OR Operator は,例外を発生させません。
 </p>
 
-<h3 id="language-operator-logical-and">論理NOTOperator </h3>
+<h3 id="language-operator-logical-and">Logical NOT Operator </h3>
 <p>
-  論理NOTOperator とは,論理NOT演算を行うために,式の左に置かれるOperator で,"!"で表現される<a href="#language-expression">式</a>を返す<a href="#language-operator-binary">Unary Operator</a>です。式については,<a href="#language-expresssion">式</a>を参考にしてください。
+  Logical NOT Operator とは,論理NOT演算を行うために,式の左に置かれるOperator で,"!"で表現される<a href="#language-expression">式</a>を返す<a href="#language-operator-binary">Unary Operator</a>です。式については,<a href="#language-expresssion">式</a>を参考にしてください。
 </p>
 <pre>
 !式
 </pre>
 <p>
-  論理NOTOperator のReturn Valueの型は,int type です。
+  Logical NOT Operator のReturn Valueの型は,int type です。
 </p>
 <p>
-  論理NOTOperator は,式に<a href="#language-type-convertion-bool">ブール型変換</a>を実行し,その値が0の場合は1を,0以外の値の場合は,0を返します。
+  Logical NOT Operator は,式に<a href="#language-type-convertion-bool">ブール型変換</a>を実行し,その値が0の場合は1を,0以外の値の場合は,0を返します。
 </p>
 <p>
-  論理NOTOperator は<a href="#language-expression">式</a>を返します。
+  Logical NOT Operator は<a href="#language-expression">式</a>を返します。
 </p>
 <p>
-  論理NOTOperator は,例外を発生させません。
+  Logical NOT Operator は,例外を発生させません。
 </p>
 
 <h3 id="language-operator-concat">文字列連結Operator </h3>
@@ -5998,17 +5998,17 @@ isweak 変数->{Field Name};
       右結合
     </td>
     <td>
-      論理NOTOperator "!"<br>
+      Logical NOT Operator "!"<br>
       Bit NOT Operator "~"<br>
       Reference Operator  "\"<br>
-      Plus Operator "+"<br>
-      マイナスOperator "-"<br>
-      配列長取得Operator "@"<br>
+      Unary Plus Operator "+"<br>
+      Unary Minus Operator "-"<br>
+      Array Length Operator "@"<br>
       Dereference Operator "$"<br>
       型キャスト"(TypeName)"
       Scalar Operator "scalar"<br>
-      文字列長取得Operator "length"<br>
-      requireOperator "require"<br>
+      String Length Operator "length"<br>
+      require keyword "require"<br>
     </td>
   </tr>
   <tr>
@@ -6027,7 +6027,7 @@ isweak 変数->{Field Name};
       左結合
     </td>
     <td>
-      アローOperator "->"<br>
+      Arrow Operator "->"<br>
     </td>
   </tr>
 </table>
@@ -6083,10 +6083,10 @@ if (式) {
 }
 </pre>
 <p>
-  式に<a href="#language-type-convertion-bool">ブール型変換</a>が実行され,値が0以外の場合に,ブロックが実行されます。
+  式に<a href="#language-type-convertion-bool">ブール型変換</a>が実行され,値が0以外の場合に,Block が実行されます。
 </p>
 <p>
-  条件を複数書きたい場合には"elsif statement"を続けることができます。 条件判定は上から実行され,それぞれの式に<a href="#language-type-convertion-bool">ブール型変換</a>が実行され,値が0以外の場合に対応するブロックが実行されます。
+  条件を複数書きたい場合には"elsif statement"を続けることができます。 条件判定は上から実行され,それぞれの式に<a href="#language-type-convertion-bool">ブール型変換</a>が実行され,値が0以外の場合に対応するBlock が実行されます。
 </p>
 <pre>
 if (式) {
@@ -6097,7 +6097,7 @@ elsif(式) {
 }
 </pre>
 <p>
-  "else文"を使って,if statementあるいは,elsif statementが条件を満たさなかった場合の処理を記述することができます。if statementとelsif statementの条件判定がすべて偽であった場合にelseのブロックの内部の文が実行されます。elsif statementは,なくてもかまいません。
+  "else文"を使って,if statementあるいは,elsif statementが条件を満たさなかった場合の処理を記述することができます。if statementとelsif statementの条件判定がすべて偽であった場合にelseのBlock の内部の文が実行されます。elsif statementは,なくてもかまいません。
 </p>
 <pre>
 if (式) {
@@ -6236,7 +6236,7 @@ switch (条件式) {
   条件式で指定された値が,case statementで指定された値にマッチした場合は,そのcase statementの位置にジャンプします。
 </p>
 <p>
-  マッチしなかった場合でdefault statementが指定されている場合は,default statementの位置にジャンプします。default statementが指定されていなかった場合は,switchブロックは実行されません。
+  マッチしなかった場合でdefault statementが指定されている場合は,default statementの位置にジャンプします。default statementが指定されていなかった場合は,switch Blockは実行されません。
 </p>
 <p>
   switch statementには,少なくともひとつのcase statementが必要です。otherwise コンパイルエラーが発生します。
@@ -6245,10 +6245,10 @@ switch (条件式) {
   default statementは省略可能です。
 </p>
 <p>
-  switchブロックの直下に記述できるのはcase statementとdefault statementだけです。
+  switch Blockの直下に記述できるのはcase statementとdefault statementだけです。
 </p>
 <p>
-  caseとdefaultのブロックは省略することができます。
+  caseとdefaultのBlock は省略することができます。
 </p>
 <pre>
 switch (条件式) {
@@ -6261,7 +6261,7 @@ switch (条件式) {
 }
 </pre>
 <p>
-  break statementを使用した場合は,switchブロックから抜けることができます。
+  break statementを使用した場合は,switch Blockから抜けることができます。
 </p>
 
 <pre>
@@ -6281,7 +6281,7 @@ switch (条件式) {
 }
 </pre>
 <p>
-  caseのブロックが存在する場合は,最後の文はbreak statementあるいは,returnl statementでなければなりません。otherwise コンパイルエラーが発生します。
+  caseのBlock が存在する場合は,最後の文はbreak statementあるいは,returnl statementでなければなりません。otherwise コンパイルエラーが発生します。
 </p>
 
 <p>
@@ -6319,12 +6319,12 @@ switch ($code) {
 
 <h3 id="language-statement-switch">case statement</h3>
 <p>
-  case statementは,switchブロックの中で使うことができる,条件を指定するための文です。case statementについての詳細は,<a href="#language-statement-switch">switch statement</a>の解説を見てください。
+  case statementは,switch Blockの中で使うことができる,条件を指定するための文です。case statementについての詳細は,<a href="#language-statement-switch">switch statement</a>の解説を見てください。
 </p>
 
 <h3 id="language-statement-switch">default statement</h3>
 <p>
-  default statementは,switchブロックの中で使うことができる,デフォルトの条件を指定するための文です。default statementについての詳細は,<a href="#language-statement-switch">switch statement</a>の解説を見てください。
+  default statementは,switch Blockの中で使うことができる,デフォルトの条件を指定するための文です。default statementについての詳細は,<a href="#language-statement-switch">switch statement</a>の解説を見てください。
 </p>
 
 <h3 id="language-statement-while">while statement</h3>
@@ -6337,7 +6337,7 @@ while (条件式) {
 }
 </pre>
 <p>
-  条件式に,<a href="#language-expresssion">式</a>を記述できます。条件式に<a href="#language-type-convertion-bool">ブール型変換</a>が実行され,値が0以外の場合に,ブロックが実行されます。otherwise ブロックを抜けます。
+  条件式に,<a href="#language-expresssion">式</a>を記述できます。条件式に<a href="#language-type-convertion-bool">ブール型変換</a>が実行され,値が0以外の場合に,Block が実行されます。otherwise Block を抜けます。
 </p>
 <p>
   <b>while statementのExample</b>
@@ -6355,7 +6355,7 @@ while ($i < 5) {
 }
 </pre>
 <p>
-  whileブロックの内部では,<a href="#language-statement-last">last statement</a>を使って,whileブロックを抜けることができます。
+  while Blockの内部では,<a href="#language-statement-last">last statement</a>を使って,while Blockを抜けることができます。
 </p>
 <pre>
 while (1) {
@@ -6364,7 +6364,7 @@ while (1) {
 </pre>
 
 <p>
-  whileブロックの内部では,<a href="#language-statement-next">next statement</a>を使って,次に実行される条件式の直前に移動することができます。
+  while Blockの内部では,<a href="#language-statement-next">next statement</a>を使って,次に実行される条件式の直前に移動することができます。
 </p>
 <pre>
 my $i = 0;
@@ -6424,13 +6424,13 @@ for (初期化式; 条件式; インクリメント式) {
   初期化式には,<a href="#language-expression">式</a>を記述できます。一般的には,ループ変数の初期化などの式を記述します。初期化式は省略することが可能です。
 </p>
 <p>
-  条件式,<a href="#language-expresssion">式</a>を記述できます。条件式に<a href="#language-type-convertion-bool">ブール型変換</a>が実行され,値が0以外の場合に,ブロックが実行されます。otherwise ブロックを抜けます。
+  条件式,<a href="#language-expresssion">式</a>を記述できます。条件式に<a href="#language-type-convertion-bool">ブール型変換</a>が実行され,値が0以外の場合に,Block が実行されます。otherwise Block を抜けます。
 </p>
 <p>
   インクリメント式には,<a href="#language-expression">式</a>を記述できます。一般的には,ループ変数のインクリメントの式を記述します。インクリメント式は省略することが可能です。
 </p>
 <p>
-  for statementはthe following while statementと同じ意味を持ちます。インクリメント式は,ブロックの最後に実行されます。初期化式は,<a href="#language-block-statement-simple">Simple Block</a>に囲まれています。
+  for statementはthe following while statementと同じ意味を持ちます。インクリメント式は,Block の最後に実行されます。初期化式は,<a href="#language-block-statement-simple">Simple Block</a>に囲まれています。
 </p>
 <pre>
 {
@@ -6456,7 +6456,7 @@ for (my $i = 0; $i < 5; $i++) {
 }
 </pre>
 <p>
-  forブロックの内部では,<a href="#language-statement-last">last statement</a>を使って,forブロックを抜けることができます。
+  for Blockの内部では,<a href="#language-statement-last">last statement</a>を使って,for Blockを抜けることができます。
 </p>
 
 <pre>
@@ -6466,7 +6466,7 @@ for (初期化式; 条件式; インクリメント式) {
 </pre>
 
 <p>
-  forブロックの内部では,<a href="#language-statement-next">next statement</a>を使って,次に実行されるインクリメント式の直前に移動することができます。
+  for Blockの内部では,<a href="#language-statement-next">next statement</a>を使って,次に実行されるインクリメント式の直前に移動することができます。
 </p>
 <pre>
 for (my $i = 0; $i < 5; $i++) {
@@ -6607,7 +6607,7 @@ unweaken 変数->{Field Name};
 
 <h3 id="language-statement-next">next statement</h3>
 <p>
-  "next statement"は,次のループの先頭に移動するための文です。<a href="#language-block-statement-while">whileブロック</a>,<a href="#language-block-statement-for">forブロック</a>の中で使うことができます。
+  "next statement"は,次のループの先頭に移動するための文です。<a href="#language-block-statement-while">while Block</a>,<a href="#language-block-statement-for">for Block</a>の中で使うことができます。
 </p>
 <pre>
 next;
@@ -6618,7 +6618,7 @@ next;
 
 <h3 id="language-statement-last">last statement</h3>
 <p>
-  "last statement"は,ループを脱出するための文です。<a href="#language-block-statement-while">whileブロック</a>,<a href="#language-block-statement-for">forブロック</a>の中で使うことができます。
+  "last statement"は,ループを脱出するための文です。<a href="#language-block-statement-while">while Block</a>,<a href="#language-block-statement-for">for Block</a>の中で使うことができます。
 </p>
 <p>
   実際の動作については<a href="#language-statement-while">while statement</a>,<a href="#language-statement-for">for statement</a>の解説を見てください。
@@ -6629,7 +6629,7 @@ last;
 
 <h3 id="language-statement-break">break statement</h3>
 <p>
-  "break statement"は,switchブロックを脱出するための文です。<a href="#language-block-statement-switch">switchブロック</a>の中で使うことができます。
+  "break statement"は,switch Blockを脱出するための文です。<a href="#language-block-statement-switch">switch Block</a>の中で使うことができます。
 </p>
 <p>
   実際の動作については<a href="#language-statement-switch">switch statement</a>の解説を見てください。
