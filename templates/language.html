@@ -1538,15 +1538,12 @@ package Foo {
 
 <h3 id="language-package-var-access">Package Variable Access</h3>
 
-<p>
-  Package Variable Accessとは,Package Variable にアクセスして,値を取得したり,設定したりする操作のことです。
-</p>
-<p>
-  Package Variable の値の取得については,<a href="#language-expression-get-package-var">Package Variable の値の取得</a>を見てください。
-</p>
-<p>
-  Package Variable の値の設定については,<a href="#language-expression-set-package-var">Package Variable の値の設定</a>を見てください。
-</p>
+
+Package Variable Access is an operation to access Package Variable to get or set a value.
+
+See <a href="#language-expression-get-package-var">Package Variable Value Getting</a> for how to get the value of Package Variable.
+
+See <a href="#language-expression-set-package-var">Package Variable Value Setting</a> for the setting of the value of Package Variable.
 
 <h2 id="language-field">フィールド</h2>
 <ul class="list">
@@ -3123,8 +3120,8 @@ $point_ref->{x} = 1;
 <ul class="list">
   <li><a href="#language-expression-get-lex-var">Lexical Variable の値の取得</a></li>
   <li><a href="#language-expression-set-lex-var">Lexical Variable の値の設定</a></li>
-  <li><a href="#language-expression-get-package-var">Package Variable の値の設定</a></li>
-  <li><a href="#language-expression-set-package-var">Package Variable の値の取得</a></li>
+  <li><a href="#language-expression-get-package-var">Package Variable Value Setting</a></li>
+  <li><a href="#language-expression-set-package-var">Package Variable Value Getting</a></li>
   <li><a href="#language-expression-get-exception-var">例外変数の値の設定</a></li>
   <li><a href="#language-expression-set-exception-var">例外変数の値の取得</a></li>
   <li><a href="#language-literal">Literal</a></li>
@@ -3194,7 +3191,7 @@ $var = Right Expression
   代入前に,すでに$varにオブジェクトが代入されていた場合は,そのオブジェクトのReference Countが1減らされます。
 </p>
 
-<h3 id="language-expression-get-package-var">Package Variable の値の取得</h3>
+<h3 id="language-expression-get-package-var">Package Variable Value Getting</h3>
 <p>
   Package Variable の値を取得するにはthe following syntax を使用します。
 </p>
@@ -3208,7 +3205,7 @@ $クラス名::Package Variable Name
 $Package Variable Name
 </pre>
 <p>
- Package Variable の値の取得は,<a href="#language-expression">式</a>を返します。
+ Package Variable Value Gettingは,<a href="#language-expression">式</a>を返します。
 </p>
 <p>
   定義されていないPackage Variable の値を取得しようとした場合は,a compile-time error occurs
@@ -3217,7 +3214,7 @@ $Package Variable Name
   Package 外側からプライベートなPackage Variable にアクセスしようとした場合は,a compile-time error occurs
 </p>
 <p>
-  <b>Package Variable の値の取得のExample</b>
+  <b>Package Variable Value Getting Example:</b>
 </p>
 <pre>
 package Foo {
@@ -3230,7 +3227,7 @@ package Foo {
 }
 </pre>
 
-<h3 id="language-expression-set-package-var">Package Variable の値の設定</h3>
+<h3 id="language-expression-set-package-var">Package Variable Value Setting</h3>
 <p>
   Package Variable の値を設定するにはthe following syntax を使用します。
 </p>
@@ -3252,7 +3249,7 @@ $Package Variable Name = Right Expression
   Package 外側からプライベートなPackage Variable にアクセスしようとした場合は,a compile-time error occurs
 </p>
 <p>
-  <b>Package Variable の値の設定のExample</b>
+  <b>Package Variable Value Setting Example:</b>
 </p>
 <pre>
 package Foo {
