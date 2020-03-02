@@ -18,13 +18,11 @@ Last modified 2020-02-26
   <li><a href="#language-package-var">Package Variable</a></li>
   <li><a href="#language-field">Field</a></li>
   <li><a href="#language-sub">Subroutine </a></li>
-  <li><a href="#language-enum">列挙</a></li>
+  <li><a href="#language-enum">Enumeration</a></li>
   <li><a href="#language-begin-block">BEGIN Block </a></li>
   <li><a href="#language-lex-var">Lexical Variable </a></li>
   <li><a href="#language-block">Block </a></li>
-  <li><a href="#language-scope">スコープ</a></li>
-  <li><a href="#language-warn">警告</a></li>
-  <li><a href="#language-print">print文</a></li>
+  <li><a href="#language-scope">Scope</a></li>
   <li><a href="#language-exception">Exception Handling </a></li>
   <li><a href="#language-weak-ref">Weaken Reference</a></li>
   <li><a href="#language-callback">コールバック</a></li>
@@ -1986,7 +1984,7 @@ my $comparator = [$foo : int, $bar : long] sub : int ($self : self, $x1 : object
   キャプチャは,実際には,クラスのFieldとして定義されます。キャプチャは,Field Definitionと値の設定のシンタックスシュガーです。
 </p>
 <p>
-  スコープ内で,キャプチャ変数と同名の<a href="#language-lex-var">Lexical Variable</a>が存在する場合は,Lexical Variable にアクセスします。
+  Scope内で,キャプチャ変数と同名の<a href="#language-lex-var">Lexical Variable</a>が存在する場合は,Lexical Variable にアクセスします。
 </p>
 <p>
   キャプチャ変数と同名の<a href="#language-package-var">Package Variable</a>が存在する場合は,キャプチャ変数にアクセスします。
@@ -2095,18 +2093,18 @@ void()
   2. モータル変数の場所
 </p>
 
-<h2 id="language-enum">列挙</h2>
+<h2 id="language-enum">Enumeration</h2>
 <ul class="list">
   <li>
     <a href="#language-enum-definition">Enumeration Definition</a>
   </li>
   <li>
-    <a href="#language-enum-call">列挙の呼び出し</a>
+    <a href="#language-enum-call">Enumerationの呼び出し</a>
   </li>
 </ul>
 <h3 id="language-enum-definition">Enumeration Definition</h3>
 <p>
-  列挙はint Type の定数を定義したい場合に利用します。連続したint Type の定数を簡単に定義できます。"enum"  Keyword を使って定義します。
+  Enumerationはint Type の定数を定義したい場合に利用します。連続したint Type の定数を簡単に定義できます。"enum"  Keyword を使って定義します。
 </p>
 <pre>
 enum {
@@ -2132,7 +2130,7 @@ package Foo {
   最初の値は"0"から始まります。値は"1"づつインクリメントされます。この例の場合は"FLAG1"は"0","FALG2"は"1","FLAG3は"2"になります。
 </p>
 <p>
-  列挙の末尾の要素の後ろには","をつけることができます。
+  Enumerationの末尾の要素の後ろには","をつけることができます。
 </p>
 <pre>
 enum {
@@ -2142,7 +2140,7 @@ enum {
 }
 </pre>
 <p>
-  列挙はint Type をReturn Valueとする"Constant Subroutine "のエイリアスです。次のSubroutine Definitionと等価です。
+  Enumerationはint Type をReturn Valueとする"Constant Subroutine "のエイリアスです。次のSubroutine Definitionと等価です。
 </p>
 <pre>
 sub FLAG1 : int () { return 0; }
@@ -2167,10 +2165,10 @@ enum {
 </p>
 
 <p>
-  <b>列挙Descriptor</b>
+  <b>EnumerationDescriptor</b>
 </p>
 <p>
-  列挙には,Descriptorを指定することができます。
+  Enumerationには,Descriptorを指定することができます。
 </p>
 <pre>
 private enum {
@@ -2180,7 +2178,7 @@ private enum {
 }
 </pre>
 <p>
-  列挙で指定できるDescriptorの一覧です。
+  Enumerationで指定できるDescriptorの一覧です。
 </p>
 <table>
   <tr>
@@ -2196,7 +2194,7 @@ private enum {
       <b>public</b>
     </td>
     <td>
-      この列挙は,外部のPackage からアクセスできます。デフォルトの設定です。
+      このEnumerationは,外部のPackage からアクセスできます。デフォルトの設定です。
     </td>
   </tr>
   <tr>
@@ -2204,7 +2202,7 @@ private enum {
       <b>private</b>
     </td>
     <td>
-      この列挙は,外部のPackage からアクセスできません。
+      このEnumerationは,外部のPackage からアクセスできません。
     </td>
   </tr>
 </table>
@@ -2212,9 +2210,9 @@ private enum {
   "public"と"private"の両方のDescriptorが指定された場合は,a compile-time error occurs
 </p>
 
-<h3 id="language-enum-call">列挙の呼び出し</h3>
+<h3 id="language-enum-call">Enumerationの呼び出し</h3>
 <p>
-  列挙は,Constant Subroutine のエイリアスなので,Subroutine 呼び出しとまったく同じ方法で呼び出すことができます。
+  Enumerationは,Constant Subroutine のエイリアスなので,Subroutine 呼び出しとまったく同じ方法で呼び出すことができます。
 </p>
 <pre>
 my $flag1 = Foo->FLAG1;
@@ -2305,7 +2303,7 @@ package Foo {
 </ul>
 <h3 id="language-lex-var-declaration">Lexical Variable Declaration </h3>
 <p>
-  Lexical Variable とは,<a href="#language-scope-block">Scope Block</a>の中で利用できる,<a href="#language-scope">スコープ</a>を持つ変数のことです。C言語のローカル変数に該当します。
+  Lexical Variable とは,<a href="#language-scope-block">Scope Block</a>の中で利用できる,<a href="#language-scope">Scope</a>を持つ変数のことです。C言語のローカル変数に該当します。
 </p>
 <pre>
 {
@@ -2373,7 +2371,7 @@ while (my $bar = 1) {
 </pre>
 
 <p>
-  Lexical Variable Declaration は,Lexical Variable が<a href="#language-type-object">Object Type</a>であった場合に,Lexical Variable を,モータル変数として,実行時に登録します。モータル変数として登録されたLexical Variable に代入されているオブジェクトは,<a href="#language-scope">スコープ</a>の末尾で,Reference Countが自動的に1減らされます。
+  Lexical Variable Declaration は,Lexical Variable が<a href="#language-type-object">Object Type</a>であった場合に,Lexical Variable を,モータル変数として,実行時に登録します。モータル変数として登録されたLexical Variable に代入されているオブジェクトは,<a href="#language-scope">Scope</a>の末尾で,Reference Countが自動的に1減らされます。
 </p>
 
 <h3 id="language-lex-var-initial-value">Lexical Variable Initial Value</h3>
@@ -2408,15 +2406,15 @@ The part enclosed by "{" and "}" is called <b>Block</b>.
 
 There are <a href="#language-scope-block">Scope Block</a> that creates a scope and Non Scope Block that does not create a scope.
 
-<h2 id="language-scope">スコープ</h2>
+<h2 id="language-scope">Scope</h2>
 <ul class="list">
-  <li><a href="#language-scope-role">スコープの役割</a>
+  <li><a href="#language-scope-role">Scopeの役割</a>
   <li><a href="#language-scope-block">Scope Block</a>
 </ul>
 
-<h3 id="language-scope-role">スコープの役割</h3>
+<h3 id="language-scope-role">Scopeの役割</h3>
 <p>
-  スコープとは<a href="#language-scope-block">Scope Block</a>に囲まれた範囲のことをいいます。
+  Scopeとは<a href="#language-scope-block">Scope Block</a>に囲まれた範囲のことをいいます。
 </p>
 <pre>
 # Scope Block 
@@ -2425,7 +2423,7 @@ There are <a href="#language-scope-block">Scope Block</a> that creates a scope a
 }
 </pre>
 <p>
-  スコープの中で宣言されたLexical Variable は,実行時に,宣言されている位置で,モータルなLexical Variable として登録されます。
+  Scopeの中で宣言されたLexical Variable は,実行時に,宣言されている位置で,モータルなLexical Variable として登録されます。
 </p>
 <pre>
 {
@@ -2437,11 +2435,11 @@ There are <a href="#language-scope-block">Scope Block</a> that creates a scope a
   モータルなLexical Variable に代入されたオブジェクトが,Undefined Valueではない場合は,Reference Countが1増やされます。
 </p>
 <p>
-  スコープの終わりに到達すると,モータルなLexical Variable に代入されているオブジェクトは,Undefined Valueでない場合,Reference Countが1減らされ,0になった場合は,解放されます。
+  Scopeの終わりに到達すると,モータルなLexical Variable に代入されているオブジェクトは,Undefined Valueでない場合,Reference Countが1減らされ,0になった場合は,解放されます。
 </p>
 <h3 id="language-scope-block">Scope Block </h3>
 <p>
-  Scope Block とは,スコープを作るBlock のことです。Scope Block には,0個以上の<a href="#language-statement">文</a>を記述することができます。
+  Scope Block とは,Scopeを作るBlock のことです。Scope Block には,0個以上の<a href="#language-statement">文</a>を記述することができます。
 </p>
 <pre>
 # Scope Block 
@@ -2522,6 +2520,7 @@ for (my $i = 0; $i < 3; $i++) {
 </pre>
 
 <h4 id="language-block-statement-while">while Block</h4>
+
 <pre>
 # while Block
 while (式) {
@@ -2530,48 +2529,12 @@ while (式) {
 </pre>
 
 <h4 id="language-block-statement-switch">switch Block</h4>
+
 <pre>
 switch (式) {
 
 }
 </pre>
-<h2 id="language-warn">警告</h2>
-<h3 id="language-exception-summary">警告を発生させる</h3>
-<p>
-  警告を発生させるにはwarn文を使用します。
-</p>
-<pre>
-warn 式;
-</pre>
-<p>
-  式は,<a href="#language-type-string-compatible">String Compatible Type</a>でなければなりません。
-</p>
-<p>
-  末尾が改行文字"\n"であった場合は,標準エラー出力に式で指定されている文字列が出力されます。
-</p>
-<p>
-  末尾が改行文字でない場合は,末尾にFile Nameと行番号が追加され,標準エラー出力されます。
-</p>
-<p>
-  式で指定された文字列の長さが0あるいは,Undefined Valueであった場合は,指定されたメッセージが"Warning: something's wrong"であるとしてふるまいます。
-</p>
-<p>
-  標準エラー出力のバッファがフラッシュされます。
-</p>
-
-<h2 id="language-print">print文</h2>
-<p>
-  標準出力に文字列を出力するにはprint文を使用します。
-</p>
-<pre>
-print 式;
-</pre>
-<p>
-  式は,<a href="#language-type-string-compatible">String Compatible Type</a>でなければなりません。
-</p>
-<p>
-  式がUndefined Valueであった場合は,何もしません。
-</p>
 
 <h2 id="language-exception">Exception Handling </h2>
 <ul class="list">
@@ -2658,7 +2621,7 @@ $@
 }
 </pre>
 <p>
-  この場合は,スコープが終了しても,両方のオブジェクトは解放されません。なぜなら,循環参照が発生しており,Reference Countが0にならないためです。
+  この場合は,Scopeが終了しても,両方のオブジェクトは解放されません。なぜなら,循環参照が発生しており,Reference Countが0にならないためです。
 </p>
 <p>
   Weaken Referenceは,Reference CountGCを持つプログラミング言語において,循環参照が発生した場合に,オブジェクトの破棄を正しく行うための機能です。
@@ -2681,13 +2644,13 @@ $@
   weaken statement が実行される前の,$fooのReference Countは2,$barのReference Countは2です。
 </p>
 <p>
-  もしweaken statement がない場合は,スコープが終了したとしても,$fooのReference Countも,$barのReference Countも0にならず,解放されません。
+  もしweaken statement がない場合は,Scopeが終了したとしても,$fooのReference Countも,$barのReference Countも0にならず,解放されません。
 </p>
 <p>
   weaken statement が実行されるとは,$fooのReference Countは2,$barのReference Countは1になります。
 </p>
 <p>
-  スコープが終了すると,$barのReference Countが1減らされ0になるので,正しく解放されます。
+  Scopeが終了すると,$barのReference Countが1減らされ0になるので,正しく解放されます。
 </p>
 <p>
   3つの循環参照の場合でも,ひとつのFieldにWeaken Referenceを設定すれば,正しく解放できます。
@@ -6110,6 +6073,8 @@ a * (b + c)
   <li><a href="#language-statement-weaken">weaken statement</a></li>
   <li><a href="#language-statement-unweaken">unweaken statement</a></li>
   <li><a href="#language-statement-expression">expression statement</a></li>
+  <li><a href="#language-statement-print">print Statement</a></li>
+  <li><a href="#language-statement-warn">warn Statement</a></li>
   <li><a href="#language-statement-empty">empty statement</a></li>
 </ul>
 
@@ -6225,19 +6190,19 @@ else {
 # 展開後
 my $num = 1;
 {
-if (my $num = 2) {
+  if (my $num = 2) {
 
-}
-else {
-{
-if (my $num = 3) {
-  
-}
-else {
-  
-}
-}
-}
+  }
+  else {
+    {
+      if (my $num = 3) {
+        
+      }
+      else {
+        
+      }
+    }
+  }
 }
 </pre>
 
@@ -6678,6 +6643,44 @@ last;
 break;
 </pre>
 
+<h3 id="language-statement-warn">warn Statement</h3>
+
+<p>
+  警告を発生させるにはwarn文を使用します。
+</p>
+<pre>
+warn 式;
+</pre>
+<p>
+  式は,<a href="#language-type-string-compatible">String Compatible Type</a>でなければなりません。
+</p>
+<p>
+  末尾が改行文字"\n"であった場合は,標準エラー出力に式で指定されている文字列が出力されます。
+</p>
+<p>
+  末尾が改行文字でない場合は,末尾にFile Nameと行番号が追加され,標準エラー出力されます。
+</p>
+<p>
+  式で指定された文字列の長さが0あるいは,Undefined Valueであった場合は,指定されたメッセージが"Warning: something's wrong"であるとしてふるまいます。
+</p>
+<p>
+  標準エラー出力のバッファがフラッシュされます。
+</p>
+
+<h3 id="language-statement-print">print Statement</h3>
+<p>
+  標準出力に文字列を出力するにはprint Statementを使用します。
+</p>
+<pre>
+print 式;
+</pre>
+<p>
+  式は,<a href="#language-type-string-compatible">String Compatible Type</a>でなければなりません。
+</p>
+<p>
+  式がUndefined Valueであった場合は,何もしません。
+</p>
+
 <h3 id="language-statement-expression">expression statement</h3>
 <p>
   expression statementは"<a href="#language-expression">式</a>"と";"で構成される文のことです。
@@ -6704,6 +6707,7 @@ my $num = 1 + 2;
 <pre>
 ;
 </pre>
+
 
 <h2 id="language-type">型</h2>
 <ul class="list">
