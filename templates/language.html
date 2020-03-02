@@ -6,6 +6,49 @@ SPVM is in beta testing for the 1.0 release. Language Specification will be chan
 
 Last modified 2020-02-26
 
+<ul>
+  <li><a href="#language-c99">C99 compliant</a></li>
+  <li><a href="#language-lex">Lexical Analysis</a></li>
+  <li><a href="#language-parsing">Parsing</a></li>
+  <li><a href="#language-comment">Comment</a></li>
+  <li><a href="#language-pod">POD</a></li>
+  <li><a href="#language-package">Package</a></li>
+  <li><a href="#language-module">Module</a></li>
+  <li><a href="#language-allow-access">Access Allowing</a></li>
+  <li><a href="#language-package-var">Package Variable</a></li>
+  <li><a href="#language-field">Field</a></li>
+  <li><a href="#language-sub">Subroutine </a></li>
+  <li><a href="#language-enum">列挙</a></li>
+  <li><a href="#language-begin-block">BEGIN Block </a></li>
+  <li><a href="#language-lex-var">Lexical Variable </a></li>
+  <li><a href="#language-block">Block </a></li>
+  <li><a href="#language-scope">スコープ</a></li>
+  <li><a href="#language-warn">警告</a></li>
+  <li><a href="#language-print">print文</a></li>
+  <li><a href="#language-exception">Exception Handling </a></li>
+  <li><a href="#language-weak-ref">Weaken Reference</a></li>
+  <li><a href="#language-callback">コールバック</a></li>
+  <li><a href="#language-array">配列</a></li>
+  <li><a href="#language-value">値</a></li>
+  <li><a href="#language-value-array">値の配列</a></li>
+  <li><a href="#language-ref">リファレンス</a></li>
+  <li><a href="#language-expression">式</a></li>
+  <li><a href="#language-expression-release-object">オブジェクトの解放</a></li>
+  <li><a href="#language-literal">Literal </a></li>
+  <li><a href="#language-string">文字列</a></li>
+  <li><a href="#language-undef">Undefined Value</a></li>
+  <li><a href="#language-fat-comma">ファットカンマ</a></li>
+  <li><a href="#language-operator">Operator</a></li>
+  <li><a href="#language-operator-precedence">Operator の優先順位</a></li>
+  <li><a href="#language-statement">文</a></li>
+  <li><a href="#language-type">型</a></li>
+  <li><a href="#language-type-inference">Type Inference</a></li>
+  <li><a href="#language-type-compatible">Type Compatibility</a></li>
+  <li><a href="#language-type-convertion">型変換</a></li>
+  <li><a href="#language-auto-loaded-module">自動的に読み込まれるModule</a></li>
+  <li><a href="#language-limitation">Limitation </a></li>
+</ul>
+
 <h2 id="language-c99">C99 compliant</h2><!-- 2019/2/27 almost ok -->
 <ul class="list">
   <li><a href="#language-c99-spec">C99 compliant compiler and runtime</a>
@@ -1174,6 +1217,8 @@ package Foo {
 }
 </pre>
 
+If more than one package with the same name is defined, a compile-time error occurs.
+
 <h3 id="language-package-descriptor">Package Descriptor</h3>
 
 The descriptions of Package Descriptors.
@@ -1401,7 +1446,7 @@ package Foo {
 
 In this example, Bar can access the private Subroutine, Field, and Package Variable of Foo can be accessed and can Create Object of Foo.
 
-<h2 id="language-package-var">Package Variable </h2>
+<h2 id="language-package-var">Package Variable</h2>
 <ul class="list">
   <li><a href="#language-package-var-definition">Package Variable Definition</a></li>
   <li><a href="#language-package-var-descriptor">Package Variable Descriptor</a></li>
@@ -1409,7 +1454,6 @@ In this example, Bar can access the private Subroutine, Field, and Package Varia
   <li><a href="#language-package-var-access">Package Variable Access</a></li>
 </ul>
 <h3 id="language-package-var-definition">Package Variable Definition</h3>
-
 
 <b>Package Variable</b> is a global variable that belongs to <a href="#language-package">Package</a> and exists from the start to the end of the program execution.
 
@@ -1424,6 +1468,8 @@ Package Variable must be defined directly under <a href="#language-package-defin
 Package Variable Definition must specify <a href="#language-type">Type</a>. The Type must be <a href="#language-type-numeric">Numeric Type</a> or <a href="#language-type-object">Object Type</a>.
 
 Package Variable Name must follows the rule specified in <a href="#language-lex-identifier-package-var-name">Package Variable Name</a>, and must not contain "::". Otherwise a compile-time error occurs.
+
+If more than one Package Variable with the same name is defined, a compile-time error occurs.
 
 Package Variable Descriptor can be specified together in Package Variable definition.
 
@@ -1466,7 +1512,7 @@ List of Package Variable Descriptors.
       <b>ro</b>
     </td>
     <td>
-      This Package Variable creates Read Accessor. Read Accessor name is the same as Package Variable Name except removing "$". For example, If the Package Variable Name is "$FOO", Read Accessor name is "FOO".
+      This Package Variable has Read Accessor. Read Accessor name is the same as Package Variable Name except removing "$". For example, If the Package Variable Name is "$FOO", Read Accessor name is "FOO".
     </td>
   </tr>
   <tr>
@@ -1474,7 +1520,7 @@ List of Package Variable Descriptors.
       <b>wo</b>
     </td>
     <td>
-      This Package Variable creates Write Accessor. Write Accessor name is the same as Package Variable Name except removing "$" and adding "SET_" to top. For example, If the Package Variable Name is "$FOO", Read Accessor name is "SET_FOO".
+      This Package Variable has Write Accessor. Write Accessor name is the same as Package Variable Name except removing "$" and adding "SET_" to top. For example, If the Package Variable Name is "$FOO", Read Accessor name is "SET_FOO".
     </td>
   </tr>
   <tr>
@@ -1482,25 +1528,20 @@ List of Package Variable Descriptors.
       <b>rw</b>
     </td>
     <td>
-      This Package Variable creates Read accessor and Write Accessor.
+      This Package Variable has Read accessor and Write Accessor.
     </td>
   </tr>
 </table>
 
-
 If both "public" and "private" Descriptors are specified, a compile-time error occurs.
 
-
 If more than one of "ro", "wo", and "rw" are specified at the same time, a compile-time error occurs
-
 
 Read Accessor of Package Variable has no arguments and the return type is same as the type of Package Variable.
 
 Write Acessor of Package Variable has one argument and the type is same as the type of Package Variable. The type of return value is <a href="#language-type-void">void Type</a>.
 
-Read Accessor and Write Accessor is 
-
-Inline Expansion optimization is performed to Read Accessor and Write Accessor. You don't have to worry about the performance penalty of using accessors.
+Inline Expansion optimization is performed to Read Accessor and Write Accessor. You don't have to worry about the performance penalty of using Package Variable Accessors.
 
 <b>Package Variable Definition Example:</b>
 
@@ -1538,59 +1579,56 @@ package Foo {
 
 <h3 id="language-package-var-access">Package Variable Access</h3>
 
-
 Package Variable Access is an operation to access Package Variable to get or set a value.
 
-See <a href="#language-expression-get-package-var">Package Variable Value Getting</a> for how to get the value of Package Variable.
+See <a href="#language-expression-get-package-var">Package Variable Getting</a> for how to get the value of Package Variable.
 
-See <a href="#language-expression-set-package-var">Package Variable Value Setting</a> for the setting of the value of Package Variable.
+See <a href="#language-expression-set-package-var">Package Variable Setting</a> for the setting of the value of Package Variable.
 
-<h2 id="language-field">フィールド</h2>
+<h2 id="language-field">Field</h2>
 <ul class="list">
   <li><a href="#language-field-definition">Field Definition</a></li>
+  <li><a href="#language-field-descriptor">Field Descriptor</a></li>
   <li><a href="#language-field-access">Field Access</a></li>
 </ul>
 <h3 id="language-field-definition">Field Definition</h3>
-<p>
-  フィールドとは"new"を使ってオブジェクト生成した場合に,オブジェクトからアクセスできるデータ領域のことです。
-</p>
-<p>
-  "has"  Keyword を使用してフィールドを定義することができます。
-</p>
+
+Field is a data area in a <a href="#language-expression-new-object">object created using new keyword</a>
+
+"has" Keyword defines a Field.
+
 <pre>
-has Field Name : Type Name ;
+has FIELD_NAME : TYPE_NAME;
 </pre>
-<p>
-  フィールド定義は"<a href="#language-package-definition">Package Definition</a>"の直下で行う必要があります。
-</p>
-<p>
-  フィールド定義には"<a href="#language-type">Type Name</a>"が必要です。Type Name には"Numeric Type"と"Object Type "を指定できます。
-</p>
-<p>
-  Field Nameは,1文字以上の"a～z""A～Z""0～9""_"で構成する必要があります。先頭は,数字から始めることはできません。連続した"_"を使用することはできません。
-</p>
-<p>
-  Field Nameには,<a href="#language-lex-keyword"> Keyword</a>と同じ名前を使用することができます。
-</p>
-<p>
-  フィールド定義には,Descriptorを合わせて指定することができます。複数のDescriptorを空白を使って並べることができます。
-</p>
+
+Field must be defined directly under <a href="#language-package-definition">Package Definition</a>.
+
+Field Definition must be specify <a href="#language-type">Type</a>. The Type must be <a href="#language-type-numeric">Numeric Type</a> or <a href="#language-type-object">Object Type</a>.
+
+Field Name must follows the rule specified in <a href="#language-lex-identifier-field-name">Field Name</a>.
+
+Field Name is allowed as same as <a href="#language-lex-keyword">Keyword</a>. 
+
+If more than one Field Name Variable with the same name is defined, a compile-time error occurs.
+
+Field Descriptor can be specified together in Field Definition.
+
 <pre>
-has Field Name : Descriptor Type Name ;
+has FIELD_NAME : DESCRIPTOR TYPE_NAME;
+has FIELD_NAME : DESCRIPTOR1 DESCRIPTOR2 DESCRIPTORN TYPE_NAME;
 </pre>
-<p>
-  <b>フィールドDescriptor</b>
-</p>
-<p>
-  フィールドで指定できるDescriptorの一覧です。
-</p>
+
+<h3 id="language-field-descriptor">Field Descriptor</h3>
+
+List of Field Descriptors.
+
 <table>
   <tr>
     <th>
       Descriptor Name
     </th>
     <th>
-      役割
+      Description
     </th>
   </tr>
   <tr>
@@ -1598,7 +1636,7 @@ has Field Name : Descriptor Type Name ;
       <b>public</b>
     </td>
     <td>
-      このフィールドは,外部のPackage からアクセスできます。
+      This field is public. This field can be accessed from other package.
     </td>
   </tr>
   <tr>
@@ -1606,7 +1644,7 @@ has Field Name : Descriptor Type Name ;
       <b>private</b>
     </td>
     <td>
-      このフィールドは,外部のPackage からアクセスできません。デフォルトの設定です。
+      This field is private. This field can't be accessed from other package. This is default setting.
     </td>
   </tr>
   <tr>
@@ -1614,7 +1652,7 @@ has Field Name : Descriptor Type Name ;
       <b>ro</b>
     </td>
     <td>
-      このフィールドは,読み込み用のフィールドアクセッサを持ちます。フィールドアクセッサ名は,Field Nameと同じです。Field Nameが"foo"の場合は,フィールドアクセッサ名は"foo"になります。
+      This Field has Read Accessor. Read Accessor name is the same as Field Name. For example, If the Field Name is "foo", Read Accessor name is "foo".
     </td>
   </tr>
   <tr>
@@ -1622,7 +1660,7 @@ has Field Name : Descriptor Type Name ;
       <b>wo</b>
     </td>
     <td>
-      このフィールドは,書き込み用のフィールドアクセッサを持ちます。フィールドアクセッサ名は,"set_Field Name"になります。Field Nameが"foo"の場合は,フィールドアクセッサ名は"set_foo"になります。
+      This Field has Write Accessor. Write Accessor name is the same as Field Name adding "set_" to top. For example, If the Field Name is "foo", Read Accessor name is "set_foo".
     </td>
   </tr>
   <tr>
@@ -1630,31 +1668,23 @@ has Field Name : Descriptor Type Name ;
       <b>rw</b>
     </td>
     <td>
-      このフィールドは,読み込み用のフィールドアクセッサと書き込み用のフィールドアクセッサを持ちます。読み込み用のフィールドアクセッサ名は"ro"でDescriptionしたものと同じです。書き込み用のフィールドアクセッサ名は"wo"でDescriptionしたものと同じです。
+      This Field has Read Accessor and Write Accessor.
     </td>
   </tr>
 </table>
-<p>
-  "public"と"private"の両方のDescriptorが指定された場合は,a compile-time error occurs
-</p>
-<p>
-  "ro""wo""rw"のひとつより多くが同時に指定されている場合は,a compile-time error occurs
-</p>
-<p>
-  フィールドアクセッサとは,フィールドにアクセスするためのメソッドのことです。
-</p>
-<p>
-  書き込み用のフィールドアクセッサのReturn Valueは"void Type"です。
-</p>
-<p>
-  SPVMのソースコードの中からフィールドアクセッサが呼び出された場合は,フィールドアクセッサはInline Expansionされます。それ以外の場合は,Inline Expansionされません。
-</p>
-<p>
-  <b>フィールド定義のExample</b>
-</p>
-<p>
-  フィールド定義のExampleです。
-</p>
+
+If both "public" and "private" Descriptors are specified, a compile-time error occurs.
+
+If more than one of "ro", "wo", and "rw" are specified at the same time, a compile-time error occurs
+
+Read Accessor of Field has one argument that is <a href="#language-type-self">self Type</a> and the Return Type is same as the type of Field.
+
+Write Acessor of Package Variable has two arguments. First argument is <a href="#language-type-self">self Type</a> and second argument is same as the type of Field. The type of return value is <a href="#language-type-void">void Type</a>.
+
+Inline Expansion optimization is performed to Read Accessor and Write Accessor. You don't have to worry about the performance penalty of using Field Accessors.
+
+<b>Field Definition Example:</b>
+
 <pre>
 package Foo {
   has num1 : byte;
@@ -1670,9 +1700,18 @@ package Foo {
   has num_rw : rw int;
 }
 </pre>
+
+<h3 id="language-field-access">Field Access</h3>
+
+Field Access is an operation to access Field to get or set a value.
+
+See <a href="#language-expression-get-field">Field Value Getting</a> for how to get the value of Field.
+
+See <a href="#language-expression-set-field">Field Value Setting</a> for the setting of the value of Field.
+
 <h3 id="language-field-access">Field Access</h3>
 <p>
-  Field Accessとは,フィールドにアクセスして,値を取得したり,設定したりする操作のことです。また,the following 記述そのものを指します。
+  Field Accessとは,Fieldにアクセスして,値を取得したり,設定したりする操作のことです。また,the following 記述そのものを指します。
 </p>
 <pre>
 Invocant ->{Field Name}
@@ -1684,7 +1723,7 @@ Invocant ->{Field Name}
   <b>1. Class TypeのField Access</b>
 </p>
 <p>
-  <a href="#language-type-class">Class Type</a>を元に<a href="#language-expression-new-object">Object Creating</a>が行われた場合は,オブジェクトからフィールドにアクセスすることができます。
+  <a href="#language-type-class">Class Type</a>を元に<a href="#language-expression-new-object">Object Creating</a>が行われた場合は,オブジェクトからFieldにアクセスすることができます。
 </p>
 <pre>
 my $point = new Point;
@@ -1692,16 +1731,16 @@ $point->{x} = 1;
 </pre>
 
 <p>
-  Class Typeのフィールドの取得については,<a href="#language-expression-get-field-class">Class Typeのフィールドの値の取得</a>を見てください。
+  Class TypeのFieldの取得については,<a href="#language-expression-get-field-class">Class TypeのFieldの値の取得</a>を見てください。
 </p>
 <p>
-  Class Typeのフィールドの設定については,<a href="#language-expression-set-field-class">Class Typeのフィールドの値の設定</a>を見てください。
+  Class TypeのFieldの設定については,<a href="#language-expression-set-field-class">Class TypeのFieldの値の設定</a>を見てください。
 </p>
 <p>
   <b>2. Multi Numeric TypeのField Access</b>
 </p>
 <p>
-  2. <a href="#language-type-multi-numeric">Multi Numeric Type</a>におけるフィールドは,Multi Numeric Typeの変数の宣言をすれば,その変数からフィールドにアクセスできます。これは,Lexical Variable 領域におけるアクセスです。
+  2. <a href="#language-type-multi-numeric">Multi Numeric Type</a>におけるFieldは,Multi Numeric Typeの変数の宣言をすれば,その変数からFieldにアクセスできます。これは,Lexical Variable 領域におけるアクセスです。
 </p>
 <pre>
 my $z : SPVM::Complex_2d;
@@ -1709,16 +1748,16 @@ $z->{re} = 1;
 $z->{im} = 3;
 </pre>
 <p>
-  Multi Numeric Typeのフィールドの取得については,<a href="#language-expression-get-field-multi-numeric">Multi Numeric Typeのフィールドの値の取得</a>を見てください。
+  Multi Numeric TypeのFieldの取得については,<a href="#language-expression-get-field-multi-numeric">Multi Numeric TypeのFieldの値の取得</a>を見てください。
 </p>
 <p>
-  Multi Numeric Typeのフィールドの設定については,<a href="#language-expression-set-field-multi-numeric">Multi Numeric Typeのフィールドの値の設定</a>を見てください。
+  Multi Numeric TypeのFieldの設定については,<a href="#language-expression-set-field-multi-numeric">Multi Numeric TypeのFieldの値の設定</a>を見てください。
 </p>
 <p>
-  <b>3. Dereference によるMulti Numeric Typeのフィールドのアクセス</b>
+  <b>3. Dereference によるMulti Numeric TypeのFieldのアクセス</b>
 </p>
 <p>
-  Multi Numeric Typeの変数に対するReference Type から,Dereference を行って直接にMulti Numeric Typeのフィールドにアクセスできます。
+  Multi Numeric Typeの変数に対するReference Type から,Dereference を行って直接にMulti Numeric TypeのFieldにアクセスできます。
 </p>
 <pre>
 my $z : SPVM::Complex_2d;
@@ -1727,10 +1766,10 @@ $z_ref->{re} = 1;
 $z_ref->{im} = 3;
 </pre>
 <p>
-  Dereference によるMulti Numeric Typeのフィールドの取得については,<a href="#language-expression-get-field-multi-numeric-deref">Dereference によるMulti Numeric Typeのフィールドの取得</a>を見てください。
+  Dereference によるMulti Numeric TypeのFieldの取得については,<a href="#language-expression-get-field-multi-numeric-deref">Dereference によるMulti Numeric TypeのFieldの取得</a>を見てください。
 </p>
 <p>
-  Dereference によるMulti Numeric Typeのフィールドの設定については,<a href="#language-expression-set-field-multi-numeric-deref">Dereference によるMulti Numeric Typeのフィールドの設定</a>を見てください。
+  Dereference によるMulti Numeric TypeのFieldの設定については,<a href="#language-expression-set-field-multi-numeric-deref">Dereference によるMulti Numeric TypeのFieldの設定</a>を見てください。
 </p>
 
 <h2 id="language-sub">Subroutine </h2>
@@ -1944,7 +1983,7 @@ my $comparator = [$foo : int, $bar : long] sub : int ($self : self, $x1 : object
   キャプチャで使用する変数名は,<a href="#language-lex-identifier-field-name">Field Name</a>の先頭に"$"を付けたものでなければなりません。
 </p>
 <p>
-  キャプチャは,実際には,クラスのフィールドとして定義されます。キャプチャは,Field Definitionと値の設定のシンタックスシュガーです。
+  キャプチャは,実際には,クラスのFieldとして定義されます。キャプチャは,Field Definitionと値の設定のシンタックスシュガーです。
 </p>
 <p>
   スコープ内で,キャプチャ変数と同名の<a href="#language-lex-var">Lexical Variable</a>が存在する場合は,Lexical Variable にアクセスします。
@@ -2607,7 +2646,7 @@ $@
   SPVMは,Reference Count型のGCを持ちます。Reference Count型のGCにおいては,Reference Countが0になった場合に,オブジェクトは自動的に開放されますが,循環参照が発生した場合は,Reference Countが0にならず,オブジェクトが自動的に解放されません。
 </p>
 <p>
-  オブジェクトのフィールドが,循環参照している場合のExampleです。
+  オブジェクトのFieldが,循環参照している場合のExampleです。
 </p>
 <pre>
 {
@@ -2625,7 +2664,7 @@ $@
   Weaken Referenceは,Reference CountGCを持つプログラミング言語において,循環参照が発生した場合に,オブジェクトの破棄を正しく行うための機能です。
 </p>
 <p>
-  このような場合は,ひとつのフィールドを,<a href="#language-statement-weaken">weaken statement</a>を使って,Weaken Referenceに設定することで,正しく解放することができます。
+  このような場合は,ひとつのFieldを,<a href="#language-statement-weaken">weaken statement</a>を使って,Weaken Referenceに設定することで,正しく解放することができます。
 </p>
 <pre>
 {
@@ -2651,7 +2690,7 @@ $@
   スコープが終了すると,$barのReference Countが1減らされ0になるので,正しく解放されます。
 </p>
 <p>
-  3つの循環参照の場合でも,ひとつのフィールドにWeaken Referenceを設定すれば,正しく解放できます。
+  3つの循環参照の場合でも,ひとつのFieldにWeaken Referenceを設定すれば,正しく解放できます。
 </p>
 <pre>
 {
@@ -2667,7 +2706,7 @@ $@
 }
 </pre>
 <p>
-  Weaken Reference関連の文法として,Weaken Referenceを解除できる<a href="#language-statement-weaken">weaken statement</a>と,フィールドがWeaken Referenceかどうかを確認できる<a href="#language-operator-isweak">isweakOperator</a>があります。
+  Weaken Reference関連の文法として,Weaken Referenceを解除できる<a href="#language-statement-weaken">weaken statement</a>と,FieldがWeaken Referenceかどうかを確認できる<a href="#language-operator-isweak">isweakOperator</a>があります。
 </p>
 
 <h2 id="language-callback">コールバック</h2>
@@ -2816,10 +2855,10 @@ package Complex_2d : mulnum_t {
 }
 </pre>
 <p>
-  すべてのフィールドは同じ<a href="#language-type-numeric">Numeric Type</a>でなければなりません。
+  すべてのFieldは同じ<a href="#language-type-numeric">Numeric Type</a>でなければなりません。
 </p>
 <p>
-  Multi Numeric Typeの末尾は"_""フィールドの個数""Multi Numeric Typeのサフィックス"でなければなりません。
+  Multi Numeric Typeの末尾は"_""Fieldの個数""Multi Numeric Typeのサフィックス"でなければなりません。
 </p>
 <p>
   <b>Multi Numeric Typeのサフィクスの一覧</b>
@@ -2886,7 +2925,7 @@ package Complex_2d : mulnum_t {
   サフィックスは,実際に定義されているNumeric Typeと対応している必要があります。
 </p>
 <p>
-  Numeric Typeの定義において,フィールドの個数の最大は16です。
+  Numeric Typeの定義において,Fieldの個数の最大は16です。
 </p>
 <p>
   Invalid Multi Numeric Typeの定義の場合は,a compile-time error occurs
@@ -2907,7 +2946,7 @@ package Complex_2d : mulnum_t {
 my $points = new Point_3i[5];
 </pre>
 <p>
-  Multi Numeric Typeは,フィールドの型として利用することはできません。
+  Multi Numeric Typeは,Fieldの型として利用することはできません。
 </p>
 <p>
   Multi Numeric Typeは,Package Variable の型として利用することはできません。
@@ -2977,7 +3016,7 @@ use Point_3i;
 use Complex_2d;
 </pre>
 <p>
-  次に,Lexical Variable Declaration を行います。Lexical Variable Declaration を行うと,連続した領域が,<a href="#language-sub-stack">Subroutine Callstack</a>上に確保されます。フィールドのすべての値は,<a href="language-type-initial-value">Type Initial Value</a>で初期化されます。
+  次に,Lexical Variable Declaration を行います。Lexical Variable Declaration を行うと,連続した領域が,<a href="#language-sub-stack">Subroutine Callstack</a>上に確保されます。Fieldのすべての値は,<a href="language-type-initial-value">Type Initial Value</a>で初期化されます。
 </p>
 <pre>
 my $point : Point_3i;
@@ -2989,22 +3028,22 @@ my $z : Complex_2d;
 
 <h3 id="language-value-access">Multi Numeric TypeのField Access</h2>
 <p>
-  Multi Numeric TypeのField Accessとは,Multi Numeric Typeのフィールドにアクセスして,値を取得したり,設定したりする操作のことです。また,the following 記述そのものを指します。
+  Multi Numeric TypeのField Accessとは,Multi Numeric TypeのFieldにアクセスして,値を取得したり,設定したりする操作のことです。また,the following 記述そのものを指します。
 </p>
 <pre>
 Invocant ->{Field Name}
 </pre>
 <p>
-  Multi Numeric Typeのフィールドの取得については,<a href="#language-expression-get-field-multi-numeric">Multi Numeric Typeのフィールドの値の取得</a>を見てください。
+  Multi Numeric TypeのFieldの取得については,<a href="#language-expression-get-field-multi-numeric">Multi Numeric TypeのFieldの値の取得</a>を見てください。
 </p>
 <p>
-  Multi Numeric Typeのフィールドの設定については,<a href="#language-expression-set-field-multi-numeric">Multi Numeric Typeのフィールドの値の設定</a>を見てください。
+  Multi Numeric TypeのFieldの設定については,<a href="#language-expression-set-field-multi-numeric">Multi Numeric TypeのFieldの値の設定</a>を見てください。
 </p>
 <p>
-  <b>Multi Numeric Typeのフィールドの値の取得・設定のExample</b>
+  <b>Multi Numeric TypeのFieldの値の取得・設定のExample</b>
 </p>
 <p>
-  Multi Numeric Typeのフィールドの値の取得・設定のExampleです。
+  Multi Numeric TypeのFieldの値の取得・設定のExampleです。
 </p>
 <pre>
 $ival2->{x} = 1;
@@ -3081,13 +3120,13 @@ $$point_ref = $point2;
 </pre>
 
 <p>
-  Reference Type の対象がMulti Numeric Typeであった場合に,Multi Numeric Typeのフィールドの設定と取得は,Arrow Operator で行うことができます。
+  Reference Type の対象がMulti Numeric Typeであった場合に,Multi Numeric TypeのFieldの設定と取得は,Arrow Operator で行うことができます。
 </p>
 <pre>
-# Reference Type の対象がMulti Numeric Typeであった場合に,Multi Numeric Typeのフィールドを取得
+# Reference Type の対象がMulti Numeric Typeであった場合に,Multi Numeric TypeのFieldを取得
 my $x = $point_ref->{x};
 
-# Reference Type の対象がMulti Numeric Typeであった場合に,Multi Numeric Typeのフィールドを設定
+# Reference Type の対象がMulti Numeric Typeであった場合に,Multi Numeric TypeのFieldを設定
 $point_ref->{x} = 1;
 </pre>
 
@@ -3120,19 +3159,19 @@ $point_ref->{x} = 1;
 <ul class="list">
   <li><a href="#language-expression-get-lex-var">Lexical Variable の値の取得</a></li>
   <li><a href="#language-expression-set-lex-var">Lexical Variable の値の設定</a></li>
-  <li><a href="#language-expression-get-package-var">Package Variable Value Setting</a></li>
-  <li><a href="#language-expression-set-package-var">Package Variable Value Getting</a></li>
+  <li><a href="#language-expression-get-package-var">Package Variable Setting</a></li>
+  <li><a href="#language-expression-set-package-var">Package Variable Getting</a></li>
   <li><a href="#language-expression-get-exception-var">例外変数の値の設定</a></li>
   <li><a href="#language-expression-set-exception-var">例外変数の値の取得</a></li>
   <li><a href="#language-literal">Literal</a></li>
   <li><a href="#language-undef">Undefined Value</a></li>
   <li><a href="#language-expression-callsub">Subroutine Call</a></li>
-  <li><a href="#language-expression-get-field-class">Class Typeのフィールドの値の取得</a></li>
-  <li><a href="#language-expression-set-field-class">Class Typeのフィールドの値の設定</a></li>
-  <li><a href="#language-expression-get-field-multi-numeric">Multi Numeric Typeのフィールドの値の取得</a></li>
-  <li><a href="#language-expression-set-field-multi-numeric">Multi Numeric Typeのフィールドの値の設定</a></li>
-  <li><a href="#language-expression-get-field-multi-numeric-deref">Dereference によるMulti Numeric Typeのフィールドの取得</a></li>
-  <li><a href="#language-expression-set-field-multi-numeric-deref">Dereference によるMulti Numeric Typeのフィールドの設定</a></li>
+  <li><a href="#language-expression-get-field-class">Class TypeのFieldの値の取得</a></li>
+  <li><a href="#language-expression-set-field-class">Class TypeのFieldの値の設定</a></li>
+  <li><a href="#language-expression-get-field-multi-numeric">Multi Numeric TypeのFieldの値の取得</a></li>
+  <li><a href="#language-expression-set-field-multi-numeric">Multi Numeric TypeのFieldの値の設定</a></li>
+  <li><a href="#language-expression-get-field-multi-numeric-deref">Dereference によるMulti Numeric TypeのFieldの取得</a></li>
+  <li><a href="#language-expression-set-field-multi-numeric-deref">Dereference によるMulti Numeric TypeのFieldの設定</a></li>
   <li><a href="#language-expression-get-array-element">配列の要素の値の取得</a></li>
   <li><a href="#language-expression-set-array-element">配列の要素の値の設定</a></li>
   <li><a href="#language-expression-typecast">型キャスト</a></li>
@@ -3191,30 +3230,38 @@ $var = Right Expression
   代入前に,すでに$varにオブジェクトが代入されていた場合は,そのオブジェクトのReference Countが1減らされます。
 </p>
 
-<h3 id="language-expression-get-package-var">Package Variable Value Getting</h3>
+<h3 id="language-expression-get-package-var">Package Variable Getting</h3>
+
+Use the following syntax to get the value of Package Variable.
+
 <p>
   Package Variable の値を取得するにはthe following syntax を使用します。
 </p>
+
 <pre>
-$クラス名::Package Variable Name
+$PACKAGE_NAME::PACKAGE_VARIABLE_NAME
 </pre>
 <p>
-  自分自身のPackage に属するPackage Variable の場合は"クラス名::"を省略できます。
+  自分自身のPackage に属するPackage Variable の場合は"PACKAGE_NAME::"を省略できます。
 </p>
 <pre>
-$Package Variable Name
+$PACKAGE_VARIABLE_NAME
 </pre>
+
 <p>
- Package Variable Value Gettingは,<a href="#language-expression">式</a>を返します。
+ Package Variable Gettingは,<a href="#language-expression">式</a>を返します。
 </p>
+
 <p>
   定義されていないPackage Variable の値を取得しようとした場合は,a compile-time error occurs
 </p>
+
 <p>
   Package 外側からプライベートなPackage Variable にアクセスしようとした場合は,a compile-time error occurs
 </p>
+
 <p>
-  <b>Package Variable Value Getting Example:</b>
+  <b>Package Variable Getting Example:</b>
 </p>
 <pre>
 package Foo {
@@ -3227,7 +3274,7 @@ package Foo {
 }
 </pre>
 
-<h3 id="language-expression-set-package-var">Package Variable Value Setting</h3>
+<h3 id="language-expression-set-package-var">Package Variable Setting</h3>
 <p>
   Package Variable の値を設定するにはthe following syntax を使用します。
 </p>
@@ -3249,7 +3296,7 @@ $Package Variable Name = Right Expression
   Package 外側からプライベートなPackage Variable にアクセスしようとした場合は,a compile-time error occurs
 </p>
 <p>
-  <b>Package Variable Value Setting Example:</b>
+  <b>Package Variable Setting Example:</b>
 </p>
 <pre>
 package Foo {
@@ -3317,162 +3364,162 @@ $@ = Right Expression
 $@ = "Error";
 </pre>
 
-<h3 id="language-expression-get-field-class">Class Typeのフィールドの値の取得</h3>
+<h3 id="language-expression-get-field-class">Class TypeのFieldの値の取得</h3>
 <p>
-  Class Typeのフィールドの値の取得は,次のように記述します。
+  Class TypeのFieldの値の取得は,次のように記述します。
 </p>
 <pre>
 Invocant 式->{Field Name}
 </pre>
 <p>
-  Invocant 式は,<a href="#language-type-class">Class Type</a>の値でなければなりません。Invocant 式が,<a href="#language-type-multi-numeric">Multi Numeric Type</a>の値であった場合は,<a href="#language-expression-get-field-multi-numeric">Multi Numeric Typeのフィールドの値の取得</a>になり,<a href="#language-type-ref-multi-numeric">複数数値のReference Type</a>の値であった場合は,<a href="#language-expression-get-field-multi-numeric-deref">Dereference によるMulti Numeric Typeのフィールドの取得</a>になり,それ以外の場合は,a compile-time error occurs
+  Invocant 式は,<a href="#language-type-class">Class Type</a>の値でなければなりません。Invocant 式が,<a href="#language-type-multi-numeric">Multi Numeric Type</a>の値であった場合は,<a href="#language-expression-get-field-multi-numeric">Multi Numeric TypeのFieldの値の取得</a>になり,<a href="#language-type-ref-multi-numeric">複数数値のReference Type</a>の値であった場合は,<a href="#language-expression-get-field-multi-numeric-deref">Dereference によるMulti Numeric TypeのFieldの取得</a>になり,それ以外の場合は,a compile-time error occurs
 </p>
 <p>
   Field Nameが,存在しない場合は,a compile-time error occurs
 </p>
 <p>
-  Class Typeのフィールドの値の取得は,オブジェクトに保存されているフィールドの値を返します。これは<a href="#language-expression">式</a>です。
+  Class TypeのFieldの値の取得は,オブジェクトに保存されているFieldの値を返します。これは<a href="#language-expression">式</a>です。
 </p>
 <p>
-  返される値の型は,フィールドの型です。
+  返される値の型は,Fieldの型です。
 </p>
 <p>
-  <b>Class Typeのフィールドの値の取得のExample</b>
+  <b>Class TypeのFieldの値の取得のExample</b>
 </p>
 <p>
-  Class Typeのフィールドの値の取得のExampleです。
+  Class TypeのFieldの値の取得のExampleです。
 </p>
 <pre>
 my $point = Point->new;
 my $x = $point->{x};
 </pre>
 
-<h3 id="language-expression-set-field-class">Class Typeのフィールドの値の設定</h3>
+<h3 id="language-expression-set-field-class">Class TypeのFieldの値の設定</h3>
 <p>
-  Class Typeのフィールドの値の設定は,次のように記述します。
+  Class TypeのFieldの値の設定は,次のように記述します。
 </p>
 <pre>
 Invocant 式->{Field Name} = Right Expression
 </pre>
 <p>
-  Invocant 式は,<a href="#language-type-class">Class Type</a>の値でなければなりません。Invocant 式が,<a href="#language-type-multi-numeric">Multi Numeric Type</a>の値であった場合は,<a href="#language-expression-get-field-multi-numeric">Multi Numeric Typeのフィールドの値の設定</a>になり,<a href="#language-type-ref-multi-numeric">複数数値のReference Type</a>の値であった場合は,<a href="#language-expression-get-field-multi-numeric-deref">Dereference によるMulti Numeric Typeのフィールドの設定</a>になり,それ以外の場合は,a compile-time error occurs
+  Invocant 式は,<a href="#language-type-class">Class Type</a>の値でなければなりません。Invocant 式が,<a href="#language-type-multi-numeric">Multi Numeric Type</a>の値であった場合は,<a href="#language-expression-get-field-multi-numeric">Multi Numeric TypeのFieldの値の設定</a>になり,<a href="#language-type-ref-multi-numeric">複数数値のReference Type</a>の値であった場合は,<a href="#language-expression-get-field-multi-numeric-deref">Dereference によるMulti Numeric TypeのFieldの設定</a>になり,それ以外の場合は,a compile-time error occurs
 </p>
 <p>
   Field Nameが,存在しない場合は,a compile-time error occurs
 </p>
 <p>
-  Right Expressionの型は,フィールドの型と同じでなければなりません。otherwise a compile-time error occurs.
+  Right Expressionの型は,Fieldの型と同じでなければなりません。otherwise a compile-time error occurs.
 </p>
 <p>
-  Class Typeのフィールドの値の設定は,設定後のオブジェクトに保存されているフィールドの値を返します。これは<a href="#language-expression">式</a>です。
+  Class TypeのFieldの値の設定は,設定後のオブジェクトに保存されているFieldの値を返します。これは<a href="#language-expression">式</a>です。
 </p>
 <p>
-  返される値の型は,フィールドの型です。
+  返される値の型は,Fieldの型です。
 </p>
 <p>
   Right Expressionが,Object Type であった場合は,オブジェクトのReference Countが1増やされます。
 </p>
 <p>
-  代入前に,すでにフィールドにオブジェクトが代入されていた場合は,そのオブジェクトのReference Countが1減らされます。
+  代入前に,すでにFieldにオブジェクトが代入されていた場合は,そのオブジェクトのReference Countが1減らされます。
 </p>
 <p>
-  <b>Class Typeのフィールドの値の設定のExample</b>
+  <b>Class TypeのFieldの値の設定のExample</b>
 </p>
 <p>
-  Class Typeのフィールドの値の設定のExampleです。
+  Class TypeのFieldの値の設定のExampleです。
 </p>
 <pre>
 my $point = Point->new;
 $point->{x} = 1;
 </pre>
 
-<h3 id="language-expression-get-field-multi-numeric">Multi Numeric Typeのフィールドの値の取得</h3>
+<h3 id="language-expression-get-field-multi-numeric">Multi Numeric TypeのFieldの値の取得</h3>
 <p>
-  Multi Numeric Typeのフィールドの値の取得は,次のように記述します。
+  Multi Numeric TypeのFieldの値の取得は,次のように記述します。
 </p>
 <pre>
 Invocant 式->{Field Name}
 </pre>
 <p>
-  Invocant 式は,<a href="#language-type-class">Multi Numeric Type</a>の値でなければなりません。Invocant 式が,<a href="#language-type-class">Class Type</a>の値であった場合は,<a href="#language-expression-get-field-class">Class Typeのフィールドの値の取得</a>になり,<a href="#language-type-ref-multi-numeric">複数数値のReference Type</a>の値であった場合は,<a href="#language-expression-get-field-multi-numeric-deref">Dereference によるMulti Numeric Typeのフィールドの取得</a>になり,それ以外の場合は,a compile-time error occurs
+  Invocant 式は,<a href="#language-type-class">Multi Numeric Type</a>の値でなければなりません。Invocant 式が,<a href="#language-type-class">Class Type</a>の値であった場合は,<a href="#language-expression-get-field-class">Class TypeのFieldの値の取得</a>になり,<a href="#language-type-ref-multi-numeric">複数数値のReference Type</a>の値であった場合は,<a href="#language-expression-get-field-multi-numeric-deref">Dereference によるMulti Numeric TypeのFieldの取得</a>になり,それ以外の場合は,a compile-time error occurs
 </p>
 <p>
   Field Nameが,存在しない場合は,a compile-time error occurs
 </p>
 <p>
-  Multi Numeric Typeのフィールドの値の取得は,<a href="#language-sub-stack">Subroutine Callstack</a>に保存されている該当するフィールドの値を返します。これは<a href="#language-expression">式</a>です。
+  Multi Numeric TypeのFieldの値の取得は,<a href="#language-sub-stack">Subroutine Callstack</a>に保存されている該当するFieldの値を返します。これは<a href="#language-expression">式</a>です。
 </p>
 <p>
-  返される値の型は,フィールドの型です。
+  返される値の型は,Fieldの型です。
 </p>
 <p>
-  <b>Multi Numeric Typeのフィールドの値の取得のExample</b>
+  <b>Multi Numeric TypeのFieldの値の取得のExample</b>
 </p>
 <p>
-  Multi Numeric Typeのフィールドの値の取得のExampleです。
+  Multi Numeric TypeのFieldの値の取得のExampleです。
 </p>
 <pre>
 my $z : SPVM::Complex_2d;
 my $re = $z->{re};
 </pre>
 
-<h3 id="language-expression-set-field-multi-numeric">Multi Numeric Typeのフィールドの値の設定</h3>
+<h3 id="language-expression-set-field-multi-numeric">Multi Numeric TypeのFieldの値の設定</h3>
 <p>
-  Multi Numeric Typeのフィールドの値の設定は,次のように記述します。
+  Multi Numeric TypeのFieldの値の設定は,次のように記述します。
 </p>
 <pre>
 Invocant 式->{Field Name} = Right Expression
 </pre>
 <p>
-  Invocant 式は,<a href="#language-type-class">Multi Numeric Type</a>の値でなければなりません。Invocant 式が,<a href="#language-type-class">Class Type</a>の値であった場合は,<a href="#language-expression-set-field-class">Class Typeのフィールドの値の設定</a>になり,<a href="#language-type-ref-multi-numeric">複数数値のReference Type</a>の値であった場合は,<a href="#language-expression-set-field-multi-numeric-deref">Dereference によるMulti Numeric Typeのフィールドの設定</a>になり,それ以外の場合は,a compile-time error occurs
+  Invocant 式は,<a href="#language-type-class">Multi Numeric Type</a>の値でなければなりません。Invocant 式が,<a href="#language-type-class">Class Type</a>の値であった場合は,<a href="#language-expression-set-field-class">Class TypeのFieldの値の設定</a>になり,<a href="#language-type-ref-multi-numeric">複数数値のReference Type</a>の値であった場合は,<a href="#language-expression-set-field-multi-numeric-deref">Dereference によるMulti Numeric TypeのFieldの設定</a>になり,それ以外の場合は,a compile-time error occurs
 </p>
 <p>
   Field Nameが,存在しない場合は,a compile-time error occurs
 </p>
 <p>
-  Right Expressionの型は,フィールドの型と同じでなければなりません。otherwise a compile-time error occurs.
+  Right Expressionの型は,Fieldの型と同じでなければなりません。otherwise a compile-time error occurs.
 </p>
 <p>
-  Multi Numeric Typeのフィールドの値の設定は,設定後の<a href="#language-sub-stack">Subroutine Callstack</a>に保存されている該当するフィールドの値を返します。これは<a href="#language-expression">式</a>です。
+  Multi Numeric TypeのFieldの値の設定は,設定後の<a href="#language-sub-stack">Subroutine Callstack</a>に保存されている該当するFieldの値を返します。これは<a href="#language-expression">式</a>です。
 </p>
 <p>
-  返される値の型は,フィールドの型です。
+  返される値の型は,Fieldの型です。
 </p>
 <p>
-  <b>Multi Numeric Typeのフィールドの値の設定のExample</b>
+  <b>Multi Numeric TypeのFieldの値の設定のExample</b>
 </p>
 <p>
-  Multi Numeric Typeのフィールドの値の設定のExampleです。
+  Multi Numeric TypeのFieldの値の設定のExampleです。
 </p>
 <pre>
 my $z : SPVM::Complex_2d;
 $z->{re} = 2.5;
 </pre>
 
-<h3 id="language-expression-get-field-multi-numeric-deref">Dereference によるMulti Numeric Typeのフィールドの値の取得</h3>
+<h3 id="language-expression-get-field-multi-numeric-deref">Dereference によるMulti Numeric TypeのFieldの値の取得</h3>
 <p>
-  Dereference によるMulti Numeric Typeのフィールドの値の取得は,次のように記述します。
+  Dereference によるMulti Numeric TypeのFieldの値の取得は,次のように記述します。
 </p>
 <pre>
 Invocant 式->{Field Name}
 </pre>
 <p>
-  Invocant 式は,<a href="#language-type-ref-multi-numeric">複数数値のReference Type</a>の値でなければなりません。Invocant 式が,<a href="#language-type-class">Class Type</a>の値であった場合は,<a href="#language-expression-get-field-class">Class Typeのフィールドの値の取得</a>になり,<a href="#language-type-multi-numeric">Multi Numeric Type</a>の値であった場合は,<a href="#language-expression-get-field-multi-numeric">Multi Numeric Typeのフィールドの値の取得</a>になり,それ以外の場合は,a compile-time error occurs
+  Invocant 式は,<a href="#language-type-ref-multi-numeric">複数数値のReference Type</a>の値でなければなりません。Invocant 式が,<a href="#language-type-class">Class Type</a>の値であった場合は,<a href="#language-expression-get-field-class">Class TypeのFieldの値の取得</a>になり,<a href="#language-type-multi-numeric">Multi Numeric Type</a>の値であった場合は,<a href="#language-expression-get-field-multi-numeric">Multi Numeric TypeのFieldの値の取得</a>になり,それ以外の場合は,a compile-time error occurs
 </p>
 <p>
   Field Nameが,存在しない場合は,a compile-time error occurs
 </p>
 <p>
-  Dereference によるMulti Numeric Typeのフィールドの値の取得は,<a href="#language-sub-stack">Subroutine Callstack</a>に保存されている該当するフィールドの値を返します。これは<a href="#language-expression">式</a>です。
+  Dereference によるMulti Numeric TypeのFieldの値の取得は,<a href="#language-sub-stack">Subroutine Callstack</a>に保存されている該当するFieldの値を返します。これは<a href="#language-expression">式</a>です。
 </p>
 <p>
-  返される値の型は,フィールドの型です。
+  返される値の型は,Fieldの型です。
 </p>
 <p>
-  <b>Dereference によるMulti Numeric Typeのフィールドの値の取得のExample</b>
+  <b>Dereference によるMulti Numeric TypeのFieldの値の取得のExample</b>
 </p>
 <p>
-  Dereference によるMulti Numeric Typeのフィールドの値の取得のExampleです。
+  Dereference によるMulti Numeric TypeのFieldの値の取得のExampleです。
 </p>
 <pre>
 my $z : SPVM::Complex_2d;
@@ -3480,33 +3527,33 @@ my $z_ref = \$z;
 my $re = $z_ref->{re};
 </pre>
 
-<h3 id="language-expression-set-field-multi-numeric-deref">Dereference によるMulti Numeric Typeのフィールドの値の設定</h3>
+<h3 id="language-expression-set-field-multi-numeric-deref">Dereference によるMulti Numeric TypeのFieldの値の設定</h3>
 <p>
-  Dereference によるMulti Numeric Typeのフィールドの値の設定は,次のように記述します。
+  Dereference によるMulti Numeric TypeのFieldの値の設定は,次のように記述します。
 </p>
 <pre>
 Invocant 式->{Field Name} = Right Expression
 </pre>
 <p>
-  Invocant 式は,<a href="#language-type-ref-multi-numeric">複数数値のReference Type</a>の値でなければなりません。Invocant 式が,<a href="#language-type-class">Class Type</a>の値であった場合は,<a href="#language-expression-set-field-class">Class Typeのフィールドの値の設定</a>になり,<a href="#language-type-multi-numeric">Multi Numeric Type</a>の値であった場合は,<a href="#language-expression-set-field-multi-numeric">Multi Numeric Typeのフィールドの値の設定</a>になり,それ以外の場合は,a compile-time error occurs
+  Invocant 式は,<a href="#language-type-ref-multi-numeric">複数数値のReference Type</a>の値でなければなりません。Invocant 式が,<a href="#language-type-class">Class Type</a>の値であった場合は,<a href="#language-expression-set-field-class">Class TypeのFieldの値の設定</a>になり,<a href="#language-type-multi-numeric">Multi Numeric Type</a>の値であった場合は,<a href="#language-expression-set-field-multi-numeric">Multi Numeric TypeのFieldの値の設定</a>になり,それ以外の場合は,a compile-time error occurs
 </p>
 <p>
   Field Nameが,存在しない場合は,a compile-time error occurs
 </p>
 <p>
-  Right Expressionの型は,フィールドの型と同じでなければなりません。otherwise a compile-time error occurs.
+  Right Expressionの型は,Fieldの型と同じでなければなりません。otherwise a compile-time error occurs.
 </p>
 <p>
-  Dereference によるMulti Numeric Typeのフィールドの値の設定は,設定後の<a href="#language-sub-stack">Subroutine Callstack</a>に保存されている該当するフィールドの値を返します。これは<a href="#language-expression">式</a>です。
+  Dereference によるMulti Numeric TypeのFieldの値の設定は,設定後の<a href="#language-sub-stack">Subroutine Callstack</a>に保存されている該当するFieldの値を返します。これは<a href="#language-expression">式</a>です。
 </p>
 <p>
-  返される値の型は,フィールドの型です。
+  返される値の型は,Fieldの型です。
 </p>
 <p>
-  <b>Dereference によるMulti Numeric Typeのフィールドの値の設定のExample</b>
+  <b>Dereference によるMulti Numeric TypeのFieldの値の設定のExample</b>
 </p>
 <p>
-  Dereference によるMulti Numeric Typeのフィールドの値の設定のExampleです。
+  Dereference によるMulti Numeric TypeのFieldの値の設定のExampleです。
 </p>
 <pre>
 my $z : SPVM::Complex_2d;
@@ -3612,7 +3659,7 @@ my $object = new PACKAGE_NAME;
   指定されたPackage は,<a href="#language-type-class">Class Type</a>でなければなりません。otherwise a compile-time error occurs.
 </p>
 <p>
-  フィールドは,すべて<a href="language-type-initial-value">Type Initial Value</a>で初期化されます。
+  Fieldは,すべて<a href="language-type-initial-value">Type Initial Value</a>で初期化されます。
 </p>
 <p>
   Object Creatingは,<a href="#language-expression">式</a>を返します。
@@ -3958,10 +4005,10 @@ package Foo::Bar {
   オブジェクトが,Object Type の値を要素として持つ配列だった場合は,オブジェクトの解放の前に,Undefined Valueではないすべての配列の要素のReference Countが1減らされます
 </p>
 <p>
-  オブジェクトが,Class Typeで,Object Type のフィールドを持つときは,オブジェクトの解放の前に,Undefined ValueではないすべてのObject Type のフィールドが所有するオブジェクトのReference Countが1減らされます。フィールドに保存されているオブジェクトにWeaken Referenceが設定されていた場合は,Reference Countが1減らされる前に,Weaken Referenceが解除されます。
+  オブジェクトが,Class Typeで,Object Type のFieldを持つときは,オブジェクトの解放の前に,Undefined ValueではないすべてのObject Type のFieldが所有するオブジェクトのReference Countが1減らされます。Fieldに保存されているオブジェクトにWeaken Referenceが設定されていた場合は,Reference Countが1減らされる前に,Weaken Referenceが解除されます。
 </p>
 <p>
-  オブジェクトがBack references of Weaken Referenceを持つときは,バックリファレンスとして登録されているフィールドすべてに,Undefined Valueを代入し,バックリファレンスをすべて削除します。
+  オブジェクトがBack references of Weaken Referenceを持つときは,バックリファレンスとして登録されているFieldすべてに,Undefined Valueを代入し,バックリファレンスをすべて削除します。
 </p>
 <p>
   上記の処理は,再帰的に行われます。
@@ -3975,7 +4022,7 @@ package Foo::Bar {
   <li><a href="#language-literal-string">String Literal</a></li>
   <li><a href="#language-literal-string-variable-expansion">Variable Expansion</a></li>
 </ul>
-<h3 id="language-literal-integer">Integer Literal  </h2>
+<h3 id="language-literal-integer">Integer Literal</h3>
 <p>
   <b>10進数表現</b>
 </p>
@@ -4096,7 +4143,7 @@ package Foo::Bar {
 </pre>
 
 
-<h3 id="language-literal-floating-point">Floating Point Literal </h2>
+<h3 id="language-literal-floating-point">Floating Point Literal</h3>
 <p>
   Floating Point Literal は"符号部""数値部""指数部""サフィックス"から構成されます。
 <p>
@@ -4181,7 +4228,7 @@ package Foo::Bar {
 0x3d3d.edP-3f
 </pre>
 
-<h3 id="language-literal-character">Chracter Literal </h2>
+<h3 id="language-literal-character">Chracter Literal </h3>
 <p>
   Chracter Literal は,シングルクォート"'"で囲まれます。
 </p>
@@ -4321,7 +4368,7 @@ package Foo::Bar {
 '\x0A'
 </pre>
 
-<h3 id="language-literal-string">String Literal </h2>
+<h3 id="language-literal-string">String Literal </h3>
 <p>
   String Literal は,ダブルクォート"""で囲まれます。
 </p>
@@ -4519,9 +4566,9 @@ package Foo::Bar {
 "\N{U+3042}\N{U+3044}\N{U+3046}"
 </pre>
 
-<h3 id="language-literal-string-variable-expansion">Variable Expansion</h2>
+<h3 id="language-literal-string-variable-expansion">Variable Expansion</h3>
 <p>
-  String Literal 中のLexical Variable ,Package Variable ,Dereference ,フィールドアクセス,定数の添え字の配列アクセス,例外変数の場合は,Variable Expansionが行われます。
+  String Literal 中のLexical Variable ,Package Variable ,Dereference ,Fieldアクセス,定数の添え字の配列アクセス,例外変数の場合は,Variable Expansionが行われます。
 </p>
 <pre>
 "AAA $foo BBB"
@@ -4561,7 +4608,7 @@ package Foo::Bar {
   "{"と"}"の囲みがない場合は,変数名としてValid 文字列までを変数として解釈します。Dereference の場合も同じです。
 </p>
 <p>
-  変数名の後ろに"->"が続いた場合は,フィールドアクセス,あるいは,配列アクセスと解釈します。
+  変数名の後ろに"->"が続いた場合は,Fieldアクセス,あるいは,配列アクセスと解釈します。
 </p>
 <p>
   1. その後ろに,続く文字が"a-z""A-Z""0-9""_""{""["であった場合は,解釈を進めます。
@@ -4651,7 +4698,7 @@ undef
 <p>
   Undefined Valueは,エクステンションにおいてC言語の値として利用された場合は,0と等しくなることが保証されます。
 </p>
-<h2 id="language-operator">Operator </h2>
+<h2 id="language-operator">Operator</h2>
 <ul class="list">
   <li><a href="#language-operator-summary">Operator Summary</a></li>
   <li><a href="#language-operator-unary">Unary Operator</a></li>
@@ -5843,9 +5890,9 @@ my $nums = new int[3];
 foo(scalar @$nums);
 </pre>
 
-<h3 id="language-operator-isweak">isweakOperator </h2>
+<h3 id="language-operator-isweak">isweakOperator</h3>
 <p>
-  isweakOperator は,フィールドが,<a href="#language-weak-ref">Weaken Reference</a>かを確認するOperator です。
+  isweakOperator は,Fieldが,<a href="#language-weak-ref">Weaken Reference</a>かを確認するOperator です。
 </p>
 <pre>
 isweak 変数->{Field Name};
@@ -5857,13 +5904,13 @@ isweak 変数->{Field Name};
   Field Nameは,存在するField Nameでなければなりません。otherwise a compile-time error occurs.
 </p>
 <p>
-  フィールドに保存される値の型は,<a href="#language-type-object">Object Type</a>でなければなりません。otherwise a compile-time error occurs.
+  Fieldに保存される値の型は,<a href="#language-type-object">Object Type</a>でなければなりません。otherwise a compile-time error occurs.
 </p>
 <p>
-  実行時にフィールドに保存されている値が,<a href="#language-undef">Undefined Value</a>だった場合は,偽を返します。これは,<a href="#language-expression">式</a>です。
+  実行時にFieldに保存されている値が,<a href="#language-undef">Undefined Value</a>だった場合は,偽を返します。これは,<a href="#language-expression">式</a>です。
 </p>
 <p>
-  isweakOperator は,フィールドがWeaken Referenceの場合は,int Type の1を,そうでない場合は0を返します。これは,<a href="#language-expression">式</a>です。
+  isweakOperator は,FieldがWeaken Referenceの場合は,int Type の1を,そうでない場合は0を返します。これは,<a href="#language-expression">式</a>です。
 </p>
 
 <h2 id="language-operator-precedence">Operator の優先順位</h2>
@@ -6066,7 +6113,7 @@ a * (b + c)
   <li><a href="#language-statement-empty">empty statement</a></li>
 </ul>
 
-<h3 id="language-statement-if">if statement</h2>
+<h3 id="language-statement-if">if statement</h3>
 <p>
   if statementは,条件分岐を行うための文です。
 </p>
@@ -6506,7 +6553,7 @@ die 式;
 
 <h3 id="language-statement-weaken">weaken statement </h3>
 <p>
-  weaken statement は,フィールドに対して,<a href="#language-weak-ref">Weaken Reference</a>を設定する文です。
+  weaken statement は,Fieldに対して,<a href="#language-weak-ref">Weaken Reference</a>を設定する文です。
 </p>
 <pre>
 weaken 変数->{Field Name};
@@ -6518,31 +6565,31 @@ weaken 変数->{Field Name};
   Field Nameは,存在するField Nameでなければなりません。otherwise a compile-time error occurs.
 </p>
 <p>
-  フィールドに保存される値の型は,<a href="#language-type-object">Object Type</a>でなければなりません。otherwise a compile-time error occurs.
+  Fieldに保存される値の型は,<a href="#language-type-object">Object Type</a>でなければなりません。otherwise a compile-time error occurs.
 </p>
 <p>
-  実行時にフィールドに保存されている値が,<a href="#language-undef">Undefined Value</a>だった場合は,weaken statement は,何もしません。
+  実行時にFieldに保存されている値が,<a href="#language-undef">Undefined Value</a>だった場合は,weaken statement は,何もしません。
 </p>
 <p>
-  実行時にフィールドに保存されている値が,<a href="#language-undef">Undefined Value</a>でない場合は,次のことが行われます。
+  実行時にFieldに保存されている値が,<a href="#language-undef">Undefined Value</a>でない場合は,次のことが行われます。
 </p>
 <p>
-  1. フィールドに保存されているオブジェクトのReference Countを1減らします。
+  1. Fieldに保存されているオブジェクトのReference Countを1減らします。
 </p>
 <p>
-  2. フィールドに,Weaken Referenceフラグを設定します。
+  2. Fieldに,Weaken Referenceフラグを設定します。
 </p>
 <p>
-  3. フィールドに保存されているオブジェクトのバックリファレンスに,フィールドを追加します。
+  3. Fieldに保存されているオブジェクトのバックリファレンスに,Fieldを追加します。
 </p>
 <p>
-  Weaken Referenceフラグは,フィールドに保存されているオブジェクトに設定されるのではなく,フィールド自体に設定されることに注意してください。
+  Weaken Referenceフラグは,Fieldに保存されているオブジェクトに設定されるのではなく,Field自体に設定されることに注意してください。
 </p>
 <p>
-  フィールドに保存されているオブジェクトのReference Countが,0になってしまった場合は,Weaken Referenceは作成されず,フィールドに保存されているオブジェクトは解放されます。
+  Fieldに保存されているオブジェクトのReference Countが,0になってしまった場合は,Weaken Referenceは作成されず,Fieldに保存されているオブジェクトは解放されます。
 </p>
 <p>
-  バックリファレンスとは,フィールドに保存されているオブジェクトが持つデータで,Weaken Referenceフラグが設定されたフィールドを知るために,追加されます。これは,複数存在することがあります。
+  バックリファレンスとは,Fieldに保存されているオブジェクトが持つデータで,Weaken Referenceフラグが設定されたFieldを知るために,追加されます。これは,複数存在することがあります。
 </p>
 <pre>
 # バックリファレンスが,複数あるExample
@@ -6563,12 +6610,12 @@ weaken $baz->{foo};
   上記の例では"$bar->{foo}"と"$baz->{foo}"に,Weaken Referenceフラグが立ちます。$fooで表現されるオブジェクトは,バックリファレンス"$bar->{foo}"と"$baz->{foo}"を持ちます。
 </p>
 <p>
-  バックリファレンスの情報が必要なのは,<a href="#language-expression-release-object">オブジェクトの解放</a>が行われるときに,バックリファレンスが指すフィールドにUndefined Valueを代入する必要があるからです。
+  バックリファレンスの情報が必要なのは,<a href="#language-expression-release-object">オブジェクトの解放</a>が行われるときに,バックリファレンスが指すFieldにUndefined Valueを代入する必要があるからです。
 </p>
 
 <h3 id="language-statement-unweaken">unweaken statement</h3>
 <p>
-  unweaken statementは,フィールドに対して,<a href="#language-weak-ref">Weaken Reference</a>を解除する文です。
+  unweaken statementは,Fieldに対して,<a href="#language-weak-ref">Weaken Reference</a>を解除する文です。
 </p>
 <pre>
 unweaken 変数->{Field Name};
@@ -6580,22 +6627,22 @@ unweaken 変数->{Field Name};
   Field Nameは,存在するField Nameでなければなりません。otherwise a compile-time error occurs.
 </p>
 <p>
-  フィールドに保存される値の型は,<a href="#language-type-object">Object Type</a>でなければなりません。otherwise a compile-time error occurs.
+  Fieldに保存される値の型は,<a href="#language-type-object">Object Type</a>でなければなりません。otherwise a compile-time error occurs.
 </p>
 <p>
-  実行時にフィールドに保存されている値が,<a href="#language-undef">Undefined Value</a>だった場合は,unweaken statementは,何もしません。
+  実行時にFieldに保存されている値が,<a href="#language-undef">Undefined Value</a>だった場合は,unweaken statementは,何もしません。
 </p>
 <p>
-  実行時にフィールドに保存されている値が,<a href="#language-undef">Undefined Value</a>でない場合は,次のことが行われます。
+  実行時にFieldに保存されている値が,<a href="#language-undef">Undefined Value</a>でない場合は,次のことが行われます。
 </p>
 <p>
-  1. フィールドに保存されているオブジェクトのReference Countを1増やします。
+  1. Fieldに保存されているオブジェクトのReference Countを1増やします。
 </p>
 <p>
-  2. フィールドのWeaken Referenceフラグを解除します。
+  2. FieldのWeaken Referenceフラグを解除します。
 </p>
 <p>
-  3. フィールドに保存されているオブジェクトのバックリファレンスから,フィールドを削除します。
+  3. Fieldに保存されているオブジェクトのバックリファレンスから,Fieldを削除します。
 </p>
 
 <h3 id="language-statement-next">next statement</h3>
@@ -6693,7 +6740,7 @@ my $num = 1 + 2;
   <li><a href="#language-type-ref-numeric">数値のReference Type</a></li>
   <li><a href="#language-type-ref-multi-numeric">複数数値のReference Type</a></li>
 </ul>
-<h3 id="language-type-summary">Type Summary</h2>
+<h3 id="language-type-summary">Type Summary</h3>
 
 SPVM is a static type language. All data has a static type.
 
@@ -6703,9 +6750,9 @@ SPVM is a static type language. All data has a static type.
 
 In <a href="#language-lex-var-declaration">Lexical Variable Declaration</a>, <a href="#language-type-inference">Type Inference</a> can be used.
 
-<h3 id="language-type-initial-value">Type Initial Value</h2>
+<h3 id="language-type-initial-value">Type Initial Value</h3>
 <p>
-  Lexical Variable Initial Value,<a href="#language-package-var-initial-value">Package Variable Initial Value</a>,Object Creatingにおけるフィールドの初期値は,Type Initial Valueによって決まります。
+  Lexical Variable Initial Value,<a href="#language-package-var-initial-value">Package Variable Initial Value</a>,Object CreatingにおけるFieldの初期値は,Type Initial Valueによって決まります。
 </p>
 <p>
   Type Initial Valueの一覧です。データにおけるすべてのBit 列は0に設定されます。
@@ -6781,16 +6828,16 @@ In <a href="#language-lex-var-declaration">Lexical Variable Declaration</a>, <a 
       <b>Multi Numeric Type</b>
     </td>
     <td>
-      すべてのフィールドが0
+      すべてのFieldが0
     </td>
   </tr>
 </table>
 
-<h3 id="language-type-numeric">Numeric Type</h2>
+<h3 id="language-type-numeric">Numeric Type</h3>
 
 Numeric Type is <a href="#language-type-integral">Integral Type</a> or <a href="#language-type-floating-point">Floating Point Type</a>.
 
-<h3 id="language-type-integral">Integral Type</h2>
+<h3 id="language-type-integral">Integral Type</h3>
 
 Integral Type are the following four types.
 
@@ -6856,24 +6903,24 @@ See <a href="#language-operator-arithmetic">Arithmetic Operator</a> for integer 
 
 Note that SPVM has only <b>singed</b> Integral Type, and don't has <b>unsigned</b> Integral Type.
 
-<h3 id="language-type-byte">byte Type</h2>
+<h3 id="language-type-byte">byte Type</h3>
 <p>
   byte Typeは,符号付8bit整数を表現する<a href="#language-type-integral">Integral Type</a>です。C99のint8_t型と同じ型です。
 </p>
-<h3 id="language-type-short">short Type</h2>
+<h3 id="language-type-short">short Type</h3>
 <p>
   byte Typeは,符号付16bit整数を表現する<a href="#language-type-integral">Integral Type</a>です。C99のint16_t型と同じ型です。
 </p>
-<h3 id="language-type-int">int Type </h2>
+<h3 id="language-type-int">int Type </h3>
 <p>
   int Type は,符号付32bit整数を表現する<a href="#language-type-integral">Integral Type</a>です。C99のint32_t型と同じ型です。
 </p>
-<h3 id="language-type-long">long Type</h2>
+<h3 id="language-type-long">long Type</h3>
 <p>
   long Typeは,符号付64bit整数を表現する<a href="#language-type-integral">Integral Type</a>です。C99のint64_t型と同じ型です。
 </p>
 
-<h3 id="language-type-floating-point">Floating Point Type</h2>
+<h3 id="language-type-floating-point">Floating Point Type</h3>
 
 <b>Floating Point Type</b> are the following two.
 
@@ -6915,12 +6962,12 @@ Note that SPVM has only <b>singed</b> Integral Type, and don't has <b>unsigned</
 
 See <a href="#language-operator-arithmetic">Arithmetic Operator</a> for floating-point calculation rules.
 
-<h3 id="language-type-float">float Type</h2>
+<h3 id="language-type-float">float Type</h3>
 <p>
   float Typeは,単精度浮動小数点(32bit)を表現する<a href="#language-type-floating-point">Floating Point Type</a>です。C99のfloat Typeと同じ型です。
 </p>
 
-<h3 id="language-type-double">double Type</h2>
+<h3 id="language-type-double">double Type</h3>
 <p>
   double Typeは,倍精度浮動小数点(64bit)を表現する<a href="#language-type-floating-point">Floating Point Type</a>です。C99のdouble Typeと同じ型です。
 </p>
@@ -7096,7 +7143,7 @@ package Foo : pointer_t {
   Pointer Typeのデータには,C言語のポインタを保存することができます。
 </p>
 <p>
-  Pointer Typeには,フィールドを定義することはできません。定義されていた場合は,a compile-time error occurs
+  Pointer Typeには,Fieldを定義することはできません。定義されていた場合は,a compile-time error occurs
 </p>
 <h3 id="language-type-callback">Callback Type</h3>
 <p>
@@ -7474,7 +7521,7 @@ my $point_ref : Point_3i& = \$point;
   Reference Type は,<a href="#language-sub-definition">Subroutine Definition</a>におけるReturn Valueの型として利用できません。
 </p>
 <p>
-  Reference Type は,<a href="#language-package-definition">Package Definition</a>におけるフィールドの型として利用できません。
+  Reference Type は,<a href="#language-package-definition">Package Definition</a>におけるFieldの型として利用できません。
 </p>
 <p>
   Reference Type は,<a href="#language-package-definition">Package Definition</a>におけるPackage Variable の型として利用できません。
@@ -7970,17 +8017,17 @@ while (条件部) {
   SPVMのSubroutine Argumentsの個数の最大は256個です。
 </p>
 <p>
-  Multi Numeric Typeの引数を渡すときは,フィールドの個数が,引数の個数としてカウントされます。たとえばSPVM::Complex_2d型が引数で指定された場合は,2個と数えます。
+  Multi Numeric Typeの引数を渡すときは,Fieldの個数が,引数の個数としてカウントされます。たとえばSPVM::Complex_2d型が引数で指定された場合は,2個と数えます。
 </p>
 <p>
-  複数数値のReference Type の引数を渡すときは,Multi Numeric Typeのフィールドの個数が,引数の個数としてカウントされます。たとえばSPVM::Complex_2d&型が引数で指定された場合は,2個と数えます。
+  複数数値のReference Type の引数を渡すときは,Multi Numeric TypeのFieldの個数が,引数の個数としてカウントされます。たとえばSPVM::Complex_2d&型が引数で指定された場合は,2個と数えます。
 </p>
 <p>
   もし,最大値を超えた場合は,a compile-time error occurs
 </p>
 
-<h3 id="language-limitation-value-type-fileds-count">Multi Numeric Typeのフィールドの個数のLimitation </h3>
+<h3 id="language-limitation-value-type-fileds-count">Multi Numeric TypeのFieldの個数のLimitation </h3>
 <p>
-  Multi Numeric Typeのフィールドの個数の最大値は,256個で,少なくともひとつのフィールドが必要です。otherwise a compile-time error occurs.
+  Multi Numeric TypeのFieldの個数の最大値は,256個で,少なくともひとつのFieldが必要です。otherwise a compile-time error occurs.
 </p>
 
