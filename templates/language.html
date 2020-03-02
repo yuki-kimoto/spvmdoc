@@ -4,7 +4,7 @@
 
 SPVM is in beta testing for the 1.0 release. Language Specification will be changed without warning.
 
-Last modified 2020-02-26
+Last modified 2020-03-02
 
 <ul>
   <li><a href="#language-c99">C99 compliant</a></li>
@@ -25,25 +25,25 @@ Last modified 2020-02-26
   <li><a href="#language-scope">Scope</a></li>
   <li><a href="#language-exception">Exception Handling </a></li>
   <li><a href="#language-weak-ref">Weaken Reference</a></li>
-  <li><a href="#language-callback">コールバック</a></li>
-  <li><a href="#language-array">配列</a></li>
-  <li><a href="#language-value">値</a></li>
-  <li><a href="#language-value-array">値の配列</a></li>
-  <li><a href="#language-ref">リファレンス</a></li>
-  <li><a href="#language-expression">式</a></li>
-  <li><a href="#language-expression-release-object">オブジェクトの解放</a></li>
+  <li><a href="#language-callback">Callback</a></li>
+  <li><a href="#language-array">Array</a></li>
+  <li><a href="#language-mulnum">Multi Numeric Value</a></li>
+  <li><a href="#language-mulnum-array">Multi Numeric Array</a></li>
+  <li><a href="#language-ref">Reference</a></li>
+  <li><a href="#language-expression">Expression</a></li>
+  <li><a href="#language-expression-release-object">Release Object</a></li>
   <li><a href="#language-literal">Literal </a></li>
-  <li><a href="#language-string">文字列</a></li>
+  <li><a href="#language-string">String</a></li>
   <li><a href="#language-undef">Undefined Value</a></li>
-  <li><a href="#language-fat-comma">ファットカンマ</a></li>
+  <li><a href="#language-fat-comma">Fat Comma</a></li>
   <li><a href="#language-operator">Operator</a></li>
-  <li><a href="#language-operator-precedence">Operator の優先順位</a></li>
-  <li><a href="#language-statement">文</a></li>
-  <li><a href="#language-type">型</a></li>
+  <li><a href="#language-operator-precedence">Operator Precidence</a></li>
+  <li><a href="#language-statement">Statement</a></li>
+  <li><a href="#language-type">Type</a></li>
   <li><a href="#language-type-inference">Type Inference</a></li>
   <li><a href="#language-type-compatible">Type Compatibility</a></li>
-  <li><a href="#language-type-convertion">型変換</a></li>
-  <li><a href="#language-auto-loaded-module">自動的に読み込まれるModule</a></li>
+  <li><a href="#language-type-convertion">Type Convertion</a></li>
+  <li><a href="#language-auto-loaded-module">Automatically Loaded Module</a></li>
   <li><a href="#language-limitation">Limitation </a></li>
 </ul>
 
@@ -1774,7 +1774,7 @@ $z_ref->{im} = 3;
 <ul class="list">
   <li><a href="#language-sub-definition">Subroutine Definition</a></li>
   <li><a href="#language-sub-constant">Constant Subroutine</a></li>
-  <li><a href="#language-sub-new-callback-object">コールバックObject Creating</a></li>
+  <li><a href="#language-sub-new-callback-object">CallbackObject Creating</a></li>
   <li><a href="#language-sub-capture">キャプチャ</a></li>
   <li><a href="#language-sub-method">メソッド</a></li>
   <li><a href="#language-sub-signature">シグネチャ</a></li>
@@ -1794,7 +1794,7 @@ sub Subroutine Name : Return ValueのType Name  (引数名1 : 引数のType Name
   Subroutine Definitionは"<a href="#language-package-definition">Package Definition</a>"の直下で行う必要があります。
 </p>
 <p>
-  Subroutine Nameは,1文字以上の"a～z""A～Z""0～9""_"で構成する必要があります。先頭は,数字から始めることはできません。連続した"_"を使用することはできません。
+  Subroutine Nameは,1Statement字以上の"a～z""A～Z""0～9""_"で構成する必要があります。先頭は,数字から始めることはできません。連続した"_"を使用することはできません。
 </p>
 <p>
   Subroutine Nameには,<a href="#language-lex-keyword"> Keyword</a>と同じ名前を使用することができます。
@@ -1885,13 +1885,13 @@ sub sprintf : string ($format : string, $values : object[]...) {
 foo("aaa %d %f", SPVM::Int->new(1), SPVM::Double->new(2.0));
 </pre>
 <p>
-  可変長引数を持つSubroutine に配列を渡すと,配列のまま呼び出す事ができます。
+  可変長引数を持つSubroutine にArrayを渡すと,Arrayのまま呼び出す事ができます。
 </p>
 <pre>
 foo("aaa %d %f", [(object)SPVM::Int->new(1), SPVM::Double->new(2.0)]);
 </pre>
 <p>
-  もし,Array Typeの値を,可変長引数の個々の要素として扱いたい場合は,Array Typeではない型にキャストしてください。
+  もし,Array Typeの値を,可変長引数の個々の要素として扱いたい場合は,Array TypeではないTypeにキャストしてください。
 </p>
 <pre>
 foo("aaa %d %f", (object)[(object)SPVM::Int->new(1), SPVM::Double->new(2.0)]);
@@ -1922,9 +1922,9 @@ sub foo : double () { return 5.0; }
 sub foo : int () { return 5 + 3; }
 </pre>
 
-<h3 id="language-sub-new-callback-object">コールバックObject Creating</h3>
+<h3 id="language-sub-new-callback-object">CallbackObject Creating</h3>
 <p>
-  コールバックObject Creatingとは,コールバックの用途で,特別なsyntax を使って,Callback Typeに適合するオブジェクトを生成する文法のことです。
+  CallbackObject Creatingとは,Callbackの用途で,特別なsyntax を使って,Callback Typeに適合するオブジェクトを生成するStatement法のことです。
 </p>
 <pre>
 sub : Type Name  ($self : self, 引数1, 引数2, ..., 引数n) {
@@ -1932,7 +1932,7 @@ sub : Type Name  ($self : self, 引数1, 引数2, ..., 引数n) {
 }
 </pre>
 <p>
-  コールバックObject Creatingを行うと,内部的に,Package Definitionがおこなわれ,そのPackage を元にしたオブジェクトが生成され,<a href="#language-expression">式</a>として返されます。the following ように変数に代入することが可能です。
+  CallbackObject Creatingを行うと,内部的に,Package Definitionがおこなわれ,そのPackage を元にしたオブジェクトが生成され,<a href="#language-expression">Expression</a>として返されます。the following ように変数に代入することが可能です。
 </p>
 <pre>
 my $cb_obj = sub : Type Name  ($self : self, 引数1, 引数2, ..., 引数n) {
@@ -1940,10 +1940,10 @@ my $cb_obj = sub : Type Name  ($self : self, 引数1, 引数2, ..., 引数n) {
 };
 </pre>
 <p>
-  コールバックObject Creatingで定義されるSubroutine は,<a href="#language-sub-method">メソッド</a>でなければなりません。また名前を持たないSubroutine でなければなりません。
+  CallbackObject Creatingで定義されるSubroutine は,<a href="#language-sub-method">メソッド</a>でなければなりません。また名前を持たないSubroutine でなければなりません。
 </p>
 <p>
-  <b>コールバックObject CreatingのExample</b>
+  <b>CallbackObject CreatingのExample</b>
 </p>
 <pre>
 my $comparator = sub : int ($self : self, $x1 : object, $x2 : object) {
@@ -1951,16 +1951,16 @@ my $comparator = sub : int ($self : self, $x1 : object, $x2 : object) {
 }
 </pre>
 <p>
-  コールバックObject Creatingによって生成されたオブジェクトは,通常のオブジェクトなので,メソッドを呼び出すことができます。コールバックObject Creatingの呼び出しについては,<a href="language-expression-callsub">Subroutine Call</a>を見てください。
+  CallbackObject Creatingによって生成されたオブジェクトは,通常のオブジェクトなので,メソッドを呼び出すことができます。CallbackObject Creatingの呼び出しについては,<a href="language-expression-callsub">Subroutine Call</a>を見てください。
 <p>
 
 <h3 id="language-sub-capture">キャプチャ</h3>
 <p>
-  コールバックObject Creatingにおいては,キャプチャというsyntax を使って,コールバックObject Creatingによって定義されたSubroutine の外側で定義された変数を,コールバックObject Creatingによって定義されたSubroutine の内側で使うことができます。
+  CallbackObject Creatingにおいては,キャプチャというsyntax を使って,CallbackObject Creatingによって定義されたSubroutine の外側で定義された変数を,CallbackObject Creatingによって定義されたSubroutine の内側で使うことができます。
 </p>
 <pre>
 # キャプチャ
-[変数名1 : 型1, 変数名2 : 型2] sub Subroutine Name : int ($self : self, $x1 : object, $x2 : object) {
+[変数名1 : Type1, 変数名2 : Type2] sub Subroutine Name : int ($self : self, $x1 : object, $x2 : object) {
 
 };
 </pre>
@@ -1990,7 +1990,7 @@ my $comparator = [$foo : int, $bar : long] sub : int ($self : self, $x1 : object
   キャプチャ変数と同名の<a href="#language-package-var">Package Variable</a>が存在する場合は,キャプチャ変数にアクセスします。
 </p>
 <p>
-  コールバックObject Creatingとキャプチャをシンタックスシュガーを使わないで記述すると次のようになります。
+  CallbackObject Creatingとキャプチャをシンタックスシュガーを使わないで記述すると次のようになります。
 </p>
 <pre>
 package ComapartorImpl {
@@ -2015,14 +2015,14 @@ $comparator->{foo} = $foo;
 $comparator->{bar} = $bar;
 </pre>
 
-キャプチャは,このような長い記述を,短く書くための文法です。
+キャプチャは,このような長い記述を,短く書くためのStatement法です。
 
 <h3 id="language-sub-method">メソッド</h3>
 <p>
   メソッドとは,第一引数に<a href="#language-type-self">self Type</a>を持つSubroutine のことです。
 </p>
 <pre>
-sub Subroutine Name : Type Name  ($self : self, 引数1 : 型1, 引数2 : 型2, ..., 引数n : 型n) {
+sub Subroutine Name : Type Name  ($self : self, 引数1 : Type1, 引数2 : Type2, ..., 引数n : Typen) {
 
 }
 </pre>
@@ -2035,7 +2035,7 @@ sub Subroutine Name : Type Name  ($self : self, 引数1 : 型1, 引数2 : 型2, 
   Invocant とは,self Typeが指定された第一引数のことをいいます。
 </p>
 <pre>
-sub Subroutine Name : Type Name  ($self : self, 引数1 : 型1, 引数2 : 型2, ..., 引数n : 型n) {
+sub Subroutine Name : Type Name  ($self : self, 引数1 : Type1, 引数2 : Type2, ..., 引数n : Typen) {
 
 }
 </pre>
@@ -2264,7 +2264,7 @@ package Foo {
 }
 </pre>
 <p>
-  BEGIN Block の中には,0個以上の<a href="#language-statement">文</a>を書くことができます。
+  BEGIN Block の中には,0個以上の<a href="#language-statement">Statement</a>を書くことができます。
 </p>
 <pre>
 BEGIN {
@@ -2311,7 +2311,7 @@ package Foo {
 }
 </pre>
 <p>
-  Lexical Variable は"my"  Keyword によって宣言します。":"の後ろに"<a href="#language-type">型</a>"を指定する必要があります。
+  Lexical Variable は"my"  Keyword によって宣言します。":"の後ろに"<a href="#language-type">Type</a>"を指定する必要があります。
 </p>
 <pre>
 my $num : int;
@@ -2346,7 +2346,7 @@ my $num : double = 2.5;
 my $point : Point = new Point;
 </pre>
 <p>
-  <a href="#language-type-inference">Type Inference</a>を使うと,宣言するときに,型の指定を省略することができます。
+  <a href="#language-type-inference">Type Inference</a>を使うと,宣言するときに,Typeの指定を省略することができます。
 </p>
 <pre>
 # int
@@ -2356,7 +2356,7 @@ my $num = 1;
 my $num = 1.0;
 </pre>
 <p>
-  Lexical Variable Declaration は,Lexical Variable の値を返します。これは,<a href="#language-expression">式</a>として利用できます。
+  Lexical Variable Declaration は,Lexical Variable の値を返します。これは,<a href="#language-expression">Expression</a>として利用できます。
 </p>
 <pre>
 my $ppp = my $bar = 4;
@@ -2439,7 +2439,7 @@ There are <a href="#language-scope-block">Scope Block</a> that creates a scope a
 </p>
 <h3 id="language-scope-block">Scope Block </h3>
 <p>
-  Scope Block とは,Scopeを作るBlock のことです。Scope Block には,0個以上の<a href="#language-statement">文</a>を記述することができます。
+  Scope Block とは,Scopeを作るBlock のことです。Scope Block には,0個以上の<a href="#language-statement">Statement</a>を記述することができます。
 </p>
 <pre>
 # Scope Block 
@@ -2490,7 +2490,7 @@ eval {
 <h4 id="language-block-statement-if">if Block</h4>
 <pre>
 # if Block
-if (式) {
+if (Expression) {
 
 }
 </pre>
@@ -2498,7 +2498,7 @@ if (式) {
 <h4 id="language-block-statement-elsif">elsif Block</h4>
 <pre>
 #elsif Block
-elsif (式) {
+elsif (Expression) {
 
 }
 </pre>
@@ -2523,7 +2523,7 @@ for (my $i = 0; $i < 3; $i++) {
 
 <pre>
 # while Block
-while (式) {
+while (Expression) {
 
 }
 </pre>
@@ -2531,7 +2531,7 @@ while (式) {
 <h4 id="language-block-statement-switch">switch Block</h4>
 
 <pre>
-switch (式) {
+switch (Expression) {
 
 }
 </pre>
@@ -2554,13 +2554,13 @@ switch (式) {
   例外の発生を行うには,die statement を使用します。
 </p>
 <pre>
-die 式;
+die Expression;
 </pre>
 <p>
-  式は,<a href="#language-type-string-compatible">String Compatible Type</a>でなければなりません。
+  Expressionは,<a href="#language-type-string-compatible">String Compatible Type</a>でなければなりません。
 </p>
 <p>
-  die statement が実行されると,スタックトレースと式で指定された文字列を表示して,プログラムは終了します。スタックトレースは,Package Name,Subroutine Name,File Name,行番号を含みます。File Nameは,Moduleをロードしたパスからの相対File Nameです。
+  die statement が実行されると,スタックトレースとExpressionで指定されたStringを表示して,プログラムは終了します。スタックトレースは,Package Name,Subroutine Name,File Name,行番号を含みます。File Nameは,Moduleをロードしたパスからの相対File Nameです。
 </p>
 <pre>
 Error
@@ -2573,7 +2573,7 @@ from TestCase->main at TestCase.spvm line 1198
   例外のキャッチとは,例外がスローされた場合に,プログラムが終了するのを止め,エラーメッセージを取得できる機能のことです。
 </p>
 <p>
-  例外のキャッチは,eval Block文を使って行います。eval Block文は,末尾にセミコロンが必要なので気をつけてください。
+  例外のキャッチは,eval BlockStatementを使って行います。eval BlockStatementは,末尾にセミコロンが必要なので気をつけてください。
 </p>
 <pre>
 eval {
@@ -2606,7 +2606,7 @@ $@
   Weaken Referenceとは,Reference Countを増やさない参照のことです。Weaken Referenceを使用すると,循環参照の問題を解決することができます。
 </p>
 <p>
-  SPVMは,Reference Count型のGCを持ちます。Reference Count型のGCにおいては,Reference Countが0になった場合に,オブジェクトは自動的に開放されますが,循環参照が発生した場合は,Reference Countが0にならず,オブジェクトが自動的に解放されません。
+  SPVMは,Reference CountTypeのGCを持ちます。Reference CountTypeのGCにおいては,Reference Countが0になった場合に,オブジェクトは自動的に開放されますが,循環参照が発生した場合は,Reference Countが0にならず,オブジェクトが自動的に解放されません。
 </p>
 <p>
   オブジェクトのFieldが,循環参照している場合のExampleです。
@@ -2669,15 +2669,15 @@ $@
 }
 </pre>
 <p>
-  Weaken Reference関連の文法として,Weaken Referenceを解除できる<a href="#language-statement-weaken">weaken statement</a>と,FieldがWeaken Referenceかどうかを確認できる<a href="#language-operator-isweak">isweakOperator</a>があります。
+  Weaken Reference関連のStatement法として,Weaken Referenceを解除できる<a href="#language-statement-weaken">weaken statement</a>と,FieldがWeaken Referenceかどうかを確認できる<a href="#language-operator-isweak">isweakOperator</a>があります。
 </p>
 
-<h2 id="language-callback">コールバック</h2>
+<h2 id="language-callback">Callback</h2>
 <p>
   SPVMにおけるCallback Typeとは,実装を持たない名前のないメソッドが一つだけ定義されたPackage Typeのことをいいます。<a href="#language-package-definition">Package Definition</a>においてcallback_tDescriptorを指定すると,Callback Typeになります。
 </p>
 <p>
-  Callback Typeの目的は,異なるオブジェクトが,同じメソッド定義を持つときに,どちらも代入できる型を提供することにあります。C言語の関数ポインタに該当する機能をSPVMにおいて実現するものと考えてください。
+  Callback Typeの目的は,異なるオブジェクトが,同じメソッド定義を持つときに,どちらも代入できるTypeを提供することにあります。C言語の関数ポインタに該当する機能をSPVMにおいて実現するものと考えてください。
 </p>
 <pre>
 package Foo1 {
@@ -2707,7 +2707,7 @@ sub : int ($self : self, $num : int);
   Foo1とFoo2は同じメソッド定義"sub : int ($self : self, $num : int)"を持ちます。ここで,選択的にFoo1またはFoo2のメソッドを呼び出したいとします。
 </p>
 <p>
-  この場合に,同じメソッド定義を持つCallback TypeFooCallbackを定義すると,この型にどちらのオブジェクトも代入できます。そして,このオブジェクトから,メソッドを呼び出すことができます。
+  この場合に,同じメソッド定義を持つCallback TypeFooCallbackを定義すると,このTypeにどちらのオブジェクトも代入できます。そして,このオブジェクトから,メソッドを呼び出すことができます。
 </p>
 <pre>
 my $foo1 = Foo1->new;
@@ -2732,7 +2732,7 @@ my $ret = $foo->(5);
   Callback Typeの詳細については,<a href="#language-type-callback">Callback Type</a>を見てください。
 </p>
 
-<h2 id="language-array">配列</h2>
+<h2 id="language-array">Array</h2>
 <ul class="list">
   <li><a href="#language-array-summary">Array Summary</a></li>
   <li><a href="#language-array-new">Array Creating</a></li>
@@ -2740,60 +2740,60 @@ my $ret = $foo->(5);
 </ul>
 <h3 id="language-array-summary">Array Summary</h3>
 <p>
-  配列とは,複数の値の連続領域を表現するためのデータ構造です。
+  Arrayとは,複数の値の連続領域を表現するためのデータ構造です。
 </p>
 <p>
-  配列には次の種類があります。
+  Arrayには次の種類があります。
 </p>
 <ul class="list">
   <li>
-    Numeric Typeの配列
+    Numeric TypeのArray
   </li>
   <li>
-    Object Type の配列
+    Object Type のArray
   </li>
   <li>
-    Multi Numeric Typeの配列
+    Multi Numeric TypeのArray
   </li>
 </ul>
 <p>
-  Numeric Typeの配列とは,<a href="#language-type-numeric">Numeric Type</a>の値が連続に並んだ配列のことです。
+  Numeric TypeのArrayとは,<a href="#language-type-numeric">Numeric Type</a>の値が連続に並んだArrayのことです。
 </p>
 <p>
-  Object Type の配列とは,<a href="#language-type-object">Object Type</a>の値が連続に並んだ配列のことです。
+  Object Type のArrayとは,<a href="#language-type-object">Object Type</a>の値が連続に並んだArrayのことです。
 </p>
 <p>
-  Multi Numeric Typeの配列とは,<a href="#language-type-multi-numeric">Multi Numeric Type</a>の値が連続に並んだ配列のことです。
+  Multi Numeric TypeのArrayとは,<a href="#language-type-multi-numeric">Multi Numeric Type</a>の値が連続に並んだArrayのことです。
 </p>
 
 <h3 id="language-array-summary">Array Creating</h3>
 <p>
-  配列を生成については,<a href="#language-expression-new-array">Array Creating</a>を見てください。
+  Arrayを生成については,<a href="#language-expression-new-array">Array Creating</a>を見てください。
 </p>
 
 <h3 id="language-array-access">Array Access</h3>
 <p>
-  Array Accessとは,配列にアクセスして,値を取得したり,設定したりする操作のことです。また,the following 記述そのものを指します。
+  Array Accessとは,Arrayにアクセスして,値を取得したり,設定したりする操作のことです。また,the following 記述そのものを指します。
 </p>
 <pre>
-配列->[添え字]
+Array->[添え字]
 </pre>
 
 <p>
-  配列の取得については,<a href="#language-expression-get-array-element">配列の要素の値の取得</a>を見てください。
+  Arrayの取得については,<a href="#language-expression-get-array-element">Arrayの要素の値の取得</a>を見てください。
 </p>
 <p>
-  配列の設定については,<a href="#language-expression-set-set-array-element">配列の要素の値の設定</a>を見てください。
+  Arrayの設定については,<a href="#language-expression-set-set-array-element">Arrayの要素の値の設定</a>を見てください。
 </p>
 
-<h2 id="language-value">値</h2>
+<h2 id="language-mulnum">Multi Numeric Value</h2>
 <ul class="list">
-  <li><a href="#language-value-definition">Multi Numeric Typeの定義</a></li>
-  <li><a href="#language-value-usage">Multi Numeric Typeの使用</a></li>
-  <li><a href="#language-value-access">Multi Numeric TypeのField Access</a></li>
+  <li><a href="#language-mulnum-definition">Multi Numeric Typeの定義</a></li>
+  <li><a href="#language-mulnum-usage">Multi Numeric Typeの使用</a></li>
+  <li><a href="#language-mulnum-access">Multi Numeric TypeのField Access</a></li>
 </ul>
 
-<h3 id="language-value-definition">Multi Numeric Typeの定義</h2>
+<h3 id="language-mulnum-definition">Multi Numeric Typeの定義</h2>
 <p>
   SPVMには,他の言語ではあまり見ることのない値というものがあります。
 </p>
@@ -2894,13 +2894,13 @@ package Complex_2d : mulnum_t {
   Invalid Multi Numeric Typeの定義の場合は,a compile-time error occurs
 </p>
 <p>
-  Multi Numeric Typeは,<a href="#language-lex-var-declaration">Lexical Variable Declaration</a>の型として利用することができます。
+  Multi Numeric Typeは,<a href="#language-lex-var-declaration">Lexical Variable Declaration</a>のTypeとして利用することができます。
 </p>
 <p>
-  Multi Numeric Typeは,<a href="#language-sub-definition">Subroutine Definition</a>における引数の型として利用することができます。
+  Multi Numeric Typeは,<a href="#language-sub-definition">Subroutine Definition</a>における引数のTypeとして利用することができます。
 </p>
 <p>
-  Multi Numeric Typeは,<a href="#language-sub-definition">Subroutine Definition</a>におけるReturn Valueの型として利用することができます。
+  Multi Numeric Typeは,<a href="#language-sub-definition">Subroutine Definition</a>におけるReturn ValueのTypeとして利用することができます。
 </p>
 <p>
   Multi Numeric Typeは<a href="#language-type-array">Array Type</a>の<a href="#language-type-basic">Basic Type</a>として利用することができます。
@@ -2909,13 +2909,13 @@ package Complex_2d : mulnum_t {
 my $points = new Point_3i[5];
 </pre>
 <p>
-  Multi Numeric Typeは,Fieldの型として利用することはできません。
+  Multi Numeric Typeは,FieldのTypeとして利用することはできません。
 </p>
 <p>
-  Multi Numeric Typeは,Package Variable の型として利用することはできません。
+  Multi Numeric Typeは,Package Variable のTypeとして利用することはできません。
 </p>
 <p>
-  Multi Numeric Typeの値に対しては,リファレンスを生成することができます。
+  Multi Numeric Typeの値に対しては,Referenceを生成することができます。
 </p>
 <pre>
 my $point : Point_3i;
@@ -2925,15 +2925,15 @@ my $point_ref = \$point;
   Multi Numeric Typeの値に,Undefined Valueを代入することはできません。代入しようとした場合は,a compile-time error occurs
 </p>
 
-<h2 id="language-value-array">値の配列</h2>
+<h2 id="language-mulnum-array">Multi Numeric Array</h2>
 <ul class="list">
-  <li><a href="language-array-summary">値のArray Summary</a></li>
-  <li><a href="language-array-access">値のArray Access</a></li>
+  <li><a href="language-array-summary">Multi Numeric Array Summary</a></li>
+  <li><a href="language-array-access">Multi Numeric Array Access</a></li>
 </ul>
 
-<h3 id="language-array-summary">値のArray Summary</h3>
+<h3 id="language-array-summary">Multi Numeric Array Summary</h3>
 <p>
-  Multi Numeric Typeの値は,<a href="#language-array">配列</a>にすることができます。
+  Multi Numeric Typeの値は,<a href="#language-array">Array</a>にすることができます。
 </p>
 <pre>
 my $points = new Point_3i[5];
@@ -2941,38 +2941,38 @@ my $points = new Point_3i[5];
 my $zs = new Complex_2d[5];
 </pre>
 <p>
-  値の配列は,Multi Numeric Typeの値が,連続したデータ構造をとります。配列の要素は,オブジェクトではなく,数値がメモリ上に一直線に並んで,配置されます。
+  Multi Numeric Arrayは,Multi Numeric Typeの値が,連続したデータ構造をとります。Arrayの要素は,オブジェクトではなく,数値がメモリ上に一直線に並んで,配置されます。
 </p>
 <p>
-  たとえば,Point_3i型の5の長さの配列であれば,Point_3i型は,int Type の数値が3つ並んだ型で,長さが5なので,"5 * 3 = 15"個のint Type の数値が,メモリ上に一直線に並んだデータになります。
+  たとえば,Point_3iTypeの5の長さのArrayであれば,Point_3iTypeは,int Type の数値が3つ並んだTypeで,長さが5なので,"5 * 3 = 15"個のint Type の数値が,メモリ上に一直線に並んだデータになります。
 </p>
 <p>
-  値の配列の型は,<a href="#language-type-array">Array Type</a>です。
+  Multi Numeric ArrayのTypeは,<a href="#language-type-array">Array Type</a>です。
 </p>
 <p>
-  値の配列の要素の型は,<a href="#language-type-multi-numeric">Multi Numeric Type</a>です。
+  Multi Numeric Arrayの要素のTypeは,<a href="#language-type-multi-numeric">Multi Numeric Type</a>です。
 </p>
 
-<h3 id="language-array-access">値のArray Access</h3>
+<h3 id="language-array-access">Multi Numeric Array Access</h3>
 <p>
-  値のArray Accessとは,値の配列にアクセスして,値を取得したり,設定したりする操作のことです。また,the following 記述そのものを指します。
+  Multi Numeric Array Accessとは,Multi Numeric Arrayにアクセスして,値を取得したり,設定したりする操作のことです。また,the following 記述そのものを指します。
 </p>
 <pre>
-配列->[添え字]
+Array->[添え字]
 </pre>
 <p>
-  値のArray Accessは,配列のアクセスと同じsyntax で行うことができます。
+  Multi Numeric Array Accessは,Arrayのアクセスと同じsyntax で行うことができます。
 </p>
 <p>
-  配列の取得については,<a href="#language-expression-get-array-element">配列の要素の値の取得</a>を見てください。
+  Arrayの取得については,<a href="#language-expression-get-array-element">Arrayの要素の値の取得</a>を見てください。
 </p>
 <p>
-  配列の設定については,<a href="#language-expression-set-set-array-element">配列の要素の値の設定</a>を見てください。
+  Arrayの設定については,<a href="#language-expression-set-set-array-element">Arrayの要素の値の設定</a>を見てください。
 </p>
 
-<h3 id="language-value-usage">Multi Numeric Typeの使用</h2>
+<h3 id="language-mulnum-usage">Multi Numeric Typeの使用</h2>
 <p>
-  Multi Numeric Typeを使用するにはuse文を使って,Moduleをロードします。
+  Multi Numeric Typeを使用するにはuseStatementを使って,Moduleをロードします。
 </p>
 <pre>
 use Point_3i;
@@ -2989,7 +2989,7 @@ my $z : Complex_2d;
   Multi Numeric Typeの値は,オブジェクトではないので,<a href="#language-expression-new-object">Object Creating</a>のsyntax では生成できないことに注意してください。
 </p>
 
-<h3 id="language-value-access">Multi Numeric TypeのField Access</h2>
+<h3 id="language-mulnum-access">Multi Numeric TypeのField Access</h2>
 <p>
   Multi Numeric TypeのField Accessとは,Multi Numeric TypeのFieldにアクセスして,値を取得したり,設定したりする操作のことです。また,the following 記述そのものを指します。
 </p>
@@ -3016,25 +3016,25 @@ $dval4->{t} = 2.5;
 my $z = $dval4->{z};
 </pre>
 
-<h2 id="language-ref">リファレンス</h2>
+<h2 id="language-ref">Reference</h2>
 <ul>
-  <li><a href="language-ref-summary">リファレンスの概要</a></li>
+  <li><a href="language-ref-summary">Referenceの概要</a></li>
   <li><a href="language-ref-deref">Dereference</a></li>
 </ul>
 
-<h3 id="language-ref">リファレンスの概要</h3>
+<h3 id="language-ref">Referenceの概要</h3>
 <p>
-  リファレンスとは,Lexical Variable のアドレスのことをいいます。リファレンスは,C言語のポインタに該当する機能を実現するために,設計されました。
+  Referenceとは,Lexical Variable のアドレスのことをいいます。Referenceは,C言語のポインタに該当する機能を実現するために,設計されました。
 </p>
 <p>
   Lexical Variable のアドレスは,<a href="#language-operator-ref">Reference Operator</a>を使用して取得できます。<a href="#language-type-ref">Reference Type</a>は,<a href="#language-type-numeric">Numeric Type</a>あるいは<a href="#language-type-multi-numeric">Multi Numeric Type</a>の後ろに"&"を続けたものになります。
 </p>
 <pre>
-# Numeric Typeの変数のリファレンス
+# Numeric Typeの変数のReference
 my $num : int;
 my $num_ref : int& = \$num;
 
-# Multi Numeric Typeの変数のリファレンス
+# Multi Numeric Typeの変数のReference
 my $point : Point_3d;
 my $point_ref : Point_3d& = \$point;
 </pre>
@@ -3093,31 +3093,31 @@ my $x = $point_ref->{x};
 $point_ref->{x} = 1;
 </pre>
 
-<h3 id="language-type-ref-numeric">数値のReference Type </h3>
+<h3 id="language-type-ref-numeric">Numeric Reference Type </h3>
 <p>
-  数値のReference Type とは,<a href="#language-type-numeric">Numeric Type</a>の変数に対する<a href="#language-type-ref">Reference Type</a>のことをいいます。
+  Numeric Reference Type とは,<a href="#language-type-numeric">Numeric Type</a>の変数に対する<a href="#language-type-ref">Reference Type</a>のことをいいます。
 </p>
-<h3 id="language-type-ref-multi-numeric">複数数値のReference Type </h3>
+<h3 id="language-type-ref-multi-numeric">Multi Numeric Reference Type </h3>
 <p>
-  複数数値のReference Type とは,<a href="#language-type-multi-numeric">Multi Numeric Type</a>の変数に対する<a href="#language-type-ref">Reference Type</a>のことをいいます。
+  Multi Numeric Reference Type とは,<a href="#language-type-multi-numeric">Multi Numeric Type</a>の変数に対する<a href="#language-type-ref">Reference Type</a>のことをいいます。
 </p>
 
 </p>
 
-<h2 id="language-expression">式</h2>
+<h2 id="language-expression">Expression</h2>
 <ul class="list">
-  <li class="language-expression-summary">式とは</li>
+  <li class="language-expression-summary">Expressionとは</li>
   <li class="language-expression-current-package">Current Package Nameの取得</li>
   <li class="language-expression-current-file">Current File Nameの取得</li>
   <li class="language-expression-current-line">Current Line Numberの取得</li>
 </ul>
 
-<h3 id="language-expression">式とは</h3>
+<h3 id="language-expression">Expressionとは</h3>
 <p>
-  式とは,値の評価が可能な<a href="#language-expresssion">式</a>のことです。
+  Expressionとは,値の評価が可能な<a href="#language-expresssion">Expression</a>のことです。
 </p>
 <p>
-  <b>式の一覧</b>
+  <b>Expressionの一覧</b>
 </p>
 <ul class="list">
   <li><a href="#language-expression-get-lex-var">Lexical Variable の値の取得</a></li>
@@ -3135,19 +3135,19 @@ $point_ref->{x} = 1;
   <li><a href="#language-expression-set-field-multi-numeric">Multi Numeric TypeのFieldの値の設定</a></li>
   <li><a href="#language-expression-get-field-multi-numeric-deref">Dereference によるMulti Numeric TypeのFieldの取得</a></li>
   <li><a href="#language-expression-set-field-multi-numeric-deref">Dereference によるMulti Numeric TypeのFieldの設定</a></li>
-  <li><a href="#language-expression-get-array-element">配列の要素の値の取得</a></li>
-  <li><a href="#language-expression-set-array-element">配列の要素の値の設定</a></li>
-  <li><a href="#language-expression-typecast">型キャスト</a></li>
+  <li><a href="#language-expression-get-array-element">Arrayの要素の値の取得</a></li>
+  <li><a href="#language-expression-set-array-element">Arrayの要素の値の設定</a></li>
+  <li><a href="#language-expression-typecast">Typeキャスト</a></li>
   <li><a href="#language-expression-new-object">Object Creating</a></li>
   <li><a href="#language-expression-new-array">Array Creating</a></li>
-  <li><a href="#language-expression-release-object">オブジェクトの解放</a></li>
+  <li><a href="#language-expression-release-object">Release Object</a></li>
   <li><a href="#language-expression-array-init">Array Initialization</a></li>
   <li><a href="#language-operator-array-length">Array Length Operator</a></li>
   <li><a href="#language-operator-string-length">String Length Operator</a></li>
   <li><a href="#language-operator-arithmetic">Arithmetic Operator</a></li>
   <li><a href="#language-operator-bit">Bit Operator</a></li>
   <li><a href="#language-operator-shift">Shift Operator</a></li>
-  <li><a href="#language-operator-concat">文字列連結Operator</a></li>
+  <li><a href="#language-operator-concat">String連結Operator</a></li>
   <li><a href="#language-operator-ref">Reference Operator</a></li>
   <li><a href="#language-operator-assign">Assignment Operator</a></li>
   <li><a href="#language-operator-array-length">Array Length Operator</a></li>
@@ -3156,7 +3156,7 @@ $point_ref->{x} = 1;
   <li><a href="#language-expression-current-package">Current Package Nameの取得</a></li>
   <li><a href="#language-expression-current-file">Current File Nameの取得</a></li>
   <li><a href="#language-expression-current-line">Current Line Numberの取得</a></li>
-  <li>(式)</li>
+  <li>(Expression)</li>
 </ul>
 
 <h3 id="language-expression-get-lex-var">Lexical Variable の値の取得</h3>
@@ -3167,7 +3167,7 @@ $point_ref->{x} = 1;
 $var
 </pre>
 <p>
-  Lexical Variable の値の取得は,<a href="#language-expression">式</a>です。
+  Lexical Variable の値の取得は,<a href="#language-expression">Expression</a>です。
 </p>
 
 <h3 id="language-expression-set-lex-var">Lexical Variable の値の設定</h3>
@@ -3184,7 +3184,7 @@ $var = Right Expression
   Lexical Variable の値の設定は,設定後の値を返します。
 </p>
 <p>
-  Lexical Variable の値の設定は,<a href="#language-expression">式</a>です。
+  Lexical Variable の値の設定は,<a href="#language-expression">Expression</a>です。
 </p>
 <p>
   Right Expressionが,Object Type であった場合は,オブジェクトのReference Countが1増やされます。
@@ -3212,7 +3212,7 @@ $PACKAGE_VARIABLE_NAME
 </pre>
 
 <p>
- Package Variable Gettingは,<a href="#language-expression">式</a>を返します。
+ Package Variable Gettingは,<a href="#language-expression">Expression</a>を返します。
 </p>
 
 <p>
@@ -3250,7 +3250,7 @@ $クラス名::Package Variable Name = Right Expression
 $Package Variable Name = Right Expression
 </pre>
 <p>
-  Package Variable 設定は,<a href="#language-expression">式</a>を返します。返される結果は,代入後のPackage Variable の値です。
+  Package Variable 設定は,<a href="#language-expression">Expression</a>を返します。返される結果は,代入後のPackage Variable の値です。
 </p>
 <p>
   定義されていないPackage Variable の値を設定しようとした場合は,コンパイル時エラーが設定します。
@@ -3280,7 +3280,7 @@ package Foo {
 $@
 </pre>
 <p>
- 例外変数の値の取得は,<a href="#language-expression">式</a>を返します。
+ 例外変数の値の取得は,<a href="#language-expression">Expression</a>を返します。
 </p>
 <p>
  例外変数の値の取得は,<a href="#language-type-string">String Type</a>の値を返します。
@@ -3312,7 +3312,7 @@ $@ = Right Expression
   Right Expressionは<a href="#language-type-string-compatible">String Compatible Type</a>でなければなりません。
 </p>
 <p>
- 例外変数の値の設定は,<a href="#language-expression">式</a>を返します。
+ 例外変数の値の設定は,<a href="#language-expression">Expression</a>を返します。
 </p>
 <p>
  例外変数の値の設定は,設定後の例外変数の値を返します。これは,<a href="#language-type-string">String Type</a>です。
@@ -3332,19 +3332,19 @@ $@ = "Error";
   Class TypeのFieldの値の取得は,次のように記述します。
 </p>
 <pre>
-Invocant 式->{Field Name}
+Invocant Expression->{Field Name}
 </pre>
 <p>
-  Invocant 式は,<a href="#language-type-class">Class Type</a>の値でなければなりません。Invocant 式が,<a href="#language-type-multi-numeric">Multi Numeric Type</a>の値であった場合は,<a href="#language-expression-get-field-multi-numeric">Multi Numeric TypeのFieldの値の取得</a>になり,<a href="#language-type-ref-multi-numeric">複数数値のReference Type</a>の値であった場合は,<a href="#language-expression-get-field-multi-numeric-deref">Dereference によるMulti Numeric TypeのFieldの取得</a>になり,それ以外の場合は,a compile-time error occurs
+  Invocant Expressionは,<a href="#language-type-class">Class Type</a>の値でなければなりません。Invocant Expressionが,<a href="#language-type-multi-numeric">Multi Numeric Type</a>の値であった場合は,<a href="#language-expression-get-field-multi-numeric">Multi Numeric TypeのFieldの値の取得</a>になり,<a href="#language-type-ref-multi-numeric">Multi Numeric Reference Type</a>の値であった場合は,<a href="#language-expression-get-field-multi-numeric-deref">Dereference によるMulti Numeric TypeのFieldの取得</a>になり,それ以外の場合は,a compile-time error occurs
 </p>
 <p>
   Field Nameが,存在しない場合は,a compile-time error occurs
 </p>
 <p>
-  Class TypeのFieldの値の取得は,オブジェクトに保存されているFieldの値を返します。これは<a href="#language-expression">式</a>です。
+  Class TypeのFieldの値の取得は,オブジェクトに保存されているFieldの値を返します。これは<a href="#language-expression">Expression</a>です。
 </p>
 <p>
-  返される値の型は,Fieldの型です。
+  返される値のTypeは,FieldのTypeです。
 </p>
 <p>
   <b>Class TypeのFieldの値の取得のExample</b>
@@ -3362,22 +3362,22 @@ my $x = $point->{x};
   Class TypeのFieldの値の設定は,次のように記述します。
 </p>
 <pre>
-Invocant 式->{Field Name} = Right Expression
+Invocant Expression->{Field Name} = Right Expression
 </pre>
 <p>
-  Invocant 式は,<a href="#language-type-class">Class Type</a>の値でなければなりません。Invocant 式が,<a href="#language-type-multi-numeric">Multi Numeric Type</a>の値であった場合は,<a href="#language-expression-get-field-multi-numeric">Multi Numeric TypeのFieldの値の設定</a>になり,<a href="#language-type-ref-multi-numeric">複数数値のReference Type</a>の値であった場合は,<a href="#language-expression-get-field-multi-numeric-deref">Dereference によるMulti Numeric TypeのFieldの設定</a>になり,それ以外の場合は,a compile-time error occurs
+  Invocant Expressionは,<a href="#language-type-class">Class Type</a>の値でなければなりません。Invocant Expressionが,<a href="#language-type-multi-numeric">Multi Numeric Type</a>の値であった場合は,<a href="#language-expression-get-field-multi-numeric">Multi Numeric TypeのFieldの値の設定</a>になり,<a href="#language-type-ref-multi-numeric">Multi Numeric Reference Type</a>の値であった場合は,<a href="#language-expression-get-field-multi-numeric-deref">Dereference によるMulti Numeric TypeのFieldの設定</a>になり,それ以外の場合は,a compile-time error occurs
 </p>
 <p>
   Field Nameが,存在しない場合は,a compile-time error occurs
 </p>
 <p>
-  Right Expressionの型は,Fieldの型と同じでなければなりません。otherwise a compile-time error occurs.
+  Right ExpressionのTypeは,FieldのTypeと同じでなければなりません。otherwise a compile-time error occurs.
 </p>
 <p>
-  Class TypeのFieldの値の設定は,設定後のオブジェクトに保存されているFieldの値を返します。これは<a href="#language-expression">式</a>です。
+  Class TypeのFieldの値の設定は,設定後のオブジェクトに保存されているFieldの値を返します。これは<a href="#language-expression">Expression</a>です。
 </p>
 <p>
-  返される値の型は,Fieldの型です。
+  返される値のTypeは,FieldのTypeです。
 </p>
 <p>
   Right Expressionが,Object Type であった場合は,オブジェクトのReference Countが1増やされます。
@@ -3401,19 +3401,19 @@ $point->{x} = 1;
   Multi Numeric TypeのFieldの値の取得は,次のように記述します。
 </p>
 <pre>
-Invocant 式->{Field Name}
+Invocant Expression->{Field Name}
 </pre>
 <p>
-  Invocant 式は,<a href="#language-type-class">Multi Numeric Type</a>の値でなければなりません。Invocant 式が,<a href="#language-type-class">Class Type</a>の値であった場合は,<a href="#language-expression-get-field-class">Class TypeのFieldの値の取得</a>になり,<a href="#language-type-ref-multi-numeric">複数数値のReference Type</a>の値であった場合は,<a href="#language-expression-get-field-multi-numeric-deref">Dereference によるMulti Numeric TypeのFieldの取得</a>になり,それ以外の場合は,a compile-time error occurs
+  Invocant Expressionは,<a href="#language-type-class">Multi Numeric Type</a>の値でなければなりません。Invocant Expressionが,<a href="#language-type-class">Class Type</a>の値であった場合は,<a href="#language-expression-get-field-class">Class TypeのFieldの値の取得</a>になり,<a href="#language-type-ref-multi-numeric">Multi Numeric Reference Type</a>の値であった場合は,<a href="#language-expression-get-field-multi-numeric-deref">Dereference によるMulti Numeric TypeのFieldの取得</a>になり,それ以外の場合は,a compile-time error occurs
 </p>
 <p>
   Field Nameが,存在しない場合は,a compile-time error occurs
 </p>
 <p>
-  Multi Numeric TypeのFieldの値の取得は,<a href="#language-sub-stack">Subroutine Callstack</a>に保存されている該当するFieldの値を返します。これは<a href="#language-expression">式</a>です。
+  Multi Numeric TypeのFieldの値の取得は,<a href="#language-sub-stack">Subroutine Callstack</a>に保存されている該当するFieldの値を返します。これは<a href="#language-expression">Expression</a>です。
 </p>
 <p>
-  返される値の型は,Fieldの型です。
+  返される値のTypeは,FieldのTypeです。
 </p>
 <p>
   <b>Multi Numeric TypeのFieldの値の取得のExample</b>
@@ -3431,22 +3431,22 @@ my $re = $z->{re};
   Multi Numeric TypeのFieldの値の設定は,次のように記述します。
 </p>
 <pre>
-Invocant 式->{Field Name} = Right Expression
+Invocant Expression->{Field Name} = Right Expression
 </pre>
 <p>
-  Invocant 式は,<a href="#language-type-class">Multi Numeric Type</a>の値でなければなりません。Invocant 式が,<a href="#language-type-class">Class Type</a>の値であった場合は,<a href="#language-expression-set-field-class">Class TypeのFieldの値の設定</a>になり,<a href="#language-type-ref-multi-numeric">複数数値のReference Type</a>の値であった場合は,<a href="#language-expression-set-field-multi-numeric-deref">Dereference によるMulti Numeric TypeのFieldの設定</a>になり,それ以外の場合は,a compile-time error occurs
+  Invocant Expressionは,<a href="#language-type-class">Multi Numeric Type</a>の値でなければなりません。Invocant Expressionが,<a href="#language-type-class">Class Type</a>の値であった場合は,<a href="#language-expression-set-field-class">Class TypeのFieldの値の設定</a>になり,<a href="#language-type-ref-multi-numeric">Multi Numeric Reference Type</a>の値であった場合は,<a href="#language-expression-set-field-multi-numeric-deref">Dereference によるMulti Numeric TypeのFieldの設定</a>になり,それ以外の場合は,a compile-time error occurs
 </p>
 <p>
   Field Nameが,存在しない場合は,a compile-time error occurs
 </p>
 <p>
-  Right Expressionの型は,Fieldの型と同じでなければなりません。otherwise a compile-time error occurs.
+  Right ExpressionのTypeは,FieldのTypeと同じでなければなりません。otherwise a compile-time error occurs.
 </p>
 <p>
-  Multi Numeric TypeのFieldの値の設定は,設定後の<a href="#language-sub-stack">Subroutine Callstack</a>に保存されている該当するFieldの値を返します。これは<a href="#language-expression">式</a>です。
+  Multi Numeric TypeのFieldの値の設定は,設定後の<a href="#language-sub-stack">Subroutine Callstack</a>に保存されている該当するFieldの値を返します。これは<a href="#language-expression">Expression</a>です。
 </p>
 <p>
-  返される値の型は,Fieldの型です。
+  返される値のTypeは,FieldのTypeです。
 </p>
 <p>
   <b>Multi Numeric TypeのFieldの値の設定のExample</b>
@@ -3464,19 +3464,19 @@ $z->{re} = 2.5;
   Dereference によるMulti Numeric TypeのFieldの値の取得は,次のように記述します。
 </p>
 <pre>
-Invocant 式->{Field Name}
+Invocant Expression->{Field Name}
 </pre>
 <p>
-  Invocant 式は,<a href="#language-type-ref-multi-numeric">複数数値のReference Type</a>の値でなければなりません。Invocant 式が,<a href="#language-type-class">Class Type</a>の値であった場合は,<a href="#language-expression-get-field-class">Class TypeのFieldの値の取得</a>になり,<a href="#language-type-multi-numeric">Multi Numeric Type</a>の値であった場合は,<a href="#language-expression-get-field-multi-numeric">Multi Numeric TypeのFieldの値の取得</a>になり,それ以外の場合は,a compile-time error occurs
+  Invocant Expressionは,<a href="#language-type-ref-multi-numeric">Multi Numeric Reference Type</a>の値でなければなりません。Invocant Expressionが,<a href="#language-type-class">Class Type</a>の値であった場合は,<a href="#language-expression-get-field-class">Class TypeのFieldの値の取得</a>になり,<a href="#language-type-multi-numeric">Multi Numeric Type</a>の値であった場合は,<a href="#language-expression-get-field-multi-numeric">Multi Numeric TypeのFieldの値の取得</a>になり,それ以外の場合は,a compile-time error occurs
 </p>
 <p>
   Field Nameが,存在しない場合は,a compile-time error occurs
 </p>
 <p>
-  Dereference によるMulti Numeric TypeのFieldの値の取得は,<a href="#language-sub-stack">Subroutine Callstack</a>に保存されている該当するFieldの値を返します。これは<a href="#language-expression">式</a>です。
+  Dereference によるMulti Numeric TypeのFieldの値の取得は,<a href="#language-sub-stack">Subroutine Callstack</a>に保存されている該当するFieldの値を返します。これは<a href="#language-expression">Expression</a>です。
 </p>
 <p>
-  返される値の型は,Fieldの型です。
+  返される値のTypeは,FieldのTypeです。
 </p>
 <p>
   <b>Dereference によるMulti Numeric TypeのFieldの値の取得のExample</b>
@@ -3495,22 +3495,22 @@ my $re = $z_ref->{re};
   Dereference によるMulti Numeric TypeのFieldの値の設定は,次のように記述します。
 </p>
 <pre>
-Invocant 式->{Field Name} = Right Expression
+Invocant Expression->{Field Name} = Right Expression
 </pre>
 <p>
-  Invocant 式は,<a href="#language-type-ref-multi-numeric">複数数値のReference Type</a>の値でなければなりません。Invocant 式が,<a href="#language-type-class">Class Type</a>の値であった場合は,<a href="#language-expression-set-field-class">Class TypeのFieldの値の設定</a>になり,<a href="#language-type-multi-numeric">Multi Numeric Type</a>の値であった場合は,<a href="#language-expression-set-field-multi-numeric">Multi Numeric TypeのFieldの値の設定</a>になり,それ以外の場合は,a compile-time error occurs
+  Invocant Expressionは,<a href="#language-type-ref-multi-numeric">Multi Numeric Reference Type</a>の値でなければなりません。Invocant Expressionが,<a href="#language-type-class">Class Type</a>の値であった場合は,<a href="#language-expression-set-field-class">Class TypeのFieldの値の設定</a>になり,<a href="#language-type-multi-numeric">Multi Numeric Type</a>の値であった場合は,<a href="#language-expression-set-field-multi-numeric">Multi Numeric TypeのFieldの値の設定</a>になり,それ以外の場合は,a compile-time error occurs
 </p>
 <p>
   Field Nameが,存在しない場合は,a compile-time error occurs
 </p>
 <p>
-  Right Expressionの型は,Fieldの型と同じでなければなりません。otherwise a compile-time error occurs.
+  Right ExpressionのTypeは,FieldのTypeと同じでなければなりません。otherwise a compile-time error occurs.
 </p>
 <p>
-  Dereference によるMulti Numeric TypeのFieldの値の設定は,設定後の<a href="#language-sub-stack">Subroutine Callstack</a>に保存されている該当するFieldの値を返します。これは<a href="#language-expression">式</a>です。
+  Dereference によるMulti Numeric TypeのFieldの値の設定は,設定後の<a href="#language-sub-stack">Subroutine Callstack</a>に保存されている該当するFieldの値を返します。これは<a href="#language-expression">Expression</a>です。
 </p>
 <p>
-  返される値の型は,Fieldの型です。
+  返される値のTypeは,FieldのTypeです。
 </p>
 <p>
   <b>Dereference によるMulti Numeric TypeのFieldの値の設定のExample</b>
@@ -3524,33 +3524,33 @@ my $z_ref = \$z;
 $z_ref->{re} = 2.5;
 </pre>
 
-<h3 id="language-expression-get-array-element">配列の要素の値の取得</h3>
+<h3 id="language-expression-get-array-element">Arrayの要素の値の取得</h3>
 <p>
-  配列の要素の値を取得するには,次のように記述します。
+  Arrayの要素の値を取得するには,次のように記述します。
 </p>
 <p>
-配列式->[インデックス式]
+ArrayExpression->[インデックスExpression]
 </p>
 <p>
-  配列式は,<a href="#language-type-array">Array Type</a>の値でなければなりません。otherwise a compile-time error occurs.
+  ArrayExpressionは,<a href="#language-type-array">Array Type</a>の値でなければなりません。otherwise a compile-time error occurs.
 </p>
 <p>
-  インデックス式は,int Type の値でなければなりません。otherwise a compile-time error occurs.
+  インデックスExpressionは,int Type の値でなければなりません。otherwise a compile-time error occurs.
 </p>
 <p>
-  配列の要素の値を取得は,指定したインデックスの要素の値を返します。これは,式です。
+  Arrayの要素の値を取得は,指定したインデックスの要素の値を返します。これは,Expressionです。
 </p>
 <p>
-  実行時に,配列式の値が,Undefined Valueである場合は,実行時例外が発生します。
+  実行時に,ArrayExpressionの値が,Undefined Valueである場合は,実行時例外が発生します。
 </p>
 <p>
-  実行時に,インデックスの値が,0より小さい場合,あるいは,配列の最大のインデックスを超えている場合は,実行時例外が発生します。
+  実行時に,インデックスの値が,0より小さい場合,あるいは,Arrayの最大のインデックスを超えている場合は,実行時例外が発生します。
 </p>
 <p>
-  <b>配列の要素の値の取得のExample</b>
+  <b>Arrayの要素の値の取得のExample</b>
 </p>
 <p>
-  配列の要素の値の取得のExampleです。
+  Arrayの要素の値の取得のExampleです。
 </p>
 <pre>
 my $nums = new int[3];
@@ -3563,42 +3563,42 @@ my $objects : oarray = $points;
 my $object = (Point)$objects->[1];
 </pre>
 
-<h3 id="language-expression-set-array-element">配列の要素の値の設定</h3>
+<h3 id="language-expression-set-array-element">Arrayの要素の値の設定</h3>
 <p>
-  配列の要素の値を設定するには,次のように記述します。
+  Arrayの要素の値を設定するには,次のように記述します。
 </p>
 <p>
-配列式->[インデックス式] = Right Expression
+ArrayExpression->[インデックスExpression] = Right Expression
 </p>
 <p>
-  配列式は,<a href="#language-type-array">Array Type</a>の値でなければなりません。otherwise a compile-time error occurs.
+  ArrayExpressionは,<a href="#language-type-array">Array Type</a>の値でなければなりません。otherwise a compile-time error occurs.
 </p>
 <p>
-  インデックス式は,int Type の値でなければなりません。otherwise a compile-time error occurs.
+  インデックスExpressionは,int Type の値でなければなりません。otherwise a compile-time error occurs.
 </p>
 <p>
-  Right Expressionの型は,配列の要素の型と<a href="#language-type-compatible">Type Compatibility</a>がなければなりません。otherwise a compile-time error occurs.
+  Right ExpressionのTypeは,Arrayの要素のTypeと<a href="#language-type-compatible">Type Compatibility</a>がなければなりません。otherwise a compile-time error occurs.
 </p>
 <p>
-  配列の要素の値を設定は,設定後の値を返します。これは,式です。
+  Arrayの要素の値を設定は,設定後の値を返します。これは,Expressionです。
 </p>
 <p>
-  実行時に,配列式の値が,Undefined Valueである場合は,実行時例外が発生します。
+  実行時に,ArrayExpressionの値が,Undefined Valueである場合は,実行時例外が発生します。
 </p>
 <p>
-  実行時に,インデックスの値が,0より小さい場合,あるいは,配列の最大のインデックスを超えている場合は,実行時例外が発生します。
+  実行時に,インデックスの値が,0より小さい場合,あるいは,Arrayの最大のインデックスを超えている場合は,実行時例外が発生します。
 </p>
 <p>
   Right Expressionが,Object Type であった場合は,オブジェクトのReference Countが1増やされます。
 </p>
 <p>
-  代入前に,すでに配列の要素にオブジェクトが代入されていた場合は,そのオブジェクトのReference Countが1減らされます。
+  代入前に,すでにArrayの要素にオブジェクトが代入されていた場合は,そのオブジェクトのReference Countが1減らされます。
 </p>
 <p>
-  <b>配列の要素の値の設定のExample</b>
+  <b>Arrayの要素の値の設定のExample</b>
 </p>
 <p>
-  配列の要素の値の設定のExampleです。
+  Arrayの要素の値の設定のExampleです。
 </p>
 <pre>
 my $nums = new int[3];
@@ -3625,7 +3625,7 @@ my $object = new PACKAGE_NAME;
   Fieldは,すべて<a href="language-type-initial-value">Type Initial Value</a>で初期化されます。
 </p>
 <p>
-  Object Creatingは,<a href="#language-expression">式</a>を返します。
+  Object Creatingは,<a href="#language-expression">Expression</a>を返します。
 </p>
 <p>
   生成直後のオブジェクトのReference Countは,0です。代入が実行されるタイミングで,Reference Countが1増やされます。明示的な代入が行われない場合でも,一時変数が作成され,そこに代入されます。
@@ -3648,34 +3648,34 @@ my $object = new Foo;
 
 <h3 id="language-expression-new-array">Array Creating</h3>
 <p>
-  配列を作成するには,new  Keyword とthe following syntax をを使用します。
+  Arrayを作成するには,new  Keyword とthe following syntax をを使用します。
 </p>
 <pre>
-my $object = new 型[要素数式];
+my $object = new Type[要素数Expression];
 </pre>
 <p>
-  型には,<a href="#language-type-numeric">Numeric Type</a>,<a href="#language-type-object">Object Type</a>,<a href="#language-type-multi-numeric">Multi Numeric Type</a>が指定できます。それ以外の型を指定した場合は,a compile-time error occurs
+  Typeには,<a href="#language-type-numeric">Numeric Type</a>,<a href="#language-type-object">Object Type</a>,<a href="#language-type-multi-numeric">Multi Numeric Type</a>が指定できます。それ以外のTypeを指定した場合は,a compile-time error occurs
 </p>
 <p>
-  要素数式は,int Type the following <a href="#language-type-numeric">Numeric Type</a>でなければなりません。otherwise a compile-time error occurs.
+  要素数Expressionは,int Type the following <a href="#language-type-numeric">Numeric Type</a>でなければなりません。otherwise a compile-time error occurs.
 </p>
 <p>
-  要素数式に対して,<a href="#language-type-convertion-unary-numeric-widening">単項数値拡大型変換</a>が行われます。
+  要素数Expressionに対して,<a href="#language-type-convertion-unary-numeric-widening">単項数値拡大Type Convertion</a>が行われます。
 </p>
 <p>
-  要素数式で指定された長さの配列が生成されます。
+  要素数Expressionで指定された長さのArrayが生成されます。
 </p>
 <p>
-  配列の要素は,すべて<a href="language-type-initial-value">Type Initial Value</a>で初期化されます。
+  Arrayの要素は,すべて<a href="language-type-initial-value">Type Initial Value</a>で初期化されます。
 </p>
 <p>
-  配列において,要素は,メモリ上に連続していることが保証されます。
+  Arrayにおいて,要素は,メモリ上に連続していることが保証されます。
 </p>
 <p>
-  Array Creatingは,<a href="#language-expression">式</a>を返します。
+  Array Creatingは,<a href="#language-expression">Expression</a>を返します。
 </p>
 <p>
-  配列は,<a href="#language-type-object">Object Type</a>です。
+  Arrayは,<a href="#language-type-object">Object Type</a>です。
 </p>
 <p>
   <b>Array CreatingのExample</b>
@@ -3687,7 +3687,7 @@ my $objects = new object[3];
 my $values = new Complex_2d[3]
 </pre>
 <p>
-  生成された配列は,内部的に次の情報を持っています。
+  生成されたArrayは,内部的に次の情報を持っています。
 </p>
 <ul class="list">
   <li>Reference Count</li>
@@ -3696,32 +3696,32 @@ my $values = new Complex_2d[3]
   <li>Array Length</li>
 </ul>
 <p>
-  多次元配列は,上記のsyntax を使用して,作成できます。要素は,<a href="#language-type-initial-value">Type Initial Value</a>によって初期化されます。
+  多次元Arrayは,上記のsyntax を使用して,作成できます。要素は,<a href="#language-type-initial-value">Type Initial Value</a>によって初期化されます。
 </p>
 <pre>
 my $nums = new int[][3];
 my $nums = new int[][][3];
 </pre>
 <p>
-  多次元配列の次元数の最大は,255です。
+  多次元Arrayの次元数の最大は,255です。
 </p>
 
 <h3 id="language-expression-array-init">Array Initialization</h3>
 <p>
-  SPVMには,Array Creatingを簡単にするためのArray Initializationのsyntax があります。式はなくてもかまいません。
+  SPVMには,Array Creatingを簡単にするためのArray Initializationのsyntax があります。Expressionはなくてもかまいません。
 </p>
 <pre>
 []
-[式1, 式2, 式3]
+[Expression1, Expression2, Expression3]
 </pre>
 <p>
-  Array Initializationは,式の要素数の長さを持った配列を返します。
+  Array Initializationは,Expressionの要素数の長さを持ったArrayを返します。
 </p>
 <p>
-  配列の型は,式1の型をArray Typeにしたものです。要素が指定されない場合は,<a href="#language-type-any-object">Any Object Type</a>をArray Typeにしたものになります。
+  ArrayのTypeは,Expression1のTypeをArray Typeにしたものです。要素が指定されない場合は,<a href="#language-type-any-object">Any Object Type</a>をArray Typeにしたものになります。
 </p>
 <p>
-  式2以降が,<a href="#language-type-compatible">Type Compatibility</a>を満たさない場合は,コンパイルエラーになります。
+  Expression2以降が,<a href="#language-type-compatible">Type Compatibility</a>を満たさない場合は,コンパイルエラーになります。
 </p>
 
 <h3 id="language-expression-callsub">Subroutine Call</h3>
@@ -3759,13 +3759,13 @@ Subroutine Name(引数1, 引数2, 引数3, ..., 引数n);
 </p>
 
 <p>
-  関数の呼び出しは,引数を受け取ります。引数の個数が,Subroutine Definitionで定義されている引数の個数と一致しない場合は,a compile-time error occursそれぞれの引数の型が,Subroutine 定義で定義されている引数の型と<a href="#language-type-compatible">Type Compatibility</a>がない場合は,a compile-time error occurs
+  関数の呼び出しは,引数を受け取ります。引数の個数が,Subroutine Definitionで定義されている引数の個数と一致しない場合は,a compile-time error occursそれぞれの引数のTypeが,Subroutine 定義で定義されている引数のTypeと<a href="#language-type-compatible">Type Compatibility</a>がない場合は,a compile-time error occurs
 </p>
 <p>
   関数の呼び出しは,Return Valueがvoid Type以外の場合は,Return Valueを返します。
 </p>
 <p>
-  関数の呼び出しは,<a href="#language-expression">式</a>です。
+  関数の呼び出しは,<a href="#language-expression">Expression</a>です。
 <p>
 <p>
   <b>Subroutine 呼び出しのExample</b>
@@ -3789,13 +3789,13 @@ my $ret = bar(1, 2, 3);
 オブジェクト->Subroutine Name(引数1, 引数2, 引数3, ..., 引数n);
 </pre>
 <p>
-  Method Call は,引数を受け取ります。引数の個数が,Subroutine Definitionで定義されている引数の個数と一致しない場合は,a compile-time error occursそれぞれの引数の型が,Subroutine 定義で定義されている引数の型と<a href="#language-type-compatible">Type Compatibility</a>がない場合は,a compile-time error occurs
+  Method Call は,引数を受け取ります。引数の個数が,Subroutine Definitionで定義されている引数の個数と一致しない場合は,a compile-time error occursそれぞれの引数のTypeが,Subroutine 定義で定義されている引数のTypeと<a href="#language-type-compatible">Type Compatibility</a>がない場合は,a compile-time error occurs
 </p>
 <p>
   Method Call は,Return Valueがvoid Type以外の場合は,Return Valueを返します。
 </p>
 <p>
-  Method Call は,<a href="#language-expression">式</a>です。
+  Method Call は,<a href="#language-expression">Expression</a>です。
 <p>
 <p>
   <b>Method Call のExample</b>
@@ -3808,17 +3808,17 @@ my $point = new Point;
 $point->set_x(3);
 </pre>
 <p>
-  <a href="#language-sub-new-callback-object">コールバックObject Creating</a>で作成されたオブジェクトは,通常のオブジェクトなのでメソッドを呼び出すことができます。
+  <a href="#language-sub-new-callback-object">CallbackObject Creating</a>で作成されたオブジェクトは,通常のオブジェクトなのでメソッドを呼び出すことができます。
 </p>
 <pre>
 オブジェクト->(引数1, 引数2, 引数3, ..., 引数n);
 </pre>
 
 <p>
-  <b>コールバックObject Creatingで生成されたオブジェクトからメソッドを呼び出すExample</b>
+  <b>CallbackObject Creatingで生成されたオブジェクトからメソッドを呼び出すExample</b>
 </p>
 <p>
-  コールバックObject Creatingで生成されたオブジェクトからメソッドを呼び出すExampleです。
+  CallbackObject Creatingで生成されたオブジェクトからメソッドを呼び出すExampleです。
 </p>
 <pre>
 my $cb_obj = sub : int ($self: self, $num1 : int, $num2 : int) {
@@ -3830,16 +3830,16 @@ my $ret = $cb_obj->(1, 2);
 
 <h3 id="language-operator-deref-get">Dereference による値の取得</h3>
 <p>
-  Dereference による値の取得とは,リファレンスから実際の値を取得するための操作のことです。C言語の関節Operator "*"を実現するために設計されました。
+  Dereference による値の取得とは,Referenceから実際の値を取得するための操作のことです。C言語の関節Operator "*"を実現するために設計されました。
 </p>
 <pre>
 $変数
 </pre>
 <p>
-  変数の型は,Reference Type でなければなりません。otherwise a compile-time error occurs.
+  変数のTypeは,Reference Type でなければなりません。otherwise a compile-time error occurs.
 </p>
 <p>
-  Dereference による値の取得は,<a href="#language-expression">式</a>を返します。
+  Dereference による値の取得は,<a href="#language-expression">Expression</a>を返します。
 </p>
 <pre>
   <b>Dereference による値の取得のExample</b>
@@ -3856,19 +3856,19 @@ my $z_deref : SPVM::Complex_2d = $$z_ref;
 
 <h3 id="language-operator-deref-set">Dereference による値の設定</h3>
 <p>
-  Dereference による値の設定とは,リファレンスから実際の値を設定するための操作のことです。C言語の関節Operator "*"を実現するために設計されました。
+  Dereference による値の設定とは,Referenceから実際の値を設定するための操作のことです。C言語の関節Operator "*"を実現するために設計されました。
 </p>
 <pre>
-$変数 = 式
+$変数 = Expression
 </pre>
 <p>
-  変数の型は,Reference Type でなければなりません。otherwise a compile-time error occurs.
+  変数のTypeは,Reference Type でなければなりません。otherwise a compile-time error occurs.
 </p>
 <p>
-  式の型は,Dereference された場合の変数の型に一致していなければなりません。otherwise a compile-time error occurs.
+  ExpressionのTypeは,Dereference された場合の変数のTypeに一致していなければなりません。otherwise a compile-time error occurs.
 </p>
 <p>
-  Dereference による値の設定は,設定された値を返します。これは<a href="#language-expression">式</a>です。
+  Dereference による値の設定は,設定された値を返します。これは<a href="#language-expression">Expression</a>です。
 </p>
 <pre>
   <b>Dereference による値の設定のExample</b>
@@ -3894,7 +3894,7 @@ $$z_ref = $z2;
 __PACKAGE__
 </pre>
 <p>
-  Current Package Nameの取得は<a href="#language-expression">式</a>を返します。
+  Current Package Nameの取得は<a href="#language-expression">Expression</a>を返します。
 </p>
 <p>
   <b>Current Package Nameの取得のExample</b>
@@ -3915,7 +3915,7 @@ package Foo::Bar {
 __FILE__
 </pre>
 <p>
-  Current File Nameの取得は<a href="#language-expression">式</a>を返します。
+  Current File Nameの取得は<a href="#language-expression">Expression</a>を返します。
 </p>
 <p>
   Current File Nameとは,Moduleの読み込みパスを基準とした,ファイルの相対パスのことをいいます。たとえば,ファイルの読み込みパスが"/mypath"でModule名が"Foo::Bar"であった場合は,絶対パスは"/mypath/Foo/Bar.spvm"で,相対パスは"Foo/Bar.spvm"です。相対パスである"Foo/Bar.spvm"が,Current File Nameになります。
@@ -3946,7 +3946,7 @@ package Foo::Bar2 {
 __LINE__
 </pre>
 <p>
-  Current Line Numberの取得は<a href="#language-expression">式</a>を返します。
+  Current Line Numberの取得は<a href="#language-expression">Expression</a>を返します。
 </p>
 <p>
   <b>Current Line Numberの取得のExample</b>
@@ -3960,18 +3960,18 @@ package Foo::Bar {
 }
 </pre>
 
-<h2 id="language-expression-release-object">オブジェクトの解放</h2>
+<h2 id="language-expression-release-object">Release Object</h2>
 <p>
   オブジェクトは,Reference Countが0になるとメモリから解放されます。
 </p>
 <p>
-  オブジェクトが,Object Type の値を要素として持つ配列だった場合は,オブジェクトの解放の前に,Undefined Valueではないすべての配列の要素のReference Countが1減らされます
+  オブジェクトが,Object Type の値を要素として持つArrayだった場合は,Release Objectの前に,Undefined ValueではないすべてのArrayの要素のReference Countが1減らされます
 </p>
 <p>
-  オブジェクトが,Class Typeで,Object Type のFieldを持つときは,オブジェクトの解放の前に,Undefined ValueではないすべてのObject Type のFieldが所有するオブジェクトのReference Countが1減らされます。Fieldに保存されているオブジェクトにWeaken Referenceが設定されていた場合は,Reference Countが1減らされる前に,Weaken Referenceが解除されます。
+  オブジェクトが,Class Typeで,Object Type のFieldを持つときは,Release Objectの前に,Undefined ValueではないすべてのObject Type のFieldが所有するオブジェクトのReference Countが1減らされます。Fieldに保存されているオブジェクトにWeaken Referenceが設定されていた場合は,Reference Countが1減らされる前に,Weaken Referenceが解除されます。
 </p>
 <p>
-  オブジェクトがBack references of Weaken Referenceを持つときは,バックリファレンスとして登録されているFieldすべてに,Undefined Valueを代入し,バックリファレンスをすべて削除します。
+  オブジェクトがBack references of Weaken Referenceを持つときは,バックReferenceとして登録されているFieldすべてに,Undefined Valueを代入し,バックReferenceをすべて削除します。
 </p>
 <p>
   上記の処理は,再帰的に行われます。
@@ -3990,13 +3990,13 @@ package Foo::Bar {
   <b>10進数表現</b>
 </p>
 <p>
-  Integer Literal  の数値部は"0～9"の1つ以上の連続した文字で表現されます。
+  Integer Literal  の数値部は"0～9"の1つ以上の連続したStatement字で表現されます。
 </p>
 <p>
   先頭に"+"あるいは"-"の符号をつけることができます。
 </p>
 <p>
-  Integer Literal  の型は,デフォルトでは"int Type "になります。
+  Integer Literal  のTypeは,デフォルトでは"int Type "になります。
 </p>
 <p>
   Integer Literal  がint Type で表現できる数値の範囲を超えている場合は,a compile-time error occurs
@@ -4014,10 +4014,10 @@ package Foo::Bar {
   Invalid Integer Literal  の表現はa compile-time error occurs
 </p>
 <p>
-  Integer Literal  がbyte Typeの変数に代入される場合,あるいはbyte TypeのSubroutine Argumentsとして渡される場合で,byte Typeで表現できる数値の範囲を超えていない場合は,<a href="#language-type-convertion-numeric-narrowing">数値縮小型変換</a>によって,byte Typeに自動的に変換されます。範囲を超えている場合は,コンパイル時エラーとなります。
+  Integer Literal  がbyte Typeの変数に代入される場合,あるいはbyte TypeのSubroutine Argumentsとして渡される場合で,byte Typeで表現できる数値の範囲を超えていない場合は,<a href="#language-type-convertion-numeric-narrowing">数値縮小Type Convertion</a>によって,byte Typeに自動的に変換されます。範囲を超えている場合は,コンパイル時エラーとなります。
 </p>
 <p>
-  Integer Literal  がshort Typeの変数に代入される場合,あるいはshort TypeのSubroutine Argumentsとして渡される場合で,short Typeで表現できる数値の範囲を超えていない場合は,<a href="#language-type-convertion-numeric-narrowing">数値縮小型変換</a>によって,short Typeに自動的に変換されます。範囲を超えている場合は,コンパイル時エラーとなります。
+  Integer Literal  がshort Typeの変数に代入される場合,あるいはshort TypeのSubroutine Argumentsとして渡される場合で,short Typeで表現できる数値の範囲を超えていない場合は,<a href="#language-type-convertion-numeric-narrowing">数値縮小Type Convertion</a>によって,short Typeに自動的に変換されます。範囲を超えている場合は,コンパイル時エラーとなります。
 </p>
 <p>
   Integer Literal  のExampleです。
@@ -4041,7 +4041,7 @@ package Foo::Bar {
  数値部を16進数を使って表現するときは"0x"から始めます。
 </p>
 <p>
-  その後ろに"0～9""a～f""A～F"のひとつ以上の連続した文字が続きます。
+  その後ろに"0～9""a～f""A～F"のひとつ以上の連続したStatement字が続きます。
 </p>
 <p>
   Invalid 16進数表現は,a compile-time error occurs
@@ -4066,7 +4066,7 @@ package Foo::Bar {
  数値部を8進数を使って表現するときは"0"から始めます。
 </p>
 <p>
-  その後ろに"0～7"のひとつ以上の連続した文字が続きます。
+  その後ろに"0～7"のひとつ以上の連続したStatement字が続きます。
 </p>
 <p>
   Invalid 8進数表現は,a compile-time error occurs
@@ -4090,7 +4090,7 @@ package Foo::Bar {
  数値部を2進数を使って表現するときは"0b"から始めます。
 </p>
 <p>
-  その後ろに"0"か"1"のひとつ以上の連続した文字が続きます。
+  その後ろに"0"か"1"のひとつ以上の連続したStatement字が続きます。
 </p>
 <p>
   Invalid 2進数表現は,a compile-time error occurs
@@ -4153,19 +4153,19 @@ package Foo::Bar {
   "指数部"の意味は"10進数Floating Point Literal "の場合は,10進数による桁移動,"16進数Floating Point Literal "の場合は,2進数による桁移動になります。
 </p>
 <p>
-  末尾に"f"あるいは"F"のサフィックスをつけると,Floating Point Literal の型は"float Type"になります。
+  末尾に"f"あるいは"F"のサフィックスをつけると,Floating Point Literal のTypeは"float Type"になります。
 </p>
 <p>
-  末尾に"d"あるいは"D"のサフィックスをつけると,Floating Point Literal の型は"double Type"になります。
+  末尾に"d"あるいは"D"のサフィックスをつけると,Floating Point Literal のTypeは"double Type"になります。
 </p>
 <p>
-  サフィックスが省略された場合は,Floating Point Literal の型は"double Type"になります。
+  サフィックスが省略された場合は,Floating Point Literal のTypeは"double Type"になります。
 </p>
 <p>
-  Floating Point Literal が"float Type"の場合はC標準の"strtof関数"を使って,文字列からfloat Typeへの変換が行われます。変換が失敗した場合は,a compile-time error occurs
+  Floating Point Literal が"float Type"の場合はC標準の"strtof関数"を使って,Stringからfloat Typeへの変換が行われます。変換が失敗した場合は,a compile-time error occurs
 </p>
 <p>
-  Floating Point Literal が"double Type"の場合はC標準の"strtod関数"を使って,文字列からdouble Typeへの変換が行われます。変換が失敗した場合は,a compile-time error occurs
+  Floating Point Literal が"double Type"の場合はC標準の"strtod関数"を使って,Stringからdouble Typeへの変換が行われます。変換が失敗した場合は,a compile-time error occurs
 </p>
 <p>
   無限大を表現するFloating Point Literal はありません。標準関数である"<a href="#stdfunc-INFINITY">INFINITY関数</a>""<a href="#stdfunc-INFINITYF">INFINITYF関数</a>"を使用してください。
@@ -4196,21 +4196,21 @@ package Foo::Bar {
   Chracter Literal は,シングルクォート"'"で囲まれます。
 </p>
 <p>
-  Chracter Literal の内容は"ひとつのAsciiの印字可能文字"あるいは"ひとつのエスケープ文字"です。
+  Chracter Literal の内容は"ひとつのAsciiの印字可能Statement字"あるいは"ひとつのエスケープStatement字"です。
 </p>
 <p>
-  Chracter Literal の型は"byte Type"になります。
+  Chracter Literal のTypeは"byte Type"になります。
 </p>
 <p>
   Invalid Chracter Literal の場合は,a compile-time error occurs
 </p>
 <p>
-  <b>エスケープ文字</b>
+  <b>エスケープStatement字</b>
 </p>
 <table class="toc">
   <tr>
     <th>
-      エスケープ文字
+      エスケープStatement字
     </th>
     <th>
       Description
@@ -4317,7 +4317,7 @@ package Foo::Bar {
 'a'
 'x'
 
-# エスケープ文字を使ったChracter Literal 
+# エスケープStatement字を使ったChracter Literal 
 '\a'
 '\b'
 '\t'
@@ -4336,21 +4336,21 @@ package Foo::Bar {
   String Literal は,ダブルクォート"""で囲まれます。
 </p>
 <p>
-  String Literal の内容は"0個以上のAsciiの印字可能文字あるいはエスケープ文字"です。
+  String Literal の内容は"0個以上のAsciiの印字可能Statement字あるいはエスケープStatement字"です。
 </p>
 <p>
-  String Literal の型は"string型"になります。
+  String Literal のTypeは"stringType"になります。
 </p>
 <p>
   Invalid String Literal の場合は,a compile-time error occurs
 </p>
 <p>
-  <b>エスケープ文字</b>
+  <b>エスケープStatement字</b>
 </p>
 <table class="toc">
   <tr>
     <th>
-      エスケープ文字
+      エスケープStatement字
     </th>
     <th>
       Description
@@ -4505,12 +4505,12 @@ package Foo::Bar {
       <b>\の後ろに"a～z""A～Z""0-9"""""'""\""$"以外のAscii Codeがきた場合</b>
     </td>
     <td>
-      Ascii Codeの92,アスキーコードで表現される文字の並び。たとえば"\-"の場合は"\-"。
+      Ascii Codeの92,アスキーコードで表現されるStatement字の並び。たとえば"\-"の場合は"\-"。
     </td>
   </tr>
 </table>
 <p>
-  Unicodeのコードポイントを指定するエスケープ文字以外は,<a href="#language-literal-character">Chracter Literal</a>のエスケープ文字と共通です。
+  Unicodeのコードポイントを指定するエスケープStatement字以外は,<a href="#language-literal-character">Chracter Literal</a>のエスケープStatement字と共通です。
 </p>
 <p>
   <b>String Literal のExample</b>
@@ -4523,7 +4523,7 @@ package Foo::Bar {
 "abc"
 "あいう"
 
-# エスケープ文字を使ったString Literal 
+# エスケープStatement字を使ったString Literal 
 "abc\tdef\n"
 "\x0D\x0A"
 "\N{U+3042}\N{U+3044}\N{U+3046}"
@@ -4531,7 +4531,7 @@ package Foo::Bar {
 
 <h3 id="language-literal-string-variable-expansion">Variable Expansion</h3>
 <p>
-  String Literal 中のLexical Variable ,Package Variable ,Dereference ,Fieldアクセス,定数の添え字の配列アクセス,例外変数の場合は,Variable Expansionが行われます。
+  String Literal 中のLexical Variable ,Package Variable ,Dereference ,Fieldアクセス,定数の添え字のArrayアクセス,例外変数の場合は,Variable Expansionが行われます。
 </p>
 <pre>
 "AAA $foo BBB"
@@ -4568,16 +4568,16 @@ package Foo::Bar {
 "AAA " . ${foo} . "_ccc BBB"
 </pre>
 <p>
-  "{"と"}"の囲みがない場合は,変数名としてValid 文字列までを変数として解釈します。Dereference の場合も同じです。
+  "{"と"}"の囲みがない場合は,変数名としてValid Stringまでを変数として解釈します。Dereference の場合も同じです。
 </p>
 <p>
-  変数名の後ろに"->"が続いた場合は,Fieldアクセス,あるいは,配列アクセスと解釈します。
+  変数名の後ろに"->"が続いた場合は,Fieldアクセス,あるいは,Arrayアクセスと解釈します。
 </p>
 <p>
-  1. その後ろに,続く文字が"a-z""A-Z""0-9""_""{""["であった場合は,解釈を進めます。
+  1. その後ろに,続くStatement字が"a-z""A-Z""0-9""_""{""["であった場合は,解釈を進めます。
 </p>
 <p>
-  2. "1."の後ろに続く文字が"}""]"であった場合は,その次の文字が"->""{""["であった場合は,解釈を進め,1に戻ります。otherwise 解釈を止めます。
+  2. "1."の後ろに続くStatement字が"}""]"であった場合は,その次のStatement字が"->""{""["であった場合は,解釈を進め,1に戻ります。otherwise 解釈を止めます。
 </p>
 <p>
   末尾の$はVariable Expansionの開始としては扱われず"$"として扱われます。
@@ -4586,9 +4586,9 @@ package Foo::Bar {
 "AAA$"
 </pre>
 
-<h2 id="language-string">文字列</h2>
+<h2 id="language-string">String</h2>
 <p>
-  SPVMの文字列のデータ表現は,byte Typeの配列です。特別な内部表現を持たない,単なるバイト列です。
+  SPVMのStringのデータ表現は,byte TypeのArrayです。特別な内部表現を持たない,単なるバイト列です。
 </p>
 <pre>
 my $string = new byte[3];
@@ -4597,13 +4597,13 @@ $string->[1] = 'b';
 $string->[2] = 'c';
 </pre>
 <p>
-  byte Typeの配列は,<a href="#language-type-string">String Type</a>に代入できます。String Typeは,コンパイル時には要素を変更できない型ですが,実行時はbyte Typeの配列になります。
+  byte TypeのArrayは,<a href="#language-type-string">String Type</a>に代入できます。String Typeは,コンパイル時には要素を変更できないTypeですが,実行時はbyte TypeのArrayになります。
 </p>
 <pre>
 my $string_const : string = $string;
 </pre>
 <p>
-  <a href="#language-literal-string">String Literal</a>を代入することによって,文字列を作成できます。String Literal を元にしたstring型の新しい文字列を返します。
+  <a href="#language-literal-string">String Literal</a>を代入することによって,Stringを作成できます。String Literal を元にしたstringTypeの新しいStringを返します。
 </p>
 <pre>
 my $string_const = "abc";
@@ -4620,32 +4620,32 @@ my $string_const = "abc";
 undef
 </pre>
 
-<h2 id="language-fat-comma">ファットカンマ</h2>
+<h2 id="language-fat-comma">Fat Comma</h2>
 <p>
-  ファットカンマは"=>"で表現されます。
+  Fat Commaは"=>"で表現されます。
 </p>
 <pre>
 =>
 </pre>
 <p>
-  ファットカンマは","のエイリアスです。","が使える場所ではいつでも代わりに,ファットカンマが使えます。
+  Fat Commaは","のエイリアスです。","が使える場所ではいつでも代わりに,Fat Commaが使えます。
 </p>
 <pre>
 # カンマ
 ["a", "b", "c", "d"]
 
-# カンマの代わりにファットカンマを使う
+# カンマの代わりにFat Commaを使う
 ["a" => "b", "c" => "d"]
 </pre>
 <p>
-  ファットカンマの左型に置かれたPackage Variable Name,Lexical Variable Name以外のIdentifierは,<a href="#language-literal-string">String Literal</a>として扱われます。
+  Fat Commaの左Typeに置かれたPackage Variable Name,Lexical Variable Name以外のIdentifierは,<a href="#language-literal-string">String Literal</a>として扱われます。
 </p>
 
 <pre>
-# カンマの代わりにファットカンマを使う
+# カンマの代わりにFat Commaを使う
 ["a" => "b", "c" => "d"]
 
-# ファットカンマの左型に置かれたIdentifierは,String Literal になる。上記と同じ意味
+# Fat Commaの左Typeに置かれたIdentifierは,String Literal になる。上記と同じ意味
 [a => "b", c => "d"]
 </pre>
 
@@ -4687,13 +4687,13 @@ undef
   <li><a href="#language-operator-logical-right-shift">Logical Right Shift Operator</a></li>
   <li><a href="#language-operator-comparison">比較Operator</a></li>
   <li><a href="#language-operator-comparison-numeric">数値比較Operator</a></li>
-  <li><a href="#language-operator-comparison-string">文字列比較Operator</a></li>
+  <li><a href="#language-operator-comparison-string">String比較Operator</a></li>
   <li><a href="#language-operator-isa">isa Operator</a></li>
   <li><a href="#language-operator-logical">論理Operator</a></li>
   <li><a href="#language-operator-logical-and">Logical AND Operator</a></li>
   <li><a href="#language-operator-logical-or">Logical OR Operator</a></li>
   <li><a href="#language-operator-logical-not">Logical NOT Operator</a></li>
-  <li><a href="#language-operator-concat">文字列連結Operator</a></li>
+  <li><a href="#language-operator-concat">String連結Operator</a></li>
   <li><a href="#language-operator-assign">Assignment Operator</a></li>
   <li><a href="#language-operator-assign-special">Special Assignment Operator</a></li>
   <li><a href="#language-operator-ref">Reference Operator</a></li>
@@ -4710,10 +4710,10 @@ undef
 
 <h3 id="language-operator-unary">Unary Operator  </h3>
 <p>
-  Unary Operator  とは,<a href="#language-expresssion">式</a>の前に置かれるOperator のことをいいます。
+  Unary Operator  とは,<a href="#language-expresssion">Expression</a>の前に置かれるOperator のことをいいます。
 </p>
 <pre>
-UNARY_OPERATOR 式
+UNARY_OPERATOR Expression
 </pre>
 <p>
   Unary Operator  には,<a href="#language-operator-unary-plus">Unary Plus Operator</a>,<a href="#language-operator-unary-minus">Unary Minus Operator</a>,<a href="#language-operator-bit-not">Bit NOT Operator</a>,<a href="#language-operator-logical-not">Logical NOT Operator</a>,<a href="#language-operator-array-legnth">Array Length Operator</a>,<a href="#language-operator-string-legnth">String Length Operator</a>があります。
@@ -4724,28 +4724,28 @@ UNARY_OPERATOR 式
 
 <h3 id="language-operator-binary">Binary Operator  </h3>
 <p>
-  Binary Operator  とは,Left ExpressionとRight Expressionの間に置かれるOperator のことをいいます。項については,<a href="#language-expresssion">式</a>を参考にしてください。
+  Binary Operator  とは,Left ExpressionとRight Expressionの間に置かれるOperator のことをいいます。項については,<a href="#language-expresssion">Expression</a>を参考にしてください。
 </p>
 <pre>
 Left Expression Binary Operator   Right Expression
 </pre>
 
 <p>
-  Binary Operator  には,<a href="#language-operator-add">Addition Operator</a>,<a href="#language-operator-subtract">Subtraction Operator</a>,<a href="#language-operator-multiply">Multiplication Operator</a>,<a href="#language-operator-divide">Division Operator</a>,<a href="#language-operator-remainder">Remainder Operator</a>,<a href="#language-operator-bit-and">Bit AND Operator</a>,<a href="#language-operator-bit-or">Bit OR Operator</a>,<a href="#language-operator-logical-and">Logical AND Operator</a>,<a href="#language-operator-logical-or">Logical OR Operator</a>,<a href="#language-operator-shift">Shift Operator</a>,<a href="#language-operator-concat">文字列連結Operator</a>があります。
+  Binary Operator  には,<a href="#language-operator-add">Addition Operator</a>,<a href="#language-operator-subtract">Subtraction Operator</a>,<a href="#language-operator-multiply">Multiplication Operator</a>,<a href="#language-operator-divide">Division Operator</a>,<a href="#language-operator-remainder">Remainder Operator</a>,<a href="#language-operator-bit-and">Bit AND Operator</a>,<a href="#language-operator-bit-or">Bit OR Operator</a>,<a href="#language-operator-logical-and">Logical AND Operator</a>,<a href="#language-operator-logical-or">Logical OR Operator</a>,<a href="#language-operator-shift">Shift Operator</a>,<a href="#language-operator-concat">String連結Operator</a>があります。
 </p>
 
 <h3 id="language-operator-sequential">Sequential Operator </h3>
 <p>
-  Sequential Operator とは,複数の<a href="#language-expression">式</a>を並べて記述でき,最後の値を返すOperator のことです。
+  Sequential Operator とは,複数の<a href="#language-expression">Expression</a>を並べて記述でき,最後の値を返すOperator のことです。
 </p>
 <pre>
-(式1, 式2, 式3)
+(Expression1, Expression2, Expression3)
 </pre>
 <p>
-  式は左から実行されます。最後の値が返されます。
+  Expressionは左から実行されます。最後の値が返されます。
 <p>
 <p>
-  Sequential Operator は<a href="#language-expression">式</a>を返します。
+  Sequential Operator は<a href="#language-expression">Expression</a>を返します。
 </p>
 <p>
   <b>Sequential Operator のExample</b>
@@ -4775,22 +4775,22 @@ my $ret = ($x += 2, $x + $y);
   Unary Plus Operator は"+"で表現される<a href="#language-operator-unary">Unary Operator</a>です。
 </p>
 <pre>
-+式
++Expression
 </pre>
 <p>
-  式は<a href="#language-type-numeric">Numeric Type</a>でなければなりません。otherwise a compile-time error occurs.
+  Expressionは<a href="#language-type-numeric">Numeric Type</a>でなければなりません。otherwise a compile-time error occurs.
 </p>
 <p>
-  <a href="#language-expression">式</a>に対して,<a href="#language-type-convertion-unary-numeric-widening">単項数値拡大型変換</a>が行われます。
+  <a href="#language-expression">Expression</a>に対して,<a href="#language-type-convertion-unary-numeric-widening">単項数値拡大Type Convertion</a>が行われます。
 </p>
 <p>
   その後,Unary Plus Operator は,与えられた値をコピーして返します。
 </p>
 <p>
-  Unary Plus Operator は<a href="#language-expression">式</a>を返します。
+  Unary Plus Operator は<a href="#language-expression">Expression</a>を返します。
 </p>
 <p>
-  Unary Plus Operator のReturn Valueの型は,<a href="#language-type-convertion-unary-numeric-widening">単項数値拡大型変換</a>された型です。
+  Unary Plus Operator のReturn ValueのTypeは,<a href="#language-type-convertion-unary-numeric-widening">単項数値拡大Type Convertion</a>されたTypeです。
 </p>
 <p>
   Unary Plus Operator は例外を発生させません。
@@ -4806,25 +4806,25 @@ my $num = +10;
   Unary Minus Operator は"-"で表現される<a href="#language-operator-unary">Unary Operator</a>です。
 </p>
 <pre>
--式
+-Expression
 </pre>
 <p>
-  式は<a href="#language-type-numeric">Numeric Type</a>でなければなりません。otherwise a compile-time error occurs.
+  Expressionは<a href="#language-type-numeric">Numeric Type</a>でなければなりません。otherwise a compile-time error occurs.
 </p>
 <p>
-  <a href="#language-expression">式</a>に対して,<a href="#language-type-convertion-unary-numeric-widening">単項数値拡大型変換</a>が行われます。
+  <a href="#language-expression">Expression</a>に対して,<a href="#language-type-convertion-unary-numeric-widening">単項数値拡大Type Convertion</a>が行われます。
 </p>
 <p>
-  その後,Unary Minus Operator は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99との型の対応</a>に応じた,int Type ,long Type,float Type,double Typeにおける演算が定義されます。
+  その後,Unary Minus Operator は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,int Type ,long Type,float Type,double Typeにおける演算が定義されます。
 </p>
 <pre>
 -x
 </pre>
 <p>
-  Unary Minus Operator は<a href="#language-expression">式</a>を返します。
+  Unary Minus Operator は<a href="#language-expression">Expression</a>を返します。
 </p>
 <p>
-  Unary Minus Operator のReturn Valueの型は,<a href="#language-type-convertion-unary-numeric-widening">単項数値拡大型変換</a>された型です。
+  Unary Minus Operator のReturn ValueのTypeは,<a href="#language-type-convertion-unary-numeric-widening">単項数値拡大Type Convertion</a>されたTypeです。
 </p>
 <p>
   Unary Minus Operator は例外を発生させません。
@@ -4846,19 +4846,19 @@ Left Expression + Right Expression
   Left ExpressionとRight Expressionは,<a href="#language-type-numeric">Numeric Type</a>でなければなりません。otherwise a compile-time error occurs.
 <p>
 <p>
-  Left ExpressionとRight Expressionに対して,<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大型変換</a>が行われます。
+  Left ExpressionとRight Expressionに対して,<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大Type Convertion</a>が行われます。
 </p>
 <p>
-  その後,Addition Operator は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99との型の対応</a>に応じた,int Type ,long Type,float Type,double Typeにおける演算が定義されます。
+  その後,Addition Operator は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,int Type ,long Type,float Type,double Typeにおける演算が定義されます。
 </p>
 <pre>
 x + y;
 </pre>
 <p>
-  Addition Operator は<a href="#language-expression">式</a>を返します。
+  Addition Operator は<a href="#language-expression">Expression</a>を返します。
 </p>
 <p>
-  Addition Operator のReturn Valueの型は,<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大型変換</a>された型です。
+  Addition Operator のReturn ValueのTypeは,<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大Type Convertion</a>されたTypeです。
 </p>
 <p>
   Addition Operator は,例外を発生させません。
@@ -4874,19 +4874,19 @@ Left Expression - Right Expression
   Left ExpressionとRight Expressionは,<a href="#language-type-numeric">Numeric Type</a>でなければなりません。otherwise a compile-time error occurs.
 <p>
 <p>
-  Left ExpressionとRight Expressionに対して,<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大型変換</a>が行われます。
+  Left ExpressionとRight Expressionに対して,<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大Type Convertion</a>が行われます。
 </p>
 <p>
-  その後,Subtraction Operator は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99との型の対応</a>に応じた,int Type ,long Type,float Type,double Typeにおける演算が定義されます。
+  その後,Subtraction Operator は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,int Type ,long Type,float Type,double Typeにおける演算が定義されます。
 </p>
 <pre>
 x - y;
 </pre>
 <p>
-  Subtraction Operator は<a href="#language-expression">式</a>を返します。
+  Subtraction Operator は<a href="#language-expression">Expression</a>を返します。
 </p>
 <p>
-  Subtraction Operator のReturn Valueの型は,<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大型変換</a>された型です。
+  Subtraction Operator のReturn ValueのTypeは,<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大Type Convertion</a>されたTypeです。
 </p>
 <p>
   Subtraction Operator は,例外を発生させません。
@@ -4902,19 +4902,19 @@ Left Expression * Right Expression
   Left ExpressionとRight Expressionは,<a href="#language-type-numeric">Numeric Type</a>でなければなりません。otherwise a compile-time error occurs.
 <p>
 <p>
-  Left ExpressionとRight Expressionに対して,<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大型変換</a>が行われます。
+  Left ExpressionとRight Expressionに対して,<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大Type Convertion</a>が行われます。
 </p>
 <p>
-  その後,Multiplication Operator は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99との型の対応</a>に応じた,int Type ,long Type,float Type,double Typeにおける演算が定義されます。
+  その後,Multiplication Operator は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,int Type ,long Type,float Type,double Typeにおける演算が定義されます。
 </p>
 <pre>
 x * y;
 </pre>
 <p>
-  Multiplication Operator は<a href="#language-expression">式</a>を返します。
+  Multiplication Operator は<a href="#language-expression">Expression</a>を返します。
 </p>
 <p>
-  Multiplication Operator のReturn Valueの型は,<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大型変換</a>された型です。
+  Multiplication Operator のReturn ValueのTypeは,<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大Type Convertion</a>されたTypeです。
 </p>
 <p>
   Multiplication Operator は,例外を発生させません。
@@ -4930,19 +4930,19 @@ Left Expression / Right Expression
   Left ExpressionとRight Expressionは,<a href="#language-type-numeric">Numeric Type</a>でなければなりません。otherwise a compile-time error occurs.
 <p>
 <p>
-  Left ExpressionとRight Expressionに対して,<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大型変換</a>が行われます。
+  Left ExpressionとRight Expressionに対して,<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大Type Convertion</a>が行われます。
 </p>
 <p>
-  その後,Division Operator は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99との型の対応</a>に応じた,int Type ,long Type,float Type,double Typeにおける演算が定義されます。
+  その後,Division Operator は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,int Type ,long Type,float Type,double Typeにおける演算が定義されます。
 </p>
 <pre>
 x / y;
 </pre>
 <p>
-  Division Operator は<a href="#language-expression">式</a>を返します。
+  Division Operator は<a href="#language-expression">Expression</a>を返します。
 </p>
 <p>
-  Division Operator のReturn Valueの型は,<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大型変換</a>された型です。
+  Division Operator のReturn ValueのTypeは,<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大Type Convertion</a>されたTypeです。
 </p>
 <p>
   Integral Typeに対する演算の場合には,Division Operator は,右辺が0であった場合に,例外が発生します。
@@ -4962,19 +4962,19 @@ Left Expression % Right Expression
   Left ExpressionとRight Expressionは,<a href="#language-type-integral">Integral Type</a>でなければなりません。otherwise a compile-time error occurs.
 <p>
 <p>
-  Left ExpressionとRight Expressionに対して,<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大型変換</a>が行われます。
+  Left ExpressionとRight Expressionに対して,<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大Type Convertion</a>が行われます。
 </p>
 <p>
-  その後,Remainder Operator は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99との型の対応</a>に応じた,int Type ,long Typeにおける演算が定義されます。
+  その後,Remainder Operator は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,int Type ,long Typeにおける演算が定義されます。
 </p>
 <pre>
 x % y;
 </pre>
 <p>
-  Remainder Operator は<a href="#language-expression">式</a>を返します。
+  Remainder Operator は<a href="#language-expression">Expression</a>を返します。
 </p>
 <p>
-  Remainder Operator のReturn Valueの型は,<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大型変換</a>された型です。
+  Remainder Operator のReturn ValueのTypeは,<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大Type Convertion</a>されたTypeです。
 </p>
 <p>
   Remainder Operator は,右辺が0であった場合に,例外が発生します。
@@ -5003,7 +5003,7 @@ Dereference ++
   Increment Operator の対象は,<a href="#language-lex-var">Lexical Variable</a>,<a href="#language-package-var">Package Variable</a>,<a href="#language-field-access">Field Access</a>,<a href="#language-array-access">Array Access</a>,<a href="#language-deref">Dereference</a>でなければなりません。otherwise a compile-time error occurs.
 </p>
 <p>
-  Increment Operator の対象の型は,<a href="#language-type-numeric">Numeric Type</a>でなければなりません。otherwise コンパイルエラーが発生します。
+  Increment Operator の対象のTypeは,<a href="#language-type-numeric">Numeric Type</a>でなければなりません。otherwise コンパイルエラーが発生します。
 </p>
 <p>
   <b>前置のIncrement Operator </b>
@@ -5012,13 +5012,13 @@ Dereference ++
   前置のIncrement Operator は,インクリメントを行った後に,インクリメントされた値を返します。
 </p>
 <p>
-  前置のIncrement Operator は,次の式と等価です。対象に1が加算された後に,元の型で型キャストが行われ,対象に代入されます。
+  前置のIncrement Operator は,次のExpressionと等価です。対象に1が加算された後に,元のTypeでTypeキャストが行われ,対象に代入されます。
 </p>
 <pre>
-(対象 = (型キャスト)(対象 + 1))
+(対象 = (Typeキャスト)(対象 + 1))
 </pre>
 <p>
-  たとえば,byte Typeの値の前置のインクリメントは,次の式と等価です。
+  たとえば,byte Typeの値の前置のインクリメントは,次のExpressionと等価です。
 </p>
 
 <pre>
@@ -5031,13 +5031,13 @@ Dereference ++
   後置のIncrement Operator は,インクリメントを行った後に,インクリメントする前の値を返します。
 </p>
 <p>
-  後置のIncrement Operator は,Sequential Operator を使った,次の式と等価です。対象が一時変数に保存され,対象に1が足された後に,元の型で型キャストが行われ,対象に代入されます。その後,一時変数が返されます。
+  後置のIncrement Operator は,Sequential Operator を使った,次のExpressionと等価です。対象が一時変数に保存され,対象に1が足された後に,元のTypeでTypeキャストが行われ,対象に代入されます。その後,一時変数が返されます。
 </p>
 <pre>
-(my 一時変数 = 対象, 対象 = (型キャスト)(対象 + 1), 一時変数)
+(my 一時変数 = 対象, 対象 = (Typeキャスト)(対象 + 1), 一時変数)
 </pre>
 <p>
-  たとえば,byte Typeの値の後置のインクリメントは,次の式と等価です。
+  たとえば,byte Typeの値の後置のインクリメントは,次のExpressionと等価です。
 </p>
 
 <pre>
@@ -5067,7 +5067,7 @@ Dereference --
   Decrement Operator の対象は,<a href="#language-lex-var">Lexical Variable</a>,<a href="#language-package-var">Package Variable</a>,<a href="#language-field-access">Field Access</a>,<a href="#language-array-access">Array Access</a>,<a href="#language-deref">Dereference</a>でなければなりません。otherwise a compile-time error occurs.
 </p>
 <p>
-  Decrement Operator の対象の型は,<a href="#language-type-numeric">Numeric Type</a>でなければなりません。otherwise コンパイルエラーが発生します。
+  Decrement Operator の対象のTypeは,<a href="#language-type-numeric">Numeric Type</a>でなければなりません。otherwise コンパイルエラーが発生します。
 </p>
 <p>
   <b>Pre Decrement Operator </b>
@@ -5076,13 +5076,13 @@ Dereference --
   Pre Decrement Operator は,デクリメントを行った後に,デクリメントされた値を返します。
 </p>
 <p>
-  Pre Decrement Operator は,次の式と等価です。対象に1が減算された後に,元の型で型キャストが行われ,対象に代入されます。
+  Pre Decrement Operator は,次のExpressionと等価です。対象に1が減算された後に,元のTypeでTypeキャストが行われ,対象に代入されます。
 </p>
 <pre>
-(対象 = (型キャスト)(対象 - 1))
+(対象 = (Typeキャスト)(対象 - 1))
 </pre>
 <p>
-  たとえば,byte Typeの値の前置のデクリメントは,次の式と等価です。
+  たとえば,byte Typeの値の前置のデクリメントは,次のExpressionと等価です。
 </p>
 
 <pre>
@@ -5095,13 +5095,13 @@ Dereference --
   Post Decrement Operator は,デクリメントを行った後に,デクリメントする前の値を返します。
 </p>
 <p>
-  Post Decrement Operator は,Sequential Operator を使った,次の式と等価です。対象が一時変数に保存され,対象に1が足された後に,元の型で型キャストが行われ,対象に代入されます。その後,一時変数が返されます。
+  Post Decrement Operator は,Sequential Operator を使った,次のExpressionと等価です。対象が一時変数に保存され,対象に1が足された後に,元のTypeでTypeキャストが行われ,対象に代入されます。その後,一時変数が返されます。
 </p>
 <pre>
-(my 一時変数 = 対象, 対象 = (型キャスト)(対象 - 1), 一時変数)
+(my 一時変数 = 対象, 対象 = (Typeキャスト)(対象 - 1), 一時変数)
 </pre>
 <p>
-  たとえば,byte Typeの値の後置のデクリメントは,次の式と等価です。
+  たとえば,byte Typeの値の後置のデクリメントは,次のExpressionと等価です。
 </p>
 
 <pre>
@@ -5124,19 +5124,19 @@ Left Expression & Right Expression
   Left ExpressionとRight Expressionは,<a href="#language-type-integral">Integral Type</a>でなければなりません。otherwise a compile-time error occurs.
 <p>
 <p>
-  Left ExpressionとRight Expressionに対して,<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大型変換</a>が行われます。
+  Left ExpressionとRight Expressionに対して,<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大Type Convertion</a>が行われます。
 </p>
 <p>
-  その後,Bit AND Operator の演算結果は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99との型の対応</a>に応じた,int Type ,long Typeにおける演算が定義されます。
+  その後,Bit AND Operator の演算結果は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,int Type ,long Typeにおける演算が定義されます。
 </p>
 <pre>
 x & y;
 </pre>
 <p>
-  Bit AND Operator は<a href="#language-expression">式</a>を返します。
+  Bit AND Operator は<a href="#language-expression">Expression</a>を返します。
 </p>
 <p>
-  Bit AND Operator のReturn Valueの型は,<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大型変換</a>された型です。
+  Bit AND Operator のReturn ValueのTypeは,<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大Type Convertion</a>されたTypeです。
 </p>
 <p>
   Bit AND Operator は,例外を発生させません。
@@ -5153,19 +5153,19 @@ Left Expression | Right Expression
   Left ExpressionとRight Expressionは,<a href="#language-type-integral">Integral Type</a>でなければなりません。otherwise a compile-time error occurs.
 <p>
 <p>
-  Left ExpressionとRight Expressionに対して,<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大型変換</a>が行われます。
+  Left ExpressionとRight Expressionに対して,<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大Type Convertion</a>が行われます。
 </p>
 <p>
-  その後,Bit OR Operator の演算結果は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99との型の対応</a>に応じた,int Type ,long Typeにおける演算が定義されます。
+  その後,Bit OR Operator の演算結果は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,int Type ,long Typeにおける演算が定義されます。
 </p>
 <pre>
 x | y;
 </pre>
 <p>
-  Bit OR Operator は<a href="#language-expression">式</a>を返します。
+  Bit OR Operator は<a href="#language-expression">Expression</a>を返します。
 </p>
 <p>
-  Bit OR Operator のReturn Valueの型は,<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大型変換</a>された型です。
+  Bit OR Operator のReturn ValueのTypeは,<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大Type Convertion</a>されたTypeです。
 </p>
 <p>
   Bit OR Operator は,例外を発生させません。
@@ -5176,25 +5176,25 @@ x | y;
   Bit NOT Operator は"~"で表現される<a href="#language-operator-unary">Unary Operator</a>です。
 </p>
 <pre>
-~式
+~Expression
 </pre>
 <p>
-  式は<a href="#language-type-integral">Integral Type</a>でなければなりません。otherwise a compile-time error occurs.
+  Expressionは<a href="#language-type-integral">Integral Type</a>でなければなりません。otherwise a compile-time error occurs.
 </p>
 <p>
-  <a href="#language-expression">式</a>に対して,<a href="#language-type-convertion-unary-numeric-widening">単項数値拡大型変換</a>が行われます。
+  <a href="#language-expression">Expression</a>に対して,<a href="#language-type-convertion-unary-numeric-widening">単項数値拡大Type Convertion</a>が行われます。
 </p>
 <p>
-  その後,Bit NOT Operator の演算結果は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99との型の対応</a>に応じた,int Type ,long Typeにおける演算が定義されます。
+  その後,Bit NOT Operator の演算結果は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,int Type ,long Typeにおける演算が定義されます。
 </p>
 <pre>
 ~x
 </pre>
 <p>
-  Bit NOT Operator は<a href="#language-expression">式</a>を返します。
+  Bit NOT Operator は<a href="#language-expression">Expression</a>を返します。
 </p>
 <p>
-  Bit NOT Operator のReturn Valueの型は,<a href="#language-type-convertion-unary-numeric-widening">単項数値拡大型変換</a>された型です。
+  Bit NOT Operator のReturn ValueのTypeは,<a href="#language-type-convertion-unary-numeric-widening">単項数値拡大Type Convertion</a>されたTypeです。
 </p>
 <p>
   Bit NOT Operator は例外を発生させません。
@@ -5221,19 +5221,19 @@ Left Expression << Right Expression
   Left Expressionは,<a href="#language-type-integral">Integral Type</a>でなければなりません。otherwise a compile-time error occurs.
 <p>
 <p>
-  最初に<a href="#language-expression">Left Expression</a>に対して,<a href="#language-type-convertion-unary-numeric-widening">単項数値拡大型変換</a>が行われます。
+  最初に<a href="#language-expression">Left Expression</a>に対して,<a href="#language-type-convertion-unary-numeric-widening">単項数値拡大Type Convertion</a>が行われます。
 </p>
 <p>
   Right Expressionは,int Type でなければなりません。otherwise a compile-time error occurs.
 <p>
 <p>
-  Left Shift Operator の演算結果は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99との型の対応</a>に応じた,int Type ,long Typeにおける演算が定義されます。
+  Left Shift Operator の演算結果は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,int Type ,long Typeにおける演算が定義されます。
 </p>
 <pre>
 x << y;
 </pre>
 <p>
-  Left Shift Operator は<a href="#language-expression">式</a>を返します。
+  Left Shift Operator は<a href="#language-expression">Expression</a>を返します。
 </p>
 <p>
   Left Shift Operator は,例外を発生させません。
@@ -5250,19 +5250,19 @@ Left Expression >> Right Expression
   Left Expressionは,<a href="#language-type-integral">Integral Type</a>でなければなりません。otherwise a compile-time error occurs.
 <p>
 <p>
-  最初に<a href="#language-expression">Left Expression</a>に対して,<a href="#language-type-convertion-unary-numeric-widening">単項数値拡大型変換</a>が行われます。
+  最初に<a href="#language-expression">Left Expression</a>に対して,<a href="#language-type-convertion-unary-numeric-widening">単項数値拡大Type Convertion</a>が行われます。
 </p>
 <p>
   Right Expressionは,int Type でなければなりません。otherwise a compile-time error occurs.
 <p>
 <p>
-  Arithmetic Right Shift Operator の演算結果は,C99におけるthe following 演算と完全に一致する演算を行います。xに対して,<a href="#language-c99-type">C99との型の対応</a>に応じた,int Type ,long Typeにおける演算が定義されます。
+  Arithmetic Right Shift Operator の演算結果は,C99におけるthe following 演算と完全に一致する演算を行います。xに対して,<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,int Type ,long Typeにおける演算が定義されます。
 </p>
 <pre>
 x >> y;
 </pre>
 <p>
-  Arithmetic Right Shift Operator は<a href="#language-expression">式</a>を返します。
+  Arithmetic Right Shift Operator は<a href="#language-expression">Expression</a>を返します。
 </p>
 <p>
   Arithmetic Right Shift Operator は,例外を発生させません。
@@ -5279,19 +5279,19 @@ Left Expression >>> Right Expression
   Left Expressionは,<a href="#language-type-integral">Integral Type</a>でなければなりません。otherwise a compile-time error occurs.
 <p>
 <p>
-  最初に<a href="#language-expression">Left Expression</a>に対して,<a href="#language-type-convertion-unary-numeric-widening">単項数値拡大型変換</a>が行われます。
+  最初に<a href="#language-expression">Left Expression</a>に対して,<a href="#language-type-convertion-unary-numeric-widening">単項数値拡大Type Convertion</a>が行われます。
 </p>
 <p>
   Right Expressionは,int Type でなければなりません。otherwise a compile-time error occurs.
 <p>
 <p>
-  Logical Right Shift Operator の演算結果は,C99におけるthe following 演算と完全に一致する演算を行います。xに対して,<a href="#language-c99-type">C99との型の対応</a>に応じた,int Type ,long Typeにおける演算が定義されます。
+  Logical Right Shift Operator の演算結果は,C99におけるthe following 演算と完全に一致する演算を行います。xに対して,<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,int Type ,long Typeにおける演算が定義されます。
 </p>
 <pre>
 (符号付Integral Typeキャスト)((符号なしIntegral Typeキャスト)x >> y);
 </pre>
 <p>
-  Logical Right Shift Operator は<a href="#language-expression">式</a>を返します。
+  Logical Right Shift Operator は<a href="#language-expression">Expression</a>を返します。
 </p>
 <p>
   Logical Right Shift Operator は,例外を発生させません。
@@ -5299,18 +5299,18 @@ Left Expression >>> Right Expression
 
 <h3 id="language-operator-comparison">比較Operator </h3>
 <p>
-  比較Operator とは,Left ExpressionとRight Expressionの間に置かれるOperator で,<a href="#language-expression">式</a>を返すOperator のことをいいます。
+  比較Operator とは,Left ExpressionとRight Expressionの間に置かれるOperator で,<a href="#language-expression">Expression</a>を返すOperator のことをいいます。
 </p>
 <pre>
 Left Expression 比較Operator  Right Expression
 </pre>
 <p>
-  比較Operator には,<a href="#language-operator-comparison-numeric">数値比較Operator</a>,<a href="#language-operator-comparison-string">文字列比較Operator</a>,isa Operator があります。
+  比較Operator には,<a href="#language-operator-comparison-numeric">数値比較Operator</a>,<a href="#language-operator-comparison-string">String比較Operator</a>,isa Operator があります。
 </p>
 
 <h3 id="language-operator-comparison-numeric">数値比較Operator </h3>
 <p>
-  数値比較Operator とは,数値あるいはオブジェクトのアドレスを比較するために,Left ExpressionとRight Expressionの間に置かれるOperator で,<a href="#language-expression">式</a>を返すOperator のことをいいます。
+  数値比較Operator とは,数値あるいはオブジェクトのアドレスを比較するために,Left ExpressionとRight Expressionの間に置かれるOperator で,<a href="#language-expression">Expression</a>を返すOperator のことをいいます。
 </p>
 <pre>
 Left Expression 数値比較Operator  Right Expression
@@ -5321,7 +5321,7 @@ Left Expression 数値比較Operator  Right Expression
 <table>
   <tr>
     <th>Operator </th>
-    <th>比較可能な型</th>
+    <th>比較可能なType</th>
     <th>解説</th>
   </tr>
   <tr>
@@ -5392,13 +5392,13 @@ Left Expression 数値比較Operator  Right Expression
   </tr>
 </table>
 <p>
-  左辺と右辺の型は,比較可能な型でなければなりません。otherwise a compile-time error occurs.
+  左辺と右辺のTypeは,比較可能なTypeでなければなりません。otherwise a compile-time error occurs.
 </p>
 <p>
-  Numeric Typeの比較の場合は,Left ExpressionとRight Expressionに対して,<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大型変換</a>が行われます。
+  Numeric Typeの比較の場合は,Left ExpressionとRight Expressionに対して,<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大Type Convertion</a>が行われます。
 </p>
 <p>
-  その後,数値比較Operator は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99との型の対応</a>に応じた,int Type ,long Type,float Type,double Type,Object Type における演算が定義されます。
+  その後,数値比較Operator は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,int Type ,long Type,float Type,double Type,Object Type における演算が定義されます。
 </p>
 <pre>
 # Numeric Typeの比較,Object Type の比較
@@ -5412,24 +5412,24 @@ Left Expression 数値比較Operator  Right Expression
 (int32_t)(x <= y);
 </pre>
 <p>
-  数値比較Operator のReturn Valueの型は,int Type です。
+  数値比較Operator のReturn ValueのTypeは,int Type です。
 </p>
 <p>
   数値比較Operator は,例外を発生させません。
 </p>
 
-<h3 id="language-operator-comparison-string">文字列比較Operator </h3>
+<h3 id="language-operator-comparison-string">String比較Operator </h3>
 <p>
-  文字列比較Operator とは,文字列を比較するために,Left ExpressionとRight Expressionの間に置かれるOperator で,<a href="#language-expression">式</a>を返すOperator のことをいいます。
+  String比較Operator とは,Stringを比較するために,Left ExpressionとRight Expressionの間に置かれるOperator で,<a href="#language-expression">Expression</a>を返すOperator のことをいいます。
 </p>
 <pre>
-Left Expression 文字列比較Operator  Right Expression
+Left Expression String比較Operator  Right Expression
 </pre>
 <p>
   Left ExpressionとRight Expressionは,<a href="#language-type-string-compatible">String Compatible Type</a>でなければなりません。
 </p>
 <p>
-  文字列比較Operator の一覧です。
+  String比較Operator の一覧です。
 </p>
 <table>
   <tr>
@@ -5457,7 +5457,7 @@ Left Expression 文字列比較Operator  Right Expression
       Left Expression gt Right Expression
     </td>
     <td>
-      Left ExpressionはRight Expressionより辞書式順序で比較して大きい
+      Left ExpressionはRight Expressionより辞書Expression順序で比較して大きい
     </td>
   </tr>
   <tr>
@@ -5465,7 +5465,7 @@ Left Expression 文字列比較Operator  Right Expression
       Left Expression ge Right Expression
     </td>
     <td>
-      Left ExpressionはRight Expressionより辞書式順序で比較して大きいまたは等しい
+      Left ExpressionはRight Expressionより辞書Expression順序で比較して大きいまたは等しい
     </td>
   </tr>
   <tr>
@@ -5473,7 +5473,7 @@ Left Expression 文字列比較Operator  Right Expression
       Left Expression lt Right Expression
     </td>
     <td>
-      Left ExpressionはRight Expressionより辞書式順序で比較して小さい
+      Left ExpressionはRight Expressionより辞書Expression順序で比較して小さい
     </td>
   </tr>
   <tr>
@@ -5481,34 +5481,34 @@ Left Expression 文字列比較Operator  Right Expression
       Left Expression le Right Expression
     </td>
     <td>
-      Left ExpressionはRight Expressionより辞書式順序で比較して小さいまたは等しい
+      Left ExpressionはRight Expressionより辞書Expression順序で比較して小さいまたは等しい
     </td>
   </tr>
 </table>
 <p>
-  文字列比較Operator のReturn Valueの型は,int Type です。条件が満たされた場合は1を,そうでない場合は0を返します。
+  String比較Operator のReturn ValueのTypeは,int Type です。条件が満たされた場合は1を,そうでない場合は0を返します。
 </p>
 <h3 id="language-operator-isa">isa Operator </h3>
 <p>
-  数値比較Operator とは,数値あるいはオブジェクトのアドレスを比較するために,Left ExpressionとRight Expressionの間に置かれるOperator で,<a href="#language-expression">式</a>を返すOperator のことをいいます。
+  数値比較Operator とは,数値あるいはオブジェクトのアドレスを比較するために,Left ExpressionとRight Expressionの間に置かれるOperator で,<a href="#language-expression">Expression</a>を返すOperator のことをいいます。
 </p>
 <p>
-  isa Operator とはは,型の適合性をチェックするためのOperator で,<a href="#language-expression">式</a>を返します。
+  isa Operator とはは,Typeの適合性をチェックするためのOperator で,<a href="#language-expression">Expression</a>を返します。
 </p>
 <pre>
-Left Expression isa 右型
+Left Expression isa 右Type
 </pre>
 <p>
-  isa Operator は,右型に応じて,3種類の動作をします。
+  isa Operator は,右Typeに応じて,3種類の動作をします。
 </p>
 <p>
-  1. 右型が,<a href="#language-type-numeric">Numeric Type</a>,<a href="#language-type-multi-numeric">Multi Numeric Type</a>,<a href="#language-type-any-object">Any Object Type</a>,<a href="#language-type-ref">Reference Type</a>の場合は,コンパイル時にLeft Expressionの型が右型と同一のものであるかをチェックします。同一であった場合はint Type で1を,そうでない場合は0を返します。
+  1. 右Typeが,<a href="#language-type-numeric">Numeric Type</a>,<a href="#language-type-multi-numeric">Multi Numeric Type</a>,<a href="#language-type-any-object">Any Object Type</a>,<a href="#language-type-ref">Reference Type</a>の場合は,コンパイル時にLeft ExpressionのTypeが右Typeと同一のものであるかをチェックします。同一であった場合はint Type で1を,そうでない場合は0を返します。
 </p>
 <p>
-  2. 右型が,<a href="#language-type-class">Class Type</a>であった場合は,実行時にLeft Expressionの型が,Class Typeと一致するかをチェックします。一致した場合はint Type で1を,そうでない場合は0を返します。Left Expressionの型は,Object Type でなければなりません。otherwise a compile-time error occurs.
+  2. 右Typeが,<a href="#language-type-class">Class Type</a>であった場合は,実行時にLeft ExpressionのTypeが,Class Typeと一致するかをチェックします。一致した場合はint Type で1を,そうでない場合は0を返します。Left ExpressionのTypeは,Object Type でなければなりません。otherwise a compile-time error occurs.
 </p>
 <p>
-  3. 右型が,<a href="#language-type-callback">Callback Type</a>であった場合は,実行時にLeft Expressionの型がClass Typeであり,そのクラスがCallback Typeを満たすかどうかをチェックします。満たした場合はint Type の1を,そうでない場合は0を返します。Left Expressionの型は,Object Type でなければなりません。otherwise a compile-time error occurs.
+  3. 右Typeが,<a href="#language-type-callback">Callback Type</a>であった場合は,実行時にLeft ExpressionのTypeがClass Typeであり,そのクラスがCallback Typeを満たすかどうかをチェックします。満たした場合はint Type の1を,そうでない場合は0を返します。Left ExpressionのTypeは,Object Type でなければなりません。otherwise a compile-time error occurs.
 </p>
 
 <h3 id="language-operator-logical">論理Operator </h3>
@@ -5516,33 +5516,33 @@ Left Expression isa 右型
   論理Operator は,論理演算を行うOperator のことで,><a href="#language-operator-logical-and">Logical AND Operator</a>,<a href="#language-operator-logical-or">Logical OR Operator</a>,<a href="#language-operator-logical-not">Logical NOT Operator</a>からなります。
 </p>
 <p>
-  論理Operator は,<a href="#language-expression">式</a>を返します。
+  論理Operator は,<a href="#language-expression">Expression</a>を返します。
 </p>
 
 <h3 id="language-operator-logical-and">Logical AND Operator </h3>
 <p>
-  Logical AND Operator とは,Logical AND演算を行うために,"&&"で表現される,<a href="#language-expresssion">式</a>をオペランドとする<a href="#language-operator-binary">Binary Operator</a>です。
+  Logical AND Operator とは,Logical AND演算を行うために,"&&"で表現される,<a href="#language-expresssion">Expression</a>をオペランドとする<a href="#language-operator-binary">Binary Operator</a>です。
 </p>
 <pre>
 Left Expression && Right Expression
 </pre>
 <p>
-  Logical AND Operator のReturn Valueの型は,int Type です。
+  Logical AND Operator のReturn ValueのTypeは,int Type です。
 </p>
 <p>
   Logical AND Operator は次のように動作します。
 </p>
 <p>
-  1. Left Expressionに<a href="#language-type-convertion-bool">ブール型変換</a>を実行します。
+  1. Left Expressionに<a href="#language-type-convertion-bool">ブールType Convertion</a>を実行します。
 </p>
 <p>
-  2. Left Expressionの値が0以外であれば,Right Expressionに対して,<a href="#language-type-convertion-bool">ブール型変換</a>を実行し,その値を返します。
+  2. Left Expressionの値が0以外であれば,Right Expressionに対して,<a href="#language-type-convertion-bool">ブールType Convertion</a>を実行し,その値を返します。
 </p>
 <p>
   3. Left Expressionの値が0であれば,その値を返します。
 </p>
 <p>
-  Logical AND Operator は<a href="#language-expression">式</a>を返します。
+  Logical AND Operator は<a href="#language-expression">Expression</a>を返します。
 </p>
 <p>
   Logical AND Operator は,例外を発生させません。
@@ -5550,7 +5550,7 @@ Left Expression && Right Expression
 
 <h3 id="language-operator-logical-and">Logical OR Operator </h3>
 <p>
-  Logical OR Operator とは,Logical OR演算を行うために,"||"で表現される,<a href="#language-expresssion">式</a>をオペランドとする<a href="#language-operator-binary">Binary Operator</a>です。
+  Logical OR Operator とは,Logical OR演算を行うために,"||"で表現される,<a href="#language-expresssion">Expression</a>をオペランドとする<a href="#language-operator-binary">Binary Operator</a>です。
 </p>
 <pre>
 Left Expression || Right Expression
@@ -5559,19 +5559,19 @@ Left Expression || Right Expression
   Logical OR Operator は次のように動作します。
 </p>
 <p>
-  Logical OR Operator のReturn Valueの型は,int Type です。
+  Logical OR Operator のReturn ValueのTypeは,int Type です。
 </p>
 <p>
-  1. Left Expressionに<a href="#language-type-convertion-bool">ブール型変換</a>を実行します。
+  1. Left Expressionに<a href="#language-type-convertion-bool">ブールType Convertion</a>を実行します。
 </p>
 <p>
-  2. Left Expressionの値が0あれば,Right Expressionに対して,<a href="#language-type-convertion-bool">ブール型変換</a>を実行し,その値を返します。
+  2. Left Expressionの値が0あれば,Right Expressionに対して,<a href="#language-type-convertion-bool">ブールType Convertion</a>を実行し,その値を返します。
 </p>
 <p>
   3. Left Expressionの値が0以外であれば,その値を返します。
 </p>
 <p>
-  Logical OR Operator は<a href="#language-expression">式</a>を返します。
+  Logical OR Operator は<a href="#language-expression">Expression</a>を返します。
 </p>
 <p>
   Logical OR Operator は,例外を発生させません。
@@ -5579,51 +5579,51 @@ Left Expression || Right Expression
 
 <h3 id="language-operator-logical-and">Logical NOT Operator </h3>
 <p>
-  Logical NOT Operator とは,論理NOT演算を行うために,式の左に置かれるOperator で,"!"で表現される<a href="#language-expression">式</a>を返す<a href="#language-operator-binary">Unary Operator</a>です。式については,<a href="#language-expresssion">式</a>を参考にしてください。
+  Logical NOT Operator とは,論理NOT演算を行うために,Expressionの左に置かれるOperator で,"!"で表現される<a href="#language-expression">Expression</a>を返す<a href="#language-operator-binary">Unary Operator</a>です。Expressionについては,<a href="#language-expresssion">Expression</a>を参考にしてください。
 </p>
 <pre>
-!式
+!Expression
 </pre>
 <p>
-  Logical NOT Operator のReturn Valueの型は,int Type です。
+  Logical NOT Operator のReturn ValueのTypeは,int Type です。
 </p>
 <p>
-  Logical NOT Operator は,式に<a href="#language-type-convertion-bool">ブール型変換</a>を実行し,その値が0の場合は1を,0以外の値の場合は,0を返します。
+  Logical NOT Operator は,Expressionに<a href="#language-type-convertion-bool">ブールType Convertion</a>を実行し,その値が0の場合は1を,0以外の値の場合は,0を返します。
 </p>
 <p>
-  Logical NOT Operator は<a href="#language-expression">式</a>を返します。
+  Logical NOT Operator は<a href="#language-expression">Expression</a>を返します。
 </p>
 <p>
   Logical NOT Operator は,例外を発生させません。
 </p>
 
-<h3 id="language-operator-concat">文字列連結Operator </h3>
+<h3 id="language-operator-concat">String連結Operator </h3>
 <p>
-  文字列連結Operator は"."で表現される<a href="#language-operator-binary">Binary Operator</a>です。
+  String連結Operator は"."で表現される<a href="#language-operator-binary">Binary Operator</a>です。
 </p>
 <pre>
 Left Expression . Right Expression
 </pre>
 <p>
-  Left ExpressionあるいはRight Expressionが,<a href="#language-type-numeric">Numeric Type</a>であった場合は,<a href="#language-type-convertion-numeric-to-string">数値から文字列への型変換</a>によって文字列に変換されます。
+  Left ExpressionあるいはRight Expressionが,<a href="#language-type-numeric">Numeric Type</a>であった場合は,<a href="#language-type-convertion-numeric-to-string">数値からStringへのType Convertion</a>によってStringに変換されます。
 </p>
 <p>
   Left ExpressionとRight Expressionはどちらも<a href="#language-type-string-compatible">String Compatible Type</a>でなければなりません。otherwise コンパイルエラーになります。
 </p>
 <p>
-  文字列連結Operator は,Left ExpressionとRight Expressionで表現される<a href="#language-string">文字列</a>を連結し,新しい文字列を返します。
+  String連結Operator は,Left ExpressionとRight Expressionで表現される<a href="#language-string">String</a>を連結し,新しいStringを返します。
 </p>
 <p>
-  文字列連結Operator は<a href="#language-expression">式</a>を返し,型は<a href="#language-type-string">String Type</a>です。
+  String連結Operator は<a href="#language-expression">Expression</a>を返し,Typeは<a href="#language-type-string">String Type</a>です。
 </p>
 <p>
-  Left ExpressionとRight Expressionの両方が,<a href="#language-literal-string">String Literal</a>であった場合は,コンパイル時に連結されたString Literal が生成されます。パフォーマンスのコストを意識せずに,文字列連結Operator で,String Literal を連結できます。
+  Left ExpressionとRight Expressionの両方が,<a href="#language-literal-string">String Literal</a>であった場合は,コンパイル時に連結されたString Literal が生成されます。パフォーマンスのコストを意識せずに,String連結Operator で,String Literal を連結できます。
 </p>
 <p>
   実行時に,Left ExpressionあるいはRight Expressionが<a href="#language-undef">Undefined Value</a>だった場合は,例外が発生します。
 </p>
 <p>
-  <b>文字列連結Operator のExample</b>
+  <b>String連結Operator のExample</b>
 </p>
 <pre>
 my $str = "abc" . "def";
@@ -5641,7 +5641,7 @@ LEFT_EXPRESSION = RIGHTH_EXPRESSION
   Assignment Operator は,右辺と左辺によって,複数の意味を持ちます。各項目を参考にしてください。
 </p>
 <p>
-  Assignment Operator においては,Right Expressionが評価された後に,Left Expressionが評価されます。これは,原則として,式は左から右へ実行されるということの例外です。
+  Assignment Operator においては,Right Expressionが評価された後に,Left Expressionが評価されます。これは,原則として,Expressionは左から右へ実行されるということの例外です。
 </p>
 
 <ul>
@@ -5714,7 +5714,7 @@ Left Expression Special Assignment Operator  Right Expression
 Left Expression Special Assignment Operator  Right Expression
 
 # 展開後
-Left Expression Assignment Operator  (Left Expressionの型によるキャスト)(Left Expression 指定されたOperator  Right Expression)
+Left Expression Assignment Operator  (Left ExpressionのTypeによるキャスト)(Left Expression 指定されたOperator  Right Expression)
 </pre>
 <p>
   たとえば,加算Assignment Operator の場合は,次のように展開されます。
@@ -5756,7 +5756,7 @@ $x >>>= 1;
   変数がNumeric TypeまたはMulti Numeric Typeでなかった場合は,a compile-time error occurs
 </p>
 <p>
-  Reference Operator  は式を返します。返される型は,<a href="#language-type-ref">Reference Type</a>です。
+  Reference Operator  はExpressionを返します。返されるTypeは,<a href="#language-type-ref">Reference Type</a>です。
 </p>
 <pre>
   <b>Reference Operator  のExample</b>
@@ -5769,12 +5769,12 @@ my $z : SPVM::Complex_2d;
 my $z_ref : SPVM::Complex_2d& = \$z;
 </pre>
 <p>
-  リファレンスの詳しい解説については,<a href="#language-ref">リファレンス</a>を見てください。
+  Referenceの詳しい解説については,<a href="#language-ref">Reference</a>を見てください。
 </p>
 
 <h3 id="language-operator-array-length">Array Length Operator </h3>
 <p>
-  Array Length Operator は,<a href="#language-array">配列</a>の長さを取得するための"@"で表現される<a href="#language-operator-binary">Unary Operator</a>です。
+  Array Length Operator は,<a href="#language-array">Array</a>の長さを取得するための"@"で表現される<a href="#language-operator-binary">Unary Operator</a>です。
 </p>
 <pre>
 @Right Expression
@@ -5786,7 +5786,7 @@ my $z_ref : SPVM::Complex_2d& = \$z;
   Array Length Operator は,Array Lengthをint Type の値で返します。
 </p>
 <p>
-  Array Length Operator は,<a href="#language-expression">式</a>を返します。
+  Array Length Operator は,<a href="#language-expression">Expression</a>を返します。
 </p>
 <p>
   <b>Array Length Operator のExample</b>
@@ -5804,7 +5804,7 @@ my $length = @$nums;
 
 <h3 id="language-operator-string-length">String Length Operator </h3>
 <p>
-  String Length Operator は,<a href="#language-string">文字列</a>の長さを取得するための"length"で表現される<a href="#language-operator-binary">Unary Operator</a>です。
+  String Length Operator は,<a href="#language-string">String</a>の長さを取得するための"length"で表現される<a href="#language-operator-binary">Unary Operator</a>です。
 </p>
 <pre>
 length Right Expression
@@ -5813,10 +5813,10 @@ length Right Expression
   Right Expressionは,<a href="#language-type-string-compatible">String Compatible Type</a>でなければなりません。otherwise a compile-time error occurs.
 </p>
 <p>
-  String Length Operator は,文字列の長さをint Type の値で返します。String Length Operator が返す文字列の長さは,バイト列としてみたときの長さでです。
+  String Length Operator は,Stringの長さをint Type の値で返します。String Length Operator が返すStringの長さは,バイト列としてみたときの長さでです。
 </p>
 <p>
-  String Length Operator は,<a href="#language-expression">式</a>を返します。
+  String Length Operator は,<a href="#language-expression">Expression</a>を返します。
 </p>
 <p>
   <b>String Length Operator のExample</b>
@@ -5861,24 +5861,24 @@ foo(scalar @$nums);
 isweak 変数->{Field Name};
 </pre>
 <p>
-  オブジェクト式の型は,<a href="#language-type-class">Class Type</a>でなければなりません。otherwise a compile-time error occurs.
+  オブジェクトExpressionのTypeは,<a href="#language-type-class">Class Type</a>でなければなりません。otherwise a compile-time error occurs.
 </p>
 <p>
   Field Nameは,存在するField Nameでなければなりません。otherwise a compile-time error occurs.
 </p>
 <p>
-  Fieldに保存される値の型は,<a href="#language-type-object">Object Type</a>でなければなりません。otherwise a compile-time error occurs.
+  Fieldに保存される値のTypeは,<a href="#language-type-object">Object Type</a>でなければなりません。otherwise a compile-time error occurs.
 </p>
 <p>
-  実行時にFieldに保存されている値が,<a href="#language-undef">Undefined Value</a>だった場合は,偽を返します。これは,<a href="#language-expression">式</a>です。
+  実行時にFieldに保存されている値が,<a href="#language-undef">Undefined Value</a>だった場合は,偽を返します。これは,<a href="#language-expression">Expression</a>です。
 </p>
 <p>
-  isweakOperator は,FieldがWeaken Referenceの場合は,int Type の1を,そうでない場合は0を返します。これは,<a href="#language-expression">式</a>です。
+  isweakOperator は,FieldがWeaken Referenceの場合は,int Type の1を,そうでない場合は0を返します。これは,<a href="#language-expression">Expression</a>です。
 </p>
 
-<h2 id="language-operator-precedence">Operator の優先順位</h2>
+<h2 id="language-operator-precedence">Operator Precidence</h2>
 <p>
-  Operator の優先順位は,the following 通りです。下にいくほど,優先順位が高くなります。
+  Operator Precidenceは,the following 通りです。下にいくほど,優先順位が高くなります。
 </p>
 <table>
   <tr>
@@ -5903,7 +5903,7 @@ isweak 変数->{Field Name};
       左シフトAssignment Operator "<<="<br>
       算術右シフトAssignment Operator ">>="<br>
       Logical Right Shift Operator ">>>="<br>
-      文字列結合Assignment Operator ".="
+      String結合Assignment Operator ".="
     </td>
   </tr>
   <tr>
@@ -5946,8 +5946,8 @@ isweak 変数->{Field Name};
     <td>
       数値等価Operator "=="<br>
       数値非等価Operator "!="<br>
-      文字列等価Operator "eq"<br>
-      文字列非等価Operator "ne"<br>
+      String等価Operator "eq"<br>
+      String非等価Operator "ne"<br>
     </td>
   </tr>
   <tr>
@@ -5959,10 +5959,10 @@ isweak 変数->{Field Name};
       数値小なりOperator "<"<br>
       数値大なり等価Operator ">="<br>
       数値小なり等価Operator "<="<br>
-      文字列大なりOperator "gt"<br>
-      文字列大なり等価Operator "ge"<br>
-      文字列小なりOperator "lt"<br>
-      文字列小なり等価Operator "le"<br>
+      String大なりOperator "gt"<br>
+      String大なり等価Operator "ge"<br>
+      String小なりOperator "lt"<br>
+      String小なり等価Operator "le"<br>
       isa Operator "isa"
     </td>
   </tr>
@@ -5983,7 +5983,7 @@ isweak 変数->{Field Name};
     <td>
       Addition Operator "+"<br>
       Subtraction Operator "-"<br>
-      文字列連結Operator "."
+      String連結Operator "."
     </td>
   </tr>
   <tr>
@@ -6008,7 +6008,7 @@ isweak 変数->{Field Name};
       Unary Minus Operator "-"<br>
       Array Length Operator "@"<br>
       Dereference Operator "$"<br>
-      型キャスト"(TypeName)"
+      Typeキャスト"(TypeName)"
       Scalar Operator "scalar"<br>
       String Length Operator "length"<br>
       require keyword "require"<br>
@@ -6035,7 +6035,7 @@ isweak 変数->{Field Name};
   </tr>
 </table>
 <p>
-  Operator の優先順位は"()"を使うことによって,最優先にすることができます。
+  Operator Precidenceは"()"を使うことによって,最優先にすることができます。
 </p>
 <pre>
 # a * b が先
@@ -6045,15 +6045,15 @@ a * b + c
 a * (b + c)
 </pre>
 
-<h2 id="language-statement">文</h2>
+<h2 id="language-statement">Statement</h2>
 <p>
-  文は,ひとつの処理のことで"<a href="#language-scope-block">Scope Block</a>"の中に複数記述することができます。<a href="#language-expression">式</a>のように値として評価されることはありません。
+  Statementは,ひとつの処理のことで"<a href="#language-scope-block">Scope Block</a>"の中に複数記述することができます。<a href="#language-expression">Expression</a>のように値として評価されることはありません。
 </p>
 <p>
-  <b>文の一覧</b>
+  <b>Statementの一覧</b>
 </p>
 <p>
-  文の一覧です。
+  Statementの一覧です。
 </p>
 <ul class="list">
   <li><a href="#language-statement-if">if statement</a></li>
@@ -6064,7 +6064,7 @@ a * (b + c)
   <li><a href="#language-statement-default">default statement</a></li>
   <li><a href="#language-statement-block-simple">Simple Block</a></li>
   <li><a href="#language-statement-eval">eval statement</a></li>
-  <li><a href="#language-statement-ifrequire">if require文</a></li>
+  <li><a href="#language-statement-ifrequire">if requireStatement</a></li>
   <li><a href="#language-statement-next">next statement</a></li>
   <li><a href="#language-statement-last">last statement</a></li>
   <li><a href="#language-statement-break">break statement</a></li>
@@ -6080,35 +6080,35 @@ a * (b + c)
 
 <h3 id="language-statement-if">if statement</h3>
 <p>
-  if statementは,条件分岐を行うための文です。
+  if statementは,条件分岐を行うためのStatementです。
 </p>
 <pre>
-if (式) {
+if (Expression) {
 
 }
 </pre>
 <p>
-  式に<a href="#language-type-convertion-bool">ブール型変換</a>が実行され,値が0以外の場合に,Block が実行されます。
+  Expressionに<a href="#language-type-convertion-bool">ブールType Convertion</a>が実行され,値が0以外の場合に,Block が実行されます。
 </p>
 <p>
-  条件を複数書きたい場合には"elsif statement"を続けることができます。 条件判定は上から実行され,それぞれの式に<a href="#language-type-convertion-bool">ブール型変換</a>が実行され,値が0以外の場合に対応するBlock が実行されます。
+  条件を複数書きたい場合には"elsif statement"を続けることができます。 条件判定は上から実行され,それぞれのExpressionに<a href="#language-type-convertion-bool">ブールType Convertion</a>が実行され,値が0以外の場合に対応するBlock が実行されます。
 </p>
 <pre>
-if (式) {
+if (Expression) {
 
 }
-elsif(式) {
+elsif(Expression) {
 
 }
 </pre>
 <p>
-  "else文"を使って,if statementあるいは,elsif statementが条件を満たさなかった場合の処理を記述することができます。if statementとelsif statementの条件判定がすべて偽であった場合にelseのBlock の内部の文が実行されます。elsif statementは,なくてもかまいません。
+  "elseStatement"を使って,if statementあるいは,elsif statementが条件を満たさなかった場合の処理を記述することができます。if statementとelsif statementの条件判定がすべて偽であった場合にelseのBlock の内部のStatementが実行されます。elsif statementは,なくてもかまいません。
 </p>
 <pre>
-if (式) {
+if (Expression) {
 
 }
-elsif(式) {
+elsif(Expression) {
 
 }
 else {
@@ -6139,20 +6139,20 @@ print "Other";
 </p>
 <pre>
 {
-if (式) {
+if (Expression) {
 
 }
 }
 </pre>
 <p>
-  elsifは,内部的には,if statementとelse文に展開されます。
+  elsifは,内部的には,if statementとelseStatementに展開されます。
 </p>
 <pre>
 # 展開前
-if (式1) {
+if (Expression1) {
 
 }
-elsif (式2) {
+elsif (Expression2) {
 
 }
 else {
@@ -6160,10 +6160,10 @@ else {
 }
 
 # 展開後
-if (式1) {
+if (Expression1) {
 }
 else {
-if (式2) {
+if (Expression2) {
 
 }
 else {
@@ -6172,7 +6172,7 @@ else {
 }
 </pre>
 <p>
-  if statementの条件部で,変数宣言を行うときは,目には見えない<a href="#language-block-statement-simple">Simple Block</a>で囲まれていることと,elsifは,内部的には,if statementとelse文に展開されるということを,意識してください。
+  if statementの条件部で,変数宣言を行うときは,目には見えない<a href="#language-block-statement-simple">Simple Block</a>で囲まれていることと,elsifは,内部的には,if statementとelseStatementに展開されるということを,意識してください。
 </p>
 <pre>
 # 展開前
@@ -6208,10 +6208,10 @@ my $num = 1;
 
 <h3 id="language-statement-switch">switch statement</h3>
 <p>
-  switch statementは,int Type の整数を条件にして,条件分岐を行うための文です。条件がint Type の整数で,たくさんの分岐がある場合は,if statementよりも高速です。
+  switch statementは,int Type の整数を条件にして,条件分岐を行うためのStatementです。条件がint Type の整数で,たくさんの分岐がある場合は,if statementよりも高速です。
 </p>
 <pre>
-switch (条件式) {
+switch (条件Expression) {
   case 定数1: {
 
     break;
@@ -6229,16 +6229,16 @@ switch (条件式) {
 }
 </pre>
 <p>
-  条件式は,<a href="#language-expression">式</a>を指定できます。条件式には,<a href="#language-type-convertion-bool">ブール型変換</a>が実行されます。
+  条件Expressionは,<a href="#language-expression">Expression</a>を指定できます。条件Expressionには,<a href="#language-type-convertion-bool">ブールType Convertion</a>が実行されます。
 </p>
 <p>
-  case statementで指定される定数は,byte Typeかint Type の定数でなければなりません。byte Typeの定数の場合は,コンパイル時に,int Type に型変換されます。enum型の値や,int Type のConstant Subroutine は,int Type の定数として,syntax 解析時に展開されるので,利用することができます。
+  case statementで指定される定数は,byte Typeかint Type の定数でなければなりません。byte Typeの定数の場合は,コンパイル時に,int Type にType Convertionされます。enumTypeの値や,int Type のConstant Subroutine は,int Type の定数として,syntax 解析時に展開されるので,利用することができます。
 </p>
 <p>
   case statementに指定される定数は,重複してはいけません。重複している場合は,a compile-time error occurs
 </p>
 <p>
-  条件式で指定された値が,case statementで指定された値にマッチした場合は,そのcase statementの位置にジャンプします。
+  条件Expressionで指定された値が,case statementで指定された値にマッチした場合は,そのcase statementの位置にジャンプします。
 </p>
 <p>
   マッチしなかった場合でdefault statementが指定されている場合は,default statementの位置にジャンプします。default statementが指定されていなかった場合は,switch Blockは実行されません。
@@ -6256,7 +6256,7 @@ switch (条件式) {
   caseとdefaultのBlock は省略することができます。
 </p>
 <pre>
-switch (条件式) {
+switch (条件Expression) {
   case 定数1:
   case 定数2:
   {
@@ -6270,7 +6270,7 @@ switch (条件式) {
 </p>
 
 <pre>
-switch (条件式) {
+switch (条件Expression) {
   case 定数1: {
     break;
   }
@@ -6286,7 +6286,7 @@ switch (条件式) {
 }
 </pre>
 <p>
-  caseのBlock が存在する場合は,最後の文はbreak statementあるいは,returnl statementでなければなりません。otherwise コンパイルエラーが発生します。
+  caseのBlock が存在する場合は,最後のStatementはbreak statementあるいは,returnl statementでなければなりません。otherwise コンパイルエラーが発生します。
 </p>
 
 <p>
@@ -6324,25 +6324,25 @@ switch ($code) {
 
 <h3 id="language-statement-switch">case statement</h3>
 <p>
-  case statementは,switch Blockの中で使うことができる,条件を指定するための文です。case statementについての詳細は,<a href="#language-statement-switch">switch statement</a>の解説を見てください。
+  case statementは,switch Blockの中で使うことができる,条件を指定するためのStatementです。case statementについての詳細は,<a href="#language-statement-switch">switch statement</a>の解説を見てください。
 </p>
 
 <h3 id="language-statement-switch">default statement</h3>
 <p>
-  default statementは,switch Blockの中で使うことができる,デフォルトの条件を指定するための文です。default statementについての詳細は,<a href="#language-statement-switch">switch statement</a>の解説を見てください。
+  default statementは,switch Blockの中で使うことができる,デフォルトの条件を指定するためのStatementです。default statementについての詳細は,<a href="#language-statement-switch">switch statement</a>の解説を見てください。
 </p>
 
 <h3 id="language-statement-while">while statement</h3>
 <p>
-  while statementは,繰り返しを行うための文です。
+  while statementは,繰り返しを行うためのStatementです。
 </p>
 <pre>
-while (条件式) {
+while (条件Expression) {
 
 }
 </pre>
 <p>
-  条件式に,<a href="#language-expresssion">式</a>を記述できます。条件式に<a href="#language-type-convertion-bool">ブール型変換</a>が実行され,値が0以外の場合に,Block が実行されます。otherwise Block を抜けます。
+  条件Expressionに,<a href="#language-expresssion">Expression</a>を記述できます。条件Expressionに<a href="#language-type-convertion-bool">ブールType Convertion</a>が実行され,値が0以外の場合に,Block が実行されます。otherwise Block を抜けます。
 </p>
 <p>
   <b>while statementのExample</b>
@@ -6369,7 +6369,7 @@ while (1) {
 </pre>
 
 <p>
-  while Blockの内部では,<a href="#language-statement-next">next statement</a>を使って,次に実行される条件式の直前に移動することができます。
+  while Blockの内部では,<a href="#language-statement-next">next statement</a>を使って,次に実行される条件Expressionの直前に移動することができます。
 </p>
 <pre>
 my $i = 0;
@@ -6390,7 +6390,7 @@ while ($i < 5) {
 </p>
 <pre>
 {
-  while (条件式) {
+  while (条件Expression) {
 
   }
 }
@@ -6418,33 +6418,33 @@ my $num = 5;
 
 <h3 id="language-statement-for">for statement</h3>
 <p>
-  for statementは,繰り返しを行うための文です。
+  for statementは,繰り返しを行うためのStatementです。
 </p>
 <pre>
-for (初期化式; 条件式; インクリメント式) {
+for (初期化Expression; 条件Expression; インクリメントExpression) {
 
 }
 </pre>
 <p>
-  初期化式には,<a href="#language-expression">式</a>を記述できます。一般的には,ループ変数の初期化などの式を記述します。初期化式は省略することが可能です。
+  初期化Expressionには,<a href="#language-expression">Expression</a>を記述できます。一般的には,ループ変数の初期化などのExpressionを記述します。初期化Expressionは省略することが可能です。
 </p>
 <p>
-  条件式,<a href="#language-expresssion">式</a>を記述できます。条件式に<a href="#language-type-convertion-bool">ブール型変換</a>が実行され,値が0以外の場合に,Block が実行されます。otherwise Block を抜けます。
+  条件Expression,<a href="#language-expresssion">Expression</a>を記述できます。条件Expressionに<a href="#language-type-convertion-bool">ブールType Convertion</a>が実行され,値が0以外の場合に,Block が実行されます。otherwise Block を抜けます。
 </p>
 <p>
-  インクリメント式には,<a href="#language-expression">式</a>を記述できます。一般的には,ループ変数のインクリメントの式を記述します。インクリメント式は省略することが可能です。
+  インクリメントExpressionには,<a href="#language-expression">Expression</a>を記述できます。一般的には,ループ変数のインクリメントのExpressionを記述します。インクリメントExpressionは省略することが可能です。
 </p>
 <p>
-  for statementはthe following while statementと同じ意味を持ちます。インクリメント式は,Block の最後に実行されます。初期化式は,<a href="#language-block-statement-simple">Simple Block</a>に囲まれています。
+  for statementはthe following while statementと同じ意味を持ちます。インクリメントExpressionは,Block の最後に実行されます。初期化Expressionは,<a href="#language-block-statement-simple">Simple Block</a>に囲まれています。
 </p>
 <pre>
 {
-  初期化式;
-  while (条件式) {
+  初期化Expression;
+  while (条件Expression) {
 
 
 
-    インクリメント式;
+    インクリメントExpression;
   }
 }
 </pre>
@@ -6465,13 +6465,13 @@ for (my $i = 0; $i < 5; $i++) {
 </p>
 
 <pre>
-for (初期化式; 条件式; インクリメント式) {
+for (初期化Expression; 条件Expression; インクリメントExpression) {
 
 }
 </pre>
 
 <p>
-  for Blockの内部では,<a href="#language-statement-next">next statement</a>を使って,次に実行されるインクリメント式の直前に移動することができます。
+  for Blockの内部では,<a href="#language-statement-next">next statement</a>を使って,次に実行されるインクリメントExpressionの直前に移動することができます。
 </p>
 <pre>
 for (my $i = 0; $i < 5; $i++) {
@@ -6490,27 +6490,27 @@ for (my $i = 0; $i < 5; $i++) {
 return;
 </pre>
 <p>
-  Return Valueがある場合は,<a href="#language-expression">式</a>を指定することができます。
+  Return Valueがある場合は,<a href="#language-expression">Expression</a>を指定することができます。
 </p>
 <pre>
-return 式;
+return Expression;
 </pre>
 <p>
-  <a href="#language-sub-definition">Subroutine Definition</a>においてReturn Valueの型が"void Type"である場合は,式が存在してはいけません。otherwise a compile-time error occurs.
+  <a href="#language-sub-definition">Subroutine Definition</a>においてReturn ValueのTypeが"void Type"である場合は,Expressionが存在してはいけません。otherwise a compile-time error occurs.
 </p>
 <p>
-  <a href="#language-sub-definition">Subroutine Definition</a>においてReturn Valueの型が"void Type"以外の場合は,式の型と一致していなければなりません。otherwise a compile-time error occurs.
+  <a href="#language-sub-definition">Subroutine Definition</a>においてReturn ValueのTypeが"void Type"以外の場合は,ExpressionのTypeと一致していなければなりません。otherwise a compile-time error occurs.
 </p>
 
 <h3 id="language-statement-die">die statement </h3>
 <p>
-  die statement は,例外を発生させるための文です。
+  die statement は,例外を発生させるためのStatementです。
 </p>
 <pre>
-die 式;
+die Expression;
 </pre>
 <p>
-  式は,String Compatible Typeでなければなりません。
+  Expressionは,String Compatible Typeでなければなりません。
 </p>
 <p>
   die statement の詳しい解説については,<a href="#language-exception">Exception Handling</a>を見てください。
@@ -6518,19 +6518,19 @@ die 式;
 
 <h3 id="language-statement-weaken">weaken statement </h3>
 <p>
-  weaken statement は,Fieldに対して,<a href="#language-weak-ref">Weaken Reference</a>を設定する文です。
+  weaken statement は,Fieldに対して,<a href="#language-weak-ref">Weaken Reference</a>を設定するStatementです。
 </p>
 <pre>
 weaken 変数->{Field Name};
 </pre>
 <p>
-  オブジェクト式の型は,<a href="#language-type-class">Class Type</a>でなければなりません。otherwise a compile-time error occurs.
+  オブジェクトExpressionのTypeは,<a href="#language-type-class">Class Type</a>でなければなりません。otherwise a compile-time error occurs.
 </p>
 <p>
   Field Nameは,存在するField Nameでなければなりません。otherwise a compile-time error occurs.
 </p>
 <p>
-  Fieldに保存される値の型は,<a href="#language-type-object">Object Type</a>でなければなりません。otherwise a compile-time error occurs.
+  Fieldに保存される値のTypeは,<a href="#language-type-object">Object Type</a>でなければなりません。otherwise a compile-time error occurs.
 </p>
 <p>
   実行時にFieldに保存されている値が,<a href="#language-undef">Undefined Value</a>だった場合は,weaken statement は,何もしません。
@@ -6545,7 +6545,7 @@ weaken 変数->{Field Name};
   2. Fieldに,Weaken Referenceフラグを設定します。
 </p>
 <p>
-  3. Fieldに保存されているオブジェクトのバックリファレンスに,Fieldを追加します。
+  3. Fieldに保存されているオブジェクトのバックReferenceに,Fieldを追加します。
 </p>
 <p>
   Weaken Referenceフラグは,Fieldに保存されているオブジェクトに設定されるのではなく,Field自体に設定されることに注意してください。
@@ -6554,10 +6554,10 @@ weaken 変数->{Field Name};
   Fieldに保存されているオブジェクトのReference Countが,0になってしまった場合は,Weaken Referenceは作成されず,Fieldに保存されているオブジェクトは解放されます。
 </p>
 <p>
-  バックリファレンスとは,Fieldに保存されているオブジェクトが持つデータで,Weaken Referenceフラグが設定されたFieldを知るために,追加されます。これは,複数存在することがあります。
+  バックReferenceとは,Fieldに保存されているオブジェクトが持つデータで,Weaken Referenceフラグが設定されたFieldを知るために,追加されます。これは,複数存在することがあります。
 </p>
 <pre>
-# バックリファレンスが,複数あるExample
+# バックReferenceが,複数あるExample
 my $foo = new Foo;
 my $bar = new Bar;
 my $baz = new Baz;
@@ -6572,27 +6572,27 @@ weaken $bar->{foo};
 weaken $baz->{foo};
 </pre>
 <p>
-  上記の例では"$bar->{foo}"と"$baz->{foo}"に,Weaken Referenceフラグが立ちます。$fooで表現されるオブジェクトは,バックリファレンス"$bar->{foo}"と"$baz->{foo}"を持ちます。
+  上記の例では"$bar->{foo}"と"$baz->{foo}"に,Weaken Referenceフラグが立ちます。$fooで表現されるオブジェクトは,バックReference"$bar->{foo}"と"$baz->{foo}"を持ちます。
 </p>
 <p>
-  バックリファレンスの情報が必要なのは,<a href="#language-expression-release-object">オブジェクトの解放</a>が行われるときに,バックリファレンスが指すFieldにUndefined Valueを代入する必要があるからです。
+  バックReferenceの情報が必要なのは,<a href="#language-expression-release-object">Release Object</a>が行われるときに,バックReferenceが指すFieldにUndefined Valueを代入する必要があるからです。
 </p>
 
 <h3 id="language-statement-unweaken">unweaken statement</h3>
 <p>
-  unweaken statementは,Fieldに対して,<a href="#language-weak-ref">Weaken Reference</a>を解除する文です。
+  unweaken statementは,Fieldに対して,<a href="#language-weak-ref">Weaken Reference</a>を解除するStatementです。
 </p>
 <pre>
 unweaken 変数->{Field Name};
 </pre>
 <p>
-  オブジェクト式の型は,<a href="#language-type-class">Class Type</a>でなければなりません。otherwise a compile-time error occurs.
+  オブジェクトExpressionのTypeは,<a href="#language-type-class">Class Type</a>でなければなりません。otherwise a compile-time error occurs.
 </p>
 <p>
   Field Nameは,存在するField Nameでなければなりません。otherwise a compile-time error occurs.
 </p>
 <p>
-  Fieldに保存される値の型は,<a href="#language-type-object">Object Type</a>でなければなりません。otherwise a compile-time error occurs.
+  Fieldに保存される値のTypeは,<a href="#language-type-object">Object Type</a>でなければなりません。otherwise a compile-time error occurs.
 </p>
 <p>
   実行時にFieldに保存されている値が,<a href="#language-undef">Undefined Value</a>だった場合は,unweaken statementは,何もしません。
@@ -6607,12 +6607,12 @@ unweaken 変数->{Field Name};
   2. FieldのWeaken Referenceフラグを解除します。
 </p>
 <p>
-  3. Fieldに保存されているオブジェクトのバックリファレンスから,Fieldを削除します。
+  3. Fieldに保存されているオブジェクトのバックReferenceから,Fieldを削除します。
 </p>
 
 <h3 id="language-statement-next">next statement</h3>
 <p>
-  "next statement"は,次のループの先頭に移動するための文です。<a href="#language-block-statement-while">while Block</a>,<a href="#language-block-statement-for">for Block</a>の中で使うことができます。
+  "next statement"は,次のループの先頭に移動するためのStatementです。<a href="#language-block-statement-while">while Block</a>,<a href="#language-block-statement-for">for Block</a>の中で使うことができます。
 </p>
 <pre>
 next;
@@ -6623,7 +6623,7 @@ next;
 
 <h3 id="language-statement-last">last statement</h3>
 <p>
-  "last statement"は,ループを脱出するための文です。<a href="#language-block-statement-while">while Block</a>,<a href="#language-block-statement-for">for Block</a>の中で使うことができます。
+  "last statement"は,ループを脱出するためのStatementです。<a href="#language-block-statement-while">while Block</a>,<a href="#language-block-statement-for">for Block</a>の中で使うことができます。
 </p>
 <p>
   実際の動作については<a href="#language-statement-while">while statement</a>,<a href="#language-statement-for">for statement</a>の解説を見てください。
@@ -6634,7 +6634,7 @@ last;
 
 <h3 id="language-statement-break">break statement</h3>
 <p>
-  "break statement"は,switch Blockを脱出するための文です。<a href="#language-block-statement-switch">switch Block</a>の中で使うことができます。
+  "break statement"は,switch Blockを脱出するためのStatementです。<a href="#language-block-statement-switch">switch Block</a>の中で使うことができます。
 </p>
 <p>
   実際の動作については<a href="#language-statement-switch">switch statement</a>の解説を見てください。
@@ -6646,22 +6646,22 @@ break;
 <h3 id="language-statement-warn">warn Statement</h3>
 
 <p>
-  警告を発生させるにはwarn文を使用します。
+  警告を発生させるにはwarnStatementを使用します。
 </p>
 <pre>
-warn 式;
+warn Expression;
 </pre>
 <p>
-  式は,<a href="#language-type-string-compatible">String Compatible Type</a>でなければなりません。
+  Expressionは,<a href="#language-type-string-compatible">String Compatible Type</a>でなければなりません。
 </p>
 <p>
-  末尾が改行文字"\n"であった場合は,標準エラー出力に式で指定されている文字列が出力されます。
+  末尾が改行Statement字"\n"であった場合は,標準エラー出力にExpressionで指定されているStringが出力されます。
 </p>
 <p>
-  末尾が改行文字でない場合は,末尾にFile Nameと行番号が追加され,標準エラー出力されます。
+  末尾が改行Statement字でない場合は,末尾にFile Nameと行番号が追加され,標準エラー出力されます。
 </p>
 <p>
-  式で指定された文字列の長さが0あるいは,Undefined Valueであった場合は,指定されたメッセージが"Warning: something's wrong"であるとしてふるまいます。
+  Expressionで指定されたStringの長さが0あるいは,Undefined Valueであった場合は,指定されたメッセージが"Warning: something's wrong"であるとしてふるまいます。
 </p>
 <p>
   標準エラー出力のバッファがフラッシュされます。
@@ -6669,24 +6669,24 @@ warn 式;
 
 <h3 id="language-statement-print">print Statement</h3>
 <p>
-  標準出力に文字列を出力するにはprint Statementを使用します。
+  標準出力にStringを出力するにはprint Statementを使用します。
 </p>
 <pre>
-print 式;
+print Expression;
 </pre>
 <p>
-  式は,<a href="#language-type-string-compatible">String Compatible Type</a>でなければなりません。
+  Expressionは,<a href="#language-type-string-compatible">String Compatible Type</a>でなければなりません。
 </p>
 <p>
-  式がUndefined Valueであった場合は,何もしません。
+  ExpressionがUndefined Valueであった場合は,何もしません。
 </p>
 
 <h3 id="language-statement-expression">expression statement</h3>
 <p>
-  expression statementは"<a href="#language-expression">式</a>"と";"で構成される文のことです。
+  expression statementは"<a href="#language-expression">Expression</a>"と";"で構成されるStatementのことです。
 </p>
 <pre>
-式;
+Expression;
 </pre>
 
 <p>
@@ -6702,14 +6702,14 @@ my $num = 1 + 2;
 
 <h3 id="language-statement-empty">empty statement</h3>
 <p>
-  empty statementは";"だけで終わる文のことです。
+  empty statementは";"だけで終わるStatementのことです。
 </p>
 <pre>
 ;
 </pre>
 
 
-<h2 id="language-type">型</h2>
+<h2 id="language-type">Type</h2>
 <ul class="list">
   <li><a href="#language-type-summary">Type Summary</a></li>
   <li><a href="#language-type-initial-value">Type Initial Value</a></li>
@@ -6732,17 +6732,17 @@ my $num = 1 + 2;
   <li><a href="#language-type-any-object">Any Object Type</a></li>
   <li><a href="#language-type-self">self Type</a></li>
   <li><a href="#language-type-array">Array Type</a></li>
-  <li><a href="#language-type-array-numeric">数値Array Type</a></li>
+  <li><a href="#language-type-array-numeric">Numeric Array Type</a></li>
   <li><a href="#language-type-array-byte">byte[] Type</a></li>
-  <li><a href="#language-type-array-object">オブジェクトArray Type</a></li>
-  <li><a href="#language-type-array-mulnum">値Array Type</a></li>
+  <li><a href="#language-type-array-object">Object Array Type</a></li>
+  <li><a href="#language-type-array-mulnum">Multi Numeric Array Type</a></li>
   <li><a href="#language-type-any-object-array">Any Object Array Type</a></li>
   <li><a href="#language-type-string">String Type</a></li>
   <li><a href="#language-type-string-compatible">String Compatible Type</a></li>
   <li><a href="#language-type-multi-numeric">Multi Numeric Type</a></li>
   <li><a href="#language-type-ref">Reference Type</a></li>
-  <li><a href="#language-type-ref-numeric">数値のReference Type</a></li>
-  <li><a href="#language-type-ref-multi-numeric">複数数値のReference Type</a></li>
+  <li><a href="#language-type-ref-numeric">Numeric Reference Type</a></li>
+  <li><a href="#language-type-ref-multi-numeric">Multi Numeric Reference Type</a></li>
 </ul>
 <h3 id="language-type-summary">Type Summary</h3>
 
@@ -6909,19 +6909,19 @@ Note that SPVM has only <b>singed</b> Integral Type, and don't has <b>unsigned</
 
 <h3 id="language-type-byte">byte Type</h3>
 <p>
-  byte Typeは,符号付8bit整数を表現する<a href="#language-type-integral">Integral Type</a>です。C99のint8_t型と同じ型です。
+  byte Typeは,符号付8bit整数を表現する<a href="#language-type-integral">Integral Type</a>です。C99のint8_tTypeと同じTypeです。
 </p>
 <h3 id="language-type-short">short Type</h3>
 <p>
-  byte Typeは,符号付16bit整数を表現する<a href="#language-type-integral">Integral Type</a>です。C99のint16_t型と同じ型です。
+  byte Typeは,符号付16bit整数を表現する<a href="#language-type-integral">Integral Type</a>です。C99のint16_tTypeと同じTypeです。
 </p>
 <h3 id="language-type-int">int Type </h3>
 <p>
-  int Type は,符号付32bit整数を表現する<a href="#language-type-integral">Integral Type</a>です。C99のint32_t型と同じ型です。
+  int Type は,符号付32bit整数を表現する<a href="#language-type-integral">Integral Type</a>です。C99のint32_tTypeと同じTypeです。
 </p>
 <h3 id="language-type-long">long Type</h3>
 <p>
-  long Typeは,符号付64bit整数を表現する<a href="#language-type-integral">Integral Type</a>です。C99のint64_t型と同じ型です。
+  long Typeは,符号付64bit整数を表現する<a href="#language-type-integral">Integral Type</a>です。C99のint64_tTypeと同じTypeです。
 </p>
 
 <h3 id="language-type-floating-point">Floating Point Type</h3>
@@ -6968,17 +6968,17 @@ See <a href="#language-operator-arithmetic">Arithmetic Operator</a> for floating
 
 <h3 id="language-type-float">float Type</h3>
 <p>
-  float Typeは,単精度浮動小数点(32bit)を表現する<a href="#language-type-floating-point">Floating Point Type</a>です。C99のfloat Typeと同じ型です。
+  float Typeは,単精度浮動小数点(32bit)を表現する<a href="#language-type-floating-point">Floating Point Type</a>です。C99のfloat Typeと同じTypeです。
 </p>
 
 <h3 id="language-type-double">double Type</h3>
 <p>
-  double Typeは,倍精度浮動小数点(64bit)を表現する<a href="#language-type-floating-point">Floating Point Type</a>です。C99のdouble Typeと同じ型です。
+  double Typeは,倍精度浮動小数点(64bit)を表現する<a href="#language-type-floating-point">Floating Point Type</a>です。C99のdouble Typeと同じTypeです。
 </p>
 
 <h3 id="language-type-package">Package Type</h3>
 <p>
-  Package Typeとは"<a href="#language-package-definition">Package Definition</a>"によって定義される型のことをいいます。
+  Package Typeとは"<a href="#language-package-definition">Package Definition</a>"によって定義されるTypeのことをいいます。
 </p>
 <pre>
 package Foo {
@@ -7097,18 +7097,18 @@ For the conversion between <a href="#language-type-numeric">Numeric Type</a> and
 
 <h3 id="language-type-undef">Undefined Type</h3>
 <p>
-  Undefined Typeとは,<a href="#language-undef">Undefined Value</a>が持っている型のことです。明示的に利用することはできません。
+  Undefined Typeとは,<a href="#language-undef">Undefined Value</a>が持っているTypeのことです。明示的に利用することはできません。
 </p>
 <p>
   Undefined Typeの値は<a href="#language-undef">Undefined Value</a>のみです。
 </p>
 <p>
-  Undefined Typeの値は,Object Type に代入できます。他の型に代入した場合は,a compile-time error occurs
+  Undefined Typeの値は,Object Type に代入できます。他のTypeに代入した場合は,a compile-time error occurs
 </p>
 
 <h3 id="language-type-class">Class Type</h3>
 <p>
-  Class Typeとは"<a href="#language-package-definition">Package Definition</a>"によって定義される型で"Multi Numeric Type""Callback Type"ではない型のことをいいます。
+  Class Typeとは"<a href="#language-package-definition">Package Definition</a>"によって定義されるTypeで"Multi Numeric Type""Callback Type"ではないTypeのことをいいます。
 </p>
 <pre>
 packag Foo {
@@ -7180,7 +7180,7 @@ package SPVM::Comparator : callback_t {
   Callback Typeは"Object Type "です。
 </p>
 <p>
-  Callback Typeには,コールバックを満たしたClass Typeのオブジェクトを代入できます。この場合,Class TypeはCallback Typeに適合するといいます。Class TypeがCallback Typeを満たすのは次の二つの場合です。
+  Callback Typeには,Callbackを満たしたClass Typeのオブジェクトを代入できます。この場合,Class TypeはCallback Typeに適合するといいます。Class TypeがCallback Typeを満たすのは次の二つの場合です。
 </p>
 <p>
   1. Callback Typeとして定義されたSubroutine と同一の名前とシグネチャを持つClass Typeのオブジェクトは,Callback Typeに代入できます。
@@ -7206,7 +7206,7 @@ package SomeComparator {
 my $comparator : SPVM::Comparator = SomeComparator->new;
 </pre>
 <p>
-  2. Callback Typeとして定義されたSubroutine と同一のシグネチャを持つコールバックObject Creatingを行うと,Callback Typeに代入できます。
+  2. Callback Typeとして定義されたSubroutine と同一のシグネチャを持つCallbackObject Creatingを行うと,Callback Typeに代入できます。
 </p>
 <pre>
 # Callback Typeの定義
@@ -7222,7 +7222,7 @@ my $comparator : SPVM::Comparator = sub : int ($self : self, $x1 : object, $x2 :
 
 <h3 id="language-type-any-object">Any Object Type </h3>
 <p>
-  Any Object Type は"object"で表現します。C言語の"void*"型を表現するために設計されました。
+  Any Object Type は"object"で表現します。C言語の"void*"Typeを表現するために設計されました。
 </p>
 <pre>
 my $object : object;
@@ -7241,22 +7241,22 @@ my $object : object = new Foo[3];
   self Typeとは,自身の属するPackage Typeを表現し,引数がInvocant であることを示します。
 </p>
 <p>
-  <a href="#language-sub-definition">Subroutine Definition</a>において第一引数の型としてのみ利用できます。
+  <a href="#language-sub-definition">Subroutine Definition</a>において第一引数のTypeとしてのみ利用できます。
 </p>
 
 <h3 id="language-type-void">void Type</h3>
 <p>
-  void Typeとは,<a href="#language-sub-definition">Subroutine Definition</a>においてReturn Valueの型としてだけ利用できる,存在しないことを示す特別な型です。
+  void Typeとは,<a href="#language-sub-definition">Subroutine Definition</a>においてReturn ValueのTypeとしてだけ利用できる,存在しないことを示す特別なTypeです。
 </p>
 
 <h3 id="language-type-basic">Basic Type</h3>
 <p>
-  次元を持たない型をBasic Typeと呼びます。<a href="#language-type-numeric">Numeric Type</a>,<a href="#language-type-package">Package Type</a>,<a href="#language-type-any-object">Any Object Type</a>,<a href="#language-type-string">String Type</a>は,Basic Typeです。
+  次元を持たないTypeをBasic Typeと呼びます。<a href="#language-type-numeric">Numeric Type</a>,<a href="#language-type-package">Package Type</a>,<a href="#language-type-any-object">Any Object Type</a>,<a href="#language-type-string">String Type</a>は,Basic Typeです。
 </p>
 
 <h3 id="language-type-array">Array Type</h3>
 <p>
-  Array Typeは,連続した複数のデータ領域を表現します。<a href="#language-type-basic">Basic Type</a>は,配列にすることができます。
+  Array Typeは,連続した複数のデータ領域を表現します。<a href="#language-type-basic">Basic Type</a>は,Arrayにすることができます。
 </p>
 <pre>
 int[]
@@ -7266,7 +7266,7 @@ object[]
 string[]
 </pre>
 <p>
-  配列は次元を持ち最大255次元まで表現できます。
+  Arrayは次元を持ち最大255次元まで表現できます。
 </p>
 <pre>
 # 二次元
@@ -7279,13 +7279,13 @@ int[][][]
   Array Typeは,<a href="#language-type-object">Object Type</a>です。
 </p>
 <p>
-  配列を作成するには,newOperator を使用します。the following 例では,要素数が3のint Type の配列を作成しています。
+  Arrayを作成するには,newOperator を使用します。the following 例では,要素数が3のint Type のArrayを作成しています。
 </p>
 <p>
 my $nums = new int[3];
 </p>
 <p>
-  多次元配列を作成するときも,newOperator を使用します。the following 例では,要素数が3のint[]型の配列を作成しています。
+  多次元Arrayを作成するときも,newOperator を使用します。the following 例では,要素数が3のint[]TypeのArrayを作成しています。
 </p>
 <p>
 my $nums = new int[][3];
@@ -7325,7 +7325,7 @@ my $nums = new int[][3];
 </p>
 <h3 id="language-type-array-byte">byte[] Type</h3>
 <p>
-  SPVMにおいては,byte[] Typeは<a href="#language-type-string-compatible">String Compatible Type</a>であるという点において特別な型です。
+  SPVMにおいては,byte[] Typeは<a href="#language-type-string-compatible">String Compatible Type</a>であるという点において特別なTypeです。
 </p>
 <pre>
 byte[]
@@ -7386,20 +7386,20 @@ byte[]
 
 <h3 id="language-type-any-object-array">Any Object Array Type</h3>
 <p>
-  Any Object Array Typeとは,oarrayで表現される,<a href="#language-type-object">Object Type</a>の値を要素として持つ任意の<a href="#language-type-array">Array Type</a>の値を代入できる型です。C言語のqsort関数の第一引数には,任意のArray Typeをvoid*型にキャストして渡すことができますが,これに該当する機能を実現するために,Any Object Array Typeは設計されました。
+  Any Object Array Typeとは,oarrayで表現される,<a href="#language-type-object">Object Type</a>の値を要素として持つ任意の<a href="#language-type-array">Array Type</a>の値を代入できるTypeです。C言語のqsort関数の第一引数には,任意のArray Typeをvoid*Typeにキャストして渡すことができますが,これに該当する機能を実現するために,Any Object Array Typeは設計されました。
 </p>
 <pre>
 my $array : oarray = new Point[3];
 my $array : oarray = new object[3];
 </pre>
 <p>
-  Object Type 以外の型を持つ値が代入された場合は,a compile-time error occurs
+  Object Type 以外のTypeを持つ値が代入された場合は,a compile-time error occurs
 </p>
 <p>
-  "oarray型"は"object[]型"と異なる型であることに注意してください。oarray型は,Object Type の値を要素として持つ任意のArray Typeの値を代入できる型であるのに対して,"object[]型"は,"object型の値を要素に持つ配列"を表現する型で,任意のArray Typeの値を代入することはできません。
+  "oarrayType"は"object[]Type"と異なるTypeであることに注意してください。oarrayTypeは,Object Type の値を要素として持つ任意のArray Typeの値を代入できるTypeであるのに対して,"object[]Type"は,"objectTypeの値を要素に持つArray"を表現するTypeで,任意のArray Typeの値を代入することはできません。
 </p>
 <p>
-  Any Object Array Typeは,<a href="#language-type-array">Array Type</a>です。<a href="#language-operator-array-length">Array Length Operator</a>によって長さを取得すること,<a href="#language-expression-set-array-element">配列の要素の値の設定</a>,<a href="#language-expression-get-array-element">配列の要素の値の取得</a>ができます。
+  Any Object Array Typeは,<a href="#language-type-array">Array Type</a>です。<a href="#language-operator-array-length">Array Length Operator</a>によって長さを取得すること,<a href="#language-expression-set-array-element">Arrayの要素の値の設定</a>,<a href="#language-expression-get-array-element">Arrayの要素の値の取得</a>ができます。
 </p>
 <pre>
 my $array : oarray = new SPVM::Int[3];
@@ -7414,27 +7414,27 @@ my $num = (SPVM::Int)$array->[0];
 $array->[0] = SPVM::Int->new(5);
 </pre>
 <p>
-  Any Object Array Typeの要素の値の設定においては,要素の型が,配列のType Dimensionよりも1だけ小さくなっているかの実行時チェックが入ります。チェックに失敗した場合は,例外が発生します。Any Object Array Typeは,実行時型安全性を保証します。
+  Any Object Array Typeの要素の値の設定においては,要素のTypeが,ArrayのType Dimensionよりも1だけ小さくなっているかの実行時チェックが入ります。チェックに失敗した場合は,例外が発生します。Any Object Array Typeは,実行時Type安全性を保証します。
 </p>
 
 <h3 id="language-type-string">String Type</h3>
 <p>
-  String Typeは,文字列を表現する型です。stringによって表現します。C言語の"const char*"を表現するために設計されました。
+  String Typeは,Stringを表現するTypeです。stringによって表現します。C言語の"const char*"を表現するために設計されました。
 </p>
 <pre>
 my $str : string;
 </pre>
 <p>
-  String Literal によって,生成された文字列オブジェクトを代入できます。
+  String Literal によって,生成されたStringオブジェクトを代入できます。
 </p>
 <pre>
 my $str : string = "abc";
 </pre>
 <p>
-  SPVMの文字列は,要素を変更できないバイト型の配列です。配列アクセスを行って,文字を取得することができます。
+  SPVMのStringは,要素を変更できないバイトTypeのArrayです。Arrayアクセスを行って,Statement字を取得することができます。
 </p>
 <pre>
-# 文字の取得
+# Statement字の取得
 my $ch = $str->[1];
 </pre>
 <p>
@@ -7445,7 +7445,7 @@ my $ch = $str->[1];
 $str->[1] = 'd';
 </pre>
 <p>
-  String Typeは,コンパイルが終わった後は,バイト型の配列とまったく同じものになります。たとえば,一つ目の表現は,二つ目の表現として扱われます。
+  String Typeは,コンパイルが終わった後は,バイトTypeのArrayとまったく同じものになります。たとえば,一つ目の表現は,二つ目の表現として扱われます。
 </p>
 <pre>
 # isa String Type
@@ -7453,23 +7453,23 @@ if ($str isa string) {
 
 }
 
-# isa バイト型の配列
+# isa バイトTypeのArray
 if ($str isa byte[]) {
 
 }
 </pre>
 <p>
-  SPVMの文字列は,変更不可ですが,これは,コンパイル時チェックであることに注意してください。
+  SPVMのStringは,変更不可ですが,これは,コンパイル時チェックであることに注意してください。
 </p>
 <p>
-  String Typeは,byte[] Typeに,キャストすることができ,実行時に文字列を変更することができます。
+  String Typeは,byte[] Typeに,キャストすることができ,実行時にStringを変更することができます。
 </p>
 <pre>
 my $bytes = (byte[])$str;
 $bytes->[1] = 'd';
 </pre>
 <p>
-  文字列は,常に変更が可能であるものとして,扱ってください。
+  Stringは,常に変更が可能であるものとして,扱ってください。
 </p>
 
 <h3 id="language-type-string-compatible">String Compatible Type</h3>
@@ -7477,12 +7477,12 @@ $bytes->[1] = 'd';
   String Compatible Typeとは,<a href="#language-type-string">String Type</a>と<a href="#language-type-array-byte">byte[] Type</a>のことを言います。
 </p>
 <p>
-  String Compatible Typeの値が生成される場合には,値のために確保されたメモリ領域の最後のひとつ後ろは"\0"になることが保証されます。(たとえば"abc"であれば"c"の後ろは"\0")SPVM言語から見た場合,この"\0"は意味を持ちませんが,ネイティブAPIを使う場合は,String Compatible Typeを,C言語の文字列として扱うことができます。
+  String Compatible Typeの値が生成される場合には,値のために確保されたメモリ領域の最後のひとつ後ろは"\0"になることが保証されます。(たとえば"abc"であれば"c"の後ろは"\0")SPVM言語から見た場合,この"\0"は意味を持ちませんが,ネイティブAPIを使う場合は,String Compatible Typeを,C言語のStringとして扱うことができます。
 </p>
 
 <h3 id="language-type-multi-numeric">Multi Numeric Type</h3>
 <p>
-  Multi Numeric Typeとは,連続した数値を表現できる型です。
+  Multi Numeric Typeとは,連続した数値を表現できるTypeです。
 </p>
 <p>
   Package Definitionにおいて"mulnum_t"Descriptorを指定することで,Multi Numeric Typeを定義できます。
@@ -7495,12 +7495,12 @@ package Point_3i : mulnum_t {
 }
 </pre>
 <p>
-  Multi Numeric Typeの詳しい解説については,<a href="#language-value">値</a>を見てください。
+  Multi Numeric Typeの詳しい解説については,<a href="#language-mulnum">値</a>を見てください。
 </p>
 
 <h3 id="language-type-ref">Reference Type </h3>
 <p>
-  Reference Type とは,変数のアドレスが格納できる型のことです。<a href="#language-type-numeric">Numeric Type</a>あるいは<a href="#language-type-multi-numeric">Multi Numeric Type</a>の後ろに"&"を付けることで定義できます。
+  Reference Type とは,変数のアドレスが格納できるTypeのことです。<a href="#language-type-numeric">Numeric Type</a>あるいは<a href="#language-type-multi-numeric">Multi Numeric Type</a>の後ろに"&"を付けることで定義できます。
 </p>
 <pre>
 my $num : int;
@@ -7516,30 +7516,30 @@ my $point_ref : Point_3i& = \$point;
   Reference Type のLexical Variable Declaration だけが行われた場合は,a compile-time error occurs
 </p>
 <p>
-  Reference Type は,<a href="#language-lex-var-declaration">Lexical Variable Declaration</a>の型として利用できます。必ずReference Operator  によって,Lexical Variable のアドレスが格納される必要があります。Lexical Variable Declaration だけの場合は,a compile-time error occurs
+  Reference Type は,<a href="#language-lex-var-declaration">Lexical Variable Declaration</a>のTypeとして利用できます。必ずReference Operator  によって,Lexical Variable のアドレスが格納される必要があります。Lexical Variable Declaration だけの場合は,a compile-time error occurs
 </p>
 <p>
-  Reference Type は,<a href="#language-sub-definition">Subroutine Definition</a>における引数の型として利用できます。
+  Reference Type は,<a href="#language-sub-definition">Subroutine Definition</a>における引数のTypeとして利用できます。
 </p>
 <p>
-  Reference Type は,<a href="#language-sub-definition">Subroutine Definition</a>におけるReturn Valueの型として利用できません。
+  Reference Type は,<a href="#language-sub-definition">Subroutine Definition</a>におけるReturn ValueのTypeとして利用できません。
 </p>
 <p>
-  Reference Type は,<a href="#language-package-definition">Package Definition</a>におけるFieldの型として利用できません。
+  Reference Type は,<a href="#language-package-definition">Package Definition</a>におけるFieldのTypeとして利用できません。
 </p>
 <p>
-  Reference Type は,<a href="#language-package-definition">Package Definition</a>におけるPackage Variable の型として利用できません。
+  Reference Type は,<a href="#language-package-definition">Package Definition</a>におけるPackage Variable のTypeとして利用できません。
 </p>
 <p>
   Invalid 場所で,Reference Type が使用された場合は,a compile-time error occurs
 </p>
 <p>
-  リファレンスの詳しい解説については,<a href="#language-ref">リファレンス</a>を見てください。
+  Referenceの詳しい解説については,<a href="#language-ref">Reference</a>を見てください。
 </p>
 
 <h2 id="language-type-inference">Type Inference</h2>
 <p>
-  Type Inferenceによって,<a href="#language-lex-var-declaration">Lexical Variable Declaration</a>するときに,<a href="#language-type">型</a>の指定を省略することができます。Type Inferenceは,常にAssignment Operator の右辺の型によって,行われます。
+  Type Inferenceによって,<a href="#language-lex-var-declaration">Lexical Variable Declaration</a>するときに,<a href="#language-type">Type</a>の指定を省略することができます。Type Inferenceは,常にAssignment Operator の右辺のTypeによって,行われます。
 </p>
 <pre>
 # int
@@ -7553,16 +7553,16 @@ my $foo = new Foo;
 </pre>
 <h2 id="language-type-compatible">Type Compatibility</h2>
 <p>
-  型に互換性があるというのは,<a href="#language-expression-typecast">型キャスト</a>を行わないで,値が移動ができる型のことです。
+  Typeに互換性があるというのは,<a href="#language-expression-typecast">Typeキャスト</a>を行わないで,値が移動ができるTypeのことです。
 </p>
 <p>
-  型に互換性があるのは次の場合です。
+  Typeに互換性があるのは次の場合です。
 </p>
 <p>
-  <b>移動元と移動先の型が同一の場合</b>
+  <b>移動元と移動先のTypeが同一の場合</b>
 </p>
 <p>
-  移動元と移動先の型が同一の場合は,Type Compatibilityがあります。
+  移動元と移動先のTypeが同一の場合は,Type Compatibilityがあります。
 </p>
 <pre>
 my $num1 : int;
@@ -7570,10 +7570,10 @@ my $num2 : int;
 $num1 = $num2;
 </pre>
 <p>
-  <b>移動元の型がbyte[] Typeで,移動先の型がString Typeの場合</b>
+  <b>移動元のTypeがbyte[] Typeで,移動先のTypeがString Typeの場合</b>
 </p>
 <p>
-  移動元の型がbyte[] Typeで,移動先の型がString Typeの場合は,Type Compatibilityがあります。
+  移動元のTypeがbyte[] Typeで,移動先のTypeがString Typeの場合は,Type Compatibilityがあります。
 </p>
 <pre>
 my $bytes = new byte[3];
@@ -7581,7 +7581,7 @@ my $str : string;
 $str = $bytes;
 </pre>
 <p>
-  <b>移動元の型がObject Type で,移動先の型がAny Object Type の場合</b>
+  <b>移動元のTypeがObject Type で,移動先のTypeがAny Object Type の場合</b>
 </p>
 <pre>
 my $foo : Foo = new Foo;
@@ -7589,7 +7589,7 @@ my $object : object;
 $object = $foo;
 </pre>
 <p>
-  <b>移動元の型と移動先の型が,Any Object Type あるいは,Any Object Type の配列で,移動元のType Dimension数が,移動先のType Dimension数以上の場合</b>
+  <b>移動元のTypeと移動先のTypeが,Any Object Type あるいは,Any Object Type のArrayで,移動元のType Dimension数が,移動先のType Dimension数以上の場合</b>
 </p>
 <pre>
 my $objects_dim2_src : object[];
@@ -7597,39 +7597,39 @@ my $objects_dim1_dist : object;
 $objects_dim1_dist = $objects_dim2_src;
 </pre>
 <p>
-  注意点として,汎用オブジェクトの配列とBasic Typeの配列には互換性はありません。
+  注意点として,汎用オブジェクトのArrayとBasic TypeのArrayには互換性はありません。
 </p>
 <pre>
 # コンパイルエラー
 my $objets : object[] = new int[3];
 </pre>
 <p>
-  型に互換性がない場合は,<a href="#language-type-convertion-implicite">暗黙的な型変換</a>が試みられます。暗黙の型変換に失敗した場合は,a compile-time error occurs
+  Typeに互換性がない場合は,<a href="#language-type-convertion-implicite">暗黙的なType Convertion</a>が試みられます。暗黙のType Convertionに失敗した場合は,a compile-time error occurs
 </p>
 
-<h2 id="language-type-convertion">型変換</h2>
+<h2 id="language-type-convertion">Type Convertion</h2>
 <ul class="list">
-  <li><a href="#language-type-convertion-typecast">型キャスト</a></li>
-  <li><a href="#language-type-convertion-typecast">Numeric Typeの型変換</a></li>
-  <li><a href="#language-type-convertion-implicite">暗黙的な型変換</a></li>
+  <li><a href="#language-type-convertion-typecast">Typeキャスト</a></li>
+  <li><a href="#language-type-convertion-typecast">Numeric TypeのType Convertion</a></li>
+  <li><a href="#language-type-convertion-implicite">暗黙的なType Convertion</a></li>
   <li><a href="#language-type-convertion-numeric-type-order">Numeric Typeの順序</a></li>
-  <li><a href="#language-type-convertion-unary-numeric-widening">単項数値拡大型変換</a></li>
-  <li><a href="#language-type-convertion-binary-numeric-widening">二項数値拡大型変換</a></li>
-  <li><a href="#language-type-convertion-numeric-narrowing">数値縮小型変換</a></li>
-  <li><a href="#language-type-convertion-numeric-widening">数値拡大型変換</a></li>
-  <li><a href="#language-type-convertion-numeric-to-string">数値から文字列への型変換</a></li>
+  <li><a href="#language-type-convertion-unary-numeric-widening">単項数値拡大Type Convertion</a></li>
+  <li><a href="#language-type-convertion-binary-numeric-widening">二項数値拡大Type Convertion</a></li>
+  <li><a href="#language-type-convertion-numeric-narrowing">数値縮小Type Convertion</a></li>
+  <li><a href="#language-type-convertion-numeric-widening">数値拡大Type Convertion</a></li>
+  <li><a href="#language-type-convertion-numeric-to-string">数値からStringへのType Convertion</a></li>
   <li><a href="#language-type-convertion-boxing">ボクシング変換</a></li>
   <li><a href="#language-type-convertion-unboxing">アンボクシング変換</a></li>
-  <li><a href="#language-type-convertion-bool">ブール型変換</a></li>
+  <li><a href="#language-type-convertion-bool">ブールType Convertion</a></li>
 </ul>
 
-<h3 id="language-type-convertion-typecast">型キャスト</h3>
+<h3 id="language-type-convertion-typecast">Typeキャスト</h3>
 <p>
-  型キャストとは,明示的に記述して行う型変換のことを言います。
+  Typeキャストとは,明示的に記述して行うType Convertionのことを言います。
 </p>
 <pre>
-# 型キャスト
-(型)式
+# Typeキャスト
+(Type)Expression
 </pre>
 <p>
   int Type の値をlong Typeに変換するExampleはthe following ようになります。
@@ -7638,27 +7638,27 @@ my $objets : object[] = new int[3];
 my $num = (long)3;
 </pre>
 <p>
-  型キャストは,<a href="#language-expression">式</a>を返します。
+  Typeキャストは,<a href="#language-expression">Expression</a>を返します。
 </p>
 <p>
-  移動元の型と指定した型が同一の場合は,単に値のコピーになります。
+  移動元のTypeと指定したTypeが同一の場合は,単に値のコピーになります。
 </p>
 <pre>
 my $num : int = (int)4;
 </pre>
 <p>
-  <b>型キャストにおける型変換の一覧</b>
+  <b>TypeキャストにおけるType Convertionの一覧</b>
 </p>
 <p>
-  型キャストにおける型変換の一覧です。この表にない型キャストが行われた場合は,a compile-time error occurs
+  TypeキャストにおけるType Convertionの一覧です。この表にないTypeキャストが行われた場合は,a compile-time error occurs
 </p>
 <table>
   <tr>
     <th>
-      <b>指定した型</b>
+      <b>指定したType</b>
     </th>
     <th>
-      <b>移動元の型</b>
+      <b>移動元のType</b>
     </th>
     <th>
       変換の内容
@@ -7694,7 +7694,7 @@ my $num : int = (int)4;
       <b>Numeric Type</b>
     </td>
     <td>
-      <a href="#language-type-convertion-numeric-widening">Numeric Typeの型変換</a>が行われます。
+      <a href="#language-type-convertion-numeric-widening">Numeric TypeのType Convertion</a>が行われます。
     </td>
   </tr>
   <tr>
@@ -7749,17 +7749,17 @@ my $num : int = (int)4;
       <b>Numeric Type</b>
     </td>
     <td>
-      数値が,C標準のsprintf関数の"%g"フォーマットを使って,文字列化されます。
+      数値が,C標準のsprintf関数の"%g"フォーマットを使って,String化されます。
     </td>
   </tr>
 </table>
 
-<h3 id="language-type-convertion-numeric">Numeric Typeの型変換</h3>
+<h3 id="language-type-convertion-numeric">Numeric TypeのType Convertion</h3>
 <p>
-  Numeric Typeの型変換とは,<a href="#language-type-numeric">Numeric Type</a>から<a href="#language-type-numeric">Numeric Type</a>への変換のことです。
+  Numeric TypeのType Convertionとは,<a href="#language-type-numeric">Numeric Type</a>から<a href="#language-type-numeric">Numeric Type</a>への変換のことです。
 </p>
 <p>
-  Numeric Typeの型変換は,対応するC言語におけるNumeric Typeによる型変換と全く同じ処理を行います。例えば,SPVMにおけるintからlongへの型変換は,C言語のint32_t型からint64_t型への型変換と同じ処理を行います。
+  Numeric TypeのType Convertionは,対応するC言語におけるNumeric TypeによるType Convertionと全く同じ処理を行います。例えば,SPVMにおけるintからlongへのType Convertionは,C言語のint32_tTypeからint64_tTypeへのType Convertionと同じ処理を行います。
 </p>
 <pre>
 # SPVMの変換
@@ -7771,73 +7771,73 @@ int32_t src = 5;
 int64_t dist = (int64_t)src;
 </pre>
 <p>
-  型の対応については,<a href="#language-c99-type">C99との型の対応</a>を見てください。
+  Typeの対応については,<a href="#language-c99-type">C99とのTypeの対応</a>を見てください。
 </p>
 <p>
-  大きな型から小さな型に変換した場合や,浮動小数点からIntegral Typeに変換した場合は,Valid 情報が保持されない場合があります。SPVMでは,C99に対応する型変換をそのまま行っているので,Valid 情報が保持されない場合に,どの値に変換されるかは,C99の仕様と同じです。
+  大きなTypeから小さなTypeに変換した場合や,浮動小数点からIntegral Typeに変換した場合は,Valid 情報が保持されない場合があります。SPVMでは,C99に対応するType Convertionをそのまま行っているので,Valid 情報が保持されない場合に,どの値に変換されるかは,C99の仕様と同じです。
 </p>
 
-<h3 id="language-type-convertion-implicite">暗黙的な型変換</h3>
+<h3 id="language-type-convertion-implicite">暗黙的なType Convertion</h3>
 <p>
-  暗黙的な型変換とは,SPVMによって行われる自動的な型変換のことです。次の箇所が,暗黙的な型変換が行われる可能性のある個所です。
+  暗黙的なType Convertionとは,SPVMによって行われる自動的なType Convertionのことです。次の箇所が,暗黙的なType Convertionが行われる可能性のある個所です。
 </p>
 <ul class="list">
-  <li>異なる型に代入する場合</li>
-  <li>異なる型のSubroutine Argumentsに渡す場合</li>
-  <li>Return Valueとは異なる型を返却する場合</li>
+  <li>異なるTypeに代入する場合</li>
+  <li>異なるTypeのSubroutine Argumentsに渡す場合</li>
+  <li>Return Valueとは異なるTypeを返却する場合</li>
 </ul>
 <p>
-  次の場合に暗黙的な型変換が行われます。
+  次の場合に暗黙的なType Convertionが行われます。
 </p>
 <p>
-  移動元と移動先の型がどちらもNumeric Typeで,移動元の型よりも移動先の型が大きい場合は,<a href="#language-type-convertion-numeric-widening">数値拡大型変換</a>が行われます。
+  移動元と移動先のTypeがどちらもNumeric Typeで,移動元のTypeよりも移動先のTypeが大きい場合は,<a href="#language-type-convertion-numeric-widening">数値拡大Type Convertion</a>が行われます。
 </p>
 <pre>
-# 暗黙の拡大型変換
+# 暗黙の拡大Type Convertion
 my $num : long = 123;
 my $num : double = 12.5f;
 </pre>
 <p>
-  移動元と移動先の型がどちらもNumeric Typeで,移動元の型よりも移動先の型が小さい場合で,移動元の値が,Integer Literal  かつ移動先の型の値の範囲で表現できる場合は,<a href="#language-type-convertion-numeric-narrowing">数値縮小型変換</a>が行われます。
+  移動元と移動先のTypeがどちらもNumeric Typeで,移動元のTypeよりも移動先のTypeが小さい場合で,移動元の値が,Integer Literal  かつ移動先のTypeの値の範囲で表現できる場合は,<a href="#language-type-convertion-numeric-narrowing">数値縮小Type Convertion</a>が行われます。
 </p>
 <pre>
-# 暗黙の縮小型変換
+# 暗黙の縮小Type Convertion
 my $num : byte = 123;
 my $num : short = 134;
 </pre>
 <p>
-  移動元の型がNumeric Typeで,移動先の型がAny Object Type の場合は,対応するNumeric Object Type への<a href="#language-type-convertion-boxing">ボクシング変換</a>が行われます。the following 場合の例では,SPVM::Int Type のオブジェクトに変換されたものが,汎用オブジェクトに代入されます。
+  移動元のTypeがNumeric Typeで,移動先のTypeがAny Object Type の場合は,対応するNumeric Object Type への<a href="#language-type-convertion-boxing">ボクシング変換</a>が行われます。the following 場合の例では,SPVM::Int Type のオブジェクトに変換されたものが,汎用オブジェクトに代入されます。
 </p>
 <pre>
-# object型への暗黙のボクシング変換
+# objectTypeへの暗黙のボクシング変換
 my $num = 123;
 my $object : object = $num;
 </pre>
 <p>
-  移動元の型がNumeric Typeで,移動先の型が対応するNumeric Object Type の場合は,対応するNumeric Object Type への<a href="#language-type-convertion-boxing">ボクシング変換</a>が行われます。
+  移動元のTypeがNumeric Typeで,移動先のTypeが対応するNumeric Object Type の場合は,対応するNumeric Object Type への<a href="#language-type-convertion-boxing">ボクシング変換</a>が行われます。
 </p>
 <pre>
-# object型への暗黙のボクシング変換
+# objectTypeへの暗黙のボクシング変換
 my $num = 123;
 my $object : SPVM::Int = $num;
 </pre>
 <p>
-  移動元の型がAny Object Type で,移動先の型がNumeric Typeの場合は,対応するNumeric Typeにおける<a href="#language-type-convertion-unboxing">アンボクシング変換</a>が行われます。the following 場合の例では,SPVM::Int Type のオブジェクトからint Type への変換が試みられます。
+  移動元のTypeがAny Object Type で,移動先のTypeがNumeric Typeの場合は,対応するNumeric Typeにおける<a href="#language-type-convertion-unboxing">アンボクシング変換</a>が行われます。the following 場合の例では,SPVM::Int Type のオブジェクトからint Type への変換が試みられます。
 </p>
 <pre>
-# object型からの暗黙のアンボクシング変換 - 
+# objectTypeからの暗黙のアンボクシング変換 - 
 my $object : object;
 my $num : int = $object;
 </pre>
 <p>
-  移動元の型がNumeric Object Type で,移動先の型が対応するNumeric Typeの場合は,対応するNumeric Typeにおける<a href="#language-type-convertion-unboxing">アンボクシング変換</a>が行われます。
+  移動元のTypeがNumeric Object Type で,移動先のTypeが対応するNumeric Typeの場合は,対応するNumeric Typeにおける<a href="#language-type-convertion-unboxing">アンボクシング変換</a>が行われます。
 </p>
 <pre>
 # Numeric Object Type からの暗黙のアンボクシング変換
 my $num_obj = SPVM::Int->new(3);
 my $num : int = $num_obj;
 </pre>
-  移動元の型がNumeric Typeで,移動先の型が,String Typeの場合は,<a href="#language-type-convertion-numeric-to-string">数値から文字列への型変換</a>が行われます。the following 場合の例では,数値の"123"が文字列""123""に変換されたものが代入されます。
+  移動元のTypeがNumeric Typeで,移動先のTypeが,String Typeの場合は,<a href="#language-type-convertion-numeric-to-string">数値からStringへのType Convertion</a>が行われます。the following 場合の例では,数値の"123"がString""123""に変換されたものが代入されます。
 </p>
 <pre>
 # String Typeへの暗黙のボクシング変換
@@ -7847,43 +7847,43 @@ my $str : string = $num;
 
 <h3 id="language-type-convertion-numeric-type-order">Numeric Typeの順序</h3>
 <p>
-  <a href="#language-type-numeric">Numeric Type</a>は,型の順序を持ちます。型の順序は小さい方から"byte""short""int""long""float""double"です。
+  <a href="#language-type-numeric">Numeric Type</a>は,Typeの順序を持ちます。Typeの順序は小さい方から"byte""short""int""long""float""double"です。
 </p>
-<h3 id="language-type-convertion-unary-numeric-widening">単項数値拡大型変換</h3>
+<h3 id="language-type-convertion-unary-numeric-widening">単項数値拡大Type Convertion</h3>
 <p>
-  単項数値拡大型変換とは,<a href="#language-expression">式</a>がbyte Typeあるいはshort Typeであった場合に,int Type へ<a href="#language-type-convertion-numeric-widening">数値拡大型変換</a>を行うことをいいます。
+  単項数値拡大Type Convertionとは,<a href="#language-expression">Expression</a>がbyte Typeあるいはshort Typeであった場合に,int Type へ<a href="#language-type-convertion-numeric-widening">数値拡大Type Convertion</a>を行うことをいいます。
 </p>
 <p>
-  単項数値拡大型変換が行われるのはthe following 場合です。
+  単項数値拡大Type Convertionが行われるのはthe following 場合です。
 </p>
 <ul class="list">
-  <li>配列のインデックス</li>
-  <li>配列を作成する場合の次元</li>
+  <li>Arrayのインデックス</li>
+  <li>Arrayを作成する場合の次元</li>
   <li>Unary Plus Operator のオペランド</li>
   <li>Unary Minus Operator のオペランド</li>
   <li>Shift Operator "<<"">>"">>>"の左右のオペランド</li>
 </ul>
-<h3 id="language-type-convertion-binary-numeric-widening">二項数値拡大型変換</h3>
+<h3 id="language-type-convertion-binary-numeric-widening">二項数値拡大Type Convertion</h3>
 <p>
-  二項数値拡大型変換とは,左辺と右辺にNumeric TypeをとるBinary Operator  において,Left ExpressionとRight Expressionに適用される<a href="#language-type-convertion-numeric-widening">数値拡大型変換</a>のことをいいます。
+  二項数値拡大Type Convertionとは,左辺と右辺にNumeric TypeをとるBinary Operator  において,Left ExpressionとRight Expressionに適用される<a href="#language-type-convertion-numeric-widening">数値拡大Type Convertion</a>のことをいいます。
 </p>
 <p>
   次のルールが適用されます。
 </p>
 <p>
-  1. 一方の式が,double Typeの場合は,他方の型はdouble Typeに変換されます。
+  1. 一方のExpressionが,double Typeの場合は,他方のTypeはdouble Typeに変換されます。
 </p>
 <p>
-  2. 一方の式が,float Typeの場合は,他方の型はfloat Typeに変換されます。
+  2. 一方のExpressionが,float Typeの場合は,他方のTypeはfloat Typeに変換されます。
 </p>
 <p>
-  3. 一方の式が,long Typeの場合は,他方の型はlong Typeに変換されます。
+  3. 一方のExpressionが,long Typeの場合は,他方のTypeはlong Typeに変換されます。
 </p>
 <p>
   4. それ以外の場合は,int Type に変換されます。
 </p>
 <p>
-  二項数値拡大型変換が行われるのはthe following 場合です。
+  二項数値拡大Type Convertionが行われるのはthe following 場合です。
 </p>
 <ul class="list">
   <li><a href="#language-operator-add">Addition Operator</a></li>
@@ -7896,14 +7896,14 @@ my $str : string = $num;
   <li><a href="#language-operator-comparison-numeric">数値比較Operator</a></li>
 </ul>
 
-<h3 id="language-type-convertion-numeric-narrowing">数値縮小型変換</h3>
+<h3 id="language-type-convertion-numeric-narrowing">数値縮小Type Convertion</h3>
 <p>
-  数値縮小型変換とは,<a href="#language-type-numeric">Numeric Type</a>において大きい型から小さい型への変換が行われる場合に適用される変換の規則のことです。
+  数値縮小Type Convertionとは,<a href="#language-type-numeric">Numeric Type</a>において大きいTypeから小さいTypeへの変換が行われる場合に適用される変換の規則のことです。
 </p>
 
-<h3 id="language-type-convertion-numeric-widening">数値拡大型変換</h3>
+<h3 id="language-type-convertion-numeric-widening">数値拡大Type Convertion</h3>
 <p>
-  数値拡大型変換とは,<a href="#language-type-numeric">Numeric Type</a>において小さい型から大きい型への変換が行われる場合に適用される変換の規則のことです。
+  数値拡大Type Convertionとは,<a href="#language-type-numeric">Numeric Type</a>において小さいTypeから大きいTypeへの変換が行われる場合に適用される変換の規則のことです。
 </p>
 
 <h3 id="language-type-convertion-boxing">ボクシング変換</h3>
@@ -7916,12 +7916,12 @@ my $str : string = $num;
   アンボクシング変換とは,Numeric Object Type の値を,対応するNumeric Typeの値に変換する操作のことをいいます。
 </p>
 
-<h3 id="language-type-convertion-bool">ブール型変換</h3>
+<h3 id="language-type-convertion-bool">ブールType Convertion</h3>
 <p>
-  ブール型変換とは,if statementの条件部などで適用される,真偽値判定のために,適用される変換のことです。
+  ブールType Convertionとは,if statementの条件部などで適用される,真偽値判定のために,適用される変換のことです。
 </p>
 <p>
-  <b>ブール型変換が行われる場所</b>
+  <b>ブールType Convertionが行われる場所</b>
 </p>
 <p>
   <b>if statementのかっこの中</b>
@@ -7932,7 +7932,7 @@ if (条件部) {
 }
 </pre>
 <p>
-  <b>unless文のかっこの中</b>
+  <b>unless Statementのかっこの中</b>
 </p>
 <pre>
 unless (条件部) {
@@ -7974,33 +7974,33 @@ while (条件部) {
 !条件部
 </pre>
 <p>
-  ブール型変換で指定される式は,<a href="#language-type-numeric">Numeric Type</a>あるいは<a href="#language-type-object">Object Type</a>あるいは<a href="#language-type-undef">Undefined Type</a>でなければなりません。otherwise a compile-time error occurs.
+  ブールType Convertionで指定されるExpressionは,<a href="#language-type-numeric">Numeric Type</a>あるいは<a href="#language-type-object">Object Type</a>あるいは<a href="#language-type-undef">Undefined Type</a>でなければなりません。otherwise a compile-time error occurs.
 </p>
 <p>
-  ブール型変換のReturn Valueは,int Type の式です。
+  ブールType ConvertionのReturn Valueは,int Type のExpressionです。
 </p>
 <p>
-  式が<a href="#language-undef">Undefined Value</a>である場合は,0が返されます。
+  Expressionが<a href="#language-undef">Undefined Value</a>である場合は,0が返されます。
 </p>
 <p>
-  式が,<a href="#language-type-numeric">Numeric Type</a>の場合は,<a href="#language-type-convertion-unary-numeric-widening">単項数値拡大型変換</a>が行われます。
+  Expressionが,<a href="#language-type-numeric">Numeric Type</a>の場合は,<a href="#language-type-convertion-unary-numeric-widening">単項数値拡大Type Convertion</a>が行われます。
 </p>
 <p>
-  式がint Type の場合は,その値が返されます。
+  Expressionがint Type の場合は,その値が返されます。
 </p>
 <p>
-  式がlong Type,float Type,double Type,Object Type である場合は,C99におけるthe following 演算と完全に一致する演算を行い,結果が返されます。
+  Expressionがlong Type,float Type,double Type,Object Type である場合は,C99におけるthe following 演算と完全に一致する演算を行い,結果が返されます。
 </p>
 <pre>
 !!x
 </pre>
 <p>
-  式がObject Type の場合は,Undefined Valueの場合は0,そうでない場合は1が返されます。
+  ExpressionがObject Type の場合は,Undefined Valueの場合は0,そうでない場合は1が返されます。
 </p>
 
-<h2 id="language-auto-loaded-module">自動的に読み込まれるModule</h2>
+<h2 id="language-auto-loaded-module">Automatically Loaded Module</h2>
 <p>
-  自動的に読み込まれるModuleです。<a href="#language-module-use">Moduleの読み込み</a>を行わないで利用することができます。
+  Automatically Loaded Moduleです。<a href="#language-module-use">Moduleの読み込み</a>を行わないで利用することができます。
 </p>
 <ul class="list">
   <li>SPVM::Byte</li>
@@ -8021,10 +8021,10 @@ while (条件部) {
   SPVMのSubroutine Argumentsの個数の最大は256個です。
 </p>
 <p>
-  Multi Numeric Typeの引数を渡すときは,Fieldの個数が,引数の個数としてカウントされます。たとえばSPVM::Complex_2d型が引数で指定された場合は,2個と数えます。
+  Multi Numeric Typeの引数を渡すときは,Fieldの個数が,引数の個数としてカウントされます。たとえばSPVM::Complex_2dTypeが引数で指定された場合は,2個と数えます。
 </p>
 <p>
-  複数数値のReference Type の引数を渡すときは,Multi Numeric TypeのFieldの個数が,引数の個数としてカウントされます。たとえばSPVM::Complex_2d&型が引数で指定された場合は,2個と数えます。
+  Multi Numeric Reference Type の引数を渡すときは,Multi Numeric TypeのFieldの個数が,引数の個数としてカウントされます。たとえばSPVM::Complex_2d&Typeが引数で指定された場合は,2個と数えます。
 </p>
 <p>
   もし,最大値を超えた場合は,a compile-time error occurs
