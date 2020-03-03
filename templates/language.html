@@ -4,7 +4,7 @@
 
 SPVM is in beta testing for the 1.0 release. Language Specification will be changed without warning.
 
-Last modified 2020-03-02
+Last modified 2020-03-03
 
 <ul>
   <li><a href="#language-c99">C99 compliant</a></li>
@@ -1235,7 +1235,7 @@ The descriptions of Package Descriptors.
       <b>public</b>
     </td>
     <td>
-      This package is public. Other packages can <a href="#language-expression-new-object">new</a> this package.
+      This package is public. Other packages can <a href="#language-expression-new">new</a> this package.
     </td>
   </tr>
   <tr>
@@ -1243,7 +1243,7 @@ The descriptions of Package Descriptors.
       <b>private</b>
     </td>
     <td>
-      This package is private. Other packages can't <a href="#language-expression-new-object">new</a> this package. This is default setting.
+      This package is private. Other packages can't <a href="#language-expression-new">new</a> this package. This is default setting.
     </td>
   </tr>
   <tr>
@@ -1425,9 +1425,9 @@ else {
 
 By default, private Subroutines, Fields, and Package Variables cannot be accessed from outside the Package.
 
-Also, Private Package cannot <a href="#language-expression-new-object">Create Object</a> from outside of Package.
+Also, Private Package cannot <a href="#language-expression-new">Create Object</a> from outside of Package.
 
-If the package allow other package, the other package can access private Subroutines, Fields, and Package Variables, and can <a href="#language-expression-new-object">Create Object</a> of the package.
+If the package allow other package, the other package can access private Subroutines, Fields, and Package Variables, and can <a href="#language-expression-new">Create Object</a> of the package.
 
 <pre>
 allow PACKAGE_NAME;
@@ -1579,9 +1579,9 @@ package Foo {
 
 Package Variable Access is an operation to access Package Variable to get or set a value.
 
-See <a href="#language-expression-get-package-var">Package Variable Getting</a> for how to get the value of Package Variable.
+See <a href="#language-expression-get-package-var">Get Package Variable</a> for how to get the value of Package Variable.
 
-See <a href="#language-expression-set-package-var">Package Variable Setting</a> for the setting of the value of Package Variable.
+See <a href="#language-expression-set-package-var">Set Package Variable</a> for the setting of the value of Package Variable.
 
 <h2 id="language-field">Field</h2>
 <ul class="list">
@@ -1591,7 +1591,7 @@ See <a href="#language-expression-set-package-var">Package Variable Setting</a> 
 </ul>
 <h3 id="language-field-definition">Field Definition</h3>
 
-Field is a data area in a <a href="#language-expression-new-object">object created using new keyword</a>
+Field is a data area in a <a href="#language-expression-new">object created using new keyword</a>
 
 "has" Keyword defines a Field.
 
@@ -1703,87 +1703,68 @@ package Foo {
 
 Field Access is an operation to access Field to get or set a value.
 
-See <a href="#language-expression-get-field">Field Value Getting</a> for how to get the value of Field.
-
-See <a href="#language-expression-set-field">Field Value Setting</a> for the setting of the value of Field.
-
-<h3 id="language-field-access">Field Access</h3>
-<p>
-  Field Accessとは,Fieldにアクセスして,値を取得したり,設定したりする操作のことです。また,the following 記述そのものを指します。
-</p>
 <pre>
-Invocant ->{Field Name}
+EXPRESSION->{FIELD_NAME}
 </pre>
-<p>
-  Field Accessは,一種類のsyntax で,三つの異なる意味を持ちます。
-</p>
-<p>
-  <b>1. Class TypeのField Access</b>
-</p>
-<p>
-  <a href="#language-type-class">Class Type</a>を元に<a href="#language-expression-new-object">Object Creating</a>が行われた場合は,オブジェクトからFieldにアクセスすることができます。
-</p>
+
+Field Access has three different meanings.
+
+<b>1. Class Based Object Field Access</b>
+
+Class Based Object Field Access is Field Access from object which is create by <a href="#language-expression-new">new</a> keyword.
+
 <pre>
 my $point = new Point;
 $point->{x} = 1;
 </pre>
 
-<p>
-  Class TypeのFieldの取得については,<a href="#language-expression-get-field-class">Class TypeのFieldの値の取得</a>を見てください。
-</p>
-<p>
-  Class TypeのFieldの設定については,<a href="#language-expression-set-field-class">Class TypeのFieldの値の設定</a>を見てください。
-</p>
-<p>
-  <b>2. Multi Numeric TypeのField Access</b>
-</p>
-<p>
-  2. <a href="#language-type-multi-numeric">Multi Numeric Type</a>におけるFieldは,Multi Numeric Typeの変数の宣言をすれば,その変数からFieldにアクセスできます。これは,Lexical Variable 領域におけるアクセスです。
-</p>
+See <a href="#language-expression-get-field-class-based-object">Get Class Based Object Field</a> to get field of Class Based Object.
+
+See <a href="#language-expression-set-field-class-based-object">Set Class Based Object Field</a> to set field of Class Based Object.
+
+<b>2. Multi Numeric Field Access</b>
+
+Multi Numeric Field Access is Field Access from the value of <a href="#language-type-multi-numeric">Multi Numeric Type</a>. The value of <a href="#language-type-multi-numeric">Multi Numeric Type</a> is allocated Callstack of Subroutine.
+
 <pre>
 my $z : SPVM::Complex_2d;
-$z->{re} = 1;
-$z->{im} = 3;
+$z->{x} = 1;
+$z->{y} = 3;
 </pre>
-<p>
-  Multi Numeric TypeのFieldの取得については,<a href="#language-expression-get-field-multi-numeric">Multi Numeric TypeのFieldの値の取得</a>を見てください。
-</p>
-<p>
-  Multi Numeric TypeのFieldの設定については,<a href="#language-expression-set-field-multi-numeric">Multi Numeric TypeのFieldの値の設定</a>を見てください。
-</p>
-<p>
-  <b>3. Dereference によるMulti Numeric TypeのFieldのアクセス</b>
-</p>
-<p>
-  Multi Numeric Typeの変数に対するReference Type から,Dereference を行って直接にMulti Numeric TypeのFieldにアクセスできます。
-</p>
+
+See <a href="#language-expression-get-field-multi-numeric">Get Multi Numeric Field</a> to get field of the value of <a href="#language-type-multi-numeric">Multi Numeric Type</a>.
+
+See <a href="#language-expression-set-field-multi-numeric">Set Multi Numeric Field</a> to set field of the value of <a href="#language-type-multi-numeric">Multi Numeric Type</a>.
+
+<b>3. Dereference Multi Numeric Field</b>
+
+Dereference Multi Numeric Field is Field access from Reference of the value of <a href="#language-type-multi-numeric">Multi Numeric Type</a>.
+
 <pre>
 my $z : SPVM::Complex_2d;
 my $z_ref = \$z;
-$z_ref->{re} = 1;
-$z_ref->{im} = 3;
+$z_ref->{x} = 1;
+$z_ref->{y} = 3;
 </pre>
-<p>
-  Dereference によるMulti Numeric TypeのFieldの取得については,<a href="#language-expression-get-field-multi-numeric-deref">Dereference によるMulti Numeric TypeのFieldの取得</a>を見てください。
-</p>
-<p>
-  Dereference によるMulti Numeric TypeのFieldの設定については,<a href="#language-expression-set-field-multi-numeric-deref">Dereference によるMulti Numeric TypeのFieldの設定</a>を見てください。
-</p>
 
-<h2 id="language-sub">Subroutine </h2>
+See <a href="#language-expression-get-field-multi-numeric-deref">Get Multi Numeric Field via Dereference</a> to get Multi Numeric Field via Dereference.
+
+See <a href="#language-expression-set-field-multi-numeric-deref">Set Multi Numeric Field via Dereference</a> to set Multi Numeric Field via Dereference.
+
+<h2 id="language-sub">Subroutine</h2>
 <ul class="list">
   <li><a href="#language-sub-definition">Subroutine Definition</a></li>
   <li><a href="#language-sub-constant">Constant Subroutine</a></li>
   <li><a href="#language-sub-new-callback-object">CallbackObject Creating</a></li>
-  <li><a href="#language-sub-capture">キャプチャ</a></li>
+  <li><a href="#language-sub-capture">Capture</a></li>
   <li><a href="#language-sub-method">メソッド</a></li>
-  <li><a href="#language-sub-signature">シグネチャ</a></li>
+  <li><a href="#language-sub-signature">Signature</a></li>
   <li><a href="#language-sub-invocant">Invocant</a></li>
   <li><a href="#language-sub-stack">Subroutine Callstack</a></li>
 </ul>
 <h3 id="language-sub-definition">Subroutine Definition</h3>
 <p>
-  "sub"  Keyword を使用してSubroutine を定義することができます。
+  "sub"  Keyword を使用してSubroutine をDefinitionすることができます。
 </p>
 <pre>
 sub Subroutine Name : Return ValueのType Name  (引数名1 : 引数のType Name 1, 引数名2 : 引数のType Name 2, 以下続く) {
@@ -1803,7 +1784,7 @@ sub Subroutine Name : Return ValueのType Name  (引数名1 : 引数のType Name
   戻りのType Name には,"void Type""Numeric Type""Object Type "を指定することができます。
 </p>
 <p>
-  Subroutine Definitionには"Return ValueのType Name "と"0個以上の引数の定義"が必要です。"引数の定義"は"引数名"と"引数のType Name "からなります。
+  Subroutine Definitionには"Return ValueのType Name "と"0個以上の引数のDefinition"が必要です。"引数のDefinition"は"引数名"と"引数のType Name "からなります。
 </p>
 <p>
   引数名は,変数名でなければなりません。
@@ -1864,7 +1845,7 @@ Descriptor Name sub Subroutine Name : Return ValueのType Name  (引数の変数
   引数のType Name の後ろに"..."を続けると,可変長引数となります。最後の引数のみ可変長引数にすることができます。
 </p>
 <pre>
-# 可変長引数の定義
+# 可変長引数のDefinition
 sub Subroutine Name : Return ValueのType Name  (引数名1 : 引数のType Name 1, 引数名2 : 引数のType Name 2...) {
 
 }
@@ -1898,7 +1879,7 @@ foo("aaa %d %f", (object)[(object)SPVM::Int->new(1), SPVM::Double->new(2.0)]);
 </pre>
 
 <p>
-  定義されたSubroutine は,呼び出すことができます。Subroutine Callについては,<a href="language-expression-callsub">Subroutine Call</a>を見てください。
+  DefinitionされたSubroutine は,呼び出すことができます。Subroutine Callについては,<a href="language-expression-callsub">Subroutine Call</a>を見てください。
 </p>
 
 <h3 id="language-sub-constant">Constant Subroutine </h3>
@@ -1924,7 +1905,7 @@ sub foo : int () { return 5 + 3; }
 
 <h3 id="language-sub-new-callback-object">CallbackObject Creating</h3>
 <p>
-  CallbackObject Creatingとは,Callbackの用途で,特別なsyntax を使って,Callback Typeに適合するオブジェクトを生成するStatement法のことです。
+  CallbackObject Creatingとは,Callbackの用途で,特別なsyntax を使って,Callback Typeに適合するオブジェクトを生成するSyntaxのことです。
 </p>
 <pre>
 sub : Type Name  ($self : self, 引数1, 引数2, ..., 引数n) {
@@ -1940,7 +1921,7 @@ my $cb_obj = sub : Type Name  ($self : self, 引数1, 引数2, ..., 引数n) {
 };
 </pre>
 <p>
-  CallbackObject Creatingで定義されるSubroutine は,<a href="#language-sub-method">メソッド</a>でなければなりません。また名前を持たないSubroutine でなければなりません。
+  CallbackObject CreatingでDefinitionされるSubroutine は,<a href="#language-sub-method">メソッド</a>でなければなりません。また名前を持たないSubroutine でなければなりません。
 </p>
 <p>
   <b>CallbackObject CreatingのExample</b>
@@ -1954,18 +1935,18 @@ my $comparator = sub : int ($self : self, $x1 : object, $x2 : object) {
   CallbackObject Creatingによって生成されたオブジェクトは,通常のオブジェクトなので,メソッドを呼び出すことができます。CallbackObject Creatingの呼び出しについては,<a href="language-expression-callsub">Subroutine Call</a>を見てください。
 <p>
 
-<h3 id="language-sub-capture">キャプチャ</h3>
+<h3 id="language-sub-capture">Capture</h3>
 <p>
-  CallbackObject Creatingにおいては,キャプチャというsyntax を使って,CallbackObject Creatingによって定義されたSubroutine の外側で定義された変数を,CallbackObject Creatingによって定義されたSubroutine の内側で使うことができます。
+  CallbackObject Creatingにおいては,Captureというsyntax を使って,CallbackObject CreatingによってDefinitionされたSubroutine の外側でDefinitionされた変数を,CallbackObject CreatingによってDefinitionされたSubroutine の内側で使うことができます。
 </p>
 <pre>
-# キャプチャ
+# Capture
 [変数名1 : Type1, 変数名2 : Type2] sub Subroutine Name : int ($self : self, $x1 : object, $x2 : object) {
 
 };
 </pre>
 
-キャプチャのExample。
+CaptureのExample。
 
 <pre>
 my $foo = 1;
@@ -1978,19 +1959,19 @@ my $comparator = [$foo : int, $bar : long] sub : int ($self : self, $x1 : object
 }
 </pre>
 <p>
-  キャプチャで使用する変数名は,<a href="#language-lex-identifier-field-name">Field Name</a>の先頭に"$"を付けたものでなければなりません。
+  Captureで使用する変数名は,<a href="#language-lex-identifier-field-name">Field Name</a>の先頭に"$"を付けたものでなければなりません。
 </p>
 <p>
-  キャプチャは,実際には,クラスのFieldとして定義されます。キャプチャは,Field Definitionと値の設定のシンタックスシュガーです。
+  Captureは,実際には,ClassのFieldとしてDefinitionされます。Captureは,Field Definitionと値の設定のシンタックスシュガーです。
 </p>
 <p>
-  Scope内で,キャプチャ変数と同名の<a href="#language-lex-var">Lexical Variable</a>が存在する場合は,Lexical Variable にアクセスします。
+  Scope内で,Capture変数と同名の<a href="#language-lex-var">Lexical Variable</a>が存在する場合は,Lexical Variable にアクセスします。
 </p>
 <p>
-  キャプチャ変数と同名の<a href="#language-package-var">Package Variable</a>が存在する場合は,キャプチャ変数にアクセスします。
+  Capture変数と同名の<a href="#language-package-var">Package Variable</a>が存在する場合は,Capture変数にアクセスします。
 </p>
 <p>
-  CallbackObject Creatingとキャプチャをシンタックスシュガーを使わないで記述すると次のようになります。
+  CallbackObject CreatingとCaptureをシンタックスシュガーを使わないで記述すると次のようになります。
 </p>
 <pre>
 package ComapartorImpl {
@@ -2015,7 +1996,7 @@ $comparator->{foo} = $foo;
 $comparator->{bar} = $bar;
 </pre>
 
-キャプチャは,このような長い記述を,短く書くためのStatement法です。
+Captureは,このような長い記述を,短く書くためのSyntaxです。
 
 <h3 id="language-sub-method">メソッド</h3>
 <p>
@@ -2027,7 +2008,7 @@ sub Subroutine Name : Type Name  ($self : self, 引数1 : Type1, 引数2 : Type2
 }
 </pre>
 <p>
-  メソッドは,<a href="#language-expression-new-object">Object Creating</a>によって生成されたオブジェクトから呼び出すことができます。Method Call については,<a href="language-expression-callsub">Subroutine Call</a>を見てください。
+  メソッドは,<a href="#language-expression-new">Object Creating</a>によって生成されたオブジェクトから呼び出すことができます。Method Call については,<a href="language-expression-callsub">Subroutine Call</a>を見てください。
 </p>
 
 <h3 id="language-sub-invocant">Invocant </h3>
@@ -2043,9 +2024,9 @@ sub Subroutine Name : Type Name  ($self : self, 引数1 : Type1, 引数2 : Type2
   上記の例では$selfは,Invocant と呼ばれます。
 </p>
 
-<h3 id="language-sub-signature">シグネチャ</h3>
+<h3 id="language-sub-signature">Signature</h3>
 <p>
-  シグネチャとは,Subroutine Retrun Valueと引数を次の規則で並べたものをいいます。引数は,存在しなくても構いません。間に空白を含むことはできません。
+  Signatureとは,Subroutine Retrun Valueと引数を次の規則で並べたものをいいます。引数は,存在しなくても構いません。間に空白を含むことはできません。
 </p>
 <p>
   1. Return ValueのType Name 
@@ -2060,23 +2041,23 @@ sub Subroutine Name : Type Name  ($self : self, 引数1 : Type1, 引数2 : Type2
   4. )
 </p>
 <p>
-  シグネチャのExampleです。
+  SignatureのExampleです。
 </p>
 <pre>
-# Subroutine 定義
+# Subroutine Definition
 sub foo : int ($num1 : double, $num2 : long[])
 
-# シグネチャ
+# Signature
 int(double,long[])
 
-# Subroutine 定義
+# Subroutine Definition
 sub foo : void ()
 
-# シグネチャ
+# Signature
 void()
 </pre>
 <p>
-  シグネチャは,SPVMを記述しているときには,意識する必要はありません。ネイティブからSPVMのSubroutine を呼び出すときに使用します。
+  Signatureは,SPVMを記述しているときには,意識する必要はありません。ネイティブからSPVMのSubroutine を呼び出すときに使用します。
 </p>
 
 <h3 id="language-sub-stack">Subroutine Callstack</h3>
@@ -2104,7 +2085,7 @@ void()
 </ul>
 <h3 id="language-enum-definition">Enumeration Definition</h3>
 <p>
-  Enumerationはint Type の定数を定義したい場合に利用します。連続したint Type の定数を簡単に定義できます。"enum"  Keyword を使って定義します。
+  Enumerationはint Type の定数をDefinitionしたい場合に利用します。連続したint Type の定数を簡単にDefinitionできます。"enum"  Keyword を使ってDefinitionします。
 </p>
 <pre>
 enum {
@@ -2161,7 +2142,7 @@ enum {
   上記の場合は"FLAG1"は"0","FALG2"は"4","FLAG3"は"5"になります。
 </p>
 <p>
-  enumの定義がInvalid 場合は,a compile-time error occurs
+  enumのDefinitionがInvalid 場合は,a compile-time error occurs
 </p>
 
 <p>
@@ -2246,7 +2227,7 @@ switch ($num) {
   BEGIN Block とは,コンパイル時が終了し,実行時に入る前に,実行されるBlock のことです。
 </p>
 <p>
-  BEGIN  Keyword を使用してBEGIN Block を定義することができます。
+  BEGIN  Keyword を使用してBEGIN Block をDefinitionすることができます。
 </p>
 <pre>
 BEGIN {
@@ -2273,13 +2254,13 @@ BEGIN {
 }
 </pre>
 <p>
-  returnl statementを書くことはできません。BEGIN Block は,引数がなく,Return ValueがvoidのSubroutine として定義されます。
+  returnl statementを書くことはできません。BEGIN Block は,引数がなく,Return ValueがvoidのSubroutine としてDefinitionされます。
 </p>
 <p>
-  BEGIN Block は,いくつでも定義できます。
+  BEGIN Block は,いくつでもDefinitionできます。
 </p>
 <p>
-  BEGIN Block の実行順序は,保証されません。他のPackage にBEGIN Block が定義されている場合は,そのBEGIN Block が先に実行されることを想定しないでください。
+  BEGIN Block の実行順序は,保証されません。他のPackage にBEGIN Block がDefinitionされている場合は,そのBEGIN Block が先に実行されることを想定しないでください。
 </p>
 <p>
   BEGIN Block の一般的な用途は,<a href="#language-package-var">Package Variable</a>を初期化することです。
@@ -2669,15 +2650,15 @@ $@
 }
 </pre>
 <p>
-  Weaken Reference関連のStatement法として,Weaken Referenceを解除できる<a href="#language-statement-weaken">weaken statement</a>と,FieldがWeaken Referenceかどうかを確認できる<a href="#language-operator-isweak">isweakOperator</a>があります。
+  Weaken Reference関連のSyntaxとして,Weaken Referenceを解除できる<a href="#language-statement-weaken">weaken statement</a>と,FieldがWeaken Referenceかどうかを確認できる<a href="#language-operator-isweak">isweakOperator</a>があります。
 </p>
 
 <h2 id="language-callback">Callback</h2>
 <p>
-  SPVMにおけるCallback Typeとは,実装を持たない名前のないメソッドが一つだけ定義されたPackage Typeのことをいいます。<a href="#language-package-definition">Package Definition</a>においてcallback_tDescriptorを指定すると,Callback Typeになります。
+  SPVMにおけるCallback Typeとは,実装を持たない名前のないメソッドが一つだけDefinitionされたPackage Typeのことをいいます。<a href="#language-package-definition">Package Definition</a>においてcallback_tDescriptorを指定すると,Callback Typeになります。
 </p>
 <p>
-  Callback Typeの目的は,異なるオブジェクトが,同じメソッド定義を持つときに,どちらも代入できるTypeを提供することにあります。C言語の関数ポインタに該当する機能をSPVMにおいて実現するものと考えてください。
+  Callback Typeの目的は,異なるオブジェクトが,同じメソッドDefinitionを持つときに,どちらも代入できるTypeを提供することにあります。C言語の関数ポインタに該当する機能をSPVMにおいて実現するものと考えてください。
 </p>
 <pre>
 package Foo1 {
@@ -2704,10 +2685,10 @@ sub : int ($self : self, $num : int);
 </pre>
 
 <p>
-  Foo1とFoo2は同じメソッド定義"sub : int ($self : self, $num : int)"を持ちます。ここで,選択的にFoo1またはFoo2のメソッドを呼び出したいとします。
+  Foo1とFoo2は同じメソッドDefinition"sub : int ($self : self, $num : int)"を持ちます。ここで,選択的にFoo1またはFoo2のメソッドを呼び出したいとします。
 </p>
 <p>
-  この場合に,同じメソッド定義を持つCallback TypeFooCallbackを定義すると,このTypeにどちらのオブジェクトも代入できます。そして,このオブジェクトから,メソッドを呼び出すことができます。
+  この場合に,同じメソッドDefinitionを持つCallback TypeFooCallbackをDefinitionすると,このTypeにどちらのオブジェクトも代入できます。そして,このオブジェクトから,メソッドを呼び出すことができます。
 </p>
 <pre>
 my $foo1 = Foo1->new;
@@ -2788,12 +2769,12 @@ Array->[添え字]
 
 <h2 id="language-mulnum">Multi Numeric Value</h2>
 <ul class="list">
-  <li><a href="#language-mulnum-definition">Multi Numeric Typeの定義</a></li>
+  <li><a href="#language-mulnum-definition">Multi Numeric TypeのDefinition</a></li>
   <li><a href="#language-mulnum-usage">Multi Numeric Typeの使用</a></li>
   <li><a href="#language-mulnum-access">Multi Numeric TypeのField Access</a></li>
 </ul>
 
-<h3 id="language-mulnum-definition">Multi Numeric Typeの定義</h2>
+<h3 id="language-mulnum-definition">Multi Numeric TypeのDefinition</h2>
 <p>
   SPVMには,他の言語ではあまり見ることのない値というものがあります。
 </p>
@@ -2801,7 +2782,7 @@ Array->[添え字]
   値は,連続した数値を表現します。たとえば,連続した32bit符号付整数が3つであるとか,連続した倍精度浮動小数点が2つなどです。3次元の点,複素数,四元数などを表現することが想定されています。
 </p>
 <p>
-  値を使用するには,最初に,Multi Numeric Typeを定義します。Multi Numeric Typeは,<a href="#language-package-definition">Package Definition</a>において,mulnum_tDescriptorを指定することで定義できます。
+  値を使用するには,最初に,Multi Numeric TypeをDefinitionします。Multi Numeric Typeは,<a href="#language-package-definition">Package Definition</a>において,mulnum_tDescriptorを指定することでDefinitionできます。
 </p>
 <pre>
 # 連続した32bit符号付整数が3つ
@@ -2885,13 +2866,13 @@ package Complex_2d : mulnum_t {
   </tr>
 </table>
 <p>
-  サフィックスは,実際に定義されているNumeric Typeと対応している必要があります。
+  サフィックスは,実際にDefinitionされているNumeric Typeと対応している必要があります。
 </p>
 <p>
-  Numeric Typeの定義において,Fieldの個数の最大は16です。
+  Numeric TypeのDefinitionにおいて,Fieldの個数の最大は16です。
 </p>
 <p>
-  Invalid Multi Numeric Typeの定義の場合は,a compile-time error occurs
+  Invalid Multi Numeric TypeのDefinitionの場合は,a compile-time error occurs
 </p>
 <p>
   Multi Numeric Typeは,<a href="#language-lex-var-declaration">Lexical Variable Declaration</a>のTypeとして利用することができます。
@@ -2986,7 +2967,7 @@ my $point : Point_3i;
 my $z : Complex_2d;
 </pre>
 <p>
-  Multi Numeric Typeの値は,オブジェクトではないので,<a href="#language-expression-new-object">Object Creating</a>のsyntax では生成できないことに注意してください。
+  Multi Numeric Typeの値は,オブジェクトではないので,<a href="#language-expression-new">Object Creating</a>のsyntax では生成できないことに注意してください。
 </p>
 
 <h3 id="language-mulnum-access">Multi Numeric TypeのField Access</h2>
@@ -2997,16 +2978,16 @@ my $z : Complex_2d;
 Invocant ->{Field Name}
 </pre>
 <p>
-  Multi Numeric TypeのFieldの取得については,<a href="#language-expression-get-field-multi-numeric">Multi Numeric TypeのFieldの値の取得</a>を見てください。
+  Multi Numeric TypeのFieldの取得については,<a href="#language-expression-get-field-multi-numeric">Get Multi Numeric Field</a>を見てください。
 </p>
 <p>
-  Multi Numeric TypeのFieldの設定については,<a href="#language-expression-set-field-multi-numeric">Multi Numeric TypeのFieldの値の設定</a>を見てください。
+  Multi Numeric TypeのFieldの設定については,<a href="#language-expression-set-field-multi-numeric">Set Multi Numeric Field</a>を見てください。
 </p>
 <p>
-  <b>Multi Numeric TypeのFieldの値の取得・設定のExample</b>
+  <b>Get Multi Numeric Field・設定のExample</b>
 </p>
 <p>
-  Multi Numeric TypeのFieldの値の取得・設定のExampleです。
+  Get Multi Numeric Field・設定のExampleです。
 </p>
 <pre>
 $ival2->{x} = 1;
@@ -3122,23 +3103,23 @@ $point_ref->{x} = 1;
 <ul class="list">
   <li><a href="#language-expression-get-lex-var">Lexical Variable の値の取得</a></li>
   <li><a href="#language-expression-set-lex-var">Lexical Variable の値の設定</a></li>
-  <li><a href="#language-expression-get-package-var">Package Variable Setting</a></li>
-  <li><a href="#language-expression-set-package-var">Package Variable Getting</a></li>
+  <li><a href="#language-expression-get-package-var">Set Package Variable</a></li>
+  <li><a href="#language-expression-set-package-var">Get Package Variable</a></li>
   <li><a href="#language-expression-get-exception-var">例外変数の値の設定</a></li>
   <li><a href="#language-expression-set-exception-var">例外変数の値の取得</a></li>
   <li><a href="#language-literal">Literal</a></li>
   <li><a href="#language-undef">Undefined Value</a></li>
   <li><a href="#language-expression-callsub">Subroutine Call</a></li>
-  <li><a href="#language-expression-get-field-class">Class TypeのFieldの値の取得</a></li>
-  <li><a href="#language-expression-set-field-class">Class TypeのFieldの値の設定</a></li>
-  <li><a href="#language-expression-get-field-multi-numeric">Multi Numeric TypeのFieldの値の取得</a></li>
-  <li><a href="#language-expression-set-field-multi-numeric">Multi Numeric TypeのFieldの値の設定</a></li>
-  <li><a href="#language-expression-get-field-multi-numeric-deref">Dereference によるMulti Numeric TypeのFieldの取得</a></li>
-  <li><a href="#language-expression-set-field-multi-numeric-deref">Dereference によるMulti Numeric TypeのFieldの設定</a></li>
+  <li><a href="#language-expression-get-field-class-based-object">Get Class Based Object Field</a></li>
+  <li><a href="#language-expression-set-field-class-based-object">Set Class Based Object Field</a></li>
+  <li><a href="#language-expression-get-field-multi-numeric">Get Multi Numeric Field</a></li>
+  <li><a href="#language-expression-set-field-multi-numeric">Set Multi Numeric Field</a></li>
+  <li><a href="#language-expression-get-field-multi-numeric-deref">Get Multi Numeric Field via Dereference</a></li>
+  <li><a href="#language-expression-set-field-multi-numeric-deref">Set Multi Numeric Field via Dereference</a></li>
   <li><a href="#language-expression-get-array-element">Arrayの要素の値の取得</a></li>
   <li><a href="#language-expression-set-array-element">Arrayの要素の値の設定</a></li>
   <li><a href="#language-expression-typecast">Typeキャスト</a></li>
-  <li><a href="#language-expression-new-object">Object Creating</a></li>
+  <li><a href="#language-expression-new">Object Creating</a></li>
   <li><a href="#language-expression-new-array">Array Creating</a></li>
   <li><a href="#language-expression-release-object">Release Object</a></li>
   <li><a href="#language-expression-array-init">Array Initialization</a></li>
@@ -3193,7 +3174,7 @@ $var = Right Expression
   代入前に,すでに$varにオブジェクトが代入されていた場合は,そのオブジェクトのReference Countが1減らされます。
 </p>
 
-<h3 id="language-expression-get-package-var">Package Variable Getting</h3>
+<h3 id="language-expression-get-package-var">Get Package Variable</h3>
 
 Use the following syntax to get the value of Package Variable.
 
@@ -3212,11 +3193,11 @@ $PACKAGE_VARIABLE_NAME
 </pre>
 
 <p>
- Package Variable Gettingは,<a href="#language-expression">Expression</a>を返します。
+ Get Package Variableは,<a href="#language-expression">Expression</a>を返します。
 </p>
 
 <p>
-  定義されていないPackage Variable の値を取得しようとした場合は,a compile-time error occurs
+  DefinitionされていないPackage Variable の値を取得しようとした場合は,a compile-time error occurs
 </p>
 
 <p>
@@ -3224,7 +3205,7 @@ $PACKAGE_VARIABLE_NAME
 </p>
 
 <p>
-  <b>Package Variable Getting Example:</b>
+  <b>Get Package Variable Example:</b>
 </p>
 <pre>
 package Foo {
@@ -3237,14 +3218,14 @@ package Foo {
 }
 </pre>
 
-<h3 id="language-expression-set-package-var">Package Variable Setting</h3>
+<h3 id="language-expression-set-package-var">Set Package Variable</h3>
 <p>
   Package Variable の値を設定するにはthe following syntax を使用します。
 </p>
 <pre>
-$クラス名::Package Variable Name = Right Expression
+$Class名::Package Variable Name = Right Expression
 </pre>
-  自分自身のPackage に属するPackage Variable の場合は"クラス名::"を省略できます。
+  自分自身のPackage に属するPackage Variable の場合は"Class名::"を省略できます。
 </p>
 <pre>
 $Package Variable Name = Right Expression
@@ -3253,13 +3234,13 @@ $Package Variable Name = Right Expression
   Package Variable 設定は,<a href="#language-expression">Expression</a>を返します。返される結果は,代入後のPackage Variable の値です。
 </p>
 <p>
-  定義されていないPackage Variable の値を設定しようとした場合は,コンパイル時エラーが設定します。
+  DefinitionされていないPackage Variable の値を設定しようとした場合は,コンパイル時エラーが設定します。
 </p>
 <p>
   Package 外側からプライベートなPackage Variable にアクセスしようとした場合は,a compile-time error occurs
 </p>
 <p>
-  <b>Package Variable Setting Example:</b>
+  <b>Set Package Variable Example:</b>
 </p>
 <pre>
 package Foo {
@@ -3327,45 +3308,45 @@ $@ = Right Expression
 $@ = "Error";
 </pre>
 
-<h3 id="language-expression-get-field-class">Class TypeのFieldの値の取得</h3>
+<h3 id="language-expression-get-field-class-based-object">Get Class Based Object Field</h3>
 <p>
-  Class TypeのFieldの値の取得は,次のように記述します。
+  Get Class Based Object Fieldは,次のように記述します。
 </p>
 <pre>
 Invocant Expression->{Field Name}
 </pre>
 <p>
-  Invocant Expressionは,<a href="#language-type-class">Class Type</a>の値でなければなりません。Invocant Expressionが,<a href="#language-type-multi-numeric">Multi Numeric Type</a>の値であった場合は,<a href="#language-expression-get-field-multi-numeric">Multi Numeric TypeのFieldの値の取得</a>になり,<a href="#language-type-ref-multi-numeric">Multi Numeric Reference Type</a>の値であった場合は,<a href="#language-expression-get-field-multi-numeric-deref">Dereference によるMulti Numeric TypeのFieldの取得</a>になり,それ以外の場合は,a compile-time error occurs
+  Invocant Expressionは,<a href="#language-type-class">Class Type</a>の値でなければなりません。Invocant Expressionが,<a href="#language-type-multi-numeric">Multi Numeric Type</a>の値であった場合は,<a href="#language-expression-get-field-multi-numeric">Get Multi Numeric Field</a>になり,<a href="#language-type-ref-multi-numeric">Multi Numeric Reference Type</a>の値であった場合は,<a href="#language-expression-get-field-multi-numeric-deref">Get Multi Numeric Field via Dereference</a>になり,それ以外の場合は,a compile-time error occurs
 </p>
 <p>
   Field Nameが,存在しない場合は,a compile-time error occurs
 </p>
 <p>
-  Class TypeのFieldの値の取得は,オブジェクトに保存されているFieldの値を返します。これは<a href="#language-expression">Expression</a>です。
+  Get Class Based Object Fieldは,オブジェクトに保存されているFieldの値を返します。これは<a href="#language-expression">Expression</a>です。
 </p>
 <p>
   返される値のTypeは,FieldのTypeです。
 </p>
 <p>
-  <b>Class TypeのFieldの値の取得のExample</b>
+  <b>Get Class Based Object FieldのExample</b>
 </p>
 <p>
-  Class TypeのFieldの値の取得のExampleです。
+  Get Class Based Object FieldのExampleです。
 </p>
 <pre>
 my $point = Point->new;
 my $x = $point->{x};
 </pre>
 
-<h3 id="language-expression-set-field-class">Class TypeのFieldの値の設定</h3>
+<h3 id="language-expression-set-field-class-based-object">Set Class Based Object Field</h3>
 <p>
-  Class TypeのFieldの値の設定は,次のように記述します。
+  Set Class Based Object Fieldは,次のように記述します。
 </p>
 <pre>
 Invocant Expression->{Field Name} = Right Expression
 </pre>
 <p>
-  Invocant Expressionは,<a href="#language-type-class">Class Type</a>の値でなければなりません。Invocant Expressionが,<a href="#language-type-multi-numeric">Multi Numeric Type</a>の値であった場合は,<a href="#language-expression-get-field-multi-numeric">Multi Numeric TypeのFieldの値の設定</a>になり,<a href="#language-type-ref-multi-numeric">Multi Numeric Reference Type</a>の値であった場合は,<a href="#language-expression-get-field-multi-numeric-deref">Dereference によるMulti Numeric TypeのFieldの設定</a>になり,それ以外の場合は,a compile-time error occurs
+  Invocant Expressionは,<a href="#language-type-class">Class Type</a>の値でなければなりません。Invocant Expressionが,<a href="#language-type-multi-numeric">Multi Numeric Type</a>の値であった場合は,<a href="#language-expression-get-field-multi-numeric">Set Multi Numeric Field</a>になり,<a href="#language-type-ref-multi-numeric">Multi Numeric Reference Type</a>の値であった場合は,<a href="#language-expression-get-field-multi-numeric-deref">Set Multi Numeric Field via Dereference</a>になり,それ以外の場合は,a compile-time error occurs
 </p>
 <p>
   Field Nameが,存在しない場合は,a compile-time error occurs
@@ -3374,7 +3355,7 @@ Invocant Expression->{Field Name} = Right Expression
   Right ExpressionのTypeは,FieldのTypeと同じでなければなりません。otherwise a compile-time error occurs.
 </p>
 <p>
-  Class TypeのFieldの値の設定は,設定後のオブジェクトに保存されているFieldの値を返します。これは<a href="#language-expression">Expression</a>です。
+  Set Class Based Object Fieldは,設定後のオブジェクトに保存されているFieldの値を返します。これは<a href="#language-expression">Expression</a>です。
 </p>
 <p>
   返される値のTypeは,FieldのTypeです。
@@ -3386,55 +3367,55 @@ Invocant Expression->{Field Name} = Right Expression
   代入前に,すでにFieldにオブジェクトが代入されていた場合は,そのオブジェクトのReference Countが1減らされます。
 </p>
 <p>
-  <b>Class TypeのFieldの値の設定のExample</b>
+  <b>Set Class Based Object FieldのExample</b>
 </p>
 <p>
-  Class TypeのFieldの値の設定のExampleです。
+  Set Class Based Object FieldのExampleです。
 </p>
 <pre>
 my $point = Point->new;
 $point->{x} = 1;
 </pre>
 
-<h3 id="language-expression-get-field-multi-numeric">Multi Numeric TypeのFieldの値の取得</h3>
+<h3 id="language-expression-get-field-multi-numeric">Get Multi Numeric Field</h3>
 <p>
-  Multi Numeric TypeのFieldの値の取得は,次のように記述します。
+  Get Multi Numeric Fieldは,次のように記述します。
 </p>
 <pre>
 Invocant Expression->{Field Name}
 </pre>
 <p>
-  Invocant Expressionは,<a href="#language-type-class">Multi Numeric Type</a>の値でなければなりません。Invocant Expressionが,<a href="#language-type-class">Class Type</a>の値であった場合は,<a href="#language-expression-get-field-class">Class TypeのFieldの値の取得</a>になり,<a href="#language-type-ref-multi-numeric">Multi Numeric Reference Type</a>の値であった場合は,<a href="#language-expression-get-field-multi-numeric-deref">Dereference によるMulti Numeric TypeのFieldの取得</a>になり,それ以外の場合は,a compile-time error occurs
+  Invocant Expressionは,<a href="#language-type-class">Multi Numeric Type</a>の値でなければなりません。Invocant Expressionが,<a href="#language-type-class">Class Type</a>の値であった場合は,<a href="#language-expression-get-field-class-based-object">Get Class Based Object Field</a>になり,<a href="#language-type-ref-multi-numeric">Multi Numeric Reference Type</a>の値であった場合は,<a href="#language-expression-get-field-multi-numeric-deref">Get Multi Numeric Field via Dereference</a>になり,それ以外の場合は,a compile-time error occurs
 </p>
 <p>
   Field Nameが,存在しない場合は,a compile-time error occurs
 </p>
 <p>
-  Multi Numeric TypeのFieldの値の取得は,<a href="#language-sub-stack">Subroutine Callstack</a>に保存されている該当するFieldの値を返します。これは<a href="#language-expression">Expression</a>です。
+  Get Multi Numeric Fieldは,<a href="#language-sub-stack">Subroutine Callstack</a>に保存されている該当するFieldの値を返します。これは<a href="#language-expression">Expression</a>です。
 </p>
 <p>
   返される値のTypeは,FieldのTypeです。
 </p>
 <p>
-  <b>Multi Numeric TypeのFieldの値の取得のExample</b>
+  <b>Get Multi Numeric FieldのExample</b>
 </p>
 <p>
-  Multi Numeric TypeのFieldの値の取得のExampleです。
+  Get Multi Numeric FieldのExampleです。
 </p>
 <pre>
 my $z : SPVM::Complex_2d;
-my $re = $z->{re};
+my $re = $z->{x};
 </pre>
 
-<h3 id="language-expression-set-field-multi-numeric">Multi Numeric TypeのFieldの値の設定</h3>
+<h3 id="language-expression-set-field-multi-numeric">Set Multi Numeric Field</h3>
 <p>
-  Multi Numeric TypeのFieldの値の設定は,次のように記述します。
+  Set Multi Numeric Fieldは,次のように記述します。
 </p>
 <pre>
 Invocant Expression->{Field Name} = Right Expression
 </pre>
 <p>
-  Invocant Expressionは,<a href="#language-type-class">Multi Numeric Type</a>の値でなければなりません。Invocant Expressionが,<a href="#language-type-class">Class Type</a>の値であった場合は,<a href="#language-expression-set-field-class">Class TypeのFieldの値の設定</a>になり,<a href="#language-type-ref-multi-numeric">Multi Numeric Reference Type</a>の値であった場合は,<a href="#language-expression-set-field-multi-numeric-deref">Dereference によるMulti Numeric TypeのFieldの設定</a>になり,それ以外の場合は,a compile-time error occurs
+  Invocant Expressionは,<a href="#language-type-class">Multi Numeric Type</a>の値でなければなりません。Invocant Expressionが,<a href="#language-type-class">Class Type</a>の値であった場合は,<a href="#language-expression-set-field-class-based-object">Set Class Based Object Field</a>になり,<a href="#language-type-ref-multi-numeric">Multi Numeric Reference Type</a>の値であった場合は,<a href="#language-expression-set-field-multi-numeric-deref">Set Multi Numeric Field via Dereference</a>になり,それ以外の場合は,a compile-time error occurs
 </p>
 <p>
   Field Nameが,存在しない場合は,a compile-time error occurs
@@ -3443,62 +3424,62 @@ Invocant Expression->{Field Name} = Right Expression
   Right ExpressionのTypeは,FieldのTypeと同じでなければなりません。otherwise a compile-time error occurs.
 </p>
 <p>
-  Multi Numeric TypeのFieldの値の設定は,設定後の<a href="#language-sub-stack">Subroutine Callstack</a>に保存されている該当するFieldの値を返します。これは<a href="#language-expression">Expression</a>です。
+  Set Multi Numeric Fieldは,設定後の<a href="#language-sub-stack">Subroutine Callstack</a>に保存されている該当するFieldの値を返します。これは<a href="#language-expression">Expression</a>です。
 </p>
 <p>
   返される値のTypeは,FieldのTypeです。
 </p>
 <p>
-  <b>Multi Numeric TypeのFieldの値の設定のExample</b>
+  <b>Set Multi Numeric FieldのExample</b>
 </p>
 <p>
-  Multi Numeric TypeのFieldの値の設定のExampleです。
+  Set Multi Numeric FieldのExampleです。
 </p>
 <pre>
 my $z : SPVM::Complex_2d;
-$z->{re} = 2.5;
+$z->{x} = 2.5;
 </pre>
 
-<h3 id="language-expression-get-field-multi-numeric-deref">Dereference によるMulti Numeric TypeのFieldの値の取得</h3>
+<h3 id="language-expression-get-field-multi-numeric-deref">Dereference によるGet Multi Numeric Field</h3>
 <p>
-  Dereference によるMulti Numeric TypeのFieldの値の取得は,次のように記述します。
+  Dereference によるGet Multi Numeric Fieldは,次のように記述します。
 </p>
 <pre>
 Invocant Expression->{Field Name}
 </pre>
 <p>
-  Invocant Expressionは,<a href="#language-type-ref-multi-numeric">Multi Numeric Reference Type</a>の値でなければなりません。Invocant Expressionが,<a href="#language-type-class">Class Type</a>の値であった場合は,<a href="#language-expression-get-field-class">Class TypeのFieldの値の取得</a>になり,<a href="#language-type-multi-numeric">Multi Numeric Type</a>の値であった場合は,<a href="#language-expression-get-field-multi-numeric">Multi Numeric TypeのFieldの値の取得</a>になり,それ以外の場合は,a compile-time error occurs
+  Invocant Expressionは,<a href="#language-type-ref-multi-numeric">Multi Numeric Reference Type</a>の値でなければなりません。Invocant Expressionが,<a href="#language-type-class">Class Type</a>の値であった場合は,<a href="#language-expression-get-field-class-based-object">Get Class Based Object Field</a>になり,<a href="#language-type-multi-numeric">Multi Numeric Type</a>の値であった場合は,<a href="#language-expression-get-field-multi-numeric">Get Multi Numeric Field</a>になり,それ以外の場合は,a compile-time error occurs
 </p>
 <p>
   Field Nameが,存在しない場合は,a compile-time error occurs
 </p>
 <p>
-  Dereference によるMulti Numeric TypeのFieldの値の取得は,<a href="#language-sub-stack">Subroutine Callstack</a>に保存されている該当するFieldの値を返します。これは<a href="#language-expression">Expression</a>です。
+  Dereference によるGet Multi Numeric Fieldは,<a href="#language-sub-stack">Subroutine Callstack</a>に保存されている該当するFieldの値を返します。これは<a href="#language-expression">Expression</a>です。
 </p>
 <p>
   返される値のTypeは,FieldのTypeです。
 </p>
 <p>
-  <b>Dereference によるMulti Numeric TypeのFieldの値の取得のExample</b>
+  <b>Dereference によるGet Multi Numeric FieldのExample</b>
 </p>
 <p>
-  Dereference によるMulti Numeric TypeのFieldの値の取得のExampleです。
+  Dereference によるGet Multi Numeric FieldのExampleです。
 </p>
 <pre>
 my $z : SPVM::Complex_2d;
 my $z_ref = \$z;
-my $re = $z_ref->{re};
+my $re = $z_ref->{x};
 </pre>
 
-<h3 id="language-expression-set-field-multi-numeric-deref">Dereference によるMulti Numeric TypeのFieldの値の設定</h3>
+<h3 id="language-expression-set-field-multi-numeric-deref">Dereference によるSet Multi Numeric Field</h3>
 <p>
-  Dereference によるMulti Numeric TypeのFieldの値の設定は,次のように記述します。
+  Dereference によるSet Multi Numeric Fieldは,次のように記述します。
 </p>
 <pre>
 Invocant Expression->{Field Name} = Right Expression
 </pre>
 <p>
-  Invocant Expressionは,<a href="#language-type-ref-multi-numeric">Multi Numeric Reference Type</a>の値でなければなりません。Invocant Expressionが,<a href="#language-type-class">Class Type</a>の値であった場合は,<a href="#language-expression-set-field-class">Class TypeのFieldの値の設定</a>になり,<a href="#language-type-multi-numeric">Multi Numeric Type</a>の値であった場合は,<a href="#language-expression-set-field-multi-numeric">Multi Numeric TypeのFieldの値の設定</a>になり,それ以外の場合は,a compile-time error occurs
+  Invocant Expressionは,<a href="#language-type-ref-multi-numeric">Multi Numeric Reference Type</a>の値でなければなりません。Invocant Expressionが,<a href="#language-type-class">Class Type</a>の値であった場合は,<a href="#language-expression-set-field-class-based-object">Set Class Based Object Field</a>になり,<a href="#language-type-multi-numeric">Multi Numeric Type</a>の値であった場合は,<a href="#language-expression-set-field-multi-numeric">Set Multi Numeric Field</a>になり,それ以外の場合は,a compile-time error occurs
 </p>
 <p>
   Field Nameが,存在しない場合は,a compile-time error occurs
@@ -3507,21 +3488,21 @@ Invocant Expression->{Field Name} = Right Expression
   Right ExpressionのTypeは,FieldのTypeと同じでなければなりません。otherwise a compile-time error occurs.
 </p>
 <p>
-  Dereference によるMulti Numeric TypeのFieldの値の設定は,設定後の<a href="#language-sub-stack">Subroutine Callstack</a>に保存されている該当するFieldの値を返します。これは<a href="#language-expression">Expression</a>です。
+  Dereference によるSet Multi Numeric Fieldは,設定後の<a href="#language-sub-stack">Subroutine Callstack</a>に保存されている該当するFieldの値を返します。これは<a href="#language-expression">Expression</a>です。
 </p>
 <p>
   返される値のTypeは,FieldのTypeです。
 </p>
 <p>
-  <b>Dereference によるMulti Numeric TypeのFieldの値の設定のExample</b>
+  <b>Dereference によるSet Multi Numeric FieldのExample</b>
 </p>
 <p>
-  Dereference によるMulti Numeric TypeのFieldの値の設定のExampleです。
+  Dereference によるSet Multi Numeric FieldのExampleです。
 </p>
 <pre>
 my $z : SPVM::Complex_2d;
 my $z_ref = \$z;
-$z_ref->{re} = 2.5;
+$z_ref->{x} = 2.5;
 </pre>
 
 <h3 id="language-expression-get-array-element">Arrayの要素の値の取得</h3>
@@ -3611,7 +3592,7 @@ my $objects : oarray = $points;
 $objects->[2] = Point->new(3, 5);;
 </pre>
 
-<h3 id="language-expression-new-object">Object Creating</h3>
+<h3 id="language-expression-new">Object Creating</h3>
 <p>
   オブジェクトを生成するには,new  Keyword とthe following syntax をを使用します。
 </p>
@@ -3726,7 +3707,7 @@ my $nums = new int[][][3];
 
 <h3 id="language-expression-callsub">Subroutine Call</h3>
 <p>
-  <a href="#language-sub-definition">Subroutine Definition</a>によって定義されたSubroutine は呼び出すことができます。呼び出しには,2種類あって,<b>関数の呼び出し</b>と<b>Method Call </b>があります。
+  <a href="#language-sub-definition">Subroutine Definition</a>によってDefinitionされたSubroutine は呼び出すことができます。呼び出しには,2種類あって,<b>関数の呼び出し</b>と<b>Method Call </b>があります。
 </p>
 
 <h4 id="language-expression-callsub-func">関数の呼び出し</h4>
@@ -3740,7 +3721,7 @@ my $nums = new int[][][3];
 Package Name->Subroutine Name(引数1, 引数2, 引数3, ..., 引数n);
 </pre>
 <p>
-  PerlにおいてクラスMethod Call と呼ばれているものが,SPVMでは,関数の呼び出しと呼ばれていることに注意してください。
+  PerlにおいてClassMethod Call と呼ばれているものが,SPVMでは,関数の呼び出しと呼ばれていることに注意してください。
 </p>
 <p>
   関数の呼び出しでは,Package Nameを省略することもできます。
@@ -3752,14 +3733,11 @@ Subroutine Name(引数1, 引数2, 引数3, ..., 引数n);
   どのPackage Subroutine が呼び出されるかは,the following 順番によって決まります。
 </p>
 <p>
-  1. 現在のPackage で定義されているSubroutine ,または現在のPackage にインポートされたSubroutine 
-</p>
-<p>
-  2. 標準関数 - COREPackage で定義されているSubroutine 
+  Current Package でDefinitionされているSubroutine ,またはCurrent Package にインポートされたSubroutine 
 </p>
 
 <p>
-  関数の呼び出しは,引数を受け取ります。引数の個数が,Subroutine Definitionで定義されている引数の個数と一致しない場合は,a compile-time error occursそれぞれの引数のTypeが,Subroutine 定義で定義されている引数のTypeと<a href="#language-type-compatible">Type Compatibility</a>がない場合は,a compile-time error occurs
+  関数の呼び出しは,引数を受け取ります。引数の個数が,Subroutine DefinitionでDefinitionされている引数の個数と一致しない場合は,a compile-time error occursそれぞれの引数のTypeが,Subroutine DefinitionでDefinitionされている引数のTypeと<a href="#language-type-compatible">Type Compatibility</a>がない場合は,a compile-time error occurs
 </p>
 <p>
   関数の呼び出しは,Return Valueがvoid Type以外の場合は,Return Valueを返します。
@@ -3783,13 +3761,13 @@ my $ret = bar(1, 2, 3);
   Method Call とは,<a href="#language-sub-method">メソッド</a>であるSubroutine を呼び出す方法のことをいいます。メソッドかどうかの判断は,<a href="#language-sub-definition">Subroutine Definition</a>において,第一引数に<a href="#language-type-self">self Type</a>の引数が指定されていた場合が,メソッドになります。
 </p>
 <p>
-  Method Call は,<a href="#language-expression-new-object">Object Creating</a>によって生成されたオブジェクトを使ってthe following syntax で行うことができます。
+  Method Call は,<a href="#language-expression-new">Object Creating</a>によって生成されたオブジェクトを使ってthe following syntax で行うことができます。
 </p>
 <pre>
 オブジェクト->Subroutine Name(引数1, 引数2, 引数3, ..., 引数n);
 </pre>
 <p>
-  Method Call は,引数を受け取ります。引数の個数が,Subroutine Definitionで定義されている引数の個数と一致しない場合は,a compile-time error occursそれぞれの引数のTypeが,Subroutine 定義で定義されている引数のTypeと<a href="#language-type-compatible">Type Compatibility</a>がない場合は,a compile-time error occurs
+  Method Call は,引数を受け取ります。引数の個数が,Subroutine DefinitionでDefinitionされている引数の個数と一致しない場合は,a compile-time error occursそれぞれの引数のTypeが,Subroutine DefinitionでDefinitionされている引数のTypeと<a href="#language-type-compatible">Type Compatibility</a>がない場合は,a compile-time error occurs
 </p>
 <p>
   Method Call は,Return Valueがvoid Type以外の場合は,Return Valueを返します。
@@ -4614,7 +4592,7 @@ my $string_const = "abc";
 
 <h2 id="language-undef">Undefined Value</h2>
 <p>
-  未定義は"undef"で表現されます。
+  未Definitionは"undef"で表現されます。
 </p>
 <pre>
 undef
@@ -4656,7 +4634,7 @@ undef
   Undefined ValueはObject Type の値と"==""!="Operator を使用して,比較することができます。Undefined Valueは,生成されたオブジェクトと等しくない事が保証されます。
 </p>
 <p>
-  未定義は条件部で使われた場合は,偽になります。
+  未Definitionは条件部で使われた場合は,偽になります。
 </p>
 <p>
   Undefined Valueは,エクステンションにおいてC言語の値として利用された場合は,0と等しくなることが保証されます。
@@ -4815,7 +4793,7 @@ my $num = +10;
   <a href="#language-expression">Expression</a>に対して,<a href="#language-type-convertion-unary-numeric-widening">単項数値拡大Type Convertion</a>が行われます。
 </p>
 <p>
-  その後,Unary Minus Operator は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,int Type ,long Type,float Type,double Typeにおける演算が定義されます。
+  その後,Unary Minus Operator は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,int Type ,long Type,float Type,double Typeにおける演算がDefinitionされます。
 </p>
 <pre>
 -x
@@ -4849,7 +4827,7 @@ Left Expression + Right Expression
   Left ExpressionとRight Expressionに対して,<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大Type Convertion</a>が行われます。
 </p>
 <p>
-  その後,Addition Operator は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,int Type ,long Type,float Type,double Typeにおける演算が定義されます。
+  その後,Addition Operator は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,int Type ,long Type,float Type,double Typeにおける演算がDefinitionされます。
 </p>
 <pre>
 x + y;
@@ -4877,7 +4855,7 @@ Left Expression - Right Expression
   Left ExpressionとRight Expressionに対して,<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大Type Convertion</a>が行われます。
 </p>
 <p>
-  その後,Subtraction Operator は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,int Type ,long Type,float Type,double Typeにおける演算が定義されます。
+  その後,Subtraction Operator は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,int Type ,long Type,float Type,double Typeにおける演算がDefinitionされます。
 </p>
 <pre>
 x - y;
@@ -4905,7 +4883,7 @@ Left Expression * Right Expression
   Left ExpressionとRight Expressionに対して,<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大Type Convertion</a>が行われます。
 </p>
 <p>
-  その後,Multiplication Operator は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,int Type ,long Type,float Type,double Typeにおける演算が定義されます。
+  その後,Multiplication Operator は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,int Type ,long Type,float Type,double Typeにおける演算がDefinitionされます。
 </p>
 <pre>
 x * y;
@@ -4933,7 +4911,7 @@ Left Expression / Right Expression
   Left ExpressionとRight Expressionに対して,<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大Type Convertion</a>が行われます。
 </p>
 <p>
-  その後,Division Operator は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,int Type ,long Type,float Type,double Typeにおける演算が定義されます。
+  その後,Division Operator は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,int Type ,long Type,float Type,double Typeにおける演算がDefinitionされます。
 </p>
 <pre>
 x / y;
@@ -4965,7 +4943,7 @@ Left Expression % Right Expression
   Left ExpressionとRight Expressionに対して,<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大Type Convertion</a>が行われます。
 </p>
 <p>
-  その後,Remainder Operator は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,int Type ,long Typeにおける演算が定義されます。
+  その後,Remainder Operator は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,int Type ,long Typeにおける演算がDefinitionされます。
 </p>
 <pre>
 x % y;
@@ -5127,7 +5105,7 @@ Left Expression & Right Expression
   Left ExpressionとRight Expressionに対して,<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大Type Convertion</a>が行われます。
 </p>
 <p>
-  その後,Bit AND Operator の演算結果は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,int Type ,long Typeにおける演算が定義されます。
+  その後,Bit AND Operator の演算結果は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,int Type ,long Typeにおける演算がDefinitionされます。
 </p>
 <pre>
 x & y;
@@ -5156,7 +5134,7 @@ Left Expression | Right Expression
   Left ExpressionとRight Expressionに対して,<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大Type Convertion</a>が行われます。
 </p>
 <p>
-  その後,Bit OR Operator の演算結果は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,int Type ,long Typeにおける演算が定義されます。
+  その後,Bit OR Operator の演算結果は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,int Type ,long Typeにおける演算がDefinitionされます。
 </p>
 <pre>
 x | y;
@@ -5185,7 +5163,7 @@ x | y;
   <a href="#language-expression">Expression</a>に対して,<a href="#language-type-convertion-unary-numeric-widening">単項数値拡大Type Convertion</a>が行われます。
 </p>
 <p>
-  その後,Bit NOT Operator の演算結果は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,int Type ,long Typeにおける演算が定義されます。
+  その後,Bit NOT Operator の演算結果は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,int Type ,long Typeにおける演算がDefinitionされます。
 </p>
 <pre>
 ~x
@@ -5227,7 +5205,7 @@ Left Expression << Right Expression
   Right Expressionは,int Type でなければなりません。otherwise a compile-time error occurs.
 <p>
 <p>
-  Left Shift Operator の演算結果は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,int Type ,long Typeにおける演算が定義されます。
+  Left Shift Operator の演算結果は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,int Type ,long Typeにおける演算がDefinitionされます。
 </p>
 <pre>
 x << y;
@@ -5256,7 +5234,7 @@ Left Expression >> Right Expression
   Right Expressionは,int Type でなければなりません。otherwise a compile-time error occurs.
 <p>
 <p>
-  Arithmetic Right Shift Operator の演算結果は,C99におけるthe following 演算と完全に一致する演算を行います。xに対して,<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,int Type ,long Typeにおける演算が定義されます。
+  Arithmetic Right Shift Operator の演算結果は,C99におけるthe following 演算と完全に一致する演算を行います。xに対して,<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,int Type ,long Typeにおける演算がDefinitionされます。
 </p>
 <pre>
 x >> y;
@@ -5285,7 +5263,7 @@ Left Expression >>> Right Expression
   Right Expressionは,int Type でなければなりません。otherwise a compile-time error occurs.
 <p>
 <p>
-  Logical Right Shift Operator の演算結果は,C99におけるthe following 演算と完全に一致する演算を行います。xに対して,<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,int Type ,long Typeにおける演算が定義されます。
+  Logical Right Shift Operator の演算結果は,C99におけるthe following 演算と完全に一致する演算を行います。xに対して,<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,int Type ,long Typeにおける演算がDefinitionされます。
 </p>
 <pre>
 (符号付Integral Typeキャスト)((符号なしIntegral Typeキャスト)x >> y);
@@ -5398,7 +5376,7 @@ Left Expression 数値比較Operator  Right Expression
   Numeric Typeの比較の場合は,Left ExpressionとRight Expressionに対して,<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大Type Convertion</a>が行われます。
 </p>
 <p>
-  その後,数値比較Operator は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,int Type ,long Type,float Type,double Type,Object Type における演算が定義されます。
+  その後,数値比較Operator は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,int Type ,long Type,float Type,double Type,Object Type における演算がDefinitionされます。
 </p>
 <pre>
 # Numeric Typeの比較,Object Type の比較
@@ -5508,7 +5486,7 @@ Left Expression isa 右Type
   2. 右Typeが,<a href="#language-type-class">Class Type</a>であった場合は,実行時にLeft ExpressionのTypeが,Class Typeと一致するかをチェックします。一致した場合はint Type で1を,そうでない場合は0を返します。Left ExpressionのTypeは,Object Type でなければなりません。otherwise a compile-time error occurs.
 </p>
 <p>
-  3. 右Typeが,<a href="#language-type-callback">Callback Type</a>であった場合は,実行時にLeft ExpressionのTypeがClass Typeであり,そのクラスがCallback Typeを満たすかどうかをチェックします。満たした場合はint Type の1を,そうでない場合は0を返します。Left ExpressionのTypeは,Object Type でなければなりません。otherwise a compile-time error occurs.
+  3. 右Typeが,<a href="#language-type-callback">Callback Type</a>であった場合は,実行時にLeft ExpressionのTypeがClass Typeであり,そのClassがCallback Typeを満たすかどうかをチェックします。満たした場合はint Type の1を,そうでない場合は0を返します。Left ExpressionのTypeは,Object Type でなければなりません。otherwise a compile-time error occurs.
 </p>
 
 <h3 id="language-operator-logical">論理Operator </h3>
@@ -6978,7 +6956,7 @@ See <a href="#language-operator-arithmetic">Arithmetic Operator</a> for floating
 
 <h3 id="language-type-package">Package Type</h3>
 <p>
-  Package Typeとは"<a href="#language-package-definition">Package Definition</a>"によって定義されるTypeのことをいいます。
+  Package Typeとは"<a href="#language-package-definition">Package Definition</a>"によってDefinitionされるTypeのことをいいます。
 </p>
 <pre>
 package Foo {
@@ -7108,7 +7086,7 @@ For the conversion between <a href="#language-type-numeric">Numeric Type</a> and
 
 <h3 id="language-type-class">Class Type</h3>
 <p>
-  Class Typeとは"<a href="#language-package-definition">Package Definition</a>"によって定義されるTypeで"Multi Numeric Type""Callback Type"ではないTypeのことをいいます。
+  Class Typeとは"<a href="#language-package-definition">Package Definition</a>"によってDefinitionされるTypeで"Multi Numeric Type""Callback Type"ではないTypeのことをいいます。
 </p>
 <pre>
 packag Foo {
@@ -7147,7 +7125,7 @@ package Foo : pointer_t {
   Pointer Typeのデータには,C言語のポインタを保存することができます。
 </p>
 <p>
-  Pointer Typeには,Fieldを定義することはできません。定義されていた場合は,a compile-time error occurs
+  Pointer Typeには,FieldをDefinitionすることはできません。Definitionされていた場合は,a compile-time error occurs
 </p>
 <h3 id="language-type-callback">Callback Type</h3>
 <p>
@@ -7183,15 +7161,15 @@ package SPVM::Comparator : callback_t {
   Callback Typeには,Callbackを満たしたClass Typeのオブジェクトを代入できます。この場合,Class TypeはCallback Typeに適合するといいます。Class TypeがCallback Typeを満たすのは次の二つの場合です。
 </p>
 <p>
-  1. Callback Typeとして定義されたSubroutine と同一の名前とシグネチャを持つClass Typeのオブジェクトは,Callback Typeに代入できます。
+  1. Callback TypeとしてDefinitionされたSubroutine と同一の名前とSignatureを持つClass Typeのオブジェクトは,Callback Typeに代入できます。
 </p>
 <pre>
-# Callback Typeの定義
+# Callback TypeのDefinition
 package SPVM::Comparator : callback_t {
   sub : int ($self : self, $x1 : object, $x2 : object);
 }
 
-# クラスの定義
+# ClassのDefinition
 package SomeComparator {
   sub new : int () {
     return new SomeComparator;
@@ -7206,10 +7184,10 @@ package SomeComparator {
 my $comparator : SPVM::Comparator = SomeComparator->new;
 </pre>
 <p>
-  2. Callback Typeとして定義されたSubroutine と同一のシグネチャを持つCallbackObject Creatingを行うと,Callback Typeに代入できます。
+  2. Callback TypeとしてDefinitionされたSubroutine と同一のSignatureを持つCallbackObject Creatingを行うと,Callback Typeに代入できます。
 </p>
 <pre>
-# Callback Typeの定義
+# Callback TypeのDefinition
 package SPVM::Comparator : callback_t {
   sub : int ($self : self, $x1 : object, $x2 : object);
 }
@@ -7485,7 +7463,7 @@ $bytes->[1] = 'd';
   Multi Numeric Typeとは,連続した数値を表現できるTypeです。
 </p>
 <p>
-  Package Definitionにおいて"mulnum_t"Descriptorを指定することで,Multi Numeric Typeを定義できます。
+  Package Definitionにおいて"mulnum_t"Descriptorを指定することで,Multi Numeric TypeをDefinitionできます。
 </p>
 <pre>
 package Point_3i : mulnum_t {
@@ -7500,7 +7478,7 @@ package Point_3i : mulnum_t {
 
 <h3 id="language-type-ref">Reference Type </h3>
 <p>
-  Reference Type とは,変数のアドレスが格納できるTypeのことです。<a href="#language-type-numeric">Numeric Type</a>あるいは<a href="#language-type-multi-numeric">Multi Numeric Type</a>の後ろに"&"を付けることで定義できます。
+  Reference Type とは,変数のアドレスが格納できるTypeのことです。<a href="#language-type-numeric">Numeric Type</a>あるいは<a href="#language-type-multi-numeric">Multi Numeric Type</a>の後ろに"&"を付けることでDefinitionできます。
 </p>
 <pre>
 my $num : int;
