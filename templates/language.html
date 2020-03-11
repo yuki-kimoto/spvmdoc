@@ -1224,7 +1224,7 @@ The descriptions of Package Descriptors.
 <table>
   <tr>
     <th>
-      Descriptor Name
+      Descriptor
     </th>
     <th>
       Meaning
@@ -1596,7 +1596,7 @@ Field is a data area in a <a href="#language-expression-new">object created usin
 "has" Keyword defines a Field.
 
 <pre>
-has FIELD_NAME : TYPE_NAME;
+has FIELD_NAME : TYPE;
 </pre>
 
 Field must be defined directly under <a href="#language-package-definition">Package Definition</a>.
@@ -1605,7 +1605,9 @@ Field Definition must be specify <a href="#language-type">Type</a>. The Type mus
 
 Field Name must follows the rule specified in <a href="#language-lex-identifier-field-name">Field Name</a>.
 
-Field Name is allowed as same as <a href="#language-lex-keyword">Keyword</a>. 
+Field Name is allowed as same as <a href="#language-lex-keyword">Keyword</a>.
+
+Field Type must be <a href="#language-type-numeric">Numeric Type</a> or <a href="#language-type-object">Object Type</a>, otherwise a compile-time error occurs.
 
 If more than one Field Name Variable with the same name is defined, a compile-time error occurs.
 
@@ -1623,7 +1625,7 @@ List of Field Descriptors.
 <table>
   <tr>
     <th>
-      Descriptor Name
+      Descriptor
     </th>
     <th>
       Description
@@ -1754,70 +1756,105 @@ See <a href="#language-expression-set-field-multi-numeric-deref">Set Multi Numer
 <h2 id="language-sub">Subroutine</h2>
 <ul class="list">
   <li><a href="#language-sub-definition">Subroutine Definition</a></li>
+  <li><a href="#language-sub-descriptor">Subroutine Descriptor</a></li>
+  <li><a href="#language-sub-native">Native Subroutine</a></li>
+  <li><a href="#language-sub-precompiled">Precompiled Subroutine</a></li>
   <li><a href="#language-sub-constant">Constant Subroutine</a></li>
   <li><a href="#language-sub-new-callback-object">CallbackObject Creating</a></li>
   <li><a href="#language-sub-capture">Capture</a></li>
-  <li><a href="#language-sub-method">メソッド</a></li>
+  <li><a href="#language-sub-method">Method</a></li>
   <li><a href="#language-sub-signature">Signature</a></li>
   <li><a href="#language-sub-invocant">Invocant</a></li>
   <li><a href="#language-sub-stack">Subroutine Callstack</a></li>
 </ul>
+
 <h3 id="language-sub-definition">Subroutine Definition</h3>
-<p>
-  "sub"  Keyword を使用してSubroutine をDefinitionすることができます。
-</p>
+
+"sub" Keyword defines Subroutine.
+
 <pre>
-sub Subroutine Name : Return ValueのType Name  (引数名1 : 引数のType Name 1, 引数名2 : 引数のType Name 2, 以下続く) {
+sub SUBROUTINE_NAME : RETURN_VALUE_TYPE_NAME () {
+
+}
+sub SUBROUTINE_NAME : RETURN_VALUE_TYPE_NAME (ARGUMENT_NAME1 : ARGUMENT_TYPE_NAME1, ARGUMENT_NAME2 : ARGUMENT_TYPE_NAME2, ARGUMENT_NAMEN : ARGUMENT_TYPE_NAMEN) {
 
 }
 </pre>
-<p>
-  Subroutine Definitionは"<a href="#language-package-definition">Package Definition</a>"の直下で行う必要があります。
-</p>
-<p>
-  Subroutine Nameは,1Statement字以上の"a～z""A～Z""0～9""_"で構成する必要があります。先頭は,数字から始めることはできません。連続した"_"を使用することはできません。
-</p>
-<p>
-  Subroutine Nameには,<a href="#language-lex-keyword"> Keyword</a>と同じ名前を使用することができます。
-</p>
-<p>
-  戻りのType Name には,"void Type""Numeric Type""Object Type "を指定することができます。
-</p>
-<p>
-  Subroutine Definitionには"Return ValueのType Name "と"0個以上の引数のDefinition"が必要です。"引数のDefinition"は"引数名"と"引数のType Name "からなります。
-</p>
-<p>
-  引数名は,変数名でなければなりません。
-</p>
-<p>
-  引数のType Name には,"Numeric Type""Object Type ""Reference Type "を指定することができます。
-</p>
 
-<p>
-  Subroutine Blockの中には,0個以上のステートメントを記述できます。
-</p>
+Subroutine must be defined directly under <a href="#language-package-definition">Package Definition</a>.
 
-<p>
-  Subroutine Definitionには,Descriptorを合わせて指定することができます。複数のDescriptorを空白を使って並べることができます。
-</p>
+Subroutine name must be follow the rule of <a href="#language-lex-identifier-sub-name">Subroutine Name</a>.
+
+Subroutine Name is allowed as same as <a href="#language-lex-keyword">Keyword</a>. 
+
+Type of Return Value must be <a href="#language-type-void">void Type</a>, <a href="#language-type-numeric">Numeric Type</a>, or <a href="#language-type-object">Object Type</a>, otherwise a compile-time error occurs.
+
+Argument name must be follow the rule of <a href="#language-lex-identifier-lex-var-name">Lexical Variable Name</a>.
+
+Type of Argument must be <a href="#language-type-numeric">Numeric Type</a>, <a href="#language-type-object">Object Type</a>, or <a href="#language-type-reference">Reference Type</a>, otherwise a compile-time error occurs.
+
+The defined Subroutine can be called. See <a href="#language-expression-callsub">Subroutine Call</a> about calling Subroutine, .
+
+<a href="#language-block-statement-sub">Subroutine Block</a> can have zero or more statements.
+
+Subroutine Definition can have <a href="#language-sub-descriptor">Subroutine Descriptor</a>.
+
 <pre>
-Descriptor Name sub Subroutine Name : Return ValueのType Name  (引数の変数名1 : 引数のType Name 1, 引数の変数名2 : 引数のType Name 2, 以下続く) {
+DESCRIPTOR1 DESCRIPTOR2 DESCRIPTORN sub SUBROUTINE_NAME : RETURN_VALUE_TYPE_NAME () {
+
+}
+DESCRIPTOR1 DESCRIPTOR2 DESCRIPTORN sub SUBROUTINE_NAME : RETURN_VALUE_TYPE_NAME (ARGUMENT_NAME1 : ARGUMENT_TYPE_NAME1, ARGUMENT_NAME2 : ARGUMENT_TYPE_NAME2, ARGUMENT_NAMEN : ARGUMENT_TYPE_NAMEN) {
 
 }
 </pre>
-<p>
-  <b>Subroutine Descriptor</b>
-</p>
-<p>
-  Subroutine で指定できるDescriptorの一覧です。
-</p>
+
+
+If "..." follows Type of Argument, the Argument becomes Variable Length Argument. Only the last Argument can be Variable Length Argument.
+
+The Type must be <a href="#language-type-array">Array Type</a>.
+
+<pre>
+sub SUBROUTINE_NAME : RETURN_VALUE_TYPE_NAME (ARGUMENT_NAME1 : ARGUMENT_TYPE_NAME1, ARGUMENT_NAME2 : ARGUMENT_TYPE_NAME2...) {
+
+}
+</pre>
+
+Variable Length Argument can recieve multi values.
+
+<pre>
+# Variable Length Argument Definition
+sub sprintf : string ($format : string, $values : object[]...) {
+
+}
+
+# Call Variable Length Argument Subroutine with multi values.
+sprintf("Value %d %f", 1, 2.0);
+</pre>
+
+Variable Length Argument can recieve Array.
+
+<pre>
+# Call Variable Length Argument Subroutine with Array.
+sprintf("Value  %d %f", [(object)1, 2.0]);
+</pre>
+
+If you want to treat the value of Array as an individual element of the variable length argument, cast it to Type other than Array Type.
+
+<pre>
+sprintf("aaa %p", (object)[(object)1, 2.0]);
+</pre>
+
+<h3 id="language-sub-descriptor">Subroutine Descriptor</h3>
+
+List of Subroutine Descriptor.
+
 <table>
   <tr>
     <th>
-      Descriptor Name
+      Descriptor
     </th>
     <th>
-      役割
+      Description
     </th>
   </tr>
   <tr>
@@ -1825,7 +1862,7 @@ Descriptor Name sub Subroutine Name : Return ValueのType Name  (引数の変数
       <b>native</b>
     </td>
     <td>
-      このSubroutine は,ネイティブSubroutine です。
+      This Subroutine is <a href="#language-sub-native">Native Subroutine</a>. 
     </td>
   </tr>
   <tr>
@@ -1833,58 +1870,28 @@ Descriptor Name sub Subroutine Name : Return ValueのType Name  (引数の変数
       <b>precompile</b>
     </td>
     <td>
-      このSubroutine はプリコンパイルされます。
+      This Subroutine is <a href="#language-sub-precompiled">Precompiled Subroutine</a>. 
     </td>
   </tr>
 </table>
-<p>
-  "native"と"precompile"の両方のDescriptorが指定された場合は,a compile-time error occurs
-</p>
 
-<p>
-  引数のType Name の後ろに"..."を続けると,可変長引数となります。最後の引数のみ可変長引数にすることができます。
-</p>
-<pre>
-# 可変長引数のDefinition
-sub Subroutine Name : Return ValueのType Name  (引数名1 : 引数のType Name 1, 引数名2 : 引数のType Name 2...) {
+If both "native" and "precompile" Descriptors are specified, a compile-time error occurs
 
-}
-</pre>
-<p>
-  <b>可変長引数のExample</b>
-</p>
-<p>
-  可変長引数のExampleです。
-</p>
-<pre>
-# 可変長引数を持つSubroutine Definition
-sub sprintf : string ($format : string, $values : object[]...) {
+<h3 id="language-sub-native">Native Subroutine</h3>
 
-}
+Native Subroutine is Subroutine that call function written in Native Language(C, C++, etc).
 
-# 可変長引数を持つSubroutine Call
-foo("aaa %d %f", SPVM::Int->new(1), SPVM::Double->new(2.0));
-</pre>
-<p>
-  可変長引数を持つSubroutine にArrayを渡すと,Arrayのまま呼び出す事ができます。
-</p>
-<pre>
-foo("aaa %d %f", [(object)SPVM::Int->new(1), SPVM::Double->new(2.0)]);
-</pre>
-<p>
-  もし,Array Typeの値を,可変長引数の個々の要素として扱いたい場合は,Array TypeではないTypeにキャストしてください。
-</p>
-<pre>
-foo("aaa %d %f", (object)[(object)SPVM::Int->new(1), SPVM::Double->new(2.0)]);
-</pre>
+See <a href="/native-api.html">SPVM Native API</a> Native Subroutine.
 
-<p>
-  DefinitionされたSubroutine は,呼び出すことができます。Subroutine Callについては,<a href="language-expression-callsub">Subroutine Call</a>を見てください。
-</p>
+<h3 id="language-sub-precompiled">Precompiled Subroutine</h3>
+
+Precompiled Subroutine is a subroutine translated into C language and converted into machine code.
+
+Precompiled Subroutine needs Build Directory described in <a href="/native-api.html">SPVM Native API</a>
 
 <h3 id="language-sub-constant">Constant Subroutine </h3>
 <p>
-  Numeric TypeのReturn Valueを持つSubroutine で,Return Valueが定数であるSubroutine をConstant Subroutine といいます。
+  <a href="#language-type-numeric">Numeric Type</a>のReturn Valueを持つSubroutine で,Return Valueが定数であるSubroutine をConstant Subroutine といいます。
 </p>
 <pre>
 sub foo : int () { return 5; }
@@ -1921,7 +1928,7 @@ my $cb_obj = sub : Type Name  ($self : self, 引数1, 引数2, ..., 引数n) {
 };
 </pre>
 <p>
-  CallbackObject CreatingでDefinitionされるSubroutine は,<a href="#language-sub-method">メソッド</a>でなければなりません。また名前を持たないSubroutine でなければなりません。
+  CallbackObject CreatingでDefinitionされるSubroutine は,<a href="#language-sub-method">Method</a>でなければなりません。また名前を持たないSubroutine でなければなりません。
 </p>
 <p>
   <b>CallbackObject CreatingのExample</b>
@@ -1932,7 +1939,7 @@ my $comparator = sub : int ($self : self, $x1 : object, $x2 : object) {
 }
 </pre>
 <p>
-  CallbackObject Creatingによって生成されたオブジェクトは,通常のオブジェクトなので,メソッドを呼び出すことができます。CallbackObject Creatingの呼び出しについては,<a href="language-expression-callsub">Subroutine Call</a>を見てください。
+  CallbackObject Creatingによって生成されたオブジェクトは,通常のオブジェクトなので,Methodを呼び出すことができます。CallbackObject Creatingの呼び出しについては,<a href="language-expression-callsub">Subroutine Call</a>を見てください。
 <p>
 
 <h3 id="language-sub-capture">Capture</h3>
@@ -1998,9 +2005,9 @@ $comparator->{bar} = $bar;
 
 Captureは,このような長い記述を,短く書くためのSyntaxです。
 
-<h3 id="language-sub-method">メソッド</h3>
+<h3 id="language-sub-method">Method</h3>
 <p>
-  メソッドとは,第一引数に<a href="#language-type-self">self Type</a>を持つSubroutine のことです。
+  Methodとは,第一引数に<a href="#language-type-self">self Type</a>を持つSubroutine のことです。
 </p>
 <pre>
 sub Subroutine Name : Type Name  ($self : self, 引数1 : Type1, 引数2 : Type2, ..., 引数n : Typen) {
@@ -2008,7 +2015,7 @@ sub Subroutine Name : Type Name  ($self : self, 引数1 : Type1, 引数2 : Type2
 }
 </pre>
 <p>
-  メソッドは,<a href="#language-expression-new">Object Creating</a>によって生成されたオブジェクトから呼び出すことができます。Method Call については,<a href="language-expression-callsub">Subroutine Call</a>を見てください。
+  Methodは,<a href="#language-expression-new">Object Creating</a>によって生成されたオブジェクトから呼び出すことができます。Method Call については,<a href="language-expression-callsub">Subroutine Call</a>を見てください。
 </p>
 
 <h3 id="language-sub-invocant">Invocant </h3>
@@ -2164,7 +2171,7 @@ private enum {
 <table>
   <tr>
     <th>
-      Descriptor Name
+      Descriptor
     </th>
     <th>
       役割
@@ -2655,10 +2662,10 @@ $@
 
 <h2 id="language-callback">Callback</h2>
 <p>
-  SPVMにおけるCallback Typeとは,実装を持たない名前のないメソッドが一つだけDefinitionされたPackage Typeのことをいいます。<a href="#language-package-definition">Package Definition</a>においてcallback_tDescriptorを指定すると,Callback Typeになります。
+  SPVMにおけるCallback Typeとは,実装を持たない名前のないMethodが一つだけDefinitionされたPackage Typeのことをいいます。<a href="#language-package-definition">Package Definition</a>においてcallback_tDescriptorを指定すると,Callback Typeになります。
 </p>
 <p>
-  Callback Typeの目的は,異なるオブジェクトが,同じメソッドDefinitionを持つときに,どちらも代入できるTypeを提供することにあります。C言語の関数ポインタに該当する機能をSPVMにおいて実現するものと考えてください。
+  Callback Typeの目的は,異なるオブジェクトが,同じMethodDefinitionを持つときに,どちらも代入できるTypeを提供することにあります。C言語の関数ポインタに該当する機能をSPVMにおいて実現するものと考えてください。
 </p>
 <pre>
 package Foo1 {
@@ -2685,10 +2692,10 @@ sub : int ($self : self, $num : int);
 </pre>
 
 <p>
-  Foo1とFoo2は同じメソッドDefinition"sub : int ($self : self, $num : int)"を持ちます。ここで,選択的にFoo1またはFoo2のメソッドを呼び出したいとします。
+  Foo1とFoo2は同じMethodDefinition"sub : int ($self : self, $num : int)"を持ちます。ここで,選択的にFoo1またはFoo2のMethodを呼び出したいとします。
 </p>
 <p>
-  この場合に,同じメソッドDefinitionを持つCallback TypeFooCallbackをDefinitionすると,このTypeにどちらのオブジェクトも代入できます。そして,このオブジェクトから,メソッドを呼び出すことができます。
+  この場合に,同じMethodDefinitionを持つCallback TypeFooCallbackをDefinitionすると,このTypeにどちらのオブジェクトも代入できます。そして,このオブジェクトから,Methodを呼び出すことができます。
 </p>
 <pre>
 my $foo1 = Foo1->new;
@@ -2707,7 +2714,7 @@ else {
 my $ret = $foo->(5);
 </pre>
 <p>
-  $flagが1の場合は,Foo1の無名メソッドが,そうでない場合はFoo2の無名メソッドが呼び出されます。
+  $flagが1の場合は,Foo1の無名Methodが,そうでない場合はFoo2の無名Methodが呼び出されます。
 </p>
 <p>
   Callback Typeの詳細については,<a href="#language-type-callback">Callback Type</a>を見てください。
@@ -2728,7 +2735,7 @@ my $ret = $foo->(5);
 </p>
 <ul class="list">
   <li>
-    Numeric TypeのArray
+    <a href="#language-type-numeric">Numeric Type</a>のArray
   </li>
   <li>
     Object Type のArray
@@ -2738,7 +2745,7 @@ my $ret = $foo->(5);
   </li>
 </ul>
 <p>
-  Numeric TypeのArrayとは,<a href="#language-type-numeric">Numeric Type</a>の値が連続に並んだArrayのことです。
+  <a href="#language-type-numeric">Numeric Type</a>のArrayとは,<a href="#language-type-numeric">Numeric Type</a>の値が連続に並んだArrayのことです。
 </p>
 <p>
   Object Type のArrayとは,<a href="#language-type-object">Object Type</a>の値が連続に並んだArrayのことです。
@@ -2866,10 +2873,10 @@ package Complex_2d : mulnum_t {
   </tr>
 </table>
 <p>
-  サフィックスは,実際にDefinitionされているNumeric Typeと対応している必要があります。
+  サフィックスは,実際にDefinitionされている<a href="#language-type-numeric">Numeric Type</a>と対応している必要があります。
 </p>
 <p>
-  Numeric TypeのDefinitionにおいて,Fieldの個数の最大は16です。
+  Multi Numeric TypeのDefinitionにおいて,Fieldの個数の最大は255個です。
 </p>
 <p>
   Invalid Multi Numeric TypeのDefinitionの場合は,a compile-time error occurs
@@ -3712,7 +3719,7 @@ my $nums = new int[][][3];
 
 <h4 id="language-expression-callsub-func">関数の呼び出し</h4>
 <p>
-  関数の呼び出しとは,<a href="#language-sub-method">メソッド</a>ではないSubroutine を呼び出す方法のことをいいます。メソッドかどうかの判断は,<a href="#language-sub-definition">Subroutine Definition</a>において,第一引数に<a href="#language-type-self">self Type</a>の引数が指定されていた場合が,メソッドになります。
+  関数の呼び出しとは,<a href="#language-sub-method">Method</a>ではないSubroutine を呼び出す方法のことをいいます。Methodかどうかの判断は,<a href="#language-sub-definition">Subroutine Definition</a>において,第一引数に<a href="#language-type-self">self Type</a>の引数が指定されていた場合が,Methodになります。
 </p>
 <p>
   関数の呼び出しはthe following 方法で行うことができます。引数は,なくても構いません。最大で255個の引数を指定できます。
@@ -3758,7 +3765,7 @@ my $ret = bar(1, 2, 3);
 
 <h4 id="language-expression-callsub-method">Method Call </h4>
 <p>
-  Method Call とは,<a href="#language-sub-method">メソッド</a>であるSubroutine を呼び出す方法のことをいいます。メソッドかどうかの判断は,<a href="#language-sub-definition">Subroutine Definition</a>において,第一引数に<a href="#language-type-self">self Type</a>の引数が指定されていた場合が,メソッドになります。
+  Method Call とは,<a href="#language-sub-method">Method</a>であるSubroutine を呼び出す方法のことをいいます。Methodかどうかの判断は,<a href="#language-sub-definition">Subroutine Definition</a>において,第一引数に<a href="#language-type-self">self Type</a>の引数が指定されていた場合が,Methodになります。
 </p>
 <p>
   Method Call は,<a href="#language-expression-new">Object Creating</a>によって生成されたオブジェクトを使ってthe following syntax で行うことができます。
@@ -3786,17 +3793,17 @@ my $point = new Point;
 $point->set_x(3);
 </pre>
 <p>
-  <a href="#language-sub-new-callback-object">CallbackObject Creating</a>で作成されたオブジェクトは,通常のオブジェクトなのでメソッドを呼び出すことができます。
+  <a href="#language-sub-new-callback-object">CallbackObject Creating</a>で作成されたオブジェクトは,通常のオブジェクトなのでMethodを呼び出すことができます。
 </p>
 <pre>
 オブジェクト->(引数1, 引数2, 引数3, ..., 引数n);
 </pre>
 
 <p>
-  <b>CallbackObject Creatingで生成されたオブジェクトからメソッドを呼び出すExample</b>
+  <b>CallbackObject Creatingで生成されたオブジェクトからMethodを呼び出すExample</b>
 </p>
 <p>
-  CallbackObject Creatingで生成されたオブジェクトからメソッドを呼び出すExampleです。
+  CallbackObject Creatingで生成されたオブジェクトからMethodを呼び出すExampleです。
 </p>
 <pre>
 my $cb_obj = sub : int ($self: self, $num1 : int, $num2 : int) {
@@ -7140,7 +7147,7 @@ package SPVM::Comparator : callback_t {
   Callback Typeは,C言語における関数ポインタに該当する機能を提供するために設計されました。
 </p>
 <p>
-  Callback Typeは,Subroutine Definitionを一つだけ持ちます。Subroutine は,<a href="#language-sub-method">メソッド</a>でなければなりません。
+  Callback Typeは,Subroutine Definitionを一つだけ持ちます。Subroutine は,<a href="#language-sub-method">Method</a>でなければなりません。
 </p>
 <p>
   Callback TypeのSubroutine Nameは,無名でなければなりません。
