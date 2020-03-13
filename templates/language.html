@@ -4,7 +4,7 @@
 
 SPVM is in beta testing for the 1.0 release. Language Specification will be changed without warning.
 
-Last modified 2020-03-03
+Last modified 2020-03-13
 
 <ul>
   <li><a href="#language-c99">C99 compliant</a></li>
@@ -1760,7 +1760,7 @@ See <a href="#language-expression-set-field-multi-numeric-deref">Set Multi Numer
   <li><a href="#language-sub-native">Native Subroutine</a></li>
   <li><a href="#language-sub-precompiled">Precompiled Subroutine</a></li>
   <li><a href="#language-sub-constant">Constant Subroutine</a></li>
-  <li><a href="#language-sub-new-callback-object">CallbackObject Creating</a></li>
+  <li><a href="#language-sub-new-callback-object">Create Callback Object</a></li>
   <li><a href="#language-sub-capture">Capture</a></li>
   <li><a href="#language-sub-method">Method</a></li>
   <li><a href="#language-sub-signature">Signature</a></li>
@@ -1889,62 +1889,69 @@ Precompiled Subroutine is a subroutine translated into C language and converted 
 
 Precompiled Subroutine needs Build Directory described in <a href="/native-api.html">SPVM Native API</a>
 
-<h3 id="language-sub-constant">Constant Subroutine </h3>
-<p>
-  <a href="#language-type-numeric">Numeric Type</a>のReturn Valueを持つSubroutine で,Return Valueが定数であるSubroutine をConstant Subroutine といいます。
-</p>
+<h3 id="language-sub-constant">Constant Subroutine</h3>
+
+Constant Subroutine is a Subroutine that Return Type is <a href="#language-type-numeric">Numeric Type</a> and returns Constant Value.
+
 <pre>
 sub foo : int () { return 5; }
 sub foo : long () { return 5L; }
 sub foo : float () { return 5.0f; }
 sub foo : double () { return 5.0; }
 </pre>
-<p>
-  Constant Subroutine は,Inline Expansionされます。
-</p>
-<p>
-  SPVMは定数畳み込み最適化を行わないので,定数が演算されている場合は,Constant Subroutine にならず,Inline Expansionされないことに注意してください。
-</p>
+
+Inline Expansion optimization is performed to Constant Subroutine.
+
+Note that SPVM does not perform constant convolution optimization, so if a constant is calculated, it will not performe Inline Expansion.
+
 <pre>
-# Constant Subroutine ではなくInline Expansionされない
+# This is not Constant Subroutine.  Inline Expansion is not performed
 sub foo : int () { return 5 + 3; }
 </pre>
 
-<h3 id="language-sub-new-callback-object">CallbackObject Creating</h3>
+<h3 id="language-sub-new-callback-object">Create Callback Object</h3>
+
 <p>
-  CallbackObject Creatingとは,Callbackの用途で,特別なsyntax を使って,Callback Typeに適合するオブジェクトを生成するSyntaxのことです。
+  Create Callback Objectとは,Callbackの用途で,特別なsyntax を使って,Callback Typeに適合するオブジェクトを生成するSyntaxのことです。
 </p>
+
 <pre>
 sub : Type Name  ($self : self, 引数1, 引数2, ..., 引数n) {
 
 }
 </pre>
+
 <p>
-  CallbackObject Creatingを行うと,内部的に,Package Definitionがおこなわれ,そのPackage を元にしたオブジェクトが生成され,<a href="#language-expression">Expression</a>として返されます。the following ように変数に代入することが可能です。
+  Create Callback Objectを行うと,内部的に,Package Definitionがおこなわれ,そのPackage を元にしたオブジェクトが生成され,<a href="#language-expression">Expression</a>として返されます。the following ように変数に代入することが可能です。
 </p>
+
 <pre>
 my $cb_obj = sub : Type Name  ($self : self, 引数1, 引数2, ..., 引数n) {
 
 };
 </pre>
+
 <p>
-  CallbackObject CreatingでDefinitionされるSubroutine は,<a href="#language-sub-method">Method</a>でなければなりません。また名前を持たないSubroutine でなければなりません。
+  Create Callback ObjectでDefinitionされるSubroutine は,<a href="#language-sub-method">Method</a>でなければなりません。また名前を持たないSubroutine でなければなりません。
 </p>
+
 <p>
-  <b>CallbackObject CreatingのExample</b>
+  <b>Create Callback ObjectのExample</b>
 </p>
+
 <pre>
 my $comparator = sub : int ($self : self, $x1 : object, $x2 : object) {
 
 }
 </pre>
+
 <p>
-  CallbackObject Creatingによって生成されたオブジェクトは,通常のオブジェクトなので,Methodを呼び出すことができます。CallbackObject Creatingの呼び出しについては,<a href="language-expression-callsub">Subroutine Call</a>を見てください。
+  Create Callback Objectによって生成されたオブジェクトは,通常のオブジェクトなので,Methodを呼び出すことができます。Create Callback Objectの呼び出しについては,<a href="language-expression-callsub">Subroutine Call</a>を見てください。
 <p>
 
 <h3 id="language-sub-capture">Capture</h3>
 <p>
-  CallbackObject Creatingにおいては,Captureというsyntax を使って,CallbackObject CreatingによってDefinitionされたSubroutine の外側でDefinitionされた変数を,CallbackObject CreatingによってDefinitionされたSubroutine の内側で使うことができます。
+  Create Callback Objectにおいては,Captureというsyntax を使って,Create Callback ObjectによってDefinitionされたSubroutine の外側でDefinitionされた変数を,Create Callback ObjectによってDefinitionされたSubroutine の内側で使うことができます。
 </p>
 <pre>
 # Capture
@@ -1978,7 +1985,7 @@ my $comparator = [$foo : int, $bar : long] sub : int ($self : self, $x1 : object
   Capture変数と同名の<a href="#language-package-var">Package Variable</a>が存在する場合は,Capture変数にアクセスします。
 </p>
 <p>
-  CallbackObject CreatingとCaptureをシンタックスシュガーを使わないで記述すると次のようになります。
+  Create Callback ObjectとCaptureをシンタックスシュガーを使わないで記述すると次のようになります。
 </p>
 <pre>
 package ComapartorImpl {
@@ -3793,17 +3800,17 @@ my $point = new Point;
 $point->set_x(3);
 </pre>
 <p>
-  <a href="#language-sub-new-callback-object">CallbackObject Creating</a>で作成されたオブジェクトは,通常のオブジェクトなのでMethodを呼び出すことができます。
+  <a href="#language-sub-new-callback-object">Create Callback Object</a>で作成されたオブジェクトは,通常のオブジェクトなのでMethodを呼び出すことができます。
 </p>
 <pre>
 オブジェクト->(引数1, 引数2, 引数3, ..., 引数n);
 </pre>
 
 <p>
-  <b>CallbackObject Creatingで生成されたオブジェクトからMethodを呼び出すExample</b>
+  <b>Create Callback Objectで生成されたオブジェクトからMethodを呼び出すExample</b>
 </p>
 <p>
-  CallbackObject Creatingで生成されたオブジェクトからMethodを呼び出すExampleです。
+  Create Callback Objectで生成されたオブジェクトからMethodを呼び出すExampleです。
 </p>
 <pre>
 my $cb_obj = sub : int ($self: self, $num1 : int, $num2 : int) {
@@ -7101,7 +7108,7 @@ packag Foo {
 }
 </pre>
 <p>
-  Class TypeはnewOperator によって,オブジェクトを生成することができます。
+  Class Typeはnew Operator によって,オブジェクトを生成することができます。
 </p>
 <pre>
 my $foo = new Foo;
@@ -7134,49 +7141,40 @@ package Foo : pointer_t {
 <p>
   Pointer Typeには,FieldをDefinitionすることはできません。Definitionされていた場合は,a compile-time error occurs
 </p>
+
 <h3 id="language-type-callback">Callback Type</h3>
-<p>
-  Callback Typeとは"<a href="#language-package-definition">Package Definition</a>"において"callback_t Descriptor"が指定されたものをいいます。
-</p>
+
+Callback Type is a <a href="#language-type-package">Package Type</a> with <a href="#language-package-descriptor">Package Descriptor</a> "callback_t".
+
 <pre>
 package SPVM::Comparator : callback_t {
   sub : int ($self : self, $x1 : object, $x2 : object);
 }
 </pre>
-<p>
-  Callback Typeは,C言語における関数ポインタに該当する機能を提供するために設計されました。
-</p>
-<p>
-  Callback Typeは,Subroutine Definitionを一つだけ持ちます。Subroutine は,<a href="#language-sub-method">Method</a>でなければなりません。
-</p>
-<p>
-  Callback TypeのSubroutine Nameは,無名でなければなりません。
-</p>
-<p>
-  Callback Typeは"<a href="#language-field-definition">Field Definition</a>""<a href="#language-package-var-definition">Package Variable Definition</a>"を持つことはできません。
-</p>
-<p>
-  Callback Typeの値を,newOperator によって実体化することはできません。
-</p>
-<p>
-  Callback Typeは"Package Type"です。
-</p>
-<p>
-  Callback Typeは"Object Type "です。
-</p>
-<p>
-  Callback Typeには,Callbackを満たしたClass Typeのオブジェクトを代入できます。この場合,Class TypeはCallback Typeに適合するといいます。Class TypeがCallback Typeを満たすのは次の二つの場合です。
-</p>
-<p>
-  1. Callback TypeとしてDefinitionされたSubroutine と同一の名前とSignatureを持つClass Typeのオブジェクトは,Callback Typeに代入できます。
-</p>
+
+Callback Type is designed to provide a feature corresponding to Function Pointer in C language.
+
+Callback Type must have only one <a href="#language-sub-definition">Subroutine Definition</a>. Subroutine must be <a href="#language-sub-method">Method</a>.
+
+Subroutine Name of Callback Type must be anonymouse.
+
+Callback Type must not have any <a href="#language-field-definition">Field Definition</a> and <a href="#language-package-var-definition">Package Variable Definition</a>.
+
+Callback Type is a <a href="#language-type-object">Object Type</a>.
+
+Callback Type cannot be the operand of <a href="#language-expression-new">new Statement</a>.
+
+The variable of Callback Type can be assigned a <a href="#language-type-class">Class Type</a> object that matches the Callback Type. "matches the Callback Type" means the following two cases.
+
+1. Class Type object with anonimouse name and the <a href="#language-sub-signature">Signature</a> is same as Callback Type
+
 <pre>
-# Callback TypeのDefinition
+# Callback Type Definition
 package SPVM::Comparator : callback_t {
   sub : int ($self : self, $x1 : object, $x2 : object);
 }
 
-# ClassのDefinition
+# Class Definition
 package SomeComparator {
   sub new : int () {
     return new SomeComparator;
@@ -7187,19 +7185,19 @@ package SomeComparator {
   }
 }
 
-# Callback Typeへの代入
+# The object can be assign to the variable of Callback Type
 my $comparator : SPVM::Comparator = SomeComparator->new;
 </pre>
-<p>
-  2. Callback TypeとしてDefinitionされたSubroutine と同一のSignatureを持つCallbackObject Creatingを行うと,Callback Typeに代入できます。
-</p>
+
+2. Class Type object which is created by <a href="#language-sub-new-callback-object">Create Callback Object</a> and the <a href="#language-sub-signature">Signature</a> is same as Callback Type.
+
 <pre>
 # Callback TypeのDefinition
 package SPVM::Comparator : callback_t {
   sub : int ($self : self, $x1 : object, $x2 : object);
 }
 
-# Callback Typeへの代入
+# The object which is created by Create Callback Object can be assign to the variable of Callback Type
 my $comparator : SPVM::Comparator = sub : int ($self : self, $x1 : object, $x2 : object) {
 
 }
@@ -7264,13 +7262,13 @@ int[][][]
   Array Typeは,<a href="#language-type-object">Object Type</a>です。
 </p>
 <p>
-  Arrayを作成するには,newOperator を使用します。the following 例では,要素数が3のint Type のArrayを作成しています。
+  Arrayを作成するには,new Operator を使用します。the following 例では,要素数が3のint Type のArrayを作成しています。
 </p>
 <p>
 my $nums = new int[3];
 </p>
 <p>
-  多次元Arrayを作成するときも,newOperator を使用します。the following 例では,要素数が3のint[]TypeのArrayを作成しています。
+  多次元Arrayを作成するときも,new Operator を使用します。the following 例では,要素数が3のint[]TypeのArrayを作成しています。
 </p>
 <p>
 my $nums = new int[][3];
