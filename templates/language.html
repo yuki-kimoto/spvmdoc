@@ -19,13 +19,13 @@ Last modified 2020-03-13
   <li><a href="#language-field">Field</a></li>
   <li><a href="#language-sub">Subroutine </a></li>
   <li><a href="#language-enum">Enumeration</a></li>
+  <li><a href="#language-callback">Callback</a></li>
   <li><a href="#language-begin-block">BEGIN Block </a></li>
   <li><a href="#language-lex-var">Lexical Variable </a></li>
   <li><a href="#language-block">Block </a></li>
   <li><a href="#language-scope">Scope</a></li>
   <li><a href="#language-exception">Exception Handling </a></li>
   <li><a href="#language-weak-ref">Weaken Reference</a></li>
-  <li><a href="#language-callback">Callback</a></li>
   <li><a href="#language-array">Array</a></li>
   <li><a href="#language-mulnum">Multi Numeric Value</a></li>
   <li><a href="#language-mulnum-array">Multi Numeric Array</a></li>
@@ -107,7 +107,7 @@ SPVM types are exactly the same as the following C99 types:
       int32_t
     </ td>
     <td>
-      SPVM <a href="#language-type-int"> int Type</a> matches the C99 int32_t type.
+      SPVM <a href="#language-type-int">int Type</a> matches the C99 int32_t type.
     </ td>
   </ tr>
   <tr>
@@ -1402,7 +1402,7 @@ else {
 }
 </pre>
 
-Note that elsif statement cannot be followed.
+Note that elsif Statement cannot be followed.
 
 
 Let's look at an example. if Foo does not exist, no compile-time error occurs and it is assumed that there is no if block
@@ -1760,11 +1760,8 @@ See <a href="#language-expression-set-field-multi-numeric-deref">Set Multi Numer
   <li><a href="#language-sub-native">Native Subroutine</a></li>
   <li><a href="#language-sub-precompiled">Precompiled Subroutine</a></li>
   <li><a href="#language-sub-constant">Constant Subroutine</a></li>
-  <li><a href="#language-sub-new-callback-object">Create Callback Object</a></li>
-  <li><a href="#language-sub-capture">Capture</a></li>
   <li><a href="#language-sub-method">Method</a></li>
   <li><a href="#language-sub-signature">Signature</a></li>
-  <li><a href="#language-sub-invocant">Invocant</a></li>
   <li><a href="#language-sub-stack">Subroutine Callstack</a></li>
 </ul>
 
@@ -1909,6 +1906,338 @@ Note that SPVM does not perform constant convolution optimization, so if a const
 sub foo : int () { return 5 + 3; }
 </pre>
 
+<h3 id="language-sub-method">Method</h3>
+
+Method is Subroutine that has <a href="#language-type-self">self Type</a> as its first argument.
+
+<pre>
+sub SUB_NAME : TYPE  ($self : self, ARGUMENT2 : TYPE2, ARGUMENT3 : TYPE3, ARGUMENTN : TYPEN) {
+
+}
+</pre>
+
+<a href="#language-type-self">self Type</a> must be first argument.
+
+Method can be called from the object created by <a href="#language-expression-new">new</a>. See <a href="language-expression-callsub">Subroutine Call</a> for Method Call.
+
+$self is called Invocant.
+
+<h3 id="language-sub-signature">Signature</h3>
+
+Signature is a string that follow the following rule sequence of Subroutine Retrun Value and arguments arranged according to the following rules. Arguments do not need to exist. There cannot be spaces between them.
+
+1. RETURN_VALUE_TYPE
+
+2. (
+
+3. ARGUMENT_TYPE1,ARGUMENT_TYPE2,ARGUMENT_TYPE3
+
+4. )
+
+<b>Signature Example:</b>
+
+<pre>
+# Subroutine Definition
+sub foo : int ($num1 : double, $num2 : long[])
+
+# Signature
+int(double,long[])
+
+# Subroutine Definition
+sub foo : void ()
+
+# Signature
+void()
+</pre>
+
+Signature is not used in SPVM programs. Signature is used when calling the SPVM Subroutine from <a href="/native-api.html">SPVM Native API</a>.
+
+<h3 id="language-sub-stack">Subroutine Callstack</h3>
+
+Subroutine Callstack is memory area allocated in each subroutine call.
+
+
+<p>
+  Subroutine Callstackには,the following 情報が保存されます。
+</p>
+<p>
+  1. <a href="#language-lex-var">Lexical Variable</a>のためのメモリ領域
+</p>
+<p>
+  2. Motal Lexical Variableの場所
+</p>
+
+<h2 id="language-enum">Enumeration</h2>
+
+<ul class="list">
+  <li>
+    <a href="#language-enum-definition">Enumeration Definition</a>
+  </li>
+  <li>
+    <a href="#language-enum-descriptor">Enumeration Descriptor</a>
+  </li>
+  <li>
+    <a href="#language-enum-call">Enumeration Call</a>
+  </li>
+</ul>
+
+<h3 id="language-enum-definition">Enumeration Definition</h3>
+
+Enumeration Definition is a syntax to define multiple <a href="#language-sub-constant">Constant Subroutines</a> easily.
+
+<pre>
+# Enumeration Definition
+enum {
+  FLAG1,
+  FLAG2,
+  FLAG3
+}
+</pre>
+
+Enumeration must be defined directly under <a href="#language-package-definition">Package Definition</a>.
+
+<pre>
+package Foo {
+  enum {
+    FLAG1,
+    FLAG2,
+    FLAG3
+  }
+}
+</pre>
+
+The first value starts with "0". The value is incremented by "1". In this example, "FLAG1" is "0", "FALG2" is "1", and "FLAG3" is "2".
+
+"," can be added after the last element of Enumeration.
+
+<pre>
+enum {
+  FLAG1,
+  FLAG2,
+  FLAG3,
+}
+</pre>
+
+Enumeration is an alias for <a href="#language-sub-constant">Constant Subroutine</a> that Return Type is <a href="#language-type-int">int Type</a>. It is equivalent to the following Subroutine Definition:
+
+<pre>
+sub FLAG1 : int () { return 0; }
+sub FLAG2 : int () { return 1; }
+sub FLAG3 : int () { return 2; }
+</pre>
+
+The value of <a href="#language-type-int">int Type</a> can be set in the enum element.
+
+<pre>
+enum {
+  FLAG1,
+  FLAG2 = 4,
+  FLAG3,
+}
+</pre>
+
+
+In the above case, "FLAG1" is "0", "FALG2" is "4", and "FLAG3" is "5".
+
+If Enum Definition is invalid, a compile-time error occurs.
+
+<h3 id="language-enum-descriptor">Enumeration Descriptor</h3>
+
+Descriptor can be specified for Enumeration.
+
+<pre>
+private enum {
+  FLAG1,
+  FLAG2 = 4,
+  FLAG3,
+}
+</pre>
+
+List of Enumeration Descriptor
+
+<table>
+  <tr>
+    <th>
+      Descriptor
+    </th>
+    <th>
+      Description
+    </th>
+  </tr>
+  <tr>
+    <td>
+      <b>public</b>
+    </td>
+    <td>
+      This Enumeration is public. This Enumeration can be accessed from other Package. This is default setting.
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <b>private</b>
+    </td>
+    <td>
+      This Enumeration is private. This Enumeration can not be accessed from other Package.
+    </td>
+  </tr>
+</table>
+
+If both "public" and "private" Descriptors are specified, a compile-time error occurs.
+
+<h3 id="language-enum-call">Enumeration Call</h3>
+
+Enumeration is an alias for <a href="#language-sub-constant">Constant Subroutine</a>, so it can be called in exactly the same way as Subroutine call.
+
+<pre>
+my $flag1 = Foo->FLAG1;
+my $flag2 = Foo->FLAG2;
+my $flag3 = Foo->FLAG3;
+</pre>
+
+<p>
+  In special case, Enumeration Call can be used in <a href="#language-statement-case">case Statement</a> of <a href="#language-statement-switch">switch Statement</a>.
+</p>
+
+<pre>
+switch ($num) {
+  case Foo->FLAG1: {
+
+    break;
+  }
+  case Foo->FLAG2: {
+
+    break:
+  }
+  case Foo->FLAG3: {
+
+    break:
+  }
+  default: {
+
+  }
+}
+</pre>
+
+<h2 id="language-begin-block">BEGIN Block</h2>
+<p>
+  BEGIN Block とは,コンパイル時が終了し,実行時に入る前に,実行されるBlock のことです。
+</p>
+<p>
+  BEGIN  Keyword を使用してBEGIN Block をDefinitionすることができます。
+</p>
+<pre>
+BEGIN {
+
+}
+</pre>
+<p>
+  BEGIN Block は,Package Definitionの直下にある必要があります。
+</p>
+<pre>
+package Foo {
+  BEGIN {
+
+  }
+}
+</pre>
+<p>
+  BEGIN Block の中には,0個以上の<a href="#language-statement">Statement</a>を書くことができます。
+</p>
+<pre>
+BEGIN {
+  my $foo = 1 + 1;
+  my $bar;
+}
+</pre>
+<p>
+  returnl statementを書くことはできません。BEGIN Block は,引数がなく,Return ValueがvoidのSubroutine としてDefinitionされます。
+</p>
+<p>
+  BEGIN Block は,いくつでもDefinitionできます。
+</p>
+<p>
+  BEGIN Block の実行順序は,保証されません。他のPackage にBEGIN Block がDefinitionされている場合は,そのBEGIN Block が先に実行されることを想定しないでください。
+</p>
+<p>
+  BEGIN Block の一般的な用途は,<a href="#language-package-var">Package Variable</a>を初期化することです。
+</p>
+<pre>
+package Foo {
+  our $NUM : int;
+  our $POINT : Point;
+  BEGIN {
+  $NUM = 3;
+    $POINT = Point->new;
+  }
+}
+</pre>
+
+<h2 id="language-callback">Callback</h2>
+
+<ul class="list">
+  <li><a href="#language-sub-new-callback-object">Create Callback Object</a></li>
+  <li><a href="#language-sub-capture">Capture</a></li>
+</ul>
+
+<p>
+  SPVMにおけるCallback Typeとは,実装を持たない名前のないMethodが一つだけDefinitionされたPackage Typeのことをいいます。<a href="#language-package-definition">Package Definition</a>においてcallback_tDescriptorを指定すると,Callback Typeになります。
+</p>
+<p>
+  Callback Typeの目的は,異なるオブジェクトが,同じMethodDefinitionを持つときに,どちらも代入できるTypeを提供することにあります。C言語の関数ポインタに該当する機能をSPVMにおいて実現するものと考えてください。
+</p>
+<pre>
+package Foo1 {
+  sub new : Foo1 () {
+    new Foo1;
+  }
+  sub : int ($self : self, $num : int) {
+    return 1 + $num;
+  }
+}
+
+package Foo2 {
+  sub new : Foo2 () {
+    new Foo2;
+  }
+  sub : int ($self : self, $num : int) {
+    return 2 + $num;
+  }
+}
+
+package FooCallback : callback_t {
+sub : int ($self : self, $num : int);
+}
+</pre>
+
+<p>
+  Foo1とFoo2は同じMethodDefinition"sub : int ($self : self, $num : int)"を持ちます。ここで,選択的にFoo1またはFoo2のMethodを呼び出したいとします。
+</p>
+<p>
+  この場合に,同じMethodDefinitionを持つCallback TypeFooCallbackをDefinitionすると,このTypeにどちらのオブジェクトも代入できます。そして,このオブジェクトから,Methodを呼び出すことができます。
+</p>
+<pre>
+my $foo1 = Foo1->new;
+my $foo2 = Foo2->new;
+
+my $foo : FooCallback;
+
+my $flag = 1;
+if ($flag) {
+  $foo = $foo1;
+}
+else {
+  $foo = $foo2;
+}
+
+my $ret = $foo->(5);
+</pre>
+<p>
+  $flagが1の場合は,Foo1の無名Methodが,そうでない場合はFoo2の無名Methodが呼び出されます。
+</p>
+<p>
+  Callback Typeの詳細については,<a href="#language-type-callback">Callback Type</a>を見てください。
+</p>
+
 <h3 id="language-sub-new-callback-object">Create Callback Object</h3>
 
 <p>
@@ -2011,284 +2340,6 @@ $comparator->{bar} = $bar;
 </pre>
 
 Captureは,このような長い記述を,短く書くためのSyntaxです。
-
-<h3 id="language-sub-method">Method</h3>
-<p>
-  Methodとは,第一引数に<a href="#language-type-self">self Type</a>を持つSubroutine のことです。
-</p>
-<pre>
-sub Subroutine Name : Type Name  ($self : self, 引数1 : Type1, 引数2 : Type2, ..., 引数n : Typen) {
-
-}
-</pre>
-<p>
-  Methodは,<a href="#language-expression-new">Object Creating</a>によって生成されたオブジェクトから呼び出すことができます。Method Call については,<a href="language-expression-callsub">Subroutine Call</a>を見てください。
-</p>
-
-<h3 id="language-sub-invocant">Invocant </h3>
-<p>
-  Invocant とは,self Typeが指定された第一引数のことをいいます。
-</p>
-<pre>
-sub Subroutine Name : Type Name  ($self : self, 引数1 : Type1, 引数2 : Type2, ..., 引数n : Typen) {
-
-}
-</pre>
-<p>
-  上記の例では$selfは,Invocant と呼ばれます。
-</p>
-
-<h3 id="language-sub-signature">Signature</h3>
-<p>
-  Signatureとは,Subroutine Retrun Valueと引数を次の規則で並べたものをいいます。引数は,存在しなくても構いません。間に空白を含むことはできません。
-</p>
-<p>
-  1. Return ValueのType Name 
-</p>
-<p>
-  2. (
-</p>
-<p>
-  3. 引数1,引数2, 引数3, 引数n
-</p>
-<p>
-  4. )
-</p>
-<p>
-  SignatureのExampleです。
-</p>
-<pre>
-# Subroutine Definition
-sub foo : int ($num1 : double, $num2 : long[])
-
-# Signature
-int(double,long[])
-
-# Subroutine Definition
-sub foo : void ()
-
-# Signature
-void()
-</pre>
-<p>
-  Signatureは,SPVMを記述しているときには,意識する必要はありません。ネイティブからSPVMのSubroutine を呼び出すときに使用します。
-</p>
-
-<h3 id="language-sub-stack">Subroutine Callstack</h3>
-<p>
-  Subroutine Callstackとは,<a href="#language-expression-callsub">Subroutine Call</a>が行われるときに,確保されるメモリ領域のことを指します。
-</p>
-<p>
-  Subroutine Callstackには,the following 情報が保存されます。
-</p>
-<p>
-  1. <a href="#language-lex-var">Lexical Variable</a>のためのメモリ領域
-</p>
-<p>
-  2. モータル変数の場所
-</p>
-
-<h2 id="language-enum">Enumeration</h2>
-<ul class="list">
-  <li>
-    <a href="#language-enum-definition">Enumeration Definition</a>
-  </li>
-  <li>
-    <a href="#language-enum-call">Enumerationの呼び出し</a>
-  </li>
-</ul>
-<h3 id="language-enum-definition">Enumeration Definition</h3>
-<p>
-  Enumerationはint Type の定数をDefinitionしたい場合に利用します。連続したint Type の定数を簡単にDefinitionできます。"enum"  Keyword を使ってDefinitionします。
-</p>
-<pre>
-enum {
-  FLAG1,
-  FLAG2,
-  FLAG3
-}
-</pre>
-<p>
-  Enumeration Definitionは"<a href="#language-package-definition">Package Definition</a>"の直下で行う必要があります。
-</p>
-<pre>
-package Foo {
-  enum {
-    FLAG1,
-    FLAG2,
-    FLAG3
-  }
-}
-</pre>
-
-<p>
-  最初の値は"0"から始まります。値は"1"づつインクリメントされます。この例の場合は"FLAG1"は"0","FALG2"は"1","FLAG3は"2"になります。
-</p>
-<p>
-  Enumerationの末尾の要素の後ろには","をつけることができます。
-</p>
-<pre>
-enum {
-  FLAG1,
-  FLAG2,
-  FLAG3,
-}
-</pre>
-<p>
-  Enumerationはint Type をReturn Valueとする"Constant Subroutine "のエイリアスです。次のSubroutine Definitionと等価です。
-</p>
-<pre>
-sub FLAG1 : int () { return 0; }
-sub FLAG2 : int () { return 1; }
-sub FLAG3 : int () { return 2; }
-</pre>
-<p>
-  enumの要素には,int Type の値を設定することができます。
-</p>
-<pre>
-enum {
-  FLAG1,
-  FLAG2 = 4,
-  FLAG3,
-}
-</pre>
-<p>
-  上記の場合は"FLAG1"は"0","FALG2"は"4","FLAG3"は"5"になります。
-</p>
-<p>
-  enumのDefinitionがInvalid 場合は,a compile-time error occurs
-</p>
-
-<p>
-  <b>EnumerationDescriptor</b>
-</p>
-<p>
-  Enumerationには,Descriptorを指定することができます。
-</p>
-<pre>
-private enum {
-  FLAG1,
-  FLAG2 = 4,
-  FLAG3,
-}
-</pre>
-<p>
-  Enumerationで指定できるDescriptorの一覧です。
-</p>
-<table>
-  <tr>
-    <th>
-      Descriptor
-    </th>
-    <th>
-      役割
-    </th>
-  </tr>
-  <tr>
-    <td>
-      <b>public</b>
-    </td>
-    <td>
-      このEnumerationは,外部のPackage からアクセスできます。デフォルトの設定です。
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <b>private</b>
-    </td>
-    <td>
-      このEnumerationは,外部のPackage からアクセスできません。
-    </td>
-  </tr>
-</table>
-<p>
-  "public"と"private"の両方のDescriptorが指定された場合は,a compile-time error occurs
-</p>
-
-<h3 id="language-enum-call">Enumerationの呼び出し</h3>
-<p>
-  Enumerationは,Constant Subroutine のエイリアスなので,Subroutine 呼び出しとまったく同じ方法で呼び出すことができます。
-</p>
-<pre>
-my $flag1 = Foo->FLAG1;
-my $flag2 = Foo->FLAG2;
-my $flag3 = Foo->FLAG3;
-</pre>
-<p>
-  switch statementのcase statementにおいて利用することもできます。
-</p>
-<pre>
-switch ($num) {
-  case Foo->FLAG1: {
-
-    break;
-  }
-  case Foo->FLAG2: {
-
-    break:
-  }
-  case Foo->FLAG3: {
-
-    break:
-  }
-  default: {
-
-  }
-}
-</pre>
-<h2 id="language-begin-block">BEGIN Block </h2>
-<p>
-  BEGIN Block とは,コンパイル時が終了し,実行時に入る前に,実行されるBlock のことです。
-</p>
-<p>
-  BEGIN  Keyword を使用してBEGIN Block をDefinitionすることができます。
-</p>
-<pre>
-BEGIN {
-
-}
-</pre>
-<p>
-  BEGIN Block は,Package Definitionの直下にある必要があります。
-</p>
-<pre>
-package Foo {
-  BEGIN {
-
-  }
-}
-</pre>
-<p>
-  BEGIN Block の中には,0個以上の<a href="#language-statement">Statement</a>を書くことができます。
-</p>
-<pre>
-BEGIN {
-  my $foo = 1 + 1;
-  my $bar;
-}
-</pre>
-<p>
-  returnl statementを書くことはできません。BEGIN Block は,引数がなく,Return ValueがvoidのSubroutine としてDefinitionされます。
-</p>
-<p>
-  BEGIN Block は,いくつでもDefinitionできます。
-</p>
-<p>
-  BEGIN Block の実行順序は,保証されません。他のPackage にBEGIN Block がDefinitionされている場合は,そのBEGIN Block が先に実行されることを想定しないでください。
-</p>
-<p>
-  BEGIN Block の一般的な用途は,<a href="#language-package-var">Package Variable</a>を初期化することです。
-</p>
-<pre>
-package Foo {
-  our $NUM : int;
-  our $POINT : Point;
-  BEGIN {
-  $NUM = 3;
-    $POINT = Point->new;
-  }
-}
-</pre>
 
 <h2 id="language-lex-var">Lexical Variable </h2>
 <ul class="list">
@@ -2667,66 +2718,6 @@ $@
   Weaken Reference関連のSyntaxとして,Weaken Referenceを解除できる<a href="#language-statement-weaken">weaken statement</a>と,FieldがWeaken Referenceかどうかを確認できる<a href="#language-operator-isweak">isweakOperator</a>があります。
 </p>
 
-<h2 id="language-callback">Callback</h2>
-<p>
-  SPVMにおけるCallback Typeとは,実装を持たない名前のないMethodが一つだけDefinitionされたPackage Typeのことをいいます。<a href="#language-package-definition">Package Definition</a>においてcallback_tDescriptorを指定すると,Callback Typeになります。
-</p>
-<p>
-  Callback Typeの目的は,異なるオブジェクトが,同じMethodDefinitionを持つときに,どちらも代入できるTypeを提供することにあります。C言語の関数ポインタに該当する機能をSPVMにおいて実現するものと考えてください。
-</p>
-<pre>
-package Foo1 {
-  sub new : Foo1 () {
-    new Foo1;
-  }
-  sub : int ($self : self, $num : int) {
-    return 1 + $num;
-  }
-}
-
-package Foo2 {
-  sub new : Foo2 () {
-    new Foo2;
-  }
-  sub : int ($self : self, $num : int) {
-    return 2 + $num;
-  }
-}
-
-package FooCallback : callback_t {
-sub : int ($self : self, $num : int);
-}
-</pre>
-
-<p>
-  Foo1とFoo2は同じMethodDefinition"sub : int ($self : self, $num : int)"を持ちます。ここで,選択的にFoo1またはFoo2のMethodを呼び出したいとします。
-</p>
-<p>
-  この場合に,同じMethodDefinitionを持つCallback TypeFooCallbackをDefinitionすると,このTypeにどちらのオブジェクトも代入できます。そして,このオブジェクトから,Methodを呼び出すことができます。
-</p>
-<pre>
-my $foo1 = Foo1->new;
-my $foo2 = Foo2->new;
-
-my $foo : FooCallback;
-
-my $flag = 1;
-if ($flag) {
-  $foo = $foo1;
-}
-else {
-  $foo = $foo2;
-}
-
-my $ret = $foo->(5);
-</pre>
-<p>
-  $flagが1の場合は,Foo1の無名Methodが,そうでない場合はFoo2の無名Methodが呼び出されます。
-</p>
-<p>
-  Callback Typeの詳細については,<a href="#language-type-callback">Callback Type</a>を見てください。
-</p>
-
 <h2 id="language-array">Array</h2>
 <ul class="list">
   <li><a href="#language-array-summary">Array Summary</a></li>
@@ -2939,7 +2930,7 @@ my $zs = new Complex_2d[5];
   Multi Numeric Arrayは,Multi Numeric Typeの値が,連続したデータ構造をとります。Arrayの要素は,オブジェクトではなく,数値がメモリ上に一直線に並んで,配置されます。
 </p>
 <p>
-  たとえば,Point_3iTypeの5の長さのArrayであれば,Point_3iTypeは,int Type の数値が3つ並んだTypeで,長さが5なので,"5 * 3 = 15"個のint Type の数値が,メモリ上に一直線に並んだデータになります。
+  たとえば,Point_3iTypeの5の長さのArrayであれば,Point_3iTypeは,<a href="#language-type-int">int Type</a> の数値が3つ並んだTypeで,長さが5なので,"5 * 3 = 15"個の<a href="#language-type-int">int Type</a> の数値が,メモリ上に一直線に並んだデータになります。
 </p>
 <p>
   Multi Numeric ArrayのTypeは,<a href="#language-type-array">Array Type</a>です。
@@ -3530,7 +3521,7 @@ ArrayExpression->[インデックスExpression]
   ArrayExpressionは,<a href="#language-type-array">Array Type</a>の値でなければなりません。otherwise a compile-time error occurs.
 </p>
 <p>
-  インデックスExpressionは,int Type の値でなければなりません。otherwise a compile-time error occurs.
+  インデックスExpressionは,<a href="#language-type-int">int Type</a> の値でなければなりません。otherwise a compile-time error occurs.
 </p>
 <p>
   Arrayの要素の値を取得は,指定したインデックスの要素の値を返します。これは,Expressionです。
@@ -3569,7 +3560,7 @@ ArrayExpression->[インデックスExpression] = Right Expression
   ArrayExpressionは,<a href="#language-type-array">Array Type</a>の値でなければなりません。otherwise a compile-time error occurs.
 </p>
 <p>
-  インデックスExpressionは,int Type の値でなければなりません。otherwise a compile-time error occurs.
+  インデックスExpressionは,<a href="#language-type-int">int Type</a> の値でなければなりません。otherwise a compile-time error occurs.
 </p>
 <p>
   Right ExpressionのTypeは,Arrayの要素のTypeと<a href="#language-type-compatible">Type Compatibility</a>がなければなりません。otherwise a compile-time error occurs.
@@ -3652,10 +3643,10 @@ my $object = new Type[要素数Expression];
   Typeには,<a href="#language-type-numeric">Numeric Type</a>,<a href="#language-type-object">Object Type</a>,<a href="#language-type-multi-numeric">Multi Numeric Type</a>が指定できます。それ以外のTypeを指定した場合は,a compile-time error occurs
 </p>
 <p>
-  要素数Expressionは,int Type the following <a href="#language-type-numeric">Numeric Type</a>でなければなりません。otherwise a compile-time error occurs.
+  要素数Expressionは,<a href="#language-type-int">int Type</a> the following <a href="#language-type-numeric">Numeric Type</a>でなければなりません。otherwise a compile-time error occurs.
 </p>
 <p>
-  要素数Expressionに対して,<a href="#language-type-convertion-unary-numeric-widening">単項数値拡大Type Convertion</a>が行われます。
+  要素数Expressionに対して,<a href="#language-type-convertion-unary-numeric-widening">Unary Numeric Widening Type Convertion</a>が行われます。
 </p>
 <p>
   要素数Expressionで指定された長さのArrayが生成されます。
@@ -3988,10 +3979,10 @@ package Foo::Bar {
   先頭に"+"あるいは"-"の符号をつけることができます。
 </p>
 <p>
-  Integer Literal  のTypeは,デフォルトでは"int Type "になります。
+  Integer Literal  のTypeは,デフォルトでは"<a href="#language-type-int">int Type</a> "になります。
 </p>
 <p>
-  Integer Literal  がint Type で表現できる数値の範囲を超えている場合は,a compile-time error occurs
+  Integer Literal  が<a href="#language-type-int">int Type</a> で表現できる数値の範囲を超えている場合は,a compile-time error occurs
 </p>
 <p>
   末尾に"L"あるいは"l"のサフィックスをつけることで"long Type"のInteger Literal  を表現できます。
@@ -4006,10 +3997,10 @@ package Foo::Bar {
   Invalid Integer Literal  の表現はa compile-time error occurs
 </p>
 <p>
-  Integer Literal  がbyte Typeの変数に代入される場合,あるいはbyte TypeのSubroutine Argumentsとして渡される場合で,byte Typeで表現できる数値の範囲を超えていない場合は,<a href="#language-type-convertion-numeric-narrowing">数値縮小Type Convertion</a>によって,byte Typeに自動的に変換されます。範囲を超えている場合は,コンパイル時エラーとなります。
+  Integer Literal  がbyte Typeの変数に代入される場合,あるいはbyte TypeのSubroutine Argumentsとして渡される場合で,byte Typeで表現できる数値の範囲を超えていない場合は,<a href="#language-type-convertion-numeric-narrowing">Numeric Narrowing Type Convertion</a>によって,byte Typeに自動的に変換されます。範囲を超えている場合は,コンパイル時エラーとなります。
 </p>
 <p>
-  Integer Literal  がshort Typeの変数に代入される場合,あるいはshort TypeのSubroutine Argumentsとして渡される場合で,short Typeで表現できる数値の範囲を超えていない場合は,<a href="#language-type-convertion-numeric-narrowing">数値縮小Type Convertion</a>によって,short Typeに自動的に変換されます。範囲を超えている場合は,コンパイル時エラーとなります。
+  Integer Literal  がshort Typeの変数に代入される場合,あるいはshort TypeのSubroutine Argumentsとして渡される場合で,short Typeで表現できる数値の範囲を超えていない場合は,<a href="#language-type-convertion-numeric-narrowing">Numeric Narrowing Type Convertion</a>によって,short Typeに自動的に変換されます。範囲を超えている場合は,コンパイル時エラーとなります。
 </p>
 <p>
   Integer Literal  のExampleです。
@@ -4773,7 +4764,7 @@ my $ret = ($x += 2, $x + $y);
   Expressionは<a href="#language-type-numeric">Numeric Type</a>でなければなりません。otherwise a compile-time error occurs.
 </p>
 <p>
-  <a href="#language-expression">Expression</a>に対して,<a href="#language-type-convertion-unary-numeric-widening">単項数値拡大Type Convertion</a>が行われます。
+  <a href="#language-expression">Expression</a>に対して,<a href="#language-type-convertion-unary-numeric-widening">Unary Numeric Widening Type Convertion</a>が行われます。
 </p>
 <p>
   その後,Unary Plus Operator は,与えられた値をコピーして返します。
@@ -4782,7 +4773,7 @@ my $ret = ($x += 2, $x + $y);
   Unary Plus Operator は<a href="#language-expression">Expression</a>を返します。
 </p>
 <p>
-  Unary Plus Operator のReturn ValueのTypeは,<a href="#language-type-convertion-unary-numeric-widening">単項数値拡大Type Convertion</a>されたTypeです。
+  Unary Plus Operator のReturn ValueのTypeは,<a href="#language-type-convertion-unary-numeric-widening">Unary Numeric Widening Type Convertion</a>されたTypeです。
 </p>
 <p>
   Unary Plus Operator は例外を発生させません。
@@ -4804,10 +4795,10 @@ my $num = +10;
   Expressionは<a href="#language-type-numeric">Numeric Type</a>でなければなりません。otherwise a compile-time error occurs.
 </p>
 <p>
-  <a href="#language-expression">Expression</a>に対して,<a href="#language-type-convertion-unary-numeric-widening">単項数値拡大Type Convertion</a>が行われます。
+  <a href="#language-expression">Expression</a>に対して,<a href="#language-type-convertion-unary-numeric-widening">Unary Numeric Widening Type Convertion</a>が行われます。
 </p>
 <p>
-  その後,Unary Minus Operator は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,int Type ,long Type,float Type,double Typeにおける演算がDefinitionされます。
+  その後,Unary Minus Operator は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,<a href="#language-type-int">int Type</a> ,long Type,float Type,double Typeにおける演算がDefinitionされます。
 </p>
 <pre>
 -x
@@ -4816,7 +4807,7 @@ my $num = +10;
   Unary Minus Operator は<a href="#language-expression">Expression</a>を返します。
 </p>
 <p>
-  Unary Minus Operator のReturn ValueのTypeは,<a href="#language-type-convertion-unary-numeric-widening">単項数値拡大Type Convertion</a>されたTypeです。
+  Unary Minus Operator のReturn ValueのTypeは,<a href="#language-type-convertion-unary-numeric-widening">Unary Numeric Widening Type Convertion</a>されたTypeです。
 </p>
 <p>
   Unary Minus Operator は例外を発生させません。
@@ -4838,10 +4829,10 @@ Left Expression + Right Expression
   Left ExpressionとRight Expressionは,<a href="#language-type-numeric">Numeric Type</a>でなければなりません。otherwise a compile-time error occurs.
 <p>
 <p>
-  Left ExpressionとRight Expressionに対して,<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大Type Convertion</a>が行われます。
+  Left ExpressionとRight Expressionに対して,<a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</a>が行われます。
 </p>
 <p>
-  その後,Addition Operator は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,int Type ,long Type,float Type,double Typeにおける演算がDefinitionされます。
+  その後,Addition Operator は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,<a href="#language-type-int">int Type</a> ,long Type,float Type,double Typeにおける演算がDefinitionされます。
 </p>
 <pre>
 x + y;
@@ -4850,7 +4841,7 @@ x + y;
   Addition Operator は<a href="#language-expression">Expression</a>を返します。
 </p>
 <p>
-  Addition Operator のReturn ValueのTypeは,<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大Type Convertion</a>されたTypeです。
+  Addition Operator のReturn ValueのTypeは,<a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</a>されたTypeです。
 </p>
 <p>
   Addition Operator は,例外を発生させません。
@@ -4866,10 +4857,10 @@ Left Expression - Right Expression
   Left ExpressionとRight Expressionは,<a href="#language-type-numeric">Numeric Type</a>でなければなりません。otherwise a compile-time error occurs.
 <p>
 <p>
-  Left ExpressionとRight Expressionに対して,<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大Type Convertion</a>が行われます。
+  Left ExpressionとRight Expressionに対して,<a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</a>が行われます。
 </p>
 <p>
-  その後,Subtraction Operator は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,int Type ,long Type,float Type,double Typeにおける演算がDefinitionされます。
+  その後,Subtraction Operator は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,<a href="#language-type-int">int Type</a> ,long Type,float Type,double Typeにおける演算がDefinitionされます。
 </p>
 <pre>
 x - y;
@@ -4878,7 +4869,7 @@ x - y;
   Subtraction Operator は<a href="#language-expression">Expression</a>を返します。
 </p>
 <p>
-  Subtraction Operator のReturn ValueのTypeは,<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大Type Convertion</a>されたTypeです。
+  Subtraction Operator のReturn ValueのTypeは,<a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</a>されたTypeです。
 </p>
 <p>
   Subtraction Operator は,例外を発生させません。
@@ -4894,10 +4885,10 @@ Left Expression * Right Expression
   Left ExpressionとRight Expressionは,<a href="#language-type-numeric">Numeric Type</a>でなければなりません。otherwise a compile-time error occurs.
 <p>
 <p>
-  Left ExpressionとRight Expressionに対して,<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大Type Convertion</a>が行われます。
+  Left ExpressionとRight Expressionに対して,<a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</a>が行われます。
 </p>
 <p>
-  その後,Multiplication Operator は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,int Type ,long Type,float Type,double Typeにおける演算がDefinitionされます。
+  その後,Multiplication Operator は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,<a href="#language-type-int">int Type</a> ,long Type,float Type,double Typeにおける演算がDefinitionされます。
 </p>
 <pre>
 x * y;
@@ -4906,7 +4897,7 @@ x * y;
   Multiplication Operator は<a href="#language-expression">Expression</a>を返します。
 </p>
 <p>
-  Multiplication Operator のReturn ValueのTypeは,<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大Type Convertion</a>されたTypeです。
+  Multiplication Operator のReturn ValueのTypeは,<a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</a>されたTypeです。
 </p>
 <p>
   Multiplication Operator は,例外を発生させません。
@@ -4922,10 +4913,10 @@ Left Expression / Right Expression
   Left ExpressionとRight Expressionは,<a href="#language-type-numeric">Numeric Type</a>でなければなりません。otherwise a compile-time error occurs.
 <p>
 <p>
-  Left ExpressionとRight Expressionに対して,<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大Type Convertion</a>が行われます。
+  Left ExpressionとRight Expressionに対して,<a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</a>が行われます。
 </p>
 <p>
-  その後,Division Operator は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,int Type ,long Type,float Type,double Typeにおける演算がDefinitionされます。
+  その後,Division Operator は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,<a href="#language-type-int">int Type</a> ,long Type,float Type,double Typeにおける演算がDefinitionされます。
 </p>
 <pre>
 x / y;
@@ -4934,7 +4925,7 @@ x / y;
   Division Operator は<a href="#language-expression">Expression</a>を返します。
 </p>
 <p>
-  Division Operator のReturn ValueのTypeは,<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大Type Convertion</a>されたTypeです。
+  Division Operator のReturn ValueのTypeは,<a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</a>されたTypeです。
 </p>
 <p>
   Integral Typeに対する演算の場合には,Division Operator は,右辺が0であった場合に,例外が発生します。
@@ -4954,10 +4945,10 @@ Left Expression % Right Expression
   Left ExpressionとRight Expressionは,<a href="#language-type-integral">Integral Type</a>でなければなりません。otherwise a compile-time error occurs.
 <p>
 <p>
-  Left ExpressionとRight Expressionに対して,<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大Type Convertion</a>が行われます。
+  Left ExpressionとRight Expressionに対して,<a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</a>が行われます。
 </p>
 <p>
-  その後,Remainder Operator は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,int Type ,long Typeにおける演算がDefinitionされます。
+  その後,Remainder Operator は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,<a href="#language-type-int">int Type</a> ,long Typeにおける演算がDefinitionされます。
 </p>
 <pre>
 x % y;
@@ -4966,7 +4957,7 @@ x % y;
   Remainder Operator は<a href="#language-expression">Expression</a>を返します。
 </p>
 <p>
-  Remainder Operator のReturn ValueのTypeは,<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大Type Convertion</a>されたTypeです。
+  Remainder Operator のReturn ValueのTypeは,<a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</a>されたTypeです。
 </p>
 <p>
   Remainder Operator は,右辺が0であった場合に,例外が発生します。
@@ -5116,10 +5107,10 @@ Left Expression & Right Expression
   Left ExpressionとRight Expressionは,<a href="#language-type-integral">Integral Type</a>でなければなりません。otherwise a compile-time error occurs.
 <p>
 <p>
-  Left ExpressionとRight Expressionに対して,<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大Type Convertion</a>が行われます。
+  Left ExpressionとRight Expressionに対して,<a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</a>が行われます。
 </p>
 <p>
-  その後,Bit AND Operator の演算結果は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,int Type ,long Typeにおける演算がDefinitionされます。
+  その後,Bit AND Operator の演算結果は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,<a href="#language-type-int">int Type</a> ,long Typeにおける演算がDefinitionされます。
 </p>
 <pre>
 x & y;
@@ -5128,7 +5119,7 @@ x & y;
   Bit AND Operator は<a href="#language-expression">Expression</a>を返します。
 </p>
 <p>
-  Bit AND Operator のReturn ValueのTypeは,<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大Type Convertion</a>されたTypeです。
+  Bit AND Operator のReturn ValueのTypeは,<a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</a>されたTypeです。
 </p>
 <p>
   Bit AND Operator は,例外を発生させません。
@@ -5145,10 +5136,10 @@ Left Expression | Right Expression
   Left ExpressionとRight Expressionは,<a href="#language-type-integral">Integral Type</a>でなければなりません。otherwise a compile-time error occurs.
 <p>
 <p>
-  Left ExpressionとRight Expressionに対して,<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大Type Convertion</a>が行われます。
+  Left ExpressionとRight Expressionに対して,<a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</a>が行われます。
 </p>
 <p>
-  その後,Bit OR Operator の演算結果は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,int Type ,long Typeにおける演算がDefinitionされます。
+  その後,Bit OR Operator の演算結果は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,<a href="#language-type-int">int Type</a> ,long Typeにおける演算がDefinitionされます。
 </p>
 <pre>
 x | y;
@@ -5157,7 +5148,7 @@ x | y;
   Bit OR Operator は<a href="#language-expression">Expression</a>を返します。
 </p>
 <p>
-  Bit OR Operator のReturn ValueのTypeは,<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大Type Convertion</a>されたTypeです。
+  Bit OR Operator のReturn ValueのTypeは,<a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</a>されたTypeです。
 </p>
 <p>
   Bit OR Operator は,例外を発生させません。
@@ -5174,10 +5165,10 @@ x | y;
   Expressionは<a href="#language-type-integral">Integral Type</a>でなければなりません。otherwise a compile-time error occurs.
 </p>
 <p>
-  <a href="#language-expression">Expression</a>に対して,<a href="#language-type-convertion-unary-numeric-widening">単項数値拡大Type Convertion</a>が行われます。
+  <a href="#language-expression">Expression</a>に対して,<a href="#language-type-convertion-unary-numeric-widening">Unary Numeric Widening Type Convertion</a>が行われます。
 </p>
 <p>
-  その後,Bit NOT Operator の演算結果は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,int Type ,long Typeにおける演算がDefinitionされます。
+  その後,Bit NOT Operator の演算結果は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,<a href="#language-type-int">int Type</a> ,long Typeにおける演算がDefinitionされます。
 </p>
 <pre>
 ~x
@@ -5186,7 +5177,7 @@ x | y;
   Bit NOT Operator は<a href="#language-expression">Expression</a>を返します。
 </p>
 <p>
-  Bit NOT Operator のReturn ValueのTypeは,<a href="#language-type-convertion-unary-numeric-widening">単項数値拡大Type Convertion</a>されたTypeです。
+  Bit NOT Operator のReturn ValueのTypeは,<a href="#language-type-convertion-unary-numeric-widening">Unary Numeric Widening Type Convertion</a>されたTypeです。
 </p>
 <p>
   Bit NOT Operator は例外を発生させません。
@@ -5213,13 +5204,13 @@ Left Expression << Right Expression
   Left Expressionは,<a href="#language-type-integral">Integral Type</a>でなければなりません。otherwise a compile-time error occurs.
 <p>
 <p>
-  最初に<a href="#language-expression">Left Expression</a>に対して,<a href="#language-type-convertion-unary-numeric-widening">単項数値拡大Type Convertion</a>が行われます。
+  最初に<a href="#language-expression">Left Expression</a>に対して,<a href="#language-type-convertion-unary-numeric-widening">Unary Numeric Widening Type Convertion</a>が行われます。
 </p>
 <p>
-  Right Expressionは,int Type でなければなりません。otherwise a compile-time error occurs.
+  Right Expressionは,<a href="#language-type-int">int Type</a> でなければなりません。otherwise a compile-time error occurs.
 <p>
 <p>
-  Left Shift Operator の演算結果は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,int Type ,long Typeにおける演算がDefinitionされます。
+  Left Shift Operator の演算結果は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,<a href="#language-type-int">int Type</a> ,long Typeにおける演算がDefinitionされます。
 </p>
 <pre>
 x << y;
@@ -5242,13 +5233,13 @@ Left Expression >> Right Expression
   Left Expressionは,<a href="#language-type-integral">Integral Type</a>でなければなりません。otherwise a compile-time error occurs.
 <p>
 <p>
-  最初に<a href="#language-expression">Left Expression</a>に対して,<a href="#language-type-convertion-unary-numeric-widening">単項数値拡大Type Convertion</a>が行われます。
+  最初に<a href="#language-expression">Left Expression</a>に対して,<a href="#language-type-convertion-unary-numeric-widening">Unary Numeric Widening Type Convertion</a>が行われます。
 </p>
 <p>
-  Right Expressionは,int Type でなければなりません。otherwise a compile-time error occurs.
+  Right Expressionは,<a href="#language-type-int">int Type</a> でなければなりません。otherwise a compile-time error occurs.
 <p>
 <p>
-  Arithmetic Right Shift Operator の演算結果は,C99におけるthe following 演算と完全に一致する演算を行います。xに対して,<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,int Type ,long Typeにおける演算がDefinitionされます。
+  Arithmetic Right Shift Operator の演算結果は,C99におけるthe following 演算と完全に一致する演算を行います。xに対して,<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,<a href="#language-type-int">int Type</a> ,long Typeにおける演算がDefinitionされます。
 </p>
 <pre>
 x >> y;
@@ -5271,13 +5262,13 @@ Left Expression >>> Right Expression
   Left Expressionは,<a href="#language-type-integral">Integral Type</a>でなければなりません。otherwise a compile-time error occurs.
 <p>
 <p>
-  最初に<a href="#language-expression">Left Expression</a>に対して,<a href="#language-type-convertion-unary-numeric-widening">単項数値拡大Type Convertion</a>が行われます。
+  最初に<a href="#language-expression">Left Expression</a>に対して,<a href="#language-type-convertion-unary-numeric-widening">Unary Numeric Widening Type Convertion</a>が行われます。
 </p>
 <p>
-  Right Expressionは,int Type でなければなりません。otherwise a compile-time error occurs.
+  Right Expressionは,<a href="#language-type-int">int Type</a> でなければなりません。otherwise a compile-time error occurs.
 <p>
 <p>
-  Logical Right Shift Operator の演算結果は,C99におけるthe following 演算と完全に一致する演算を行います。xに対して,<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,int Type ,long Typeにおける演算がDefinitionされます。
+  Logical Right Shift Operator の演算結果は,C99におけるthe following 演算と完全に一致する演算を行います。xに対して,<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,<a href="#language-type-int">int Type</a> ,long Typeにおける演算がDefinitionされます。
 </p>
 <pre>
 (符号付Integral Typeキャスト)((符号なしIntegral Typeキャスト)x >> y);
@@ -5387,10 +5378,10 @@ Left Expression 数値比較Operator  Right Expression
   左辺と右辺のTypeは,比較可能なTypeでなければなりません。otherwise a compile-time error occurs.
 </p>
 <p>
-  Numeric Typeの比較の場合は,Left ExpressionとRight Expressionに対して,<a href="#language-type-convertion-binary-numeric-widening">二項数値拡大Type Convertion</a>が行われます。
+  Numeric Typeの比較の場合は,Left ExpressionとRight Expressionに対して,<a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</a>が行われます。
 </p>
 <p>
-  その後,数値比較Operator は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,int Type ,long Type,float Type,double Type,Object Type における演算がDefinitionされます。
+  その後,数値比較Operator は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,<a href="#language-type-int">int Type</a> ,long Type,float Type,double Type,Object Type における演算がDefinitionされます。
 </p>
 <pre>
 # Numeric Typeの比較,Object Type の比較
@@ -5404,7 +5395,7 @@ Left Expression 数値比較Operator  Right Expression
 (int32_t)(x <= y);
 </pre>
 <p>
-  数値比較Operator のReturn ValueのTypeは,int Type です。
+  数値比較Operator のReturn ValueのTypeは,<a href="#language-type-int">int Type</a> です。
 </p>
 <p>
   数値比較Operator は,例外を発生させません。
@@ -5478,7 +5469,7 @@ Left Expression String比較Operator  Right Expression
   </tr>
 </table>
 <p>
-  String比較Operator のReturn ValueのTypeは,int Type です。条件が満たされた場合は1を,そうでない場合は0を返します。
+  String比較Operator のReturn ValueのTypeは,<a href="#language-type-int">int Type</a> です。条件が満たされた場合は1を,そうでない場合は0を返します。
 </p>
 <h3 id="language-operator-isa">isa Operator </h3>
 <p>
@@ -5494,13 +5485,13 @@ Left Expression isa 右Type
   isa Operator は,右Typeに応じて,3種類の動作をします。
 </p>
 <p>
-  1. 右Typeが,<a href="#language-type-numeric">Numeric Type</a>,<a href="#language-type-multi-numeric">Multi Numeric Type</a>,<a href="#language-type-any-object">Any Object Type</a>,<a href="#language-type-ref">Reference Type</a>の場合は,コンパイル時にLeft ExpressionのTypeが右Typeと同一のものであるかをチェックします。同一であった場合はint Type で1を,そうでない場合は0を返します。
+  1. 右Typeが,<a href="#language-type-numeric">Numeric Type</a>,<a href="#language-type-multi-numeric">Multi Numeric Type</a>,<a href="#language-type-any-object">Any Object Type</a>,<a href="#language-type-ref">Reference Type</a>の場合は,コンパイル時にLeft ExpressionのTypeが右Typeと同一のものであるかをチェックします。同一であった場合は<a href="#language-type-int">int Type</a> で1を,そうでない場合は0を返します。
 </p>
 <p>
-  2. 右Typeが,<a href="#language-type-class">Class Type</a>であった場合は,実行時にLeft ExpressionのTypeが,Class Typeと一致するかをチェックします。一致した場合はint Type で1を,そうでない場合は0を返します。Left ExpressionのTypeは,Object Type でなければなりません。otherwise a compile-time error occurs.
+  2. 右Typeが,<a href="#language-type-class">Class Type</a>であった場合は,実行時にLeft ExpressionのTypeが,Class Typeと一致するかをチェックします。一致した場合は<a href="#language-type-int">int Type</a> で1を,そうでない場合は0を返します。Left ExpressionのTypeは,Object Type でなければなりません。otherwise a compile-time error occurs.
 </p>
 <p>
-  3. 右Typeが,<a href="#language-type-callback">Callback Type</a>であった場合は,実行時にLeft ExpressionのTypeがClass Typeであり,そのClassがCallback Typeを満たすかどうかをチェックします。満たした場合はint Type の1を,そうでない場合は0を返します。Left ExpressionのTypeは,Object Type でなければなりません。otherwise a compile-time error occurs.
+  3. 右Typeが,<a href="#language-type-callback">Callback Type</a>であった場合は,実行時にLeft ExpressionのTypeがClass Typeであり,そのClassがCallback Typeを満たすかどうかをチェックします。満たした場合は<a href="#language-type-int">int Type</a> の1を,そうでない場合は0を返します。Left ExpressionのTypeは,Object Type でなければなりません。otherwise a compile-time error occurs.
 </p>
 
 <h3 id="language-operator-logical">論理Operator </h3>
@@ -5519,16 +5510,16 @@ Left Expression isa 右Type
 Left Expression && Right Expression
 </pre>
 <p>
-  Logical AND Operator のReturn ValueのTypeは,int Type です。
+  Logical AND Operator のReturn ValueのTypeは,<a href="#language-type-int">int Type</a> です。
 </p>
 <p>
   Logical AND Operator は次のように動作します。
 </p>
 <p>
-  1. Left Expressionに<a href="#language-type-convertion-bool">ブールType Convertion</a>を実行します。
+  1. Left Expressionに<a href="#language-type-convertion-bool">Bool Type Convertion</a>を実行します。
 </p>
 <p>
-  2. Left Expressionの値が0以外であれば,Right Expressionに対して,<a href="#language-type-convertion-bool">ブールType Convertion</a>を実行し,その値を返します。
+  2. Left Expressionの値が0以外であれば,Right Expressionに対して,<a href="#language-type-convertion-bool">Bool Type Convertion</a>を実行し,その値を返します。
 </p>
 <p>
   3. Left Expressionの値が0であれば,その値を返します。
@@ -5551,13 +5542,13 @@ Left Expression || Right Expression
   Logical OR Operator は次のように動作します。
 </p>
 <p>
-  Logical OR Operator のReturn ValueのTypeは,int Type です。
+  Logical OR Operator のReturn ValueのTypeは,<a href="#language-type-int">int Type</a> です。
 </p>
 <p>
-  1. Left Expressionに<a href="#language-type-convertion-bool">ブールType Convertion</a>を実行します。
+  1. Left Expressionに<a href="#language-type-convertion-bool">Bool Type Convertion</a>を実行します。
 </p>
 <p>
-  2. Left Expressionの値が0あれば,Right Expressionに対して,<a href="#language-type-convertion-bool">ブールType Convertion</a>を実行し,その値を返します。
+  2. Left Expressionの値が0あれば,Right Expressionに対して,<a href="#language-type-convertion-bool">Bool Type Convertion</a>を実行し,その値を返します。
 </p>
 <p>
   3. Left Expressionの値が0以外であれば,その値を返します。
@@ -5577,10 +5568,10 @@ Left Expression || Right Expression
 !Expression
 </pre>
 <p>
-  Logical NOT Operator のReturn ValueのTypeは,int Type です。
+  Logical NOT Operator のReturn ValueのTypeは,<a href="#language-type-int">int Type</a> です。
 </p>
 <p>
-  Logical NOT Operator は,Expressionに<a href="#language-type-convertion-bool">ブールType Convertion</a>を実行し,その値が0の場合は1を,0以外の値の場合は,0を返します。
+  Logical NOT Operator は,Expressionに<a href="#language-type-convertion-bool">Bool Type Convertion</a>を実行し,その値が0の場合は1を,0以外の値の場合は,0を返します。
 </p>
 <p>
   Logical NOT Operator は<a href="#language-expression">Expression</a>を返します。
@@ -5597,7 +5588,7 @@ Left Expression || Right Expression
 Left Expression . Right Expression
 </pre>
 <p>
-  Left ExpressionあるいはRight Expressionが,<a href="#language-type-numeric">Numeric Type</a>であった場合は,<a href="#language-type-convertion-numeric-to-string">数値からStringへのType Convertion</a>によってStringに変換されます。
+  Left ExpressionあるいはRight Expressionが,<a href="#language-type-numeric">Numeric Type</a>であった場合は,<a href="#language-type-convertion-numeric-to-string">Numeric-to-String Type Convertion</a>によってStringに変換されます。
 </p>
 <p>
   Left ExpressionとRight Expressionはどちらも<a href="#language-type-string-compatible">String Compatible Type</a>でなければなりません。otherwise コンパイルエラーになります。
@@ -5775,7 +5766,7 @@ my $z_ref : SPVM::Complex_2d& = \$z;
   Right Expressionは,Array Typeでなければなりません。otherwise a compile-time error occurs.
 </p>
 <p>
-  Array Length Operator は,Array Lengthをint Type の値で返します。
+  Array Length Operator は,Array Lengthを<a href="#language-type-int">int Type</a> の値で返します。
 </p>
 <p>
   Array Length Operator は,<a href="#language-expression">Expression</a>を返します。
@@ -5805,7 +5796,7 @@ length Right Expression
   Right Expressionは,<a href="#language-type-string-compatible">String Compatible Type</a>でなければなりません。otherwise a compile-time error occurs.
 </p>
 <p>
-  String Length Operator は,Stringの長さをint Type の値で返します。String Length Operator が返すStringの長さは,バイト列としてみたときの長さでです。
+  String Length Operator は,Stringの長さを<a href="#language-type-int">int Type</a> の値で返します。String Length Operator が返すStringの長さは,バイト列としてみたときの長さでです。
 </p>
 <p>
   String Length Operator は,<a href="#language-expression">Expression</a>を返します。
@@ -5865,7 +5856,7 @@ isweak 変数->{Field Name};
   実行時にFieldに保存されている値が,<a href="#language-undef">Undefined Value</a>だった場合は,偽を返します。これは,<a href="#language-expression">Expression</a>です。
 </p>
 <p>
-  isweakOperator は,FieldがWeaken Referenceの場合は,int Type の1を,そうでない場合は0を返します。これは,<a href="#language-expression">Expression</a>です。
+  isweakOperator は,FieldがWeaken Referenceの場合は,<a href="#language-type-int">int Type</a> の1を,そうでない場合は0を返します。これは,<a href="#language-expression">Expression</a>です。
 </p>
 
 <h2 id="language-operator-precedence">Operator Precidence</h2>
@@ -6048,9 +6039,9 @@ a * (b + c)
   Statementの一覧です。
 </p>
 <ul class="list">
-  <li><a href="#language-statement-if">if statement</a></li>
-  <li><a href="#language-statement-switch">switch statement</a></li>
-  <li><a href="#language-statement-case">case statement</a></li>
+  <li><a href="#language-statement-if">if Statement</a></li>
+  <li><a href="#language-statement-switch">switch Statement</a></li>
+  <li><a href="#language-statement-case">case Statement</a></li>
   <li><a href="#language-statement-while">while statement</a></li>
   <li><a href="#language-statement-for">for statement</a></li>
   <li><a href="#language-statement-default">default statement</a></li>
@@ -6070,9 +6061,9 @@ a * (b + c)
   <li><a href="#language-statement-empty">empty statement</a></li>
 </ul>
 
-<h3 id="language-statement-if">if statement</h3>
+<h3 id="language-statement-if">if Statement</h3>
 <p>
-  if statementは,条件分岐を行うためのStatementです。
+  if Statementは,条件分岐を行うためのStatementです。
 </p>
 <pre>
 if (Expression) {
@@ -6080,10 +6071,10 @@ if (Expression) {
 }
 </pre>
 <p>
-  Expressionに<a href="#language-type-convertion-bool">ブールType Convertion</a>が実行され,値が0以外の場合に,Block が実行されます。
+  Expressionに<a href="#language-type-convertion-bool">Bool Type Convertion</a>が実行され,値が0以外の場合に,Block が実行されます。
 </p>
 <p>
-  条件を複数書きたい場合には"elsif statement"を続けることができます。 条件判定は上から実行され,それぞれのExpressionに<a href="#language-type-convertion-bool">ブールType Convertion</a>が実行され,値が0以外の場合に対応するBlock が実行されます。
+  条件を複数書きたい場合には"elsif Statement"を続けることができます。 条件判定は上から実行され,それぞれのExpressionに<a href="#language-type-convertion-bool">Bool Type Convertion</a>が実行され,値が0以外の場合に対応するBlock が実行されます。
 </p>
 <pre>
 if (Expression) {
@@ -6094,7 +6085,7 @@ elsif(Expression) {
 }
 </pre>
 <p>
-  "elseStatement"を使って,if statementあるいは,elsif statementが条件を満たさなかった場合の処理を記述することができます。if statementとelsif statementの条件判定がすべて偽であった場合にelseのBlock の内部のStatementが実行されます。elsif statementは,なくてもかまいません。
+  "elseStatement"を使って,if Statementあるいは,elsif Statementが条件を満たさなかった場合の処理を記述することができます。if Statementとelsif Statementの条件判定がすべて偽であった場合にelseのBlock の内部のStatementが実行されます。elsif Statementは,なくてもかまいません。
 </p>
 <pre>
 if (Expression) {
@@ -6108,10 +6099,10 @@ else {
 }
 </pre>
 <p>
-  <b>if statementのExample</b>
+  <b>if StatementのExample</b>
 </p>
 <p>
-  if statementのExampleです。
+  if StatementのExampleです。
 </p>
 <pre>
 my $flag = 1;
@@ -6127,7 +6118,7 @@ print "Other";
 }
 </pre>
 <p>
-  if statementは,内部的には,目には見えないSimple Blockで囲まれています。
+  if Statementは,内部的には,目には見えないSimple Blockで囲まれています。
 </p>
 <pre>
 {
@@ -6137,7 +6128,7 @@ if (Expression) {
 }
 </pre>
 <p>
-  elsifは,内部的には,if statementとelseStatementに展開されます。
+  elsifは,内部的には,if StatementとelseStatementに展開されます。
 </p>
 <pre>
 # 展開前
@@ -6164,7 +6155,7 @@ else {
 }
 </pre>
 <p>
-  if statementの条件部で,変数宣言を行うときは,目には見えない<a href="#language-block-statement-simple">Simple Block</a>で囲まれていることと,elsifは,内部的には,if statementとelseStatementに展開されるということを,意識してください。
+  if Statementの条件部で,変数宣言を行うときは,目には見えない<a href="#language-block-statement-simple">Simple Block</a>で囲まれていることと,elsifは,内部的には,if StatementとelseStatementに展開されるということを,意識してください。
 </p>
 <pre>
 # 展開前
@@ -6198,9 +6189,9 @@ my $num = 1;
 }
 </pre>
 
-<h3 id="language-statement-switch">switch statement</h3>
+<h3 id="language-statement-switch">switch Statement</h3>
 <p>
-  switch statementは,int Type の整数を条件にして,条件分岐を行うためのStatementです。条件がint Type の整数で,たくさんの分岐がある場合は,if statementよりも高速です。
+  switch Statementは,<a href="#language-type-int">int Type</a> の整数を条件にして,条件分岐を行うためのStatementです。条件が<a href="#language-type-int">int Type</a> の整数で,たくさんの分岐がある場合は,if Statementよりも高速です。
 </p>
 <pre>
 switch (条件Expression) {
@@ -6221,28 +6212,28 @@ switch (条件Expression) {
 }
 </pre>
 <p>
-  条件Expressionは,<a href="#language-expression">Expression</a>を指定できます。条件Expressionには,<a href="#language-type-convertion-bool">ブールType Convertion</a>が実行されます。
+  条件Expressionは,<a href="#language-expression">Expression</a>を指定できます。条件Expressionには,<a href="#language-type-convertion-bool">Bool Type Convertion</a>が実行されます。
 </p>
 <p>
-  case statementで指定される定数は,byte Typeかint Type の定数でなければなりません。byte Typeの定数の場合は,コンパイル時に,int Type にType Convertionされます。enumTypeの値や,int Type のConstant Subroutine は,int Type の定数として,syntax 解析時に展開されるので,利用することができます。
+  case Statementで指定される定数は,byte Typeか<a href="#language-type-int">int Type</a> の定数でなければなりません。byte Typeの定数の場合は,コンパイル時に,<a href="#language-type-int">int Type</a> にType Convertionされます。enumTypeの値や,<a href="#language-type-int">int Type</a> のConstant Subroutine は,<a href="#language-type-int">int Type</a> の定数として,syntax 解析時に展開されるので,利用することができます。
 </p>
 <p>
-  case statementに指定される定数は,重複してはいけません。重複している場合は,a compile-time error occurs
+  case Statementに指定される定数は,重複してはいけません。重複している場合は,a compile-time error occurs
 </p>
 <p>
-  条件Expressionで指定された値が,case statementで指定された値にマッチした場合は,そのcase statementの位置にジャンプします。
+  条件Expressionで指定された値が,case Statementで指定された値にマッチした場合は,そのcase Statementの位置にジャンプします。
 </p>
 <p>
   マッチしなかった場合でdefault statementが指定されている場合は,default statementの位置にジャンプします。default statementが指定されていなかった場合は,switch Blockは実行されません。
 </p>
 <p>
-  switch statementには,少なくともひとつのcase statementが必要です。otherwise コンパイルエラーが発生します。
+  switch Statementには,少なくともひとつのcase Statementが必要です。otherwise コンパイルエラーが発生します。
 </p>
 <p>
   default statementは省略可能です。
 </p>
 <p>
-  switch Blockの直下に記述できるのはcase statementとdefault statementだけです。
+  switch Blockの直下に記述できるのはcase Statementとdefault statementだけです。
 </p>
 <p>
   caseとdefaultのBlock は省略することができます。
@@ -6282,10 +6273,10 @@ switch (条件Expression) {
 </p>
 
 <p>
-  <b>switch statementのExample</b>
+  <b>switch StatementのExample</b>
 </p>
 <p>
-  switch statementのExampleです。
+  switch StatementのExampleです。
 </p>
 <pre>
 my $code = 2;
@@ -6314,14 +6305,14 @@ switch ($code) {
 }
 </pre>
 
-<h3 id="language-statement-switch">case statement</h3>
+<h3 id="language-statement-switch">case Statement</h3>
 <p>
-  case statementは,switch Blockの中で使うことができる,条件を指定するためのStatementです。case statementについての詳細は,<a href="#language-statement-switch">switch statement</a>の解説を見てください。
+  case Statementは,switch Blockの中で使うことができる,条件を指定するためのStatementです。case Statementについての詳細は,<a href="#language-statement-switch">switch Statement</a>の解説を見てください。
 </p>
 
 <h3 id="language-statement-switch">default statement</h3>
 <p>
-  default statementは,switch Blockの中で使うことができる,デフォルトの条件を指定するためのStatementです。default statementについての詳細は,<a href="#language-statement-switch">switch statement</a>の解説を見てください。
+  default statementは,switch Blockの中で使うことができる,デフォルトの条件を指定するためのStatementです。default statementについての詳細は,<a href="#language-statement-switch">switch Statement</a>の解説を見てください。
 </p>
 
 <h3 id="language-statement-while">while statement</h3>
@@ -6334,7 +6325,7 @@ while (条件Expression) {
 }
 </pre>
 <p>
-  条件Expressionに,<a href="#language-expresssion">Expression</a>を記述できます。条件Expressionに<a href="#language-type-convertion-bool">ブールType Convertion</a>が実行され,値が0以外の場合に,Block が実行されます。otherwise Block を抜けます。
+  条件Expressionに,<a href="#language-expresssion">Expression</a>を記述できます。条件Expressionに<a href="#language-type-convertion-bool">Bool Type Convertion</a>が実行され,値が0以外の場合に,Block が実行されます。otherwise Block を抜けます。
 </p>
 <p>
   <b>while statementのExample</b>
@@ -6421,7 +6412,7 @@ for (初期化Expression; 条件Expression; インクリメントExpression) {
   初期化Expressionには,<a href="#language-expression">Expression</a>を記述できます。一般的には,ループ変数の初期化などのExpressionを記述します。初期化Expressionは省略することが可能です。
 </p>
 <p>
-  条件Expression,<a href="#language-expresssion">Expression</a>を記述できます。条件Expressionに<a href="#language-type-convertion-bool">ブールType Convertion</a>が実行され,値が0以外の場合に,Block が実行されます。otherwise Block を抜けます。
+  条件Expression,<a href="#language-expresssion">Expression</a>を記述できます。条件Expressionに<a href="#language-type-convertion-bool">Bool Type Convertion</a>が実行され,値が0以外の場合に,Block が実行されます。otherwise Block を抜けます。
 </p>
 <p>
   インクリメントExpressionには,<a href="#language-expression">Expression</a>を記述できます。一般的には,ループ変数のインクリメントのExpressionを記述します。インクリメントExpressionは省略することが可能です。
@@ -6629,7 +6620,7 @@ last;
   "break statement"は,switch Blockを脱出するためのStatementです。<a href="#language-block-statement-switch">switch Block</a>の中で使うことができます。
 </p>
 <p>
-  実際の動作については<a href="#language-statement-switch">switch statement</a>の解説を見てください。
+  実際の動作については<a href="#language-statement-switch">switch Statement</a>の解説を見てください。
 </p>
 <pre>
 break;
@@ -6710,7 +6701,7 @@ my $num = 1 + 2;
   <li><a href="#language-type-integral">Integral Type</a></li>
   <li><a href="#language-type-byte">byte Type</a></li>
   <li><a href="#language-type-short">short Type</a></li>
-  <li><a href="#language-type-int">int Type</a></li>
+  <li><a href="#language-type-int"><a href="#language-type-int">int Type</a></a></li>
   <li><a href="#language-type-long">long Type</a></li>
   <li><a href="#language-type-floating-point">Floating Point Type</a></li>
   <li><a href="#language-type-float">float Type</a></li>
@@ -6907,10 +6898,15 @@ Note that SPVM has only <b>singed</b> Integral Type, and don't has <b>unsigned</
 <p>
   byte Typeは,符号付16bit整数を表現する<a href="#language-type-integral">Integral Type</a>です。C99のint16_tTypeと同じTypeです。
 </p>
-<h3 id="language-type-int">int Type </h3>
-<p>
-  int Type は,符号付32bit整数を表現する<a href="#language-type-integral">Integral Type</a>です。C99のint32_tTypeと同じTypeです。
-</p>
+
+<h3 id="language-type-int">int Type</h3>
+
+<b>int Type</b> is a type that represents signed 32-bit integer.
+
+This is same as <b>C99 int32_t Type</b>.
+
+This is a <a href="#language-type-integral">Integral Type</a>.
+
 <h3 id="language-type-long">long Type</h3>
 <p>
   long Typeは,符号付64bit整数を表現する<a href="#language-type-integral">Integral Type</a>です。C99のint64_tTypeと同じTypeです。
@@ -6937,7 +6933,7 @@ Note that SPVM has only <b>singed</b> Integral Type, and don't has <b>unsigned</
       <b>float</b>
     </td>
     <td>
-      Single precision(32bit) floating point Type
+      Single precision(32bit) floating po<a href="#language-type-int">int Type</a>
     </td>
     <td>
       4 bytes
@@ -6948,7 +6944,7 @@ Note that SPVM has only <b>singed</b> Integral Type, and don't has <b>unsigned</
       <b>double</b>
     </td>
     <td>
-      Double precision(64bit) floating point Type
+      Double precision(64bit) floating po<a href="#language-type-int">int Type</a>
     </td>
     <td>
       8 bytes
@@ -7056,7 +7052,7 @@ my $object : object = "abc";
       SPVM::Int
     </td>
     <td>
-      Numeric Object Type with <a href="#language-type-int">int Type</a> data
+      Numeric Object Type with <a href="#language-type-int"><a href="#language-type-int">int Type</a></a> data
     </td>
   </tr>
   <tr>
@@ -7262,7 +7258,7 @@ int[][][]
   Array Typeは,<a href="#language-type-object">Object Type</a>です。
 </p>
 <p>
-  Arrayを作成するには,new Operator を使用します。the following 例では,要素数が3のint Type のArrayを作成しています。
+  Arrayを作成するには,new Operator を使用します。the following 例では,要素数が3の<a href="#language-type-int">int Type</a> のArrayを作成しています。
 </p>
 <p>
 my $nums = new int[3];
@@ -7593,17 +7589,17 @@ my $objets : object[] = new int[3];
 <h2 id="language-type-convertion">Type Convertion</h2>
 <ul class="list">
   <li><a href="#language-type-convertion-typecast">Typeキャスト</a></li>
-  <li><a href="#language-type-convertion-typecast">Numeric TypeのType Convertion</a></li>
+  <li><a href="#language-type-convertion-typecast">Numeric Type Type Convertion</a></li>
   <li><a href="#language-type-convertion-implicite">暗黙的なType Convertion</a></li>
-  <li><a href="#language-type-convertion-numeric-type-order">Numeric Typeの順序</a></li>
-  <li><a href="#language-type-convertion-unary-numeric-widening">単項数値拡大Type Convertion</a></li>
-  <li><a href="#language-type-convertion-binary-numeric-widening">二項数値拡大Type Convertion</a></li>
-  <li><a href="#language-type-convertion-numeric-narrowing">数値縮小Type Convertion</a></li>
-  <li><a href="#language-type-convertion-numeric-widening">数値拡大Type Convertion</a></li>
-  <li><a href="#language-type-convertion-numeric-to-string">数値からStringへのType Convertion</a></li>
-  <li><a href="#language-type-convertion-boxing">ボクシング変換</a></li>
-  <li><a href="#language-type-convertion-unboxing">アンボクシング変換</a></li>
-  <li><a href="#language-type-convertion-bool">ブールType Convertion</a></li>
+  <li><a href="#language-type-convertion-numeric-type-order">Numeric Type Order</a></li>
+  <li><a href="#language-type-convertion-unary-numeric-widening">Unary Numeric Widening Type Convertion</a></li>
+  <li><a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</a></li>
+  <li><a href="#language-type-convertion-numeric-narrowing">Numeric Narrowing Type Convertion</a></li>
+  <li><a href="#language-type-convertion-numeric-widening">Numeric Widening Type Convertion</a></li>
+  <li><a href="#language-type-convertion-numeric-to-string">Numeric-to-String Type Convertion</a></li>
+  <li><a href="#language-type-convertion-boxing">Boxing Type Convertion</a></li>
+  <li><a href="#language-type-convertion-unboxing">Unboxing Type Convertion</a></li>
+  <li><a href="#language-type-convertion-bool">Bool Type Convertion</a></li>
 </ul>
 
 <h3 id="language-type-convertion-typecast">Typeキャスト</h3>
@@ -7615,7 +7611,7 @@ my $objets : object[] = new int[3];
 (Type)Expression
 </pre>
 <p>
-  int Type の値をlong Typeに変換するExampleはthe following ようになります。
+  <a href="#language-type-int">int Type</a> の値をlong Typeに変換するExampleはthe following ようになります。
 </p>
 <pre>
 my $num = (long)3;
@@ -7677,7 +7673,7 @@ my $num : int = (int)4;
       <b>Numeric Type</b>
     </td>
     <td>
-      <a href="#language-type-convertion-numeric-widening">Numeric TypeのType Convertion</a>が行われます。
+      <a href="#language-type-convertion-numeric-widening">Numeric Type Type Convertion</a>が行われます。
     </td>
   </tr>
   <tr>
@@ -7688,7 +7684,7 @@ my $num : int = (int)4;
       <b>Numeric Type</b>
     </td>
     <td>
-      <a href="#language-type-convertion-boxing">ボクシング変換</a>が行われます。Numeric TypeとNumeric Object Type が表現するNumeric Typeは,同じでなければなりません。たとえば,Numeric Typeがintの場合は,Numeric Object Type はSPVM::Int Type でなければなりません。
+      <a href="#language-type-convertion-boxing">Boxing Type Convertion</a>が行われます。Numeric TypeとNumeric Object Type が表現するNumeric Typeは,同じでなければなりません。たとえば,Numeric Typeがintの場合は,Numeric Object Type はSPVM::Int Type でなければなりません。
     </td>
   </tr>
   <tr>
@@ -7699,7 +7695,7 @@ my $num : int = (int)4;
       <b>Numeric Type</b>
     </td>
     <td>
-      <a href="#language-type-convertion-boxing">ボクシング変換</a>が行われます。
+      <a href="#language-type-convertion-boxing">Boxing Type Convertion</a>が行われます。
     </td>
   </tr>
   <tr>
@@ -7710,7 +7706,7 @@ my $num : int = (int)4;
       <b>Numeric Object Type </b>
     </td>
     <td>
-      <a href="#language-type-convertion-unboxing">アンボクシング変換</a>が行われます。Numeric TypeとNumeric Object Type が表現するNumeric Typeは,同じでなければなりません。たとえば,Numeric Typeがintの場合は,Numeric Object Type はSPVM::Int Type でなければなりません。
+      <a href="#language-type-convertion-unboxing">Unboxing Type Convertion</a>が行われます。Numeric TypeとNumeric Object Type が表現するNumeric Typeは,同じでなければなりません。たとえば,Numeric Typeがintの場合は,Numeric Object Type はSPVM::Int Type でなければなりません。
     </td>
   </tr>
   <tr>
@@ -7721,7 +7717,7 @@ my $num : int = (int)4;
       <b>Any Object Type </b>
     </td>
     <td>
-      <a href="#language-type-convertion-unboxing">アンボクシング変換</a>が行われます。
+      <a href="#language-type-convertion-unboxing">Unboxing Type Convertion</a>が行われます。
     </td>
   </tr>
   <tr>
@@ -7737,12 +7733,12 @@ my $num : int = (int)4;
   </tr>
 </table>
 
-<h3 id="language-type-convertion-numeric">Numeric TypeのType Convertion</h3>
+<h3 id="language-type-convertion-numeric">Numeric Type Type Convertion</h3>
 <p>
-  Numeric TypeのType Convertionとは,<a href="#language-type-numeric">Numeric Type</a>から<a href="#language-type-numeric">Numeric Type</a>への変換のことです。
+  Numeric Type Type Convertionとは,<a href="#language-type-numeric">Numeric Type</a>から<a href="#language-type-numeric">Numeric Type</a>への変換のことです。
 </p>
 <p>
-  Numeric TypeのType Convertionは,対応するC言語におけるNumeric TypeによるType Convertionと全く同じ処理を行います。例えば,SPVMにおけるintからlongへのType Convertionは,C言語のint32_tTypeからint64_tTypeへのType Convertionと同じ処理を行います。
+  Numeric Type Type Convertionは,対応するC言語におけるNumeric TypeによるType Convertionと全く同じ処理を行います。例えば,SPVMにおけるintからlongへのType Convertionは,C言語のint32_tTypeからint64_tTypeへのType Convertionと同じ処理を行います。
 </p>
 <pre>
 # SPVMの変換
@@ -7773,7 +7769,7 @@ int64_t dist = (int64_t)src;
   次の場合に暗黙的なType Convertionが行われます。
 </p>
 <p>
-  移動元と移動先のTypeがどちらもNumeric Typeで,移動元のTypeよりも移動先のTypeが大きい場合は,<a href="#language-type-convertion-numeric-widening">数値拡大Type Convertion</a>が行われます。
+  移動元と移動先のTypeがどちらもNumeric Typeで,移動元のTypeよりも移動先のTypeが大きい場合は,<a href="#language-type-convertion-numeric-widening">Numeric Widening Type Convertion</a>が行われます。
 </p>
 <pre>
 # 暗黙の拡大Type Convertion
@@ -7781,7 +7777,7 @@ my $num : long = 123;
 my $num : double = 12.5f;
 </pre>
 <p>
-  移動元と移動先のTypeがどちらもNumeric Typeで,移動元のTypeよりも移動先のTypeが小さい場合で,移動元の値が,Integer Literal  かつ移動先のTypeの値の範囲で表現できる場合は,<a href="#language-type-convertion-numeric-narrowing">数値縮小Type Convertion</a>が行われます。
+  移動元と移動先のTypeがどちらもNumeric Typeで,移動元のTypeよりも移動先のTypeが小さい場合で,移動元の値が,Integer Literal  かつ移動先のTypeの値の範囲で表現できる場合は,<a href="#language-type-convertion-numeric-narrowing">Numeric Narrowing Type Convertion</a>が行われます。
 </p>
 <pre>
 # 暗黙の縮小Type Convertion
@@ -7789,55 +7785,55 @@ my $num : byte = 123;
 my $num : short = 134;
 </pre>
 <p>
-  移動元のTypeがNumeric Typeで,移動先のTypeがAny Object Type の場合は,対応するNumeric Object Type への<a href="#language-type-convertion-boxing">ボクシング変換</a>が行われます。the following 場合の例では,SPVM::Int Type のオブジェクトに変換されたものが,汎用オブジェクトに代入されます。
+  移動元のTypeがNumeric Typeで,移動先のTypeがAny Object Type の場合は,対応するNumeric Object Type への<a href="#language-type-convertion-boxing">Boxing Type Convertion</a>が行われます。the following 場合の例では,SPVM::Int Type のオブジェクトに変換されたものが,汎用オブジェクトに代入されます。
 </p>
 <pre>
-# objectTypeへの暗黙のボクシング変換
+# objectTypeへの暗黙のBoxing Type Convertion
 my $num = 123;
 my $object : object = $num;
 </pre>
 <p>
-  移動元のTypeがNumeric Typeで,移動先のTypeが対応するNumeric Object Type の場合は,対応するNumeric Object Type への<a href="#language-type-convertion-boxing">ボクシング変換</a>が行われます。
+  移動元のTypeがNumeric Typeで,移動先のTypeが対応するNumeric Object Type の場合は,対応するNumeric Object Type への<a href="#language-type-convertion-boxing">Boxing Type Convertion</a>が行われます。
 </p>
 <pre>
-# objectTypeへの暗黙のボクシング変換
+# objectTypeへの暗黙のBoxing Type Convertion
 my $num = 123;
 my $object : SPVM::Int = $num;
 </pre>
 <p>
-  移動元のTypeがAny Object Type で,移動先のTypeがNumeric Typeの場合は,対応するNumeric Typeにおける<a href="#language-type-convertion-unboxing">アンボクシング変換</a>が行われます。the following 場合の例では,SPVM::Int Type のオブジェクトからint Type への変換が試みられます。
+  移動元のTypeがAny Object Type で,移動先のTypeがNumeric Typeの場合は,対応するNumeric Typeにおける<a href="#language-type-convertion-unboxing">Unboxing Type Convertion</a>が行われます。the following 場合の例では,SPVM::Int Type のオブジェクトから<a href="#language-type-int">int Type</a> への変換が試みられます。
 </p>
 <pre>
-# objectTypeからの暗黙のアンボクシング変換 - 
+# objectTypeからの暗黙のUnboxing Type Convertion - 
 my $object : object;
 my $num : int = $object;
 </pre>
 <p>
-  移動元のTypeがNumeric Object Type で,移動先のTypeが対応するNumeric Typeの場合は,対応するNumeric Typeにおける<a href="#language-type-convertion-unboxing">アンボクシング変換</a>が行われます。
+  移動元のTypeがNumeric Object Type で,移動先のTypeが対応するNumeric Typeの場合は,対応するNumeric Typeにおける<a href="#language-type-convertion-unboxing">Unboxing Type Convertion</a>が行われます。
 </p>
 <pre>
-# Numeric Object Type からの暗黙のアンボクシング変換
+# Numeric Object Type からの暗黙のUnboxing Type Convertion
 my $num_obj = SPVM::Int->new(3);
 my $num : int = $num_obj;
 </pre>
-  移動元のTypeがNumeric Typeで,移動先のTypeが,String Typeの場合は,<a href="#language-type-convertion-numeric-to-string">数値からStringへのType Convertion</a>が行われます。the following 場合の例では,数値の"123"がString""123""に変換されたものが代入されます。
+  移動元のTypeがNumeric Typeで,移動先のTypeが,String Typeの場合は,<a href="#language-type-convertion-numeric-to-string">Numeric-to-String Type Convertion</a>が行われます。the following 場合の例では,数値の"123"がString""123""に変換されたものが代入されます。
 </p>
 <pre>
-# String Typeへの暗黙のボクシング変換
+# String Typeへの暗黙のBoxing Type Convertion
 my $num = 123;
 my $str : string = $num;
 </pre>
 
-<h3 id="language-type-convertion-numeric-type-order">Numeric Typeの順序</h3>
+<h3 id="language-type-convertion-numeric-type-order">Numeric Type Order</h3>
 <p>
   <a href="#language-type-numeric">Numeric Type</a>は,Typeの順序を持ちます。Typeの順序は小さい方から"byte""short""int""long""float""double"です。
 </p>
-<h3 id="language-type-convertion-unary-numeric-widening">単項数値拡大Type Convertion</h3>
+<h3 id="language-type-convertion-unary-numeric-widening">Unary Numeric Widening Type Convertion</h3>
 <p>
-  単項数値拡大Type Convertionとは,<a href="#language-expression">Expression</a>がbyte Typeあるいはshort Typeであった場合に,int Type へ<a href="#language-type-convertion-numeric-widening">数値拡大Type Convertion</a>を行うことをいいます。
+  Unary Numeric Widening Type Convertionとは,<a href="#language-expression">Expression</a>がbyte Typeあるいはshort Typeであった場合に,<a href="#language-type-int">int Type</a> へ<a href="#language-type-convertion-numeric-widening">Numeric Widening Type Convertion</a>を行うことをいいます。
 </p>
 <p>
-  単項数値拡大Type Convertionが行われるのはthe following 場合です。
+  Unary Numeric Widening Type Convertionが行われるのはthe following 場合です。
 </p>
 <ul class="list">
   <li>Arrayのインデックス</li>
@@ -7846,9 +7842,9 @@ my $str : string = $num;
   <li>Unary Minus Operator のオペランド</li>
   <li>Shift Operator "<<"">>"">>>"の左右のオペランド</li>
 </ul>
-<h3 id="language-type-convertion-binary-numeric-widening">二項数値拡大Type Convertion</h3>
+<h3 id="language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</h3>
 <p>
-  二項数値拡大Type Convertionとは,左辺と右辺にNumeric TypeをとるBinary Operator  において,Left ExpressionとRight Expressionに適用される<a href="#language-type-convertion-numeric-widening">数値拡大Type Convertion</a>のことをいいます。
+  Binary Numeric Widening Type Convertionとは,左辺と右辺にNumeric TypeをとるBinary Operator  において,Left ExpressionとRight Expressionに適用される<a href="#language-type-convertion-numeric-widening">Numeric Widening Type Convertion</a>のことをいいます。
 </p>
 <p>
   次のルールが適用されます。
@@ -7863,10 +7859,10 @@ my $str : string = $num;
   3. 一方のExpressionが,long Typeの場合は,他方のTypeはlong Typeに変換されます。
 </p>
 <p>
-  4. それ以外の場合は,int Type に変換されます。
+  4. それ以外の場合は,<a href="#language-type-int">int Type</a> に変換されます。
 </p>
 <p>
-  二項数値拡大Type Convertionが行われるのはthe following 場合です。
+  Binary Numeric Widening Type Convertionが行われるのはthe following 場合です。
 </p>
 <ul class="list">
   <li><a href="#language-operator-add">Addition Operator</a></li>
@@ -7879,35 +7875,35 @@ my $str : string = $num;
   <li><a href="#language-operator-comparison-numeric">数値比較Operator</a></li>
 </ul>
 
-<h3 id="language-type-convertion-numeric-narrowing">数値縮小Type Convertion</h3>
+<h3 id="language-type-convertion-numeric-narrowing">Numeric Narrowing Type Convertion</h3>
 <p>
-  数値縮小Type Convertionとは,<a href="#language-type-numeric">Numeric Type</a>において大きいTypeから小さいTypeへの変換が行われる場合に適用される変換の規則のことです。
+  Numeric Narrowing Type Convertionとは,<a href="#language-type-numeric">Numeric Type</a>において大きいTypeから小さいTypeへの変換が行われる場合に適用される変換の規則のことです。
 </p>
 
-<h3 id="language-type-convertion-numeric-widening">数値拡大Type Convertion</h3>
+<h3 id="language-type-convertion-numeric-widening">Numeric Widening Type Convertion</h3>
 <p>
-  数値拡大Type Convertionとは,<a href="#language-type-numeric">Numeric Type</a>において小さいTypeから大きいTypeへの変換が行われる場合に適用される変換の規則のことです。
+  Numeric Widening Type Convertionとは,<a href="#language-type-numeric">Numeric Type</a>において小さいTypeから大きいTypeへの変換が行われる場合に適用される変換の規則のことです。
 </p>
 
-<h3 id="language-type-convertion-boxing">ボクシング変換</h3>
+<h3 id="language-type-convertion-boxing">Boxing Type Convertion</h3>
 <p>
-  ボクシング変換とは,Numeric Typeの値を,Numeric Object Type に変換する操作のことをいいます。
+  Boxing Type Convertionとは,Numeric Typeの値を,Numeric Object Type に変換する操作のことをいいます。
 </p>
 
-<h3 id="language-type-convertion-unboxing">アンボクシング変換</h3>
+<h3 id="language-type-convertion-unboxing">Unboxing Type Convertion</h3>
 <p>
-  アンボクシング変換とは,Numeric Object Type の値を,対応するNumeric Typeの値に変換する操作のことをいいます。
+  Unboxing Type Convertionとは,Numeric Object Type の値を,対応するNumeric Typeの値に変換する操作のことをいいます。
 </p>
 
-<h3 id="language-type-convertion-bool">ブールType Convertion</h3>
+<h3 id="language-type-convertion-bool">Bool Type Convertion</h3>
 <p>
-  ブールType Convertionとは,if statementの条件部などで適用される,真偽値判定のために,適用される変換のことです。
+  Bool Type Convertionとは,if Statementの条件部などで適用される,真偽値判定のために,適用される変換のことです。
 </p>
 <p>
-  <b>ブールType Convertionが行われる場所</b>
+  <b>Bool Type Convertionが行われる場所</b>
 </p>
 <p>
-  <b>if statementのかっこの中</b>
+  <b>if Statementのかっこの中</b>
 </p>
 <pre>
 if (条件部) {
@@ -7957,19 +7953,19 @@ while (条件部) {
 !条件部
 </pre>
 <p>
-  ブールType Convertionで指定されるExpressionは,<a href="#language-type-numeric">Numeric Type</a>あるいは<a href="#language-type-object">Object Type</a>あるいは<a href="#language-type-undef">Undefined Type</a>でなければなりません。otherwise a compile-time error occurs.
+  Bool Type Convertionで指定されるExpressionは,<a href="#language-type-numeric">Numeric Type</a>あるいは<a href="#language-type-object">Object Type</a>あるいは<a href="#language-type-undef">Undefined Type</a>でなければなりません。otherwise a compile-time error occurs.
 </p>
 <p>
-  ブールType ConvertionのReturn Valueは,int Type のExpressionです。
+  Bool Type ConvertionのReturn Valueは,<a href="#language-type-int">int Type</a> のExpressionです。
 </p>
 <p>
   Expressionが<a href="#language-undef">Undefined Value</a>である場合は,0が返されます。
 </p>
 <p>
-  Expressionが,<a href="#language-type-numeric">Numeric Type</a>の場合は,<a href="#language-type-convertion-unary-numeric-widening">単項数値拡大Type Convertion</a>が行われます。
+  Expressionが,<a href="#language-type-numeric">Numeric Type</a>の場合は,<a href="#language-type-convertion-unary-numeric-widening">Unary Numeric Widening Type Convertion</a>が行われます。
 </p>
 <p>
-  Expressionがint Type の場合は,その値が返されます。
+  Expressionが<a href="#language-type-int">int Type</a> の場合は,その値が返されます。
 </p>
 <p>
   Expressionがlong Type,float Type,double Type,Object Type である場合は,C99におけるthe following 演算と完全に一致する演算を行い,結果が返されます。
