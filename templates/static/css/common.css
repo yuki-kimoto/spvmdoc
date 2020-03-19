@@ -88,11 +88,9 @@
     color:#333;
   }
   h2 {
-    font-size:24px;
+    font-size:33px;
     margin:10px 0;
     letter-spacing:0.5px;
-    border-left:8px solid #4472C2;
-    padding-left:20px;
   }
   h2 a, h2 a:visited {
     text-decoration:none;
@@ -101,7 +99,7 @@
     display:block;
   }
   h3 {
-    font-size:20px;
+    font-size:26px;
     border-top:4px solid #4472C2;
     margin:15px 0 10px 0;
     background:#F5F5F5;
@@ -116,7 +114,7 @@
     letter-spacing:0.5px;
   }
   h4 {
-    font-size:20px;
+    font-size:25px;
     font-weight:bold;
     letter-spacing:0.5px;
     margin:15px 0 18px 0;
