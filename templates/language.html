@@ -4,7 +4,7 @@
 
 SPVM is in beta testing for the 1.0 release. Language Specification will be changed without warning.
 
-Last modified 2020-03-13
+Last modified 2020-03-19
 
 <ul>
   <li><a href="#language-c99">C99 compliant</a></li>
@@ -2140,7 +2140,7 @@ package Foo {
 }
 </pre>
 
-Zero or more <a href="#language-Statement">Statement</a> can be written in BEGIN Block.
+Zero or more <a href="#language-Statement">Statements</a> can be written in BEGIN Block.
 
 <pre>
 BEGIN {
@@ -2151,7 +2151,7 @@ BEGIN {
 
 <a href="#language-Statement-return">return Statement</a> cannot be written in BEGIN Block.
 
-BEGIN Block is a Subroutine that has no arguments and <a href="#language-type-void">void Type</a> Return Value.
+Internally, BEGIN Block is a <a href="#language-sub">Subroutine</a> that Return Type is <a href="#language-type-void">void Type</a> and has no arguments.
 
 You can define multiple BEGIN Blocks.
 
