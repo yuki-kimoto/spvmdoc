@@ -90,30 +90,41 @@
   h2 {
     font-size:24px;
     margin:10px 0;
-    padding-left:20px;
     letter-spacing:0.5px;
     border-left:8px solid #4472C2;
+    padding-left:20px;
   }
   h2 a, h2 a:visited {
     text-decoration:none;
     color:#000;
+    width:100%;
+    display:block;
   }
   h3 {
     font-size:20px;
     border-top:4px solid #4472C2;
-    padding:16px 0px 15px 18px;
-    letter-spacing:0.5px;
     margin:15px 0 10px 0;
     background:#F5F5F5;
     margin-top:30px;
+    padding:16px 0px 15px 18px;
+  }
+  h3 a, h3 a:visited {
+    text-decoration:none;
+    color:#333;
+    width:100%;
+    display:block;
+    letter-spacing:0.5px;
   }
   h4 {
     font-size:20px;
     font-weight:bold;
-    padding:6px 0px 4px 5px;
     letter-spacing:0.5px;
     margin:15px 0 18px 0;
     border-bottom:dashed 1px #ddd;
+    padding:6px 0px 4px 5px;
+  }
+  h4 a, h4 a:visited {
+    text-decoration:none;
   }
   p {
     font-size:16px;

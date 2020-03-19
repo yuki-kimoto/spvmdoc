@@ -17,14 +17,14 @@ Last modified 2020-03-13
   <li><a href="#language-allow-access">Access Allowing</a></li>
   <li><a href="#language-package-var">Package Variable</a></li>
   <li><a href="#language-field">Field</a></li>
-  <li><a href="#language-sub">Subroutine </a></li>
+  <li><a href="#language-sub">Subroutine</a></li>
   <li><a href="#language-enum">Enumeration</a></li>
   <li><a href="#language-callback">Callback</a></li>
-  <li><a href="#language-begin-block">BEGIN Block </a></li>
-  <li><a href="#language-lex-var">Lexical Variable </a></li>
-  <li><a href="#language-block">Block </a></li>
+  <li><a href="#language-begin-block">BEGIN Block</a></li>
+  <li><a href="#language-lex-var">Lexical Variable</a></li>
+  <li><a href="#language-block">Block</a></li>
   <li><a href="#language-scope">Scope</a></li>
-  <li><a href="#language-exception">Exception Handling </a></li>
+  <li><a href="#language-exception">Exception Handling</a></li>
   <li><a href="#language-weak-ref">Weaken Reference</a></li>
   <li><a href="#language-array">Array</a></li>
   <li><a href="#language-mulnum">Multi Numeric Value</a></li>
@@ -32,19 +32,19 @@ Last modified 2020-03-13
   <li><a href="#language-ref">Reference</a></li>
   <li><a href="#language-expression">Expression</a></li>
   <li><a href="#language-expression-release-object">Release Object</a></li>
-  <li><a href="#language-literal">Literal </a></li>
+  <li><a href="#language-literal">Literal</a></li>
   <li><a href="#language-string">String</a></li>
   <li><a href="#language-undef">Undefined Value</a></li>
   <li><a href="#language-fat-comma">Fat Comma</a></li>
   <li><a href="#language-operator">Operator</a></li>
   <li><a href="#language-operator-precedence">Operator Precidence</a></li>
-  <li><a href="#language-statement">Statement</a></li>
+  <li><a href="#language-Statement">Statement</a></li>
   <li><a href="#language-type">Type</a></li>
   <li><a href="#language-type-inference">Type Inference</a></li>
   <li><a href="#language-type-compatible">Type Compatibility</a></li>
   <li><a href="#language-type-convertion">Type Convertion</a></li>
   <li><a href="#language-auto-loaded-module">Automatically Loaded Module</a></li>
-  <li><a href="#language-limitation">Limitation </a></li>
+  <li><a href="#language-limitation">Limitation</a></li>
 </ul>
 
 <h2 id="language-c99">C99 compliant</h2><!-- 2019/2/27 almost ok -->
@@ -399,16 +399,16 @@ The following is Parsing Definition in SPVM, using the syntax in yacc/bison.
 %type <opval> enumeration enumeration_block opt_enumeration_values enumeration_values enumeration_value
 %type <opval> sub cb_obj opt_args args arg invocant has use require our string_length
 %type <opval> opt_descriptors descriptors sub_names opt_sub_names
-%type <opval> opt_statements statements statement if_statement else_statement 
-%type <opval> for_statement while_statement switch_statement case_statement default_statement
-%type <opval> block eval_block begin_block switch_block if_require_statement
+%type <opval> opt_Statements Statements Statement if_Statement else_Statement 
+%type <opval> for_Statement while_Statement switch_Statement case_Statement default_Statement
+%type <opval> block eval_block begin_block switch_block if_require_Statement
 %type <opval> unary_op binary_op num_comparison_op str_comparison_op isa logical_op
 %type <opval> call_sub opt_vaarg
 %type <opval> array_access field_access weaken_field unweaken_field isweak_field convert array_length
 %type <opval> deref ref assign inc dec allow
 %type <opval> new array_init
 %type <opval> my_var var
-%type <opval> expression opt_expressions expressions opt_expression case_statements
+%type <opval> expression opt_expressions expressions opt_expression case_Statements
 %type <opval> field_name sub_name
 %type <opval> type basic_type array_type array_type_with_length ref_type  type_or_void
 
@@ -540,24 +540,24 @@ descriptors
 : descriptors DESCRIPTOR
 | DESCRIPTOR
 
-opt_statements
+opt_Statements
 :	/* Empty */
-|	statements
+|	Statements
 
-statements
-: statements statement 
-| statement
+Statements
+: Statements Statement 
+| Statement
 
-statement
-: if_statement
-| for_statement
-| while_statement
+Statement
+: if_Statement
+| for_Statement
+| while_Statement
 | block
-| switch_statement
-| case_statement
-| default_statement
+| switch_Statement
+| case_Statement
+| default_Statement
 | eval_block
-| if_require_statement
+| if_require_Statement
 | expression ';'
 | LAST ';'
 | NEXT ';'
@@ -572,46 +572,46 @@ statement
 | unweaken_field ';'
 | ';'
 
-for_statement
+for_Statement
 : FOR '(' opt_expression ';' expression ';' opt_expression ')' block
 
-while_statement
+while_Statement
 : WHILE '(' expression ')' block
 
-switch_statement
+switch_Statement
 : SWITCH '(' expression ')' switch_block
 
 switch_block
-: '{' case_statements '}'
-| '{' case_statements default_statement '}'
+: '{' case_Statements '}'
+| '{' case_Statements default_Statement '}'
 
-case_statements
-: case_statements case_statement
-| case_statement
+case_Statements
+: case_Statements case_Statement
+| case_Statement
 
-case_statement
+case_Statement
 : CASE expression ':' block
 | CASE expression ':'
 
-default_statement
+default_Statement
 : DEFAULT ':' block
 | DEFAULT ':'
 
-if_require_statement
+if_require_Statement
 : IF '(' require ')' block
 | IF '(' require ')' block ELSE block
 
-if_statement
-: IF '(' expression ')' block else_statement
-| UNLESS '(' expression ')' block else_statement
+if_Statement
+: IF '(' expression ')' block else_Statement
+| UNLESS '(' expression ')' block else_Statement
 
-else_statement
+else_Statement
 : /* NULL */
 | ELSE block
-| ELSIF '(' expression ')' block else_statement
+| ELSIF '(' expression ')' block else_Statement
 
 block 
-: '{' opt_statements '}'
+: '{' opt_Statements '}'
 
 eval_block
 : EVAL block ';'
@@ -1149,9 +1149,9 @@ POD has no meaning in the program execution.
   <li><a href="#language-package-destructor">Destructor</a></li>
 </ul>
 
-<h3 id="language-package-definition">Package Definition</h3>
+<h3 id="language-package-definition"><a href="#language-package-definition">Package Definition</a></h3>
 
-Package Definition is the following syntax.
+<b>Package Definition</b> is the following syntax.
 
 <pre>
 package PACAKGE_NAME {
@@ -1173,7 +1173,7 @@ package PACAKGE_NAME : PACAKGE_DESCRIPTOR1 PACAKGE_DESCRIPTOR2 PACAKGE_DESCRIPTO
 }
 </pre>
 
-<b>Package Definition Example:</b>
+<b><a href="#language-package-definition">Package Definition</a> Example:</b>
 
 <pre>
 # Package Name
@@ -1381,7 +1381,7 @@ package Foo {
 
 <h3 id="language-module-if-require">Selective Module Loading</h3>
 
-In SPVM, there is an if require statement that loads a Module only if it exists in the module path, and if it does not exist, the block does not exist.
+In SPVM, there is an if require Statement that loads a Module only if it exists in the module path, and if it does not exist, the block does not exist.
 
 It was designed to implement a part of features of "#ifdef" in C language.
 
@@ -1391,7 +1391,7 @@ if (require Foo) {
 }
 </pre>
 
-if require statement can be followed by else statement. 
+if require Statement can be followed by else Statement. 
 
 <pre>
 if (require Foo) {
@@ -1792,7 +1792,7 @@ Type of Argument must be <a href="#language-type-numeric">Numeric Type</a>, <a h
 
 The defined Subroutine can be called. See <a href="#language-expression-callsub">Subroutine Call</a> about calling Subroutine, .
 
-<a href="#language-block-statement-sub">Subroutine Block</a> can have zero or more statements.
+<a href="#language-block-Statement-sub">Subroutine Block</a> can have zero or more Statements.
 
 Subroutine Definition can have <a href="#language-sub-descriptor">Subroutine Descriptor</a>.
 
@@ -2095,7 +2095,7 @@ my $flag3 = Foo->FLAG3;
 </pre>
 
 <p>
-  In special case, Enumeration Call can be used in <a href="#language-statement-case">case Statement</a> of <a href="#language-statement-switch">switch Statement</a>.
+  In special case, Enumeration Call can be used in <a href="#language-Statement-case">case Statement</a> of <a href="#language-Statement-switch">switch Statement</a>.
 </p>
 
 <pre>
@@ -2118,21 +2118,20 @@ switch ($num) {
 }
 </pre>
 
-<h2 id="language-begin-block">BEGIN Block</h2>
-<p>
-  BEGIN Block とは,コンパイル時が終了し,実行時に入る前に,実行されるBlock のことです。
-</p>
-<p>
-  BEGIN  Keyword を使用してBEGIN Block をDefinitionすることができます。
-</p>
+<h2 id="language-begin-block"><a href="#language-begin-block">BEGIN Block</a></h2>
+
+<b>BEGIN Block</b> is a block that is executed immediately after the compilation of program.
+
+BEGIN Keyword defines BEGIN Block.
+
 <pre>
 BEGIN {
 
 }
 </pre>
-<p>
-  BEGIN Block は,Package Definitionの直下にある必要があります。
-</p>
+
+BEGIN Block must be defined directly under <a href="#language-package-definition">Package Definition</a>.
+
 <pre>
 package Foo {
   BEGIN {
@@ -2140,33 +2139,34 @@ package Foo {
   }
 }
 </pre>
-<p>
-  BEGIN Block の中には,0個以上の<a href="#language-statement">Statement</a>を書くことができます。
-</p>
+
+Zero or more <a href="#language-Statement">Statement</a> can be written in BEGIN Block.
+
 <pre>
 BEGIN {
   my $foo = 1 + 1;
   my $bar;
 }
 </pre>
-<p>
-  returnl statementを書くことはできません。BEGIN Block は,引数がなく,Return ValueがvoidのSubroutine としてDefinitionされます。
-</p>
-<p>
-  BEGIN Block は,いくつでもDefinitionできます。
-</p>
-<p>
-  BEGIN Block の実行順序は,保証されません。他のPackage にBEGIN Block がDefinitionされている場合は,そのBEGIN Block が先に実行されることを想定しないでください。
-</p>
-<p>
-  BEGIN Block の一般的な用途は,<a href="#language-package-var">Package Variable</a>を初期化することです。
-</p>
+
+<a href="#language-Statement-return">return Statement</a> cannot be written in BEGIN Block.
+
+BEGIN Block is a Subroutine that has no arguments and <a href="#language-type-void">void Type</a> Return Value.
+
+You can define multiple BEGIN Blocks.
+
+The execution order of BEGIN Block is not guaranteed. If ohter BEGIN Block is defined in ohter Package, do not assume that BEGIN Block of the current package will be executed first.
+
+A common use of BEGIN Block is to initialize <a href="#language-package-var">Package Variable</a>.
+
 <pre>
 package Foo {
+  use Point;
+  
   our $NUM : int;
   our $POINT : Point;
   BEGIN {
-  $NUM = 3;
+    $NUM = 3;
     $POINT = Point->new;
   }
 }
@@ -2251,7 +2251,7 @@ sub : Type Name  ($self : self, 引数1, 引数2, ..., 引数n) {
 </pre>
 
 <p>
-  Create Callback Objectを行うと,内部的に,Package Definitionがおこなわれ,そのPackage を元にしたオブジェクトが生成され,<a href="#language-expression">Expression</a>として返されます。the following ように変数に代入することが可能です。
+  Create Callback Objectを行うと,内部的に,<a href="#language-package-definition">Package Definition</a>がおこなわれ,そのPackage を元にしたオブジェクトが生成され,<a href="#language-expression">Expression</a>として返されます。the following ように変数に代入することが可能です。
 </p>
 
 <pre>
@@ -2485,7 +2485,7 @@ There are <a href="#language-scope-block">Scope Block</a> that creates a scope a
 </p>
 <h3 id="language-scope-block">Scope Block </h3>
 <p>
-  Scope Block とは,Scopeを作るBlock のことです。Scope Block には,0個以上の<a href="#language-statement">Statement</a>を記述することができます。
+  Scope Block とは,Scopeを作るBlock のことです。Scope Block には,0個以上の<a href="#language-Statement">Statement</a>を記述することができます。
 </p>
 <pre>
 # Scope Block 
@@ -2498,18 +2498,18 @@ There are <a href="#language-scope-block">Scope Block</a> that creates a scope a
 <b>List of Scope Blocks</b>
 
 <ul class="list">
-  <li><a href="#language-block-statement-simple">Simple Block</a></li>
-  <li><a href="#language-block-statement-sub">Subroutine Block</a></li>
-  <li><a href="#language-block-statement-eval">eval Block</a></li>
-  <li><a href="#language-block-statement-if">if Block</a></li>
-  <li><a href="#language-block-statement-elsif">elsif Block</a></li>
-  <li><a href="#language-block-statement-else">else Block</a></li>
-  <li><a href="#language-block-statement-for">for Block</a></li>
-  <li><a href="#language-block-statement-while">while Block</a></li>
-  <li><a href="#language-block-statement-switch">switch Block</a></li>
+  <li><a href="#language-block-Statement-simple">Simple Block</a></li>
+  <li><a href="#language-block-Statement-sub">Subroutine Block</a></li>
+  <li><a href="#language-block-Statement-eval">eval Block</a></li>
+  <li><a href="#language-block-Statement-if">if Block</a></li>
+  <li><a href="#language-block-Statement-elsif">elsif Block</a></li>
+  <li><a href="#language-block-Statement-else">else Block</a></li>
+  <li><a href="#language-block-Statement-for">for Block</a></li>
+  <li><a href="#language-block-Statement-while">while Block</a></li>
+  <li><a href="#language-block-Statement-switch">switch Block</a></li>
 </ul>
 
-<h4 id="language-block-statement-simple">Simple Block</h4>
+<h4 id="language-block-Statement-simple">Simple Block</h4>
 <pre>
 # Simple Block
 {
@@ -2517,7 +2517,7 @@ There are <a href="#language-scope-block">Scope Block</a> that creates a scope a
 }
 </pre>
 
-<h4 id="language-block-statement-sub">Subroutine Block</h4>
+<h4 id="language-block-Statement-sub">Subroutine Block</h4>
 <pre>
 # Subroutine Block
 sub foo : int () {
@@ -2525,7 +2525,7 @@ sub foo : int () {
 }
 </pre>
 
-<h4 id="language-block-statement-eval">eval Block</h4>
+<h4 id="language-block-Statement-eval">eval Block</h4>
 <pre>
 # eval Block
 eval {
@@ -2533,7 +2533,7 @@ eval {
 }
 </pre>
 
-<h4 id="language-block-statement-if">if Block</h4>
+<h4 id="language-block-Statement-if">if Block</h4>
 <pre>
 # if Block
 if (Expression) {
@@ -2541,7 +2541,7 @@ if (Expression) {
 }
 </pre>
 
-<h4 id="language-block-statement-elsif">elsif Block</h4>
+<h4 id="language-block-Statement-elsif">elsif Block</h4>
 <pre>
 #elsif Block
 elsif (Expression) {
@@ -2549,7 +2549,7 @@ elsif (Expression) {
 }
 </pre>
 
-<h4 id="language-block-statement-else">else Block</h4>
+<h4 id="language-block-Statement-else">else Block</h4>
 <pre>
 # else Block
 else {
@@ -2557,7 +2557,7 @@ else {
 }
 </pre>
 
-<h4 id="language-block-statement-for">for Block</h4>
+<h4 id="language-block-Statement-for">for Block</h4>
 <pre>
 # for Block 
 for (my $i = 0; $i < 3; $i++) {
@@ -2565,7 +2565,7 @@ for (my $i = 0; $i < 3; $i++) {
 }
 </pre>
 
-<h4 id="language-block-statement-while">while Block</h4>
+<h4 id="language-block-Statement-while">while Block</h4>
 
 <pre>
 # while Block
@@ -2574,7 +2574,7 @@ while (Expression) {
 }
 </pre>
 
-<h4 id="language-block-statement-switch">switch Block</h4>
+<h4 id="language-block-Statement-switch">switch Block</h4>
 
 <pre>
 switch (Expression) {
@@ -2597,7 +2597,7 @@ switch (Expression) {
 
 <h3 id="language-exception-occur">例外の発生</h3>
 <p>
-  例外の発生を行うには,die statement を使用します。
+  例外の発生を行うには,die Statement を使用します。
 </p>
 <pre>
 die Expression;
@@ -2606,7 +2606,7 @@ die Expression;
   Expressionは,<a href="#language-type-string-compatible">String Compatible Type</a>でなければなりません。
 </p>
 <p>
-  die statement が実行されると,スタックトレースとExpressionで指定されたStringを表示して,プログラムは終了します。スタックトレースは,Package Name,Subroutine Name,File Name,行番号を含みます。File Nameは,Moduleをロードしたパスからの相対File Nameです。
+  die Statement が実行されると,スタックトレースとExpressionで指定されたStringを表示して,プログラムは終了します。スタックトレースは,Package Name,Subroutine Name,File Name,行番号を含みます。File Nameは,Moduleをロードしたパスからの相対File Nameです。
 </p>
 <pre>
 Error
@@ -2673,7 +2673,7 @@ $@
   Weaken Referenceは,Reference CountGCを持つプログラミング言語において,循環参照が発生した場合に,オブジェクトの破棄を正しく行うための機能です。
 </p>
 <p>
-  このような場合は,ひとつのFieldを,<a href="#language-statement-weaken">weaken statement</a>を使って,Weaken Referenceに設定することで,正しく解放することができます。
+  このような場合は,ひとつのFieldを,<a href="#language-Statement-weaken">weaken Statement</a>を使って,Weaken Referenceに設定することで,正しく解放することができます。
 </p>
 <pre>
 {
@@ -2687,13 +2687,13 @@ $@
 }
 </pre>
 <p>
-  weaken statement が実行される前の,$fooのReference Countは2,$barのReference Countは2です。
+  weaken Statement が実行される前の,$fooのReference Countは2,$barのReference Countは2です。
 </p>
 <p>
-  もしweaken statement がない場合は,Scopeが終了したとしても,$fooのReference Countも,$barのReference Countも0にならず,解放されません。
+  もしweaken Statement がない場合は,Scopeが終了したとしても,$fooのReference Countも,$barのReference Countも0にならず,解放されません。
 </p>
 <p>
-  weaken statement が実行されるとは,$fooのReference Countは2,$barのReference Countは1になります。
+  weaken Statement が実行されるとは,$fooのReference Countは2,$barのReference Countは1になります。
 </p>
 <p>
   Scopeが終了すると,$barのReference Countが1減らされ0になるので,正しく解放されます。
@@ -2715,7 +2715,7 @@ $@
 }
 </pre>
 <p>
-  Weaken Reference関連のSyntaxとして,Weaken Referenceを解除できる<a href="#language-statement-weaken">weaken statement</a>と,FieldがWeaken Referenceかどうかを確認できる<a href="#language-operator-isweak">isweakOperator</a>があります。
+  Weaken Reference関連のSyntaxとして,Weaken Referenceを解除できる<a href="#language-Statement-weaken">weaken Statement</a>と,FieldがWeaken Referenceかどうかを確認できる<a href="#language-operator-isweak">isweakOperator</a>があります。
 </p>
 
 <h2 id="language-array">Array</h2>
@@ -3745,7 +3745,7 @@ Subroutine Name(引数1, 引数2, 引数3, ..., 引数n);
   関数の呼び出しは,引数を受け取ります。引数の個数が,Subroutine DefinitionでDefinitionされている引数の個数と一致しない場合は,a compile-time error occursそれぞれの引数のTypeが,Subroutine DefinitionでDefinitionされている引数のTypeと<a href="#language-type-compatible">Type Compatibility</a>がない場合は,a compile-time error occurs
 </p>
 <p>
-  関数の呼び出しは,Return Valueがvoid Type以外の場合は,Return Valueを返します。
+  関数の呼び出しは,Return Valueが<a href="#language-type-void">void Type</a>以外の場合は,Return Valueを返します。
 </p>
 <p>
   関数の呼び出しは,<a href="#language-expression">Expression</a>です。
@@ -3775,7 +3775,7 @@ my $ret = bar(1, 2, 3);
   Method Call は,引数を受け取ります。引数の個数が,Subroutine DefinitionでDefinitionされている引数の個数と一致しない場合は,a compile-time error occursそれぞれの引数のTypeが,Subroutine DefinitionでDefinitionされている引数のTypeと<a href="#language-type-compatible">Type Compatibility</a>がない場合は,a compile-time error occurs
 </p>
 <p>
-  Method Call は,Return Valueがvoid Type以外の場合は,Return Valueを返します。
+  Method Call は,Return Valueが<a href="#language-type-void">void Type</a>以外の場合は,Return Valueを返します。
 </p>
 <p>
   Method Call は,<a href="#language-expression">Expression</a>です。
@@ -6028,7 +6028,7 @@ a * b + c
 a * (b + c)
 </pre>
 
-<h2 id="language-statement">Statement</h2>
+<h2 id="language-Statement">Statement</h2>
 <p>
   Statementは,ひとつの処理のことで"<a href="#language-scope-block">Scope Block</a>"の中に複数記述することができます。<a href="#language-expression">Expression</a>のように値として評価されることはありません。
 </p>
@@ -6039,29 +6039,29 @@ a * (b + c)
   Statementの一覧です。
 </p>
 <ul class="list">
-  <li><a href="#language-statement-if">if Statement</a></li>
-  <li><a href="#language-statement-switch">switch Statement</a></li>
-  <li><a href="#language-statement-case">case Statement</a></li>
-  <li><a href="#language-statement-while">while statement</a></li>
-  <li><a href="#language-statement-for">for statement</a></li>
-  <li><a href="#language-statement-default">default statement</a></li>
-  <li><a href="#language-statement-block-simple">Simple Block</a></li>
-  <li><a href="#language-statement-eval">eval statement</a></li>
-  <li><a href="#language-statement-ifrequire">if requireStatement</a></li>
-  <li><a href="#language-statement-next">next statement</a></li>
-  <li><a href="#language-statement-last">last statement</a></li>
-  <li><a href="#language-statement-break">break statement</a></li>
-  <li><a href="#language-statement-return">returnl statement</a></li>
-  <li><a href="#language-statement-die">die statement</a></li>
-  <li><a href="#language-statement-weaken">weaken statement</a></li>
-  <li><a href="#language-statement-unweaken">unweaken statement</a></li>
-  <li><a href="#language-statement-expression">expression statement</a></li>
-  <li><a href="#language-statement-print">print Statement</a></li>
-  <li><a href="#language-statement-warn">warn Statement</a></li>
-  <li><a href="#language-statement-empty">empty statement</a></li>
+  <li><a href="#language-Statement-if">if Statement</a></li>
+  <li><a href="#language-Statement-switch">switch Statement</a></li>
+  <li><a href="#language-Statement-case">case Statement</a></li>
+  <li><a href="#language-Statement-while">while Statement</a></li>
+  <li><a href="#language-Statement-for">for Statement</a></li>
+  <li><a href="#language-Statement-default">default Statement</a></li>
+  <li><a href="#language-Statement-block-simple">Simple Block</a></li>
+  <li><a href="#language-Statement-eval">eval Statement</a></li>
+  <li><a href="#language-Statement-ifrequire">if requireStatement</a></li>
+  <li><a href="#language-Statement-next">next Statement</a></li>
+  <li><a href="#language-Statement-last">last Statement</a></li>
+  <li><a href="#language-Statement-break">break Statement</a></li>
+  <li><a href="#language-Statement-return">return Statement</a></li>
+  <li><a href="#language-Statement-die">die Statement</a></li>
+  <li><a href="#language-Statement-weaken">weaken Statement</a></li>
+  <li><a href="#language-Statement-unweaken">unweaken Statement</a></li>
+  <li><a href="#language-Statement-expression">expression Statement</a></li>
+  <li><a href="#language-Statement-print">print Statement</a></li>
+  <li><a href="#language-Statement-warn">warn Statement</a></li>
+  <li><a href="#language-Statement-empty">empty Statement</a></li>
 </ul>
 
-<h3 id="language-statement-if">if Statement</h3>
+<h3 id="language-Statement-if">if Statement</h3>
 <p>
   if Statementは,条件分岐を行うためのStatementです。
 </p>
@@ -6155,7 +6155,7 @@ else {
 }
 </pre>
 <p>
-  if Statementの条件部で,変数宣言を行うときは,目には見えない<a href="#language-block-statement-simple">Simple Block</a>で囲まれていることと,elsifは,内部的には,if StatementとelseStatementに展開されるということを,意識してください。
+  if Statementの条件部で,変数宣言を行うときは,目には見えない<a href="#language-block-Statement-simple">Simple Block</a>で囲まれていることと,elsifは,内部的には,if StatementとelseStatementに展開されるということを,意識してください。
 </p>
 <pre>
 # 展開前
@@ -6189,7 +6189,7 @@ my $num = 1;
 }
 </pre>
 
-<h3 id="language-statement-switch">switch Statement</h3>
+<h3 id="language-Statement-switch">switch Statement</h3>
 <p>
   switch Statementは,<a href="#language-type-int">int Type</a> の整数を条件にして,条件分岐を行うためのStatementです。条件が<a href="#language-type-int">int Type</a> の整数で,たくさんの分岐がある場合は,if Statementよりも高速です。
 </p>
@@ -6224,16 +6224,16 @@ switch (条件Expression) {
   条件Expressionで指定された値が,case Statementで指定された値にマッチした場合は,そのcase Statementの位置にジャンプします。
 </p>
 <p>
-  マッチしなかった場合でdefault statementが指定されている場合は,default statementの位置にジャンプします。default statementが指定されていなかった場合は,switch Blockは実行されません。
+  マッチしなかった場合でdefault Statementが指定されている場合は,default Statementの位置にジャンプします。default Statementが指定されていなかった場合は,switch Blockは実行されません。
 </p>
 <p>
   switch Statementには,少なくともひとつのcase Statementが必要です。otherwise コンパイルエラーが発生します。
 </p>
 <p>
-  default statementは省略可能です。
+  default Statementは省略可能です。
 </p>
 <p>
-  switch Blockの直下に記述できるのはcase Statementとdefault statementだけです。
+  switch Blockの直下に記述できるのはcase Statementとdefault Statementだけです。
 </p>
 <p>
   caseとdefaultのBlock は省略することができます。
@@ -6249,7 +6249,7 @@ switch (条件Expression) {
 }
 </pre>
 <p>
-  break statementを使用した場合は,switch Blockから抜けることができます。
+  break Statementを使用した場合は,switch Blockから抜けることができます。
 </p>
 
 <pre>
@@ -6269,7 +6269,7 @@ switch (条件Expression) {
 }
 </pre>
 <p>
-  caseのBlock が存在する場合は,最後のStatementはbreak statementあるいは,returnl statementでなければなりません。otherwise コンパイルエラーが発生します。
+  caseのBlock が存在する場合は,最後のStatementはbreak Statementあるいは,returnl Statementでなければなりません。otherwise コンパイルエラーが発生します。
 </p>
 
 <p>
@@ -6305,19 +6305,19 @@ switch ($code) {
 }
 </pre>
 
-<h3 id="language-statement-switch">case Statement</h3>
+<h3 id="language-Statement-switch">case Statement</h3>
 <p>
-  case Statementは,switch Blockの中で使うことができる,条件を指定するためのStatementです。case Statementについての詳細は,<a href="#language-statement-switch">switch Statement</a>の解説を見てください。
+  case Statementは,switch Blockの中で使うことができる,条件を指定するためのStatementです。case Statementについての詳細は,<a href="#language-Statement-switch">switch Statement</a>の解説を見てください。
 </p>
 
-<h3 id="language-statement-switch">default statement</h3>
+<h3 id="language-Statement-switch">default Statement</h3>
 <p>
-  default statementは,switch Blockの中で使うことができる,デフォルトの条件を指定するためのStatementです。default statementについての詳細は,<a href="#language-statement-switch">switch Statement</a>の解説を見てください。
+  default Statementは,switch Blockの中で使うことができる,デフォルトの条件を指定するためのStatementです。default Statementについての詳細は,<a href="#language-Statement-switch">switch Statement</a>の解説を見てください。
 </p>
 
-<h3 id="language-statement-while">while statement</h3>
+<h3 id="language-Statement-while">while Statement</h3>
 <p>
-  while statementは,繰り返しを行うためのStatementです。
+  while Statementは,繰り返しを行うためのStatementです。
 </p>
 <pre>
 while (条件Expression) {
@@ -6328,10 +6328,10 @@ while (条件Expression) {
   条件Expressionに,<a href="#language-expresssion">Expression</a>を記述できます。条件Expressionに<a href="#language-type-convertion-bool">Bool Type Convertion</a>が実行され,値が0以外の場合に,Block が実行されます。otherwise Block を抜けます。
 </p>
 <p>
-  <b>while statementのExample</b>
+  <b>while StatementのExample</b>
 </p>
 <p>
-  while statementのExampleです。
+  while StatementのExampleです。
 </p>
 <pre>
 my $i = 0;
@@ -6343,7 +6343,7 @@ while ($i < 5) {
 }
 </pre>
 <p>
-  while Blockの内部では,<a href="#language-statement-last">last statement</a>を使って,while Blockを抜けることができます。
+  while Blockの内部では,<a href="#language-Statement-last">last Statement</a>を使って,while Blockを抜けることができます。
 </p>
 <pre>
 while (1) {
@@ -6352,7 +6352,7 @@ while (1) {
 </pre>
 
 <p>
-  while Blockの内部では,<a href="#language-statement-next">next statement</a>を使って,次に実行される条件Expressionの直前に移動することができます。
+  while Blockの内部では,<a href="#language-Statement-next">next Statement</a>を使って,次に実行される条件Expressionの直前に移動することができます。
 </p>
 <pre>
 my $i = 0;
@@ -6369,7 +6369,7 @@ while ($i < 5) {
 </pre>
 
 <p>
-  while statementは,内部的には,目には見えない<a href="#language-block-statement-simple">Simple Block</a>で囲まれています。
+  while Statementは,内部的には,目には見えない<a href="#language-block-Statement-simple">Simple Block</a>で囲まれています。
 </p>
 <pre>
 {
@@ -6379,7 +6379,7 @@ while ($i < 5) {
 }
 </pre>
 <p>
-  while statementの条件部で,変数宣言を行うときは,目には見えない<a href="#language-block-statement-simple">Simple Block</a>で囲まれていることを意識してください。
+  while Statementの条件部で,変数宣言を行うときは,目には見えない<a href="#language-block-Statement-simple">Simple Block</a>で囲まれていることを意識してください。
 </p>
 <pre>
 # 展開前
@@ -6399,9 +6399,9 @@ my $num = 5;
 }
 </pre>
 
-<h3 id="language-statement-for">for statement</h3>
+<h3 id="language-Statement-for">for Statement</h3>
 <p>
-  for statementは,繰り返しを行うためのStatementです。
+  for Statementは,繰り返しを行うためのStatementです。
 </p>
 <pre>
 for (初期化Expression; 条件Expression; インクリメントExpression) {
@@ -6418,7 +6418,7 @@ for (初期化Expression; 条件Expression; インクリメントExpression) {
   インクリメントExpressionには,<a href="#language-expression">Expression</a>を記述できます。一般的には,ループ変数のインクリメントのExpressionを記述します。インクリメントExpressionは省略することが可能です。
 </p>
 <p>
-  for statementはthe following while statementと同じ意味を持ちます。インクリメントExpressionは,Block の最後に実行されます。初期化Expressionは,<a href="#language-block-statement-simple">Simple Block</a>に囲まれています。
+  for Statementはthe following while Statementと同じ意味を持ちます。インクリメントExpressionは,Block の最後に実行されます。初期化Expressionは,<a href="#language-block-Statement-simple">Simple Block</a>に囲まれています。
 </p>
 <pre>
 {
@@ -6432,10 +6432,10 @@ for (初期化Expression; 条件Expression; インクリメントExpression) {
 }
 </pre>
 <p>
-  <b>for statementのExample</b>
+  <b>for StatementのExample</b>
 </p>
 <p>
-  for statementのExampleです。
+  for StatementのExampleです。
 </p>
 <pre>
 for (my $i = 0; $i < 5; $i++) {
@@ -6444,7 +6444,7 @@ for (my $i = 0; $i < 5; $i++) {
 }
 </pre>
 <p>
-  for Blockの内部では,<a href="#language-statement-last">last statement</a>を使って,for Blockを抜けることができます。
+  for Blockの内部では,<a href="#language-Statement-last">last Statement</a>を使って,for Blockを抜けることができます。
 </p>
 
 <pre>
@@ -6454,7 +6454,7 @@ for (初期化Expression; 条件Expression; インクリメントExpression) {
 </pre>
 
 <p>
-  for Blockの内部では,<a href="#language-statement-next">next statement</a>を使って,次に実行されるインクリメントExpressionの直前に移動することができます。
+  for Blockの内部では,<a href="#language-Statement-next">next Statement</a>を使って,次に実行されるインクリメントExpressionの直前に移動することができます。
 </p>
 <pre>
 for (my $i = 0; $i < 5; $i++) {
@@ -6465,9 +6465,9 @@ for (my $i = 0; $i < 5; $i++) {
 }
 </pre>
 
-<h3 id="language-statement-return">returnl statement</h3>
+<h3 id="language-Statement-return">returnl Statement</h3>
 <p>
-  returnl statementを使うと,Subroutine から脱出します。モータル変数に代入されているオブジェクトは,自動的に解放されます。
+  returnl Statementを使うと,Subroutine から脱出します。モータル変数に代入されているオブジェクトは,自動的に解放されます。
 </p>
 <pre>
 return;
@@ -6479,15 +6479,15 @@ return;
 return Expression;
 </pre>
 <p>
-  <a href="#language-sub-definition">Subroutine Definition</a>においてReturn ValueのTypeが"void Type"である場合は,Expressionが存在してはいけません。otherwise a compile-time error occurs.
+  <a href="#language-sub-definition">Subroutine Definition</a>においてReturn ValueのTypeが"<a href="#language-type-void">void Type</a>"である場合は,Expressionが存在してはいけません。otherwise a compile-time error occurs.
 </p>
 <p>
-  <a href="#language-sub-definition">Subroutine Definition</a>においてReturn ValueのTypeが"void Type"以外の場合は,ExpressionのTypeと一致していなければなりません。otherwise a compile-time error occurs.
+  <a href="#language-sub-definition">Subroutine Definition</a>においてReturn ValueのTypeが"<a href="#language-type-void">void Type</a>"以外の場合は,ExpressionのTypeと一致していなければなりません。otherwise a compile-time error occurs.
 </p>
 
-<h3 id="language-statement-die">die statement </h3>
+<h3 id="language-Statement-die">die Statement </h3>
 <p>
-  die statement は,例外を発生させるためのStatementです。
+  die Statement は,例外を発生させるためのStatementです。
 </p>
 <pre>
 die Expression;
@@ -6496,12 +6496,12 @@ die Expression;
   Expressionは,String Compatible Typeでなければなりません。
 </p>
 <p>
-  die statement の詳しい解説については,<a href="#language-exception">Exception Handling</a>を見てください。
+  die Statement の詳しい解説については,<a href="#language-exception">Exception Handling</a>を見てください。
 </p>
 
-<h3 id="language-statement-weaken">weaken statement </h3>
+<h3 id="language-Statement-weaken">weaken Statement </h3>
 <p>
-  weaken statement は,Fieldに対して,<a href="#language-weak-ref">Weaken Reference</a>を設定するStatementです。
+  weaken Statement は,Fieldに対して,<a href="#language-weak-ref">Weaken Reference</a>を設定するStatementです。
 </p>
 <pre>
 weaken 変数->{Field Name};
@@ -6516,7 +6516,7 @@ weaken 変数->{Field Name};
   Fieldに保存される値のTypeは,<a href="#language-type-object">Object Type</a>でなければなりません。otherwise a compile-time error occurs.
 </p>
 <p>
-  実行時にFieldに保存されている値が,<a href="#language-undef">Undefined Value</a>だった場合は,weaken statement は,何もしません。
+  実行時にFieldに保存されている値が,<a href="#language-undef">Undefined Value</a>だった場合は,weaken Statement は,何もしません。
 </p>
 <p>
   実行時にFieldに保存されている値が,<a href="#language-undef">Undefined Value</a>でない場合は,次のことが行われます。
@@ -6561,9 +6561,9 @@ weaken $baz->{foo};
   バックReferenceの情報が必要なのは,<a href="#language-expression-release-object">Release Object</a>が行われるときに,バックReferenceが指すFieldにUndefined Valueを代入する必要があるからです。
 </p>
 
-<h3 id="language-statement-unweaken">unweaken statement</h3>
+<h3 id="language-Statement-unweaken">unweaken Statement</h3>
 <p>
-  unweaken statementは,Fieldに対して,<a href="#language-weak-ref">Weaken Reference</a>を解除するStatementです。
+  unweaken Statementは,Fieldに対して,<a href="#language-weak-ref">Weaken Reference</a>を解除するStatementです。
 </p>
 <pre>
 unweaken 変数->{Field Name};
@@ -6578,7 +6578,7 @@ unweaken 変数->{Field Name};
   Fieldに保存される値のTypeは,<a href="#language-type-object">Object Type</a>でなければなりません。otherwise a compile-time error occurs.
 </p>
 <p>
-  実行時にFieldに保存されている値が,<a href="#language-undef">Undefined Value</a>だった場合は,unweaken statementは,何もしません。
+  実行時にFieldに保存されている値が,<a href="#language-undef">Undefined Value</a>だった場合は,unweaken Statementは,何もしません。
 </p>
 <p>
   実行時にFieldに保存されている値が,<a href="#language-undef">Undefined Value</a>でない場合は,次のことが行われます。
@@ -6593,40 +6593,40 @@ unweaken 変数->{Field Name};
   3. Fieldに保存されているオブジェクトのバックReferenceから,Fieldを削除します。
 </p>
 
-<h3 id="language-statement-next">next statement</h3>
+<h3 id="language-Statement-next">next Statement</h3>
 <p>
-  "next statement"は,次のループの先頭に移動するためのStatementです。<a href="#language-block-statement-while">while Block</a>,<a href="#language-block-statement-for">for Block</a>の中で使うことができます。
+  "next Statement"は,次のループの先頭に移動するためのStatementです。<a href="#language-block-Statement-while">while Block</a>,<a href="#language-block-Statement-for">for Block</a>の中で使うことができます。
 </p>
 <pre>
 next;
 </pre>
 <p>
-  実際の動作については<a href="#language-statement-while">while statement</a>,<a href="#language-statement-for">for statement</a>の解説を見てください。
+  実際の動作については<a href="#language-Statement-while">while Statement</a>,<a href="#language-Statement-for">for Statement</a>の解説を見てください。
 </p>
 
-<h3 id="language-statement-last">last statement</h3>
+<h3 id="language-Statement-last">last Statement</h3>
 <p>
-  "last statement"は,ループを脱出するためのStatementです。<a href="#language-block-statement-while">while Block</a>,<a href="#language-block-statement-for">for Block</a>の中で使うことができます。
+  "last Statement"は,ループを脱出するためのStatementです。<a href="#language-block-Statement-while">while Block</a>,<a href="#language-block-Statement-for">for Block</a>の中で使うことができます。
 </p>
 <p>
-  実際の動作については<a href="#language-statement-while">while statement</a>,<a href="#language-statement-for">for statement</a>の解説を見てください。
+  実際の動作については<a href="#language-Statement-while">while Statement</a>,<a href="#language-Statement-for">for Statement</a>の解説を見てください。
 </p>
 <pre>
 last;
 </pre>
 
-<h3 id="language-statement-break">break statement</h3>
+<h3 id="language-Statement-break">break Statement</h3>
 <p>
-  "break statement"は,switch Blockを脱出するためのStatementです。<a href="#language-block-statement-switch">switch Block</a>の中で使うことができます。
+  "break Statement"は,switch Blockを脱出するためのStatementです。<a href="#language-block-Statement-switch">switch Block</a>の中で使うことができます。
 </p>
 <p>
-  実際の動作については<a href="#language-statement-switch">switch Statement</a>の解説を見てください。
+  実際の動作については<a href="#language-Statement-switch">switch Statement</a>の解説を見てください。
 </p>
 <pre>
 break;
 </pre>
 
-<h3 id="language-statement-warn">warn Statement</h3>
+<h3 id="language-Statement-warn">warn Statement</h3>
 
 <p>
   警告を発生させるにはwarnStatementを使用します。
@@ -6650,7 +6650,7 @@ warn Expression;
   標準エラー出力のバッファがフラッシュされます。
 </p>
 
-<h3 id="language-statement-print">print Statement</h3>
+<h3 id="language-Statement-print">print Statement</h3>
 <p>
   標準出力にStringを出力するにはprint Statementを使用します。
 </p>
@@ -6664,16 +6664,16 @@ print Expression;
   ExpressionがUndefined Valueであった場合は,何もしません。
 </p>
 
-<h3 id="language-statement-expression">expression statement</h3>
+<h3 id="language-Statement-expression">expression Statement</h3>
 <p>
-  expression statementは"<a href="#language-expression">Expression</a>"と";"で構成されるStatementのことです。
+  expression Statementは"<a href="#language-expression">Expression</a>"と";"で構成されるStatementのことです。
 </p>
 <pre>
 Expression;
 </pre>
 
 <p>
-  expression statementのExampleです。
+  expression StatementのExampleです。
 </p>
 <pre>
 1;
@@ -6683,9 +6683,9 @@ foo();
 my $num = 1 + 2;
 </pre>
 
-<h3 id="language-statement-empty">empty statement</h3>
+<h3 id="language-Statement-empty">empty Statement</h3>
 <p>
-  empty statementは";"だけで終わるStatementのことです。
+  empty Statementは";"だけで終わるStatementのことです。
 </p>
 <pre>
 ;
@@ -7223,9 +7223,9 @@ my $object : object = new Foo[3];
   <a href="#language-sub-definition">Subroutine Definition</a>において第一引数のTypeとしてのみ利用できます。
 </p>
 
-<h3 id="language-type-void">void Type</h3>
+<h3 id="language-type-void"><a href="#language-type-void">void Type</a></h3>
 <p>
-  void Typeとは,<a href="#language-sub-definition">Subroutine Definition</a>においてReturn ValueのTypeとしてだけ利用できる,存在しないことを示す特別なTypeです。
+  <a href="#language-type-void">void Type</a>とは,<a href="#language-sub-definition">Subroutine Definition</a>においてReturn ValueのTypeとしてだけ利用できる,存在しないことを示す特別なTypeです。
 </p>
 
 <h3 id="language-type-basic">Basic Type</h3>
@@ -7464,7 +7464,7 @@ $bytes->[1] = 'd';
   Multi Numeric Typeとは,連続した数値を表現できるTypeです。
 </p>
 <p>
-  Package Definitionにおいて"mulnum_t"Descriptorを指定することで,Multi Numeric TypeをDefinitionできます。
+  <a href="#language-package-definition">Package Definition</a>において"mulnum_t"Descriptorを指定することで,Multi Numeric TypeをDefinitionできます。
 </p>
 <pre>
 package Point_3i : mulnum_t {
