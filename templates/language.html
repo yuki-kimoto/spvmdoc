@@ -4,7 +4,7 @@
 
 SPVM is in beta testing for the 1.0 release. Language Specification will be changed without warning.
 
-Last modified 2020-03-19
+Last modified 2020-03-23
 
 <ul>
   <li><a href="#language-c99">C99 compliant</a></li>
@@ -188,7 +188,7 @@ This topic specifies the Lexical Analysis of the SPVM language.
   <li><a href="#language-lex-component">Component</a>
   <li><a href="#language-lex-line-terminator">Line Terminater</a>
   <li><a href="#language-lex-space-character">Space Character</a>
-  <li><a href="#language-lex-identifier">Identifier</a>
+  <li><a href="#language-lex-identifier">Identifiers</a>
   <li><a href="#language-lex-separator">Separator</a>
   <li><a href="#language-lex-operator">Operator</a>
   <li><a href="#language-lex-syntax-definition">Syntax Definition</a></li>
@@ -218,17 +218,9 @@ Space Character in SPVM is ASCII Code "SP", "HT", "FF" or <a href="#language-lex
 
 Space Character has no meaning in the program execution.
 
-<h4 id="language-lex-identifier">Identifier</h4><!-- 2019/2/27 maybe ok -->
+<h4 id="language-lex-identifier">Identifiers</h4><!-- 2019/2/27 maybe ok -->
 
-Identifier in SPVM is "Package Name", ""Subroutine Name", "Field Name", "Package Variable Name", or "Lexical Variable Name".
-
-<ul class="list">
-  <li><a href="#language-lex-identifier-package-name">Package Name</a></li>
-  <li><a href="#language-lex-identifier-sub-name">Subroutine Name</a></li>
-  <li><a href="#language-lex-identifier-field-name">Field Name</a></li>
-  <li><a href="#language-lex-identifier-package-var-name">Package Variable Name</a></li>
-  <li><a href="#language-lex-identifier-lex-var-name">Lexical Variable Name</a></li>
-</ul>
+Identifiers in SPVM are <a href="#language-lex-identifier-package-name">Package Name</a>, <a href="#language-lex-identifier-sub-name">Subroutine Name</a>, <a href="#language-lex-identifier-field-name">Field Name</a>, <a href="#language-lex-identifier-package-var-name">Package Variable Name</a>, and <a href="#language-lex-identifier-lex-var-name">Lexical Variable Name</a>.
 
 <h4 id="language-lex-identifier-package-name">Package Name</h4><!-- 2019/2/27 almost ok -->
 
@@ -2341,59 +2333,68 @@ $comparator->{bar} = $bar;
 
 Captureは,このような長い記述を,短く書くためのSyntaxです。
 
-<h3 id="language-lex-var">Lexical Variable </h3>
+<h3 id="language-lex-var">Lexical Variable</h3>
+
 <ul class="list">
   <li><a href="#language-lex-var-declaration">Lexical Variable Declaration</a></li>
   <li><a href="#language-lex-var-initial-value">Lexical Variable Initial Value</a></li>
   <li><a href="#language-lex-var-access">Lexical Variable Access</a></li>
 </ul>
-<h4 id="language-lex-var-declaration">Lexical Variable Declaration </h4>
-<p>
-  Lexical Variable とは,<a href="#language-scope-block">Scope Block</a>の中で利用できる,<a href="#language-scope">Scope</a>を持つ変数のことです。C言語のローカル変数に該当します。
-</p>
+
+<h4 id="language-lex-var-declaration">Lexical Variable Declaration</h4>
+
+<b>Lexical Variable</b> is a variable that is declared in <a href="#language-scope-block">Scope Block</a>.  Lexical Variable has <a href="#language-scope">Scope</a>. This is same as Local Variable in C Language.
+
+Lexical Variable is declared using <b>my</b> <a href="#language-lex-keyword">Keyword</a>.
+
 <pre>
-{
-  my $num : int;
-}
+my LEXICAL_VARIABLE_NAME : TYPE;
 </pre>
-<p>
-  Lexical Variable は"my"  Keyword によって宣言します。":"の後ろに<a href="#language-type">Type</a>を指定する必要があります。
-</p>
+
+Lexical variable name must be follow the rule of <a href="#language-lex-identifier-lex-var-name">Lexical Variable Name</a>.
+
+<a href="#language-type">Type</a> must be specified. Type must be <a href="#language-type-numeric">Numeric Type</a>, <a href="#language-type-object">Object Type</a>, <a href="#language-type-multi-numeric">Multi Numeric Type</a>, or <a href="#language-type-ref">Reference Type</a>.
+
 <pre>
-my $num : int;
+# Lexical Variable Declaration Examples
+my $var : int;
+my $var : Point;
+my $var : SPVM::Complex_2d;
+my $var : int&;
 </pre>
-<p>
-  Lexical Variable is initialized by <a href="#language-lex-var-initial-value">Lexical Variable Initial Value</a>.
-</p>
+
+Lexical Variable is initialized by <a href="#language-lex-var-initial-value">Lexical Variable Initial Value</a>.
+
 <pre>
-# 0で初期化される
+# Initialized by 0
 my $num : int;
 
-# 0で初期化される
+# Initialized by 0
 my $num : double;
 
-# undefで初期化される
+# Initialized by undef
 my $point : Point;
 
-# reは0, imは0で初期化される
+# x is initialized by 0. y is initialized by 0.
 my $z : SPVM::Complex_2d;
 </pre>
-<p>
-  Lexical Variable Declaration と同時に初期化を行うことができます。
-</p>
+
+
+Initialization can be done at the same time as Lexical Variable Declaration.
+
 <pre>
-# 1で初期化される
+# Initialized by 1
 my $num : int = 1;
 
-# 2.5で初期化される
+# Initialized by 2.5
 my $num : double = 2.5;
 
-# Pointオブジェクトで初期化される
+# Initialized by Point object
 my $point : Point = new Point;
 </pre>
-<p>
-  <a href="#language-type-inference">Type Inference</a>を使うと,宣言するときに,Typeの指定を省略することができます。
-</p>
+
+Using <a href="#language-type-inference">Type Inference</a>, you omit <a href="#language-type">Type</a> in Lexical Variable Declaration.
+
 <pre>
 # int
 my $num = 1;
@@ -2401,9 +2402,10 @@ my $num = 1;
 # double
 my $num = 1.0;
 </pre>
-<p>
-  Lexical Variable Declaration は,Lexical Variable の値を返します。これは,<a href="#language-expression">Expression</a>として利用できます。
-</p>
+
+
+Lexical Variable Declaration returns the value of Lexical Variable. This is a <a href="#language-expression">Expression</a>.
+
 <pre>
 my $ppp = my $bar = 4;
 
@@ -2416,28 +2418,25 @@ while (my $bar = 1) {
 }
 </pre>
 
-<p>
-  Lexical Variable Declaration は,Lexical Variable が<a href="#language-type-object">Object Type</a>であった場合に,Lexical Variable を,モータル変数として,実行時に登録します。モータル変数として登録されたLexical Variable に代入されているオブジェクトは,<a href="#language-scope">Scope</a>の末尾で,Reference Countが自動的に1減らされます。
-</p>
+Lexical Variable Declaration registers the Lexical Variable that is <a href="#language-type-object">Object Type</a> with Motal Variable in run-time. 
+
+The Reference Count of the Lexical Variable registered as Motal Variable is automatically reduced by 1 at the end of <a href="#language-scope">Scope</a>.
+
+If Reference Count is zero, the object is released.
 
 <h4 id="language-lex-var-initial-value">Lexical Variable Initial Value</h4>
-<p>
-  Lexical Variable is initialized by <a href="#language-type-initial-value">Type Initial Value</a>.
-</p>
+
+Lexical Variable is initialized by <a href="#language-type-initial-value">Type Initial Value</a>.
 
 <h4 id="language-lex-var-access">Lexical Variable Access</h4>
-<p>
-  Lexical Variable Accessとは,Lexical Variable にアクセスして,値を取得したり,設定したりする操作のことです。
-</p>
-<p>
-  <b>Get Lexical Variable Value</b>については,<a href="#language-expression-get-lex-var">Get Lexical Variable Value</a>を見てください。
-</p>
-<p>
-  <b>Set Lexical Variable Value</b>については,<a href="#language-expression-set-lex-var">Set Lexical Variable Value</a>を見てください。
-</p>
-<p>
-  Lexical Variable と同名の<a href="#language-package-var">Package Variable</a>が存在した場合は,Lexical Variable にアクセスします。
-</p>
+
+Lexical Variable Access is an operation to access Lexical Variable to get or set the value.
+
+See <a href="#language-expression-get-lex-var">Get Lexical Variable Value</a> to get Lexical Variable value.
+
+<a href="#language-expression-set-lex-var">Set Lexical Variable Value</a> to get Lexical Variable value.
+
+If <a href="#language-package-var">Package Variable</a> with the same name as the Lexical Variable exists, Program uses the variable as Lexical Variable, not <a href="#language-package-var">Package Variable</a>.
 
 <h3 id="language-block">Block </h3>
 
@@ -6675,7 +6674,7 @@ my $num = 1 + 2;
 </pre>
 
 
-<h3 id="language-type">Type</h3>
+<h3 id="language-type"><a href="#language-type">Type</a></h3>
 <ul class="list">
   <li><a href="#language-type-summary">Type Summary</a></li>
   <li><a href="#language-type-initial-value">Type Initial Value</a></li>
