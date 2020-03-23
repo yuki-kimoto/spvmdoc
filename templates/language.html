@@ -19,7 +19,6 @@ Last modified 2020-03-23
   <li><a href="#language-field">Field</a></li>
   <li><a href="#language-sub">Subroutine</a></li>
   <li><a href="#language-enum">Enumeration</a></li>
-  <li><a href="#language-callback">Callback</a></li>
   <li><a href="#language-begin-block">BEGIN Block</a></li>
   <li><a href="#language-lex-var">Lexical Variable</a></li>
   <li><a href="#language-block">Block</a></li>
@@ -45,6 +44,7 @@ Last modified 2020-03-23
   <li><a href="#language-type-convertion">Type Convertion</a></li>
   <li><a href="#language-auto-loaded-module">Automatically Loaded Module</a></li>
   <li><a href="#language-limitation">Limitation</a></li>
+  <li><a href="#language-callback">Callback</a></li>
 </ul>
 
 <h3 id="language-c99">C99 compliant</h3><!-- 2019/2/27 almost ok -->
@@ -2164,175 +2164,6 @@ package Foo {
 }
 </pre>
 
-<h3 id="language-callback">Callback</h3>
-
-<ul class="list">
-  <li><a href="#language-sub-new-callback-object">Create Callback Object</a></li>
-  <li><a href="#language-sub-capture">Capture</a></li>
-</ul>
-
-<p>
-  SPVMにおけるCallback Typeとは,実装を持たない名前のないMethodが一つだけDefinitionされたPackage Typeのことをいいます。<a href="#language-package-definition">Package Definition</a>においてcallback_tDescriptorを指定すると,Callback Typeになります。
-</p>
-<p>
-  Callback Typeの目的は,異なるオブジェクトが,同じMethodDefinitionを持つときに,どちらも代入できるTypeを提供することにあります。C言語の関数ポインタに該当する機能をSPVMにおいて実現するものと考えてください。
-</p>
-<pre>
-package Foo1 {
-  sub new : Foo1 () {
-    new Foo1;
-  }
-  sub : int ($self : self, $num : int) {
-    return 1 + $num;
-  }
-}
-
-package Foo2 {
-  sub new : Foo2 () {
-    new Foo2;
-  }
-  sub : int ($self : self, $num : int) {
-    return 2 + $num;
-  }
-}
-
-package FooCallback : callback_t {
-sub : int ($self : self, $num : int);
-}
-</pre>
-
-<p>
-  Foo1とFoo2は同じMethodDefinition"sub : int ($self : self, $num : int)"を持ちます。ここで,選択的にFoo1またはFoo2のMethodを呼び出したいとします。
-</p>
-<p>
-  この場合に,同じMethodDefinitionを持つCallback TypeFooCallbackをDefinitionすると,このTypeにどちらのオブジェクトも代入できます。そして,このオブジェクトから,Methodを呼び出すことができます。
-</p>
-<pre>
-my $foo1 = Foo1->new;
-my $foo2 = Foo2->new;
-
-my $foo : FooCallback;
-
-my $flag = 1;
-if ($flag) {
-  $foo = $foo1;
-}
-else {
-  $foo = $foo2;
-}
-
-my $ret = $foo->(5);
-</pre>
-<p>
-  $flagが1の場合は,Foo1の無名Methodが,そうでない場合はFoo2の無名Methodが呼び出されます。
-</p>
-<p>
-  Callback Typeの詳細については,<a href="#language-type-callback">Callback Type</a>を見てください。
-</p>
-
-<h4 id="language-sub-new-callback-object">Create Callback Object</h4>
-
-<p>
-  Create Callback Objectとは,Callbackの用途で,特別なsyntax を使って,Callback Typeに適合するオブジェクトを生成するSyntaxのことです。
-</p>
-
-<pre>
-sub : Type Name  ($self : self, 引数1, 引数2, ..., 引数n) {
-
-}
-</pre>
-
-<p>
-  Create Callback Objectを行うと,内部的に,<a href="#language-package-definition">Package Definition</a>がおこなわれ,そのPackage を元にしたオブジェクトが生成され,<a href="#language-expression">Expression</a>として返されます。the following ように変数に代入することが可能です。
-</p>
-
-<pre>
-my $cb_obj = sub : Type Name  ($self : self, 引数1, 引数2, ..., 引数n) {
-
-};
-</pre>
-
-<p>
-  Create Callback ObjectでDefinitionされるSubroutine は,<a href="#language-sub-method">Method</a>でなければなりません。また名前を持たないSubroutine でなければなりません。
-</p>
-
-<p>
-  <b>Create Callback ObjectのExample</b>
-</p>
-
-<pre>
-my $comparator = sub : int ($self : self, $x1 : object, $x2 : object) {
-
-}
-</pre>
-
-<p>
-  Create Callback Objectによって生成されたオブジェクトは,通常のオブジェクトなので,Methodを呼び出すことができます。Create Callback Objectの呼び出しについては,<a href="language-expression-callsub">Subroutine Call</a>を見てください。
-<p>
-
-<h4 id="language-sub-capture">Capture</h4>
-<p>
-  Create Callback Objectにおいては,Captureというsyntax を使って,Create Callback ObjectによってDefinitionされたSubroutine の外側でDefinitionされた変数を,Create Callback ObjectによってDefinitionされたSubroutine の内側で使うことができます。
-</p>
-<pre>
-# Capture
-[変数名1 : Type1, 変数名2 : Type2] sub Subroutine Name : int ($self : self, $x1 : object, $x2 : object) {
-
-};
-</pre>
-
-CaptureのExample。
-
-<pre>
-my $foo = 1;
-my $bar = 5L;
-
-my $comparator = [$foo : int, $bar : long] sub : int ($self : self, $x1 : object, $x2 : object) {
-
-  print "$foo\n";
-  print "$bar\n";
-}
-</pre>
-<p>
-  Captureで使用する変数名は,<a href="#language-lex-identifier-field-name">Field Name</a>の先頭に"$"を付けたものでなければなりません。
-</p>
-<p>
-  Captureは,実際には,ClassのFieldとしてDefinitionされます。Captureは,Field Definitionと値の設定のシンタックスシュガーです。
-</p>
-<p>
-  Scope内で,Capture変数と同名の<a href="#language-lex-var">Lexical Variable</a>が存在する場合は,Lexical Variable にアクセスします。
-</p>
-<p>
-  Capture変数と同名の<a href="#language-package-var">Package Variable</a>が存在する場合は,Capture変数にアクセスします。
-</p>
-<p>
-  Create Callback ObjectとCaptureをシンタックスシュガーを使わないで記述すると次のようになります。
-</p>
-<pre>
-package ComapartorImpl {
-  has foo : int;
-  has bar : long;
-
-  sub : int ($self : self, $x1 : object, $x2 : object) {
-
-  print $self->{foo} . "\n";
-  print $self->{bar} . "\n";
-  }
-}
-</pre>
-
-</pre>
-my $foo = 1;
-my $bar = 5L;
-
-my $comparator = new ComparatorImpl;
-
-$comparator->{foo} = $foo;
-$comparator->{bar} = $bar;
-</pre>
-
-Captureは,このような長い記述を,短く書くためのSyntaxです。
-
 <h3 id="language-lex-var">Lexical Variable</h3>
 
 <ul class="list">
@@ -2403,7 +2234,6 @@ my $num = 1;
 my $num = 1.0;
 </pre>
 
-
 Lexical Variable Declaration returns the value of Lexical Variable. This is a <a href="#language-expression">Expression</a>.
 
 <pre>
@@ -2418,11 +2248,7 @@ while (my $bar = 1) {
 }
 </pre>
 
-Lexical Variable Declaration registers the Lexical Variable that is <a href="#language-type-object">Object Type</a> with Motal Variable in run-time. 
-
-The Reference Count of the Lexical Variable registered as Motal Variable is automatically reduced by 1 at the end of <a href="#language-scope">Scope</a>.
-
-If Reference Count is zero, the object is released.
+See <a href="#language-scope">Scope</a> about Lexical Variable Scope.
 
 <h4 id="language-lex-var-initial-value">Lexical Variable Initial Value</h4>
 
@@ -2453,46 +2279,43 @@ There are <a href="#language-scope-block">Scope Block</a> that creates a scope a
 
 <h3 id="language-scope">Scope</h3>
 <ul class="list">
-  <li><a href="#language-scope-role">Scopeの役割</a>
+  <li><a href="#language-scope-summary">Scope Summary</a>
   <li><a href="#language-scope-block">Scope Block</a>
 </ul>
 
-<h4 id="language-scope-role">Scopeの役割</h4>
-<p>
-  Scopeとは<a href="#language-scope-block">Scope Block</a>に囲まれた範囲のことをいいます。
-</p>
+<h4 id="language-scope-summary">Scope Summary</h4>
+
+<b>Scope</b> is a range surrounded by <a href="#language-scope-block">Scope Block</a>.
+
 <pre>
 # Scope Block 
 {
-
+  # Start of Scope
+  
+  # ...
+  
+  # End of Scope
 }
 </pre>
-<p>
-  Scopeの中で宣言されたLexical Variable は,実行時に,宣言されている位置で,モータルなLexical Variable として登録されます。
-</p>
+
+Lexical Variable Declaration registers the Lexical Variable that is <a href="#language-type-object">Object Type</a> with Motal Variable in run-time. 
+
+If the object is not <a href="#language-undef">undef</a>, The Reference Count is added by 1.
+
 <pre>
 {
-  # Lexical Variable をモータルとして登録
+  # $num become Motal Variable in run-time
   my $num = new Foo;
 }
 </pre>
-<p>
-  モータルなLexical Variable に代入されたオブジェクトが,Undefined Valueではない場合は,Reference Countが1増やされます。
-</p>
-<p>
-  Scopeの終わりに到達すると,モータルなLexical Variable に代入されているオブジェクトは,Undefined Valueでない場合,Reference Countが1減らされ,0になった場合は,解放されます。
-</p>
+
+At the end of Scope, the object that is registered as Motal Variable, Reference Count is reduced by 1 except the object is not <a href="#language-undef">undef</a>.
+
+If the Reference Count become 0, the object released.
+
 <h4 id="language-scope-block">Scope Block </h4>
-<p>
-  Scope Block とは,Scopeを作るBlock のことです。Scope Block には,0個以上の<a href="#language-Statement">Statement</a>を記述することができます。
-</p>
-<pre>
-# Scope Block 
-{
-  my $num = 1;
-  $num++;
-}
-</pre>
+
+<b>Scope Block</b> is a block that creates a Scope. Zero or more <a href="#language-Statement">Statement</a> can be written in Scope Block.
 
 <b>List of Scope Blocks</b>
 
@@ -7995,3 +7818,171 @@ while (条件部) {
   Multi Numeric TypeのFieldの個数の最大値は,256個で,少なくともひとつのFieldが必要です。otherwise a compile-time error occurs.
 </p>
 
+<h3 id="language-callback">Callback</h3>
+
+<ul class="list">
+  <li><a href="#language-sub-new-callback-object">Create Callback Object</a></li>
+  <li><a href="#language-sub-capture">Capture</a></li>
+</ul>
+
+<p>
+  SPVMにおけるCallback Typeとは,実装を持たない名前のないMethodが一つだけDefinitionされたPackage Typeのことをいいます。<a href="#language-package-definition">Package Definition</a>においてcallback_tDescriptorを指定すると,Callback Typeになります。
+</p>
+<p>
+  Callback Typeの目的は,異なるオブジェクトが,同じMethodDefinitionを持つときに,どちらも代入できるTypeを提供することにあります。C言語の関数ポインタに該当する機能をSPVMにおいて実現するものと考えてください。
+</p>
+<pre>
+package Foo1 {
+  sub new : Foo1 () {
+    new Foo1;
+  }
+  sub : int ($self : self, $num : int) {
+    return 1 + $num;
+  }
+}
+
+package Foo2 {
+  sub new : Foo2 () {
+    new Foo2;
+  }
+  sub : int ($self : self, $num : int) {
+    return 2 + $num;
+  }
+}
+
+package FooCallback : callback_t {
+sub : int ($self : self, $num : int);
+}
+</pre>
+
+<p>
+  Foo1とFoo2は同じMethodDefinition"sub : int ($self : self, $num : int)"を持ちます。ここで,選択的にFoo1またはFoo2のMethodを呼び出したいとします。
+</p>
+<p>
+  この場合に,同じMethodDefinitionを持つCallback TypeFooCallbackをDefinitionすると,このTypeにどちらのオブジェクトも代入できます。そして,このオブジェクトから,Methodを呼び出すことができます。
+</p>
+<pre>
+my $foo1 = Foo1->new;
+my $foo2 = Foo2->new;
+
+my $foo : FooCallback;
+
+my $flag = 1;
+if ($flag) {
+  $foo = $foo1;
+}
+else {
+  $foo = $foo2;
+}
+
+my $ret = $foo->(5);
+</pre>
+<p>
+  $flagが1の場合は,Foo1の無名Methodが,そうでない場合はFoo2の無名Methodが呼び出されます。
+</p>
+<p>
+  Callback Typeの詳細については,<a href="#language-type-callback">Callback Type</a>を見てください。
+</p>
+
+<h4 id="language-sub-new-callback-object">Create Callback Object</h4>
+
+<p>
+  Create Callback Objectとは,Callbackの用途で,特別なsyntax を使って,Callback Typeに適合するオブジェクトを生成するSyntaxのことです。
+</p>
+
+<pre>
+sub : Type Name  ($self : self, 引数1, 引数2, ..., 引数n) {
+
+}
+</pre>
+
+<p>
+  Create Callback Objectを行うと,内部的に,<a href="#language-package-definition">Package Definition</a>がおこなわれ,そのPackage を元にしたオブジェクトが生成され,<a href="#language-expression">Expression</a>として返されます。the following ように変数に代入することが可能です。
+</p>
+
+<pre>
+my $cb_obj = sub : Type Name  ($self : self, 引数1, 引数2, ..., 引数n) {
+
+};
+</pre>
+
+<p>
+  Create Callback ObjectでDefinitionされるSubroutine は,<a href="#language-sub-method">Method</a>でなければなりません。また名前を持たないSubroutine でなければなりません。
+</p>
+
+<p>
+  <b>Create Callback ObjectのExample</b>
+</p>
+
+<pre>
+my $comparator = sub : int ($self : self, $x1 : object, $x2 : object) {
+
+}
+</pre>
+
+<p>
+  Create Callback Objectによって生成されたオブジェクトは,通常のオブジェクトなので,Methodを呼び出すことができます。Create Callback Objectの呼び出しについては,<a href="language-expression-callsub">Subroutine Call</a>を見てください。
+<p>
+
+<h4 id="language-sub-capture">Capture</h4>
+<p>
+  Create Callback Objectにおいては,Captureというsyntax を使って,Create Callback ObjectによってDefinitionされたSubroutine の外側でDefinitionされた変数を,Create Callback ObjectによってDefinitionされたSubroutine の内側で使うことができます。
+</p>
+<pre>
+# Capture
+[変数名1 : Type1, 変数名2 : Type2] sub Subroutine Name : int ($self : self, $x1 : object, $x2 : object) {
+
+};
+</pre>
+
+CaptureのExample。
+
+<pre>
+my $foo = 1;
+my $bar = 5L;
+
+my $comparator = [$foo : int, $bar : long] sub : int ($self : self, $x1 : object, $x2 : object) {
+
+  print "$foo\n";
+  print "$bar\n";
+}
+</pre>
+<p>
+  Captureで使用する変数名は,<a href="#language-lex-identifier-field-name">Field Name</a>の先頭に"$"を付けたものでなければなりません。
+</p>
+<p>
+  Captureは,実際には,ClassのFieldとしてDefinitionされます。Captureは,Field Definitionと値の設定のシンタックスシュガーです。
+</p>
+<p>
+  Scope内で,Capture変数と同名の<a href="#language-lex-var">Lexical Variable</a>が存在する場合は,Lexical Variable にアクセスします。
+</p>
+<p>
+  Capture変数と同名の<a href="#language-package-var">Package Variable</a>が存在する場合は,Capture変数にアクセスします。
+</p>
+<p>
+  Create Callback ObjectとCaptureをシンタックスシュガーを使わないで記述すると次のようになります。
+</p>
+
+<pre>
+package ComapartorImpl {
+  has foo : int;
+  has bar : long;
+
+  sub : int ($self : self, $x1 : object, $x2 : object) {
+    print $self->{foo} . "\n";
+    print $self->{bar} . "\n";
+  }
+}
+</pre>
+
+<pre>
+my $foo = 1;
+my $bar = 5L;
+
+my $comparator = new ComparatorImpl;
+
+$comparator->{foo} = $foo;
+$comparator->{bar} = $bar;
+</pre>
+
+Captureは,このような長い記述を,短く書くためのSyntaxです。
