@@ -22,7 +22,6 @@ Last modified 2020-03-23
   <li><a href="#language-lex-var">Lexical Variable</a></li>
   <li><a href="#language-scope">Scope</a></li>
   <li><a href="#language-exception">Exception Handling</a></li>
-  <li><a href="#language-weak-ref">Weaken Reference</a></li>
   <li><a href="#language-array">Array</a></li>
   <li><a href="#language-mulnum">Multi Numeric Value</a></li>
   <li><a href="#language-mulnum-array">Multi Numeric Array</a></li>
@@ -42,7 +41,7 @@ Last modified 2020-03-23
   <li><a href="#language-type-convertion">Type Convertion</a></li>
   <li><a href="#language-limitation">Limitation</a></li>
   <li><a href="#language-callback">Callback</a></li>
-  <li><a href="#language-allow-package-access">Allow Package Access</a></li>
+  <li><a href="#language-weak-ref">Weaken Reference</a></li>
 </ul>
 
 <h3 id="language-c99">C99 compliant</h3><!-- 2019/2/27 almost ok -->
@@ -1137,6 +1136,7 @@ POD has no meaning in the program execution.
   <li><a href="#language-package-definition">Package Definition</a></li>
   <li><a href="#language-package-descriptor">Package Descriptor</a></li>
   <li><a href="#language-package-destructor">Destructor</a></li>
+  <li><a href="#language-package-allow-package-access">Allow Package Access</a></li>
 </ul>
 
 <h4 id="language-package-definition"><a href="#language-package-definition">Package Definition</a></h4>
@@ -1163,7 +1163,7 @@ package PACAKGE_NAME : PACAKGE_DESCRIPTOR1 PACAKGE_DESCRIPTOR2 PACAKGE_DESCRIPTO
 }
 </pre>
 
-<b><a href="#language-package-definition">Package Definition</a> Example:</b>
+<b>Package Definition Example:</b>
 
 <pre>
 # Package Name
@@ -1299,6 +1299,31 @@ package Foo {
   }
 }
 </pre>
+
+<h4 id="language-package-allow-package-access">Allow Package Access</h4>
+
+By default, private Subroutines, Fields, and Package Variables cannot be accessed from outside the Package.
+
+Also, Private Package cannot <a href="#language-expression-new">Create Object</a> from outside of Package.
+
+If the package allow other package, the other package can access private Subroutines, Fields, and Package Variables, and can <a href="#language-expression-new">Create Object</a> of the package.
+
+<pre>
+allow PACKAGE_NAME;
+</pre>
+
+allow must be defined directory under <a href="#language-package-definition">Package Definition</a>.
+
+<pre>
+package Foo {
+  allow Bar;
+}
+</pre>
+
+In this example, Bar can access the private Subroutine, Field, and Package Variable of Foo can be accessed and can Create Object of Foo.
+
+Specifying the module of <b>allow</b> also loads the module by <a href="#language-module-use">use</a> at the same time.
+
 
 <h3 id="language-module">Module</h3>
 <ul class="list">
@@ -2483,77 +2508,6 @@ $@
 </p>
 <p>
   Set Exception Variable Valueについては,<a href="#language-expression-set-exception-var">Set Exception Variable Value</a>を見てください。
-</p>
-
-<h3 id="language-weak-ref">Weaken Reference</h3>
-<p>
-  Weaken Referenceとは,Reference Countを増やさない参照のことです。Weaken Referenceを使用すると,循環参照の問題を解決することができます。
-</p>
-<p>
-  SPVMは,Reference CountTypeのGCを持ちます。Reference CountTypeのGCにおいては,Reference Countが0になった場合に,オブジェクトは自動的に開放されますが,循環参照が発生した場合は,Reference Countが0にならず,オブジェクトが自動的に解放されません。
-</p>
-<p>
-  オブジェクトのFieldが,循環参照している場合のExampleです。
-</p>
-<pre>
-{
-  my $foo = new Foo;
-  my $bar = new Bar;
-
-  $foo->{bar} = $bar;
-  $bar->{foo} = $foo;
-}
-</pre>
-<p>
-  この場合は,Scopeが終了しても,両方のオブジェクトは解放されません。なぜなら,循環参照が発生しており,Reference Countが0にならないためです。
-</p>
-<p>
-  Weaken Referenceは,Reference CountGCを持つプログラミング言語において,循環参照が発生した場合に,オブジェクトの破棄を正しく行うための機能です。
-</p>
-<p>
-  このような場合は,ひとつのFieldを,<a href="#language-Statement-weaken">weaken Statement</a>を使って,Weaken Referenceに設定することで,正しく解放することができます。
-</p>
-<pre>
-{
-  my $foo = new Foo;
-  my $bar = new Bar;
-
-  $foo->{bar} = $bar;
-  $bar->{foo} = $foo;
-
-  weaken $foo->{bar};
-}
-</pre>
-<p>
-  weaken Statement が実行される前の,$fooのReference Countは2,$barのReference Countは2です。
-</p>
-<p>
-  もしweaken Statement がない場合は,Scopeが終了したとしても,$fooのReference Countも,$barのReference Countも0にならず,解放されません。
-</p>
-<p>
-  weaken Statement が実行されるとは,$fooのReference Countは2,$barのReference Countは1になります。
-</p>
-<p>
-  Scopeが終了すると,$barのReference Countが1減らされ0になるので,正しく解放されます。
-</p>
-<p>
-  3つの循環参照の場合でも,ひとつのFieldにWeaken Referenceを設定すれば,正しく解放できます。
-</p>
-<pre>
-{
-  my $foo = new Foo;
-  my $bar = new Bar;
-  my $baz = new Baz;
-
-  $foo->{bar} = $bar;
-  $bar->{baz} = $baz;
-  $baz->{foo} = $foo;
-
-  weaken $foo->{bar};
-}
-</pre>
-<p>
-  Weaken Reference関連のSyntaxとして,Weaken Referenceを解除できる<a href="#language-Statement-weaken">weaken Statement</a>と,FieldがWeaken Referenceかどうかを確認できる<a href="#language-expression-operator-isweak">isweakOperator</a>があります。
 </p>
 
 <h3 id="language-array">Array</h3>
@@ -7990,26 +7944,73 @@ $comparator->{bar} = $bar;
 
 Captureは,このような長い記述を,短く書くためのSyntaxです。
 
-<h3 id="language-allow-package-access">Allow Package Access</h3>
-
-By default, private Subroutines, Fields, and Package Variables cannot be accessed from outside the Package.
-
-Also, Private Package cannot <a href="#language-expression-new">Create Object</a> from outside of Package.
-
-If the package allow other package, the other package can access private Subroutines, Fields, and Package Variables, and can <a href="#language-expression-new">Create Object</a> of the package.
-
+<h3 id="language-weak-ref">Weaken Reference</h3>
+<p>
+  Weaken Referenceとは,Reference Countを増やさない参照のことです。Weaken Referenceを使用すると,循環参照の問題を解決することができます。
+</p>
+<p>
+  SPVMは,Reference CountTypeのGCを持ちます。Reference CountTypeのGCにおいては,Reference Countが0になった場合に,オブジェクトは自動的に開放されますが,循環参照が発生した場合は,Reference Countが0にならず,オブジェクトが自動的に解放されません。
+</p>
+<p>
+  オブジェクトのFieldが,循環参照している場合のExampleです。
+</p>
 <pre>
-allow PACKAGE_NAME;
-</pre>
+{
+  my $foo = new Foo;
+  my $bar = new Bar;
 
-
-allow must be defined directory under <a href="#language-package-definition">Package Definition</a>.
-
-<pre>
-package Foo {
-  allow Bar;
+  $foo->{bar} = $bar;
+  $bar->{foo} = $foo;
 }
 </pre>
+<p>
+  この場合は,Scopeが終了しても,両方のオブジェクトは解放されません。なぜなら,循環参照が発生しており,Reference Countが0にならないためです。
+</p>
+<p>
+  Weaken Referenceは,Reference CountGCを持つプログラミング言語において,循環参照が発生した場合に,オブジェクトの破棄を正しく行うための機能です。
+</p>
+<p>
+  このような場合は,ひとつのFieldを,<a href="#language-Statement-weaken">weaken Statement</a>を使って,Weaken Referenceに設定することで,正しく解放することができます。
+</p>
+<pre>
+{
+  my $foo = new Foo;
+  my $bar = new Bar;
 
-In this example, Bar can access the private Subroutine, Field, and Package Variable of Foo can be accessed and can Create Object of Foo.
+  $foo->{bar} = $bar;
+  $bar->{foo} = $foo;
 
+  weaken $foo->{bar};
+}
+</pre>
+<p>
+  weaken Statement が実行される前の,$fooのReference Countは2,$barのReference Countは2です。
+</p>
+<p>
+  もしweaken Statement がない場合は,Scopeが終了したとしても,$fooのReference Countも,$barのReference Countも0にならず,解放されません。
+</p>
+<p>
+  weaken Statement が実行されるとは,$fooのReference Countは2,$barのReference Countは1になります。
+</p>
+<p>
+  Scopeが終了すると,$barのReference Countが1減らされ0になるので,正しく解放されます。
+</p>
+<p>
+  3つの循環参照の場合でも,ひとつのFieldにWeaken Referenceを設定すれば,正しく解放できます。
+</p>
+<pre>
+{
+  my $foo = new Foo;
+  my $bar = new Bar;
+  my $baz = new Baz;
+
+  $foo->{bar} = $bar;
+  $bar->{baz} = $baz;
+  $baz->{foo} = $foo;
+
+  weaken $foo->{bar};
+}
+</pre>
+<p>
+  Weaken Reference関連のSyntaxとして,Weaken Referenceを解除できる<a href="#language-Statement-weaken">weaken Statement</a>と,FieldがWeaken Referenceかどうかを確認できる<a href="#language-expression-operator-isweak">isweakOperator</a>があります。
+</p>
