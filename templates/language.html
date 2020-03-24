@@ -9,12 +9,11 @@ Last modified 2020-03-23
 <ul>
   <li><a href="#language-c99">C99 compliant</a></li>
   <li><a href="#language-lex">Lexical Analysis</a></li>
-  <li><a href="#language-parsing">Parsing</a></li>
+  <li><a href="#language-parsing">Syntax Parsing</a></li>
   <li><a href="#language-comment">Comment</a></li>
   <li><a href="#language-pod">POD</a></li>
   <li><a href="#language-package">Package</a></li>
   <li><a href="#language-module">Module</a></li>
-  <li><a href="#language-allow-access">Access Allowing</a></li>
   <li><a href="#language-package-var">Package Variable</a></li>
   <li><a href="#language-field">Field</a></li>
   <li><a href="#language-sub">Subroutine</a></li>
@@ -42,9 +41,9 @@ Last modified 2020-03-23
   <li><a href="#language-type-inference">Type Inference</a></li>
   <li><a href="#language-type-compatible">Type Compatibility</a></li>
   <li><a href="#language-type-convertion">Type Convertion</a></li>
-  <li><a href="#language-auto-loaded-module">Automatically Loaded Module</a></li>
   <li><a href="#language-limitation">Limitation</a></li>
   <li><a href="#language-callback">Callback</a></li>
+  <li><a href="#language-allow-package-access">Allow Package Access</a></li>
 </ul>
 
 <h3 id="language-c99">C99 compliant</h3><!-- 2019/2/27 almost ok -->
@@ -370,11 +369,11 @@ Operators in SPVM are the followings.
 \   $   @   .   .=
 </pre>
 
-<h3 id="language-parsing">Parsing</h3>
+<h3 id="language-parsing">Syntax Parsing</h3>
 
-<h4 id="language-parsing-syntax-definition">Parsing Definition</h4><!-- 2019/2/27 not ok -->
+<h4 id="language-parsing-syntax-definition">Syntax Parsing Definition</h4><!-- 2019/2/27 not ok -->
 
-The following is Parsing Definition in SPVM, using the syntax in yacc/bison. 
+The following is Syntax Parsing Definition in SPVM, using the syntax in yacc/bison. 
 
 <pre>
 %token <opval> PACKAGE HAS SUB OUR ENUM MY SELF USE REQUIRE ALLOW
@@ -1306,8 +1305,9 @@ package Foo {
 <ul class="list">
   <li><a href="#language-module-summary">Module Summary</a></li>
   <li><a href="#language-module-file-name">Module File Name</a></li>
-  <li><a href="#language-module-use">Module Loading</a></li>
-  <li><a href="#language-module-if-require">Selective Module Loading</a></li>
+  <li><a href="#language-module-use">Load Module</a></li>
+  <li><a href="#language-module-auto-loaded-module">Automatically Loaded Module</a></li>
+  <li><a href="#language-module-if-require">Selective Load Module</a></li>
 </ul>
 
 <h4 id="language-module-summary">Module Summary</h4>
@@ -1347,9 +1347,9 @@ Foo/Bar.spvm
 Foo/Bar/Baz.spvm
 </pre>
 
-<h4 id="language-module-use">Module Loading</h4>
+<h4 id="language-module-use">Load Module</h4>
 
-Use use keyword to load a Module.
+Use <b>use</b> keyword to load a Module.
 
 <pre>
 use Foo;
@@ -1371,7 +1371,20 @@ package Foo {
 }
 </pre>
 
-<h4 id="language-module-if-require">Selective Module Loading</h4>
+<h4 id="language-module-auto-loaded-module">Automatically Loaded Module</h4>
+
+The followings are Automatically Loaded Modules. They can be used without <a href="#language-module-use">use</a>.
+
+<ul class="list">
+  <li>SPVM::Byte</li>
+  <li>SPVM::Short</li>
+  <li>SPVM::Int</li>
+  <li>SPVM::Long</li>
+  <li>SPVM::Float</li>
+  <li>SPVM::Double</li>
+</ul>
+
+<h4 id="language-module-if-require">Load Module Selective</h4>
 
 In SPVM, there is an if require Statement that loads a Module only if it exists in the module path, and if it does not exist, the block does not exist.
 
@@ -1413,29 +1426,6 @@ else {
 }
 </pre>
 
-<h3 id="language-allow-access">Access Allowing</h3>
-
-By default, private Subroutines, Fields, and Package Variables cannot be accessed from outside the Package.
-
-Also, Private Package cannot <a href="#language-expression-new">Create Object</a> from outside of Package.
-
-If the package allow other package, the other package can access private Subroutines, Fields, and Package Variables, and can <a href="#language-expression-new">Create Object</a> of the package.
-
-<pre>
-allow PACKAGE_NAME;
-</pre>
-
-
-allow must be defined directory under <a href="#language-package-definition">Package Definition</a>.
-
-<pre>
-package Foo {
-  allow Bar;
-}
-</pre>
-
-In this example, Bar can access the private Subroutine, Field, and Package Variable of Foo can be accessed and can Create Object of Foo.
-
 <h3 id="language-package-var">Package Variable</h3>
 <ul class="list">
   <li><a href="#language-package-var-definition">Package Variable Definition</a></li>
@@ -1443,6 +1433,7 @@ In this example, Bar can access the private Subroutine, Field, and Package Varia
   <li><a href="#language-package-var-initial-value">Package Variable Initial Value</a></li>
   <li><a href="#language-package-var-access">Package Variable Access</a></li>
 </ul>
+
 <h4 id="language-package-var-definition">Package Variable Definition</h4>
 
 <b>Package Variable</b> is a global variable that belongs to <a href="#language-package">Package</a> and exists from the start to the end of the program execution.
@@ -7781,19 +7772,6 @@ while (条件部) {
   ExpressionがObject Type の場合は,Undefined Valueの場合は0,そうでない場合は1が返されます。
 </p>
 
-<h3 id="language-auto-loaded-module">Automatically Loaded Module</h3>
-<p>
-  Automatically Loaded Moduleです。<a href="#language-module-use">Moduleの読み込み</a>を行わないで利用することができます。
-</p>
-<ul class="list">
-  <li>SPVM::Byte</li>
-  <li>SPVM::Short</li>
-  <li>SPVM::Int</li>
-  <li>SPVM::Long</li>
-  <li>SPVM::Float</li>
-  <li>SPVM::Double</li>
-</ul>
-
 <h3 id="language-limitation">Limitation </h3>
 <p>
   SPVMにおけるLimitation です。
@@ -7986,3 +7964,27 @@ $comparator->{bar} = $bar;
 </pre>
 
 Captureは,このような長い記述を,短く書くためのSyntaxです。
+
+<h3 id="language-allow-package-access">Allow Package Access</h3>
+
+By default, private Subroutines, Fields, and Package Variables cannot be accessed from outside the Package.
+
+Also, Private Package cannot <a href="#language-expression-new">Create Object</a> from outside of Package.
+
+If the package allow other package, the other package can access private Subroutines, Fields, and Package Variables, and can <a href="#language-expression-new">Create Object</a> of the package.
+
+<pre>
+allow PACKAGE_NAME;
+</pre>
+
+
+allow must be defined directory under <a href="#language-package-definition">Package Definition</a>.
+
+<pre>
+package Foo {
+  allow Bar;
+}
+</pre>
+
+In this example, Bar can access the private Subroutine, Field, and Package Variable of Foo can be accessed and can Create Object of Foo.
+
