@@ -27,7 +27,6 @@ Last modified 2020-03-23
   <li><a href="#language-mulnum-array">Multi Numeric Array</a></li>
   <li><a href="#language-ref">Reference</a></li>
   <li><a href="#language-expression">Expression</a></li>
-  <li><a href="#language-garbage-collection">Garbage Collection</a></li>
   <li><a href="#language-literal">Literal</a></li>
   <li><a href="#language-string">String</a></li>
   <li><a href="#language-undef">Undefined Value</a></li>
@@ -39,9 +38,10 @@ Last modified 2020-03-23
   <li><a href="#language-type-inference">Type Inference</a></li>
   <li><a href="#language-type-compatible">Type Compatibility</a></li>
   <li><a href="#language-type-convertion">Type Convertion</a></li>
-  <li><a href="#language-limitation">Limitation</a></li>
+  <li><a href="#language-garbage-collection">Garbage Collection</a></li>
   <li><a href="#language-callback">Callback</a></li>
   <li><a href="#language-weak-ref">Weaken Reference</a></li>
+  <li><a href="#language-limitation">Limitation</a></li>
 </ul>
 
 <h3 id="language-c99">C99 compliant</h3><!-- 2019/2/27 almost ok -->
@@ -2346,23 +2346,6 @@ There are <a href="#language-scope-scope-block">Scope Block</a> that creates a s
   <li><a href="#language-scope-block-Statement-while">while Block</a></li>
   <li><a href="#language-scope-block-Statement-switch">switch Block</a></li>
 </ul>
-
-<h3 id="language-garbage-collection">Garbage Collection</h3>
-<p>
-  オブジェクトは,Reference Countが0になるとメモリから解放されます。
-</p>
-<p>
-  オブジェクトが,Object Type の値を要素として持つArrayだった場合は,Garbage Collectionの前に,Undefined ValueではないすべてのArrayの要素のReference Countが1減らされます
-</p>
-<p>
-  オブジェクトが,Class Typeで,Object Type のFieldを持つときは,Garbage Collectionの前に,Undefined ValueではないすべてのObject Type のFieldが所有するオブジェクトのReference Countが1減らされます。Fieldに保存されているオブジェクトにWeaken Referenceが設定されていた場合は,Reference Countが1減らされる前に,Weaken Referenceが解除されます。
-</p>
-<p>
-  オブジェクトがBack references of Weaken Referenceを持つときは,バックReferenceとして登録されているFieldすべてに,Undefined Valueを代入し,バックReferenceをすべて削除します。
-</p>
-<p>
-  上記の処理は,再帰的に行われます。
-</p>
 
 <h4 id="language-scope-block-Statement-simple">Simple Block</h4>
 
@@ -7751,28 +7734,21 @@ while (条件部) {
   ExpressionがObject Type の場合は,Undefined Valueの場合は0,そうでない場合は1が返されます。
 </p>
 
-<h3 id="language-limitation">Limitation </h3>
+<h3 id="language-garbage-collection">Garbage Collection</h3>
 <p>
-  SPVMにおけるLimitation です。
-</p>
-
-<h4 id="language-limitation-sub-arguments-count">Subroutine Argumentsの個数のLimitation </h4>
-<p>
-  SPVMのSubroutine Argumentsの個数の最大は256個です。
+  オブジェクトは,Reference Countが0になるとメモリから解放されます。
 </p>
 <p>
-  Multi Numeric Typeの引数を渡すときは,Fieldの個数が,引数の個数としてカウントされます。たとえばSPVM::Complex_2dTypeが引数で指定された場合は,2個と数えます。
+  オブジェクトが,Object Type の値を要素として持つArrayだった場合は,Garbage Collectionの前に,Undefined ValueではないすべてのArrayの要素のReference Countが1減らされます
 </p>
 <p>
-  Multi Numeric Reference Type の引数を渡すときは,Multi Numeric TypeのFieldの個数が,引数の個数としてカウントされます。たとえばSPVM::Complex_2d&Typeが引数で指定された場合は,2個と数えます。
+  オブジェクトが,Class Typeで,Object Type のFieldを持つときは,Garbage Collectionの前に,Undefined ValueではないすべてのObject Type のFieldが所有するオブジェクトのReference Countが1減らされます。Fieldに保存されているオブジェクトにWeaken Referenceが設定されていた場合は,Reference Countが1減らされる前に,Weaken Referenceが解除されます。
 </p>
 <p>
-  もし,最大値を超えた場合は,a compile-time error occurs
+  オブジェクトがBack references of Weaken Referenceを持つときは,バックReferenceとして登録されているFieldすべてに,Undefined Valueを代入し,バックReferenceをすべて削除します。
 </p>
-
-<h4 id="language-limitation-value-type-fileds-count">Multi Numeric TypeのFieldの個数のLimitation </h4>
 <p>
-  Multi Numeric TypeのFieldの個数の最大値は,256個で,少なくともひとつのFieldが必要です。otherwise a compile-time error occurs.
+  上記の処理は,再帰的に行われます。
 </p>
 
 <h3 id="language-callback">Callback</h3>
@@ -8014,3 +7990,28 @@ Captureは,このような長い記述を,短く書くためのSyntaxです。
 <p>
   Weaken Reference関連のSyntaxとして,Weaken Referenceを解除できる<a href="#language-Statement-weaken">weaken Statement</a>と,FieldがWeaken Referenceかどうかを確認できる<a href="#language-expression-operator-isweak">isweakOperator</a>があります。
 </p>
+
+<h3 id="language-limitation">Limitation</h3>
+<p>
+  SPVMにおけるLimitation です。
+</p>
+
+<h4 id="language-limitation-sub-arguments-count">Subroutine Argumentsの個数のLimitation </h4>
+<p>
+  SPVMのSubroutine Argumentsの個数の最大は256個です。
+</p>
+<p>
+  Multi Numeric Typeの引数を渡すときは,Fieldの個数が,引数の個数としてカウントされます。たとえばSPVM::Complex_2dTypeが引数で指定された場合は,2個と数えます。
+</p>
+<p>
+  Multi Numeric Reference Type の引数を渡すときは,Multi Numeric TypeのFieldの個数が,引数の個数としてカウントされます。たとえばSPVM::Complex_2d&Typeが引数で指定された場合は,2個と数えます。
+</p>
+<p>
+  もし,最大値を超えた場合は,a compile-time error occurs
+</p>
+
+<h4 id="language-limitation-value-type-fileds-count">Multi Numeric TypeのFieldの個数のLimitation </h4>
+<p>
+  Multi Numeric TypeのFieldの個数の最大値は,256個で,少なくともひとつのFieldが必要です。otherwise a compile-time error occurs.
+</p>
+
