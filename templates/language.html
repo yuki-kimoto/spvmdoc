@@ -27,7 +27,7 @@ Last modified 2020-03-23
   <li><a href="#language-mulnum-array">Multi Numeric Array</a></li>
   <li><a href="#language-ref">Reference</a></li>
   <li><a href="#language-expression">Expression</a></li>
-  <li><a href="#language-expression-release-object">Release Object</a></li>
+  <li><a href="#language-garbage-collection">Garbage Collection</a></li>
   <li><a href="#language-literal">Literal</a></li>
   <li><a href="#language-string">String</a></li>
   <li><a href="#language-undef">Undefined Value</a></li>
@@ -2347,6 +2347,23 @@ There are <a href="#language-scope-scope-block">Scope Block</a> that creates a s
   <li><a href="#language-scope-block-Statement-switch">switch Block</a></li>
 </ul>
 
+<h3 id="language-garbage-collection">Garbage Collection</h3>
+<p>
+  オブジェクトは,Reference Countが0になるとメモリから解放されます。
+</p>
+<p>
+  オブジェクトが,Object Type の値を要素として持つArrayだった場合は,Garbage Collectionの前に,Undefined ValueではないすべてのArrayの要素のReference Countが1減らされます
+</p>
+<p>
+  オブジェクトが,Class Typeで,Object Type のFieldを持つときは,Garbage Collectionの前に,Undefined ValueではないすべてのObject Type のFieldが所有するオブジェクトのReference Countが1減らされます。Fieldに保存されているオブジェクトにWeaken Referenceが設定されていた場合は,Reference Countが1減らされる前に,Weaken Referenceが解除されます。
+</p>
+<p>
+  オブジェクトがBack references of Weaken Referenceを持つときは,バックReferenceとして登録されているFieldすべてに,Undefined Valueを代入し,バックReferenceをすべて削除します。
+</p>
+<p>
+  上記の処理は,再帰的に行われます。
+</p>
+
 <h4 id="language-scope-block-Statement-simple">Simple Block</h4>
 
 Simple Block is a scope block.
@@ -2907,7 +2924,7 @@ Expression is a syntax component that can be evaluated as a value.
   <li><a href="#language-expression-typecast">Type Cast</a></li>
   <li><a href="#language-expression-new">Create Object</a></li>
   <li><a href="#language-expression-new-array">Create Array</a></li>
-  <li><a href="#language-expression-release-object">Release Object</a></li>
+  <li><a href="#language-garbage-collection">Garbage Collection</a></li>
   <li><a href="#language-expression-array-init">Array Initialization</a></li>
   <li><a href="#language-expression-operator-array-length">Array Length Operator</a></li>
   <li><a href="#language-expression-operator-string-length">String Length Operator</a></li>
@@ -3717,23 +3734,6 @@ package Foo::Bar {
   }
 }
 </pre>
-
-<h3 id="language-expression-release-object">Release Object</h3>
-<p>
-  オブジェクトは,Reference Countが0になるとメモリから解放されます。
-</p>
-<p>
-  オブジェクトが,Object Type の値を要素として持つArrayだった場合は,Release Objectの前に,Undefined ValueではないすべてのArrayの要素のReference Countが1減らされます
-</p>
-<p>
-  オブジェクトが,Class Typeで,Object Type のFieldを持つときは,Release Objectの前に,Undefined ValueではないすべてのObject Type のFieldが所有するオブジェクトのReference Countが1減らされます。Fieldに保存されているオブジェクトにWeaken Referenceが設定されていた場合は,Reference Countが1減らされる前に,Weaken Referenceが解除されます。
-</p>
-<p>
-  オブジェクトがBack references of Weaken Referenceを持つときは,バックReferenceとして登録されているFieldすべてに,Undefined Valueを代入し,バックReferenceをすべて削除します。
-</p>
-<p>
-  上記の処理は,再帰的に行われます。
-</p>
 
 <h3 id="language-literal">Literal </h3>
 <ul class="list">
@@ -6333,7 +6333,7 @@ weaken $baz->{foo};
   上記の例では"$bar->{foo}"と"$baz->{foo}"に,Weaken Referenceフラグが立ちます。$fooで表現されるオブジェクトは,バックReference"$bar->{foo}"と"$baz->{foo}"を持ちます。
 </p>
 <p>
-  バックReferenceの情報が必要なのは,<a href="#language-expression-release-object">Release Object</a>が行われるときに,バックReferenceが指すFieldにUndefined Valueを代入する必要があるからです。
+  バックReferenceの情報が必要なのは,<a href="#language-garbage-collection">Garbage Collection</a>が行われるときに,バックReferenceが指すFieldにUndefined Valueを代入する必要があるからです。
 </p>
 
 <h4 id="language-Statement-unweaken">unweaken Statement</h4>
