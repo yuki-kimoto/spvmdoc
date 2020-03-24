@@ -20,7 +20,6 @@ Last modified 2020-03-23
   <li><a href="#language-enum">Enumeration</a></li>
   <li><a href="#language-begin-block">BEGIN Block</a></li>
   <li><a href="#language-lex-var">Lexical Variable</a></li>
-  <li><a href="#language-block">Block</a></li>
   <li><a href="#language-scope">Scope</a></li>
   <li><a href="#language-exception">Exception Handling</a></li>
   <li><a href="#language-weak-ref">Weaken Reference</a></li>
@@ -1775,7 +1774,7 @@ Type of Argument must be <a href="#language-type-numeric">Numeric Type</a>, <a h
 
 The defined Subroutine can be called. See <a href="#language-expression-callsub">Subroutine Call</a> about calling Subroutine, .
 
-<a href="#language-block-Statement-sub">Subroutine Block</a> can have zero or more Statements.
+<a href="#language-scope-block-Statement-sub">Subroutine Block</a> can have zero or more Statements.
 
 Subroutine Definition can have <a href="#language-sub-descriptor">Subroutine Descriptor</a>.
 
@@ -2165,7 +2164,7 @@ package Foo {
 
 <h4 id="language-lex-var-declaration">Lexical Variable Declaration</h4>
 
-<b>Lexical Variable</b> is a variable that is declared in <a href="#language-scope-block">Scope Block</a>.  Lexical Variable has <a href="#language-scope">Scope</a>. This is same as Local Variable in C Language.
+<b>Lexical Variable</b> is a variable that is declared in <a href="#language-scope-scope-block">Scope Block</a>.  Lexical Variable has <a href="#language-scope">Scope</a>. This is same as Local Variable in C Language.
 
 Lexical Variable is declared using <b>my</b> <a href="#language-lex-keyword">Keyword</a>.
 
@@ -2255,28 +2254,16 @@ See <a href="#language-expression-get-lex-var">Get Lexical Variable Value</a> to
 
 If <a href="#language-package-var">Package Variable</a> with the same name as the Lexical Variable exists, Program uses the variable as Lexical Variable, not <a href="#language-package-var">Package Variable</a>.
 
-<h3 id="language-block">Block </h3>
-
-The part enclosed by "{" and "}" is called <b>Block</b>.
-
-<pre>
-# Block 
-{
-
-}
-</pre>
-
-There are <a href="#language-scope-block">Scope Block</a> that creates a scope and Non Scope Block that does not create a scope.
-
 <h3 id="language-scope">Scope</h3>
 <ul class="list">
   <li><a href="#language-scope-summary">Scope Summary</a>
-  <li><a href="#language-scope-block">Scope Block</a>
+  <li><a href="#language-scope-block">Block</a></li>
+  <li><a href="#language-scope-scope-block">Scope Block</a>
 </ul>
 
 <h4 id="language-scope-summary">Scope Summary</h4>
 
-<b>Scope</b> is a range surrounded by <a href="#language-scope-block">Scope Block</a>.
+<b>Scope</b> is a range surrounded by <a href="#language-scope-scope-block">Scope Block</a>.
 
 <pre>
 # Scope Block 
@@ -2304,25 +2291,41 @@ At the end of Scope, the object that is registered as Motal Variable, Reference 
 
 If the Reference Count become 0, the object released.
 
-<h4 id="language-scope-block">Scope Block </h4>
+<h4 id="language-scope-block">Block</h4>
+
+The part enclosed by "{" and "}" is called <b>Block</b>.
+
+<pre>
+# Block 
+{
+
+}
+</pre>
+
+There are <a href="#language-scope-scope-block">Scope Block</a> that creates a scope and Non Scope Block that does not create a scope.
+
+<h4 id="language-scope-scope-block">Scope Block </h4>
 
 <b>Scope Block</b> is a block that creates a Scope. Zero or more <a href="#language-Statement">Statement</a> can be written in Scope Block.
 
 <b>List of Scope Blocks</b>
 
 <ul class="list">
-  <li><a href="#language-block-Statement-simple">Simple Block</a></li>
-  <li><a href="#language-block-Statement-sub">Subroutine Block</a></li>
-  <li><a href="#language-block-Statement-eval">eval Block</a></li>
-  <li><a href="#language-block-Statement-if">if Block</a></li>
-  <li><a href="#language-block-Statement-elsif">elsif Block</a></li>
-  <li><a href="#language-block-Statement-else">else Block</a></li>
-  <li><a href="#language-block-Statement-for">for Block</a></li>
-  <li><a href="#language-block-Statement-while">while Block</a></li>
-  <li><a href="#language-block-Statement-switch">switch Block</a></li>
+  <li><a href="#language-scope-block-Statement-simple">Simple Block</a></li>
+  <li><a href="#language-scope-block-Statement-sub">Subroutine Block</a></li>
+  <li><a href="#language-scope-block-Statement-eval">eval Block</a></li>
+  <li><a href="#language-scope-block-Statement-if">if Block</a></li>
+  <li><a href="#language-scope-block-Statement-elsif">elsif Block</a></li>
+  <li><a href="#language-scope-block-Statement-else">else Block</a></li>
+  <li><a href="#language-scope-block-Statement-for">for Block</a></li>
+  <li><a href="#language-scope-block-Statement-while">while Block</a></li>
+  <li><a href="#language-scope-block-Statement-switch">switch Block</a></li>
 </ul>
 
-<h4 id="language-block-Statement-simple">Simple Block</h4>
+<h4 id="language-scope-block-Statement-simple">Simple Block</h4>
+
+Simple Block is a scope block.
+
 <pre>
 # Simple Block
 {
@@ -2330,7 +2333,10 @@ If the Reference Count become 0, the object released.
 }
 </pre>
 
-<h4 id="language-block-Statement-sub">Subroutine Block</h4>
+<h4 id="language-scope-block-Statement-sub">Subroutine Block</h4>
+
+Subroutine Block is a scope block.
+
 <pre>
 # Subroutine Block
 sub foo : int () {
@@ -2338,7 +2344,10 @@ sub foo : int () {
 }
 </pre>
 
-<h4 id="language-block-Statement-eval">eval Block</h4>
+<h4 id="language-scope-block-Statement-eval">eval Block</h4>
+
+eval Block is a scope block.
+
 <pre>
 # eval Block
 eval {
@@ -2346,7 +2355,10 @@ eval {
 }
 </pre>
 
-<h4 id="language-block-Statement-if">if Block</h4>
+<h4 id="language-scope-block-Statement-if">if Block</h4>
+
+if Block is a scope block.
+
 <pre>
 # if Block
 if (Expression) {
@@ -2354,7 +2366,10 @@ if (Expression) {
 }
 </pre>
 
-<h4 id="language-block-Statement-elsif">elsif Block</h4>
+<h4 id="language-scope-block-Statement-elsif">elsif Block</h4>
+
+elsif Block is a scope block.
+
 <pre>
 #elsif Block
 elsif (Expression) {
@@ -2362,7 +2377,10 @@ elsif (Expression) {
 }
 </pre>
 
-<h4 id="language-block-Statement-else">else Block</h4>
+<h4 id="language-scope-block-Statement-else">else Block</h4>
+
+else Block is a scope block.
+
 <pre>
 # else Block
 else {
@@ -2370,7 +2388,10 @@ else {
 }
 </pre>
 
-<h4 id="language-block-Statement-for">for Block</h4>
+<h4 id="language-scope-block-Statement-for">for Block</h4>
+
+for Block is a scope block.
+
 <pre>
 # for Block 
 for (my $i = 0; $i < 3; $i++) {
@@ -2378,7 +2399,9 @@ for (my $i = 0; $i < 3; $i++) {
 }
 </pre>
 
-<h4 id="language-block-Statement-while">while Block</h4>
+<h4 id="language-scope-block-Statement-while">while Block</h4>
+
+while Block is a scope block.
 
 <pre>
 # while Block
@@ -2387,7 +2410,9 @@ while (Expression) {
 }
 </pre>
 
-<h4 id="language-block-Statement-switch">switch Block</h4>
+<h4 id="language-scope-block-Statement-switch">switch Block</h4>
+
+switch Block is a scope block.
 
 <pre>
 switch (Expression) {
@@ -5826,7 +5851,7 @@ a * (b + c)
 
 <h3 id="language-Statement">Statement</h3>
 <p>
-  Statementは,ひとつの処理のことで<a href="#language-scope-block">Scope Block</a>の中に複数記述することができます。<a href="#language-expression">Expression</a>のように値として評価されることはありません。
+  Statementは,ひとつの処理のことで<a href="#language-scope-scope-block">Scope Block</a>の中に複数記述することができます。<a href="#language-expression">Expression</a>のように値として評価されることはありません。
 </p>
 <p>
   <b>Statementの一覧</b>
@@ -5951,7 +5976,7 @@ else {
 }
 </pre>
 <p>
-  if Statementの条件部で,変数宣言を行うときは,目には見えない<a href="#language-block-Statement-simple">Simple Block</a>で囲まれていることと,elsifは,内部的には,if StatementとelseStatementに展開されるということを,意識してください。
+  if Statementの条件部で,変数宣言を行うときは,目には見えない<a href="#language-scope-block-Statement-simple">Simple Block</a>で囲まれていることと,elsifは,内部的には,if StatementとelseStatementに展開されるということを,意識してください。
 </p>
 <pre>
 # 展開前
@@ -6165,7 +6190,7 @@ while ($i < 5) {
 </pre>
 
 <p>
-  while Statementは,内部的には,目には見えない<a href="#language-block-Statement-simple">Simple Block</a>で囲まれています。
+  while Statementは,内部的には,目には見えない<a href="#language-scope-block-Statement-simple">Simple Block</a>で囲まれています。
 </p>
 <pre>
 {
@@ -6175,7 +6200,7 @@ while ($i < 5) {
 }
 </pre>
 <p>
-  while Statementの条件部で,変数宣言を行うときは,目には見えない<a href="#language-block-Statement-simple">Simple Block</a>で囲まれていることを意識してください。
+  while Statementの条件部で,変数宣言を行うときは,目には見えない<a href="#language-scope-block-Statement-simple">Simple Block</a>で囲まれていることを意識してください。
 </p>
 <pre>
 # 展開前
@@ -6214,7 +6239,7 @@ for (初期化Expression; 条件Expression; インクリメントExpression) {
   インクリメントExpressionには,<a href="#language-expression">Expression</a>を記述できます。一般的には,ループ変数のインクリメントのExpressionを記述します。インクリメントExpressionは省略することが可能です。
 </p>
 <p>
-  for Statementはthe following while Statementと同じ意味を持ちます。インクリメントExpressionは,Block の最後に実行されます。初期化Expressionは,<a href="#language-block-Statement-simple">Simple Block</a>に囲まれています。
+  for Statementはthe following while Statementと同じ意味を持ちます。インクリメントExpressionは,Block の最後に実行されます。初期化Expressionは,<a href="#language-scope-block-Statement-simple">Simple Block</a>に囲まれています。
 </p>
 <pre>
 {
@@ -6391,7 +6416,7 @@ unweaken 変数->{Field Name};
 
 <h4 id="language-Statement-next">next Statement</h4>
 <p>
-  "next Statement"は,次のループの先頭に移動するためのStatementです。<a href="#language-block-Statement-while">while Block</a>,<a href="#language-block-Statement-for">for Block</a>の中で使うことができます。
+  "next Statement"は,次のループの先頭に移動するためのStatementです。<a href="#language-scope-block-Statement-while">while Block</a>,<a href="#language-scope-block-Statement-for">for Block</a>の中で使うことができます。
 </p>
 <pre>
 next;
@@ -6402,7 +6427,7 @@ next;
 
 <h4 id="language-Statement-last">last Statement</h4>
 <p>
-  "last Statement"は,ループを脱出するためのStatementです。<a href="#language-block-Statement-while">while Block</a>,<a href="#language-block-Statement-for">for Block</a>の中で使うことができます。
+  "last Statement"は,ループを脱出するためのStatementです。<a href="#language-scope-block-Statement-while">while Block</a>,<a href="#language-scope-block-Statement-for">for Block</a>の中で使うことができます。
 </p>
 <p>
   実際の動作については<a href="#language-Statement-while">while Statement</a>,<a href="#language-Statement-for">for Statement</a>の解説を見てください。
@@ -6413,7 +6438,7 @@ last;
 
 <h4 id="language-Statement-break">break Statement</h4>
 <p>
-  "break Statement"は,switch Blockを脱出するためのStatementです。<a href="#language-block-Statement-switch">switch Block</a>の中で使うことができます。
+  "break Statement"は,switch Blockを脱出するためのStatementです。<a href="#language-scope-block-Statement-switch">switch Block</a>の中で使うことができます。
 </p>
 <p>
   実際の動作については<a href="#language-Statement-switch">switch Statement</a>の解説を見てください。
