@@ -30,7 +30,6 @@ Last modified 2020-03-23
   <li><a href="#language-literal">Literal</a></li>
   <li><a href="#language-string">String</a></li>
   <li><a href="#language-undef">Undefined Value</a></li>
-  <li><a href="#language-fat-comma">Fat Comma</a></li>
   <li><a href="#language-operator">Operator</a></li>
   <li><a href="#language-expression-operator-precedence">Operator Precidence</a></li>
   <li><a href="#language-Statement">Statement</a></li>
@@ -186,7 +185,8 @@ This topic specifies the Lexical Analysis of the SPVM language.
   <li><a href="#language-lex-line-terminator">Line Terminater</a>
   <li><a href="#language-lex-space-character">Space Character</a>
   <li><a href="#language-lex-identifier">Identifiers</a>
-  <li><a href="#language-lex-separator">Separator</a>
+  <li><a href="#language-lex-separator">Separator</a></li>
+  <li><a href="#language-lex-separator-fat-comma">Fat Comma</a></li>
   <li><a href="#language-lex-operator">Operator</a>
   <li><a href="#language-lex-syntax-definition">Syntax Definition</a></li>
 </ul>
@@ -353,6 +353,33 @@ Separators in SPVM are the followings.
 
 <pre>
 ( ) { } [ ] ; , -> =>
+</pre>
+
+<h4 id="language-lex-separator-fat-comma">Fat Comma</h4>
+
+Fat Comma is a <a href="#language-lex-separator">Separator</a> represented by "<b>=></b>".
+
+<pre>
+=>
+</pre>
+
+Fat Comma is an alias for Comma "<b>,</b>". Wherever you can use "<b>,</b>" you can use Fat Comma instead.
+
+<pre>
+# Comma
+["a", "b", "c", "d"]
+
+# Use Fat Comma instead of Comma
+["a" => "b", "c" => "d"]
+</pre>
+
+
+Identifiers other than <a href="#language-lex-identifier-package-var-name">Package Variable Name</a> and <a href="#language-lex-identifier-lex-var-name">Lexical Variable Name</a> placed on the left of Fat Comma are treated as <a href="#language-literal-string">String Literal</a>.
+
+<pre>
+# Identifiers placed on the left of Fat Comma are treated as String Literal
+# a is "a", c is "c"
+[a => "b", c => "d"]
 </pre>
 
 <h4 id="language-lex-operator">Operators</h4><!-- 2019/2/27 almost ok -->
@@ -4359,35 +4386,6 @@ my $string_const = "abc";
 </p>
 <pre>
 undef
-</pre>
-
-<h3 id="language-fat-comma">Fat Comma</h3>
-<p>
-  Fat Commaは"=>"で表現されます。
-</p>
-<pre>
-=>
-</pre>
-<p>
-  Fat Commaは","のエイリアスです。","が使える場所ではいつでも代わりに,Fat Commaが使えます。
-</p>
-<pre>
-# カンマ
-["a", "b", "c", "d"]
-
-# カンマの代わりにFat Commaを使う
-["a" => "b", "c" => "d"]
-</pre>
-<p>
-  Fat Commaの左Typeに置かれたPackage Variable Name,Lexical Variable Name以外のIdentifierは,<a href="#language-literal-string">String Literal</a>として扱われます。
-</p>
-
-<pre>
-# カンマの代わりにFat Commaを使う
-["a" => "b", "c" => "d"]
-
-# Fat Commaの左Typeに置かれたIdentifierは,String Literal になる。上記と同じ意味
-[a => "b", c => "d"]
 </pre>
 
 <p>
