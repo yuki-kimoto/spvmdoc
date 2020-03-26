@@ -21,15 +21,14 @@ Last modified 2020-03-23
   <li><a href="#language-begin-block">BEGIN Block</a></li>
   <li><a href="#language-lex-var">Lexical Variable</a></li>
   <li><a href="#language-scope">Scope</a></li>
-  <li><a href="#language-exception">Exception Handling</a></li>
+  <li><a href="#language-literal">Literal</a></li>
+  <li><a href="#language-string">String</a></li>
+  <li><a href="#language-undef">Undefined Value</a></li>
   <li><a href="#language-array">Array</a></li>
   <li><a href="#language-mulnum">Multi Numeric Value</a></li>
   <li><a href="#language-mulnum-array">Multi Numeric Array</a></li>
   <li><a href="#language-ref">Reference</a></li>
   <li><a href="#language-expression">Expression</a></li>
-  <li><a href="#language-literal">Literal</a></li>
-  <li><a href="#language-string">String</a></li>
-  <li><a href="#language-undef">Undefined Value</a></li>
   <li><a href="#language-operator">Operator</a></li>
   <li><a href="#language-expression-operator-precedence">Operator Precidence</a></li>
   <li><a href="#language-Statement">Statement</a></li>
@@ -37,6 +36,7 @@ Last modified 2020-03-23
   <li><a href="#language-type-inference">Type Inference</a></li>
   <li><a href="#language-type-compatible">Type Compatibility</a></li>
   <li><a href="#language-type-convertion">Type Convertion</a></li>
+  <li><a href="#language-exception">Exception Handling</a></li>
   <li><a href="#language-garbage-collection">Garbage Collection</a></li>
   <li><a href="#language-callback">Callback</a></li>
   <li><a href="#language-weak-ref">Weaken Reference</a></li>
@@ -2472,69 +2472,656 @@ switch (Expression) {
 }
 </pre>
 
-<h3 id="language-exception">Exception Handling </h3>
+<h3 id="language-literal">Literal</h3>
+
 <ul class="list">
-  <li><a href="#language-exception-summary">Exception Handling の概要</a></li>
-  <li><a href="#language-exception-occur">例外の発生</a></li>
-  <li><a href="#language-exception-catch">例外変数のキャッチ</a></li>
-  <li><a href="#language-exception-var">例外変数</a></li>
+  <li><a href="#language-literal-summary">Literal Summary</a></li>
+  <li><a href="#language-literal-integer">Integer Literal</a></li>
+  <li><a href="#language-literal-floating-point">Floating Point Literal</a></li>
+  <li><a href="#language-literal-character">Chracter Literal</a></li>
+  <li><a href="#language-literal-string">String Literal</a></li>
+  <li><a href="#language-literal-string-variable-expansion">Variable Expansion</a></li>
 </ul>
 
-<h4 id="language-exception-summary">Exception Handling の概要</h4>
+<h4 id="language-literal-summary">Literal Summary</h4>
+
+<b>Literal</b> is a <a href="#language-expression">Expression</a> that represents Constant Value.
+
+<h4 id="language-literal-integer">Integer Literal</h4>
+
+<h5>Decimal Representation of Integer Literal</h5>
+
+The numeric part of Decimal Representation of Integer Literal is represented by one or more consecutive characters from "0" to "9".
+
+Can be prefixed with "+" or "-".
+
+<a href="#language-type">Type</a> of Integer Literal is <a href="#language-type-int">int Type</a> by default.
+
+If Integer Literal exceeds the range of numbers that can be represented by <a href="#language-type-int">int Type</a>, a compile-time error occurs.
+
+By suffixing "L" or "l" at the end, that represents <a href="#language-type-long">long Type</a> Integer Literal.
+
+If <a href="#language-type-long">long Type</a> Integer Literal  exceeds the range of numbers that can be represented by <a href="#language-type-long">long Type</a>,  If it exceeds the range, a compile-time error occurs.
+
+"_" can be used as a Separator. Separator has no meaning.
+
+If Integer Literal is assigned to a <a href="#language-type-byte">byte Type</a> variable or passed to <a href="#language-type-byte">byte Type</a> Subroutine Argument, and does not exceed the range of numbers that can be represented by <a href="#language-type-byte">byte Type</a>, <a href = "#language-type-convertion-numeric-narrowing">Numeric Narrowing Type Convertion</a> is applied and the value converted to <a href="#language-type-byte">byte Type</a> value. If it exceeds the range, a compile-time error will occur.
+
+If Integer Literal is assigned to a <a href="#language-type-short">short Type</a> variable or passed to <a href="#language-type-short">short Type</a> Subroutine Argument, and does not exceed the range of numbers that can be represented by <a href="#language-type-short">short Type</a>, <a href = "#language-type-convertion-numeric-narrowing">Numeric Narrowing Type Convertion</a> is applied and the value converted to <a href="#language-type-short">short Type</a> value. If it exceeds the range, a compile-time error will occur.
+
+<b>Integer Literal Example:</b>
+
+<pre>
+123
++123
+-123
+123L
+123l
+123_456_789
+-123_456_789L
+</pre>
+
 <p>
-  SPVMはException Handling の仕組みを持っています。Exception Handling は,例外の発生と例外のキャッチからなります。
+  <b>16進数表現</b>
 </p>
 
-<h4 id="language-exception-occur">例外の発生</h4>
 <p>
-  例外の発生を行うには,die Statement を使用します。
+  Integer Literal  の数値部は<b>16進数</b>を使って表現することができます。
+</p>
+<p>
+ 数値部を16進数を使って表現するときは"0x"から始めます。
+</p>
+<p>
+  その後ろに"0～9""a～f""A～F"のひとつ以上の連続したCharacterが続きます。
+</p>
+<p>
+  Invalid 16進数表現は,a compile-time error occurs
+</p>
+<p>
+  Integer Literal  を16進数で表現したExampleです。
 </p>
 <pre>
-die Expression;
-</pre>
-<p>
-  Expressionは,<a href="#language-type-string-compatible">String Compatible Type</a>でなければなりません。
-</p>
-<p>
-  die Statement が実行されると,スタックトレースとExpressionで指定されたStringを表示して,プログラムは終了します。スタックトレースは,Package Name,Subroutine Name,File Name,行番号を含みます。File Nameは,Moduleをロードしたパスからの相対File Nameです。
-</p>
-<pre>
-Error
-from TestCase::Minimal->sum2 at TestCase/Minimal.spvm line 1640
-from TestCase->main at TestCase.spvm line 1198
+0x3b4f
+-0x3F1A
+0xDeL
+0xFFFFFFFF_FFFFFFFF
 </pre>
 
-<h4 id="language-exception-occur">例外のキャッチ</h4>
 <p>
-  例外のキャッチとは,例外がスローされた場合に,プログラムが終了するのを止め,エラーメッセージを取得できる機能のことです。
+  <b>8進数表現</b>
 </p>
 <p>
-  例外のキャッチは,eval BlockStatementを使って行います。eval BlockStatementは,末尾にセミコロンが必要なので気をつけてください。
+  Integer Literal  の数値部は<b>8進数</b>を使って表現することができます。
+</p>
+<p>
+ 数値部を8進数を使って表現するときは"0"から始めます。
+</p>
+<p>
+  その後ろに"0～7"のひとつ以上の連続したCharacterが続きます。
+</p>
+<p>
+  Invalid 8進数表現は,a compile-time error occurs
+</p>
+<p>
+  Integer Literal  を8進数で表現したExampleです。
 </p>
 <pre>
-eval {
-  # 例外を投げる可能性のある処理
-};
+0755
+-0644
+0666L
+0655_755
 </pre>
 <p>
-  eval Blockで例外をキャッチした場合は,プログラムの終了は止められ,<a href="#language-exception-var">例外変数</a>に<a href="#language-exception-occur">例外の発生</a>で指定したメッセージが代入されます。
+  <b>2進数表現</b>
+</p>
+<p>
+  Integer Literal  の数値部は<b>2進数</b>を使って表現することができます。
+</p>
+<p>
+ 数値部を2進数を使って表現するときは"0b"から始めます。
+</p>
+<p>
+  その後ろに"0"か"1"のひとつ以上の連続したCharacterが続きます。
+</p>
+<p>
+  Invalid 2進数表現は,a compile-time error occurs
+</p>
+<p>
+  Integer Literal  を2進数で表現したExampleです。
+</p>
+<pre>
+0b0101
+-0b1010
+0b110000L
+0b10101010_10101010
+</pre>
+
+
+<h4 id="language-literal-floating-point">Floating Point Literal</h4>
+<p>
+  Floating Point Literal は"符号部""数値部""指数部""サフィックス"から構成されます。
+<p>
+<p>
+  Floating Point Literal には"10進数Floating Point Literal "と"16進数Floating Point Literal "があります。
+</p>
+<p>
+  "符号部"は"+"か"-"で表現されます。"符号部"の存在は,任意です。"符号部"が存在する場合は,先頭にある必要があります。
+</p>
+<p>
+  "10進数Floating Point Literal "は,数値部が"一桁以上の10進数字"で始まる必要があります。
+</p>
+<p>
+  "10進数字"とは"0～9"のことです。
+</p>
+<p>
+  "10進数Floating Point Literal "は,数値部に"小数点"が含まれているか,含まれていない場合は"指数部"あるいは"サフィックス"が必要です。
+</p>
+<p>
+  "小数点"とは"."のことです。
+</p>
+<p>
+  "16進数Floating Point Literal "は,数値部が"0x"あるいは"0X"で始まり,その後ろに"一桁以上の16進数字"が続く必要があります。
+</p>
+<p>
+  16進数字とは"0～9""a～f""A～F"のことです。
+</p>
+<p>
+  "16進数Floating Point Literal "は,"数値部"に"小数点"を含むことができます。
+</p>
+<p>
+  "数値部"はアンダーライン"_"を含むことができます。これは単なるSeparatorで,無視されます。
+</p>
+<p>
+  "16進数Floating Point Literal "は,"指数部"が必要です。
+</p>
+<p>
+  "指数部"は"指数表現"と"符号付10進整数"で構成されます。
+</p>
+<p>
+  "指数表現"は"10進数Floating Point Literal "の場合は"e"あるいは"E","16進数Floating Point Literal "の場合は"p"あるいは"P"になります。
+</p>
+<p>
+  "指数部"の意味は"10進数Floating Point Literal "の場合は,10進数による桁移動,"16進数Floating Point Literal "の場合は,2進数による桁移動になります。
+</p>
+<p>
+  末尾に"f"あるいは"F"のサフィックスをつけると,Floating Point Literal のTypeは"float Type"になります。
+</p>
+<p>
+  末尾に"d"あるいは"D"のサフィックスをつけると,Floating Point Literal のTypeは"double Type"になります。
+</p>
+<p>
+  サフィックスが省略された場合は,Floating Point Literal のTypeは"double Type"になります。
+</p>
+<p>
+  Floating Point Literal が"float Type"の場合はC標準の"strtof関数"を使って,Stringからfloat Typeへの変換が行われます。変換が失敗した場合は,a compile-time error occurs
+</p>
+<p>
+  Floating Point Literal が"double Type"の場合はC標準の"strtod関数"を使って,Stringからdouble Typeへの変換が行われます。変換が失敗した場合は,a compile-time error occurs
+</p>
+<p>
+  無限大を表現するFloating Point Literal はありません。標準関数である<a href="#stdfunc-INFINITY">INFINITY関数</a><a href="#stdfunc-INFINITYF">INFINITYF関数</a>を使用してください。
+</p>
+<p>
+  非値を表現するFloating Point Literal はありません。標準関数である<a href="#stdfunc-NAN">NAN関数</a><a href="#stdfunc-NANF">NANF関数</a>を使用してください。
+</p>
+<p>
+  Floating Point Literal のExampleです
+</p>
+<pre>
+1.32
+-1.32
+1.32f
+1.32F
+1.32e3
+1.32e-3
+1.32E+3
+1.32E-3
+0x3d3d.edp0
+0x3d3d.edp3
+0x3d3d.edP3
+0x3d3d.edP-3f
+</pre>
+
+<h4 id="language-literal-character">Chracter Literal </h4>
+<p>
+  Chracter Literal は,シングルクォート"'"で囲まれます。
+</p>
+<p>
+  Chracter Literal の内容は"ひとつのAsciiの印字可能Character"あるいは"ひとつのエスケープCharacter"です。
+</p>
+<p>
+  Chracter Literal のTypeは"<a href="#language-type-byte">byte Type</a>"になります。
+</p>
+<p>
+  Invalid Chracter Literal の場合は,a compile-time error occurs
+</p>
+<p>
+  <b>エスケープCharacter</b>
+</p>
+<table class="toc">
+  <tr>
+    <th>
+      エスケープCharacter
+    </th>
+    <th>
+      Description
+    </th>
+  </tr>
+  <tr>
+    <td>
+      <b>\0</b>
+    </td>
+    <td>
+      Ascii Codeの0"NUL"
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <b>\a</b>
+    </td>
+    <td>
+      Ascii Codeの7"BEL"
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <b>\b</b>
+    </td>
+    <td>
+      Ascii Codeの8"BS"
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <b>\t</b>
+    </td>
+    <td>
+      Ascii Codeの9"HT"
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <b>\n</b>
+    </td>
+    <td>
+      Ascii Codeの10"LF"
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <b>\f</b>
+    </td>
+    <td>
+      Ascii Codeの12"FF"
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <b>\r</b>
+    </td>
+    <td>
+      Ascii Codeの13"CR"
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <b>\"</b>
+    </td>
+    <td>
+      Ascii Codeの34"""
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <b>\'</b>
+    </td>
+    <td>
+      Ascii Codeの39"'"
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <b>\\</b>
+    </td>
+    <td>
+      Ascii Codeの92"\"
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <b>\xの後ろに二桁の16進数</b>
+    </td>
+    <td>
+      直接Ascii Codeを指定します。16進数は"0～9""a～f""A～F"で表現します。
+    </td>
+  </tr>
+</table>
+
+<p>
+  <b>Chracter Literal のExample</b>
+</p>
+<p>
+  Chracter Literal のExampleです。
+</p>
+<pre>
+# Chracter Literal 
+'a'
+'x'
+
+# エスケープCharacterを使ったChracter Literal 
+'\a'
+'\b'
+'\t'
+'\n'
+'\f'
+'\r'
+'\"'
+'\''
+'\\'
+'\x0D'
+'\x0A'
+</pre>
+
+<h4 id="language-literal-string">String Literal </h4>
+<p>
+  String Literal は,ダブルクォート"""で囲まれます。
+</p>
+<p>
+  String Literal の内容は"0個以上のAsciiの印字可能CharacterあるいはエスケープCharacter"です。
+</p>
+<p>
+  String Literal のTypeは"stringType"になります。
+</p>
+<p>
+  Invalid String Literal の場合は,a compile-time error occurs
+</p>
+<p>
+  <b>エスケープCharacter</b>
+</p>
+<table class="toc">
+  <tr>
+    <th>
+      エスケープCharacter
+    </th>
+    <th>
+      Description
+    </th>
+  </tr>
+  <tr>
+    <td>
+      <b>\0</b>
+    </td>
+    <td>
+      Ascii Codeの0"NUL"
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <b>\a</b>
+    </td>
+    <td>
+      Ascii Codeの7"BEL"
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <b>\b</b>
+    </td>
+    <td>
+      Ascii Codeの8"BS"
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <b>\t</b>
+    </td>
+    <td>
+      Ascii Codeの9"HT"
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <b>\n</b>
+    </td>
+    <td>
+      Ascii Codeの10"LF"
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <b>\f</b>
+    </td>
+    <td>
+      Ascii Codeの12"FF"
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <b>\r</b>
+    </td>
+    <td>
+      Ascii Codeの13"CR"
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <b>\"</b>
+    </td>
+    <td>
+      Ascii Codeの34"""
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <b>\'</b>
+    </td>
+    <td>
+      Ascii Codeの39"'"
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <b>\\</b>
+    </td>
+    <td>
+      Ascii Codeの92"\"
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <b>\xの後ろに二桁の16進数</b>
+    </td>
+    <td>
+      直接Ascii Codeを指定します。16進数は"0～9""a～f""A～F"で表現します。
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <b>\N{}の中の複数桁の16進数</b>
+    </td>
+    <td>
+      Unicodeのコードポイントを16進数で指定します。UTF-8に変換されます。16進数は"0～9""a～f""A～F"で表現します。
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <b>\s</b>
+    </td>
+    <td>
+      Ascii Codeの92,115の並び"\s"
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <b>\S</b>
+    </td>
+    <td>
+      Ascii Codeの92,83の並び"\S"
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <b>\d</b>
+    </td>
+    <td>
+      Ascii Codeの92,100の並び"\d"
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <b>\D</b>
+    </td>
+    <td>
+      Ascii Codeの92,68の並び"\D"
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <b>\w</b>
+    </td>
+    <td>
+      Ascii Codeの92,119の並び"\w"
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <b>\W</b>
+    </td>
+    <td>
+      Ascii Codeの92,87の並び"\W"
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <b>\の後ろに"a～z""A～Z""0-9"""""'""\""$"以外のAscii Codeがきた場合</b>
+    </td>
+    <td>
+      Ascii Codeの92,アスキーコードで表現されるCharacterの並び。たとえば"\-"の場合は"\-"。
+    </td>
+  </tr>
+</table>
+<p>
+  Unicodeのコードポイントを指定するエスケープCharacter以外は,<a href="#language-literal-character">Chracter Literal</a>のエスケープCharacterと共通です。
+</p>
+<p>
+  <b>String Literal のExample</b>
+</p>
+<p>
+  String Literal のExampleです。
+</p>
+<pre>
+# String Literal 
+"abc"
+"あいう"
+
+# エスケープCharacterを使ったString Literal 
+"abc\tdef\n"
+"\x0D\x0A"
+"\N{U+3042}\N{U+3044}\N{U+3046}"
+</pre>
+
+<h4 id="language-literal-string-variable-expansion">Variable Expansion</h4>
+<p>
+  String Literal 中のLexical Variable ,Package Variable ,Dereference ,Fieldアクセス,定数の添え字のArrayアクセス,例外変数の場合は,Variable Expansionが行われます。
+</p>
+<pre>
+"AAA $foo BBB"
+"AAA $FOO BBB"
+"AAA $$foo BBB"
+"AAA $foo->{x} BBB"
+"AAA $foo->[3] BBB"
+"AAA $foo->{x}[3] BBB"
+"AAA $@ BBB"
+</pre>
+<p>
+  上記は,the following ように展開されます。
+</p>
+<pre>
+"AAA" . $foo . "BBB"
+"AAA" . $FOO . "BBB"
+"AAA" . $$foo . "BBB"
+"AAA" . $foo->{x} . "BBB"
+"AAA" . $foo->[3] . "BBB"
+"AAA" . $foo->{x}[3] . "BBB"
+"AAA" . $@ . "BBB"
+</pre>
+
+<p>
+  変数名の終わりを表すために"{"と"}"で変数名を囲むことができます。
+</p>
+<pre>
+"AAA ${foo}_ccc BBB"
+</pre>
+<p>
+  上記は,the following ように展開されます。
+</p>
+<pre>
+"AAA " . ${foo} . "_ccc BBB"
+</pre>
+<p>
+  "{"と"}"の囲みがない場合は,変数名としてValid Stringまでを変数として解釈します。Dereference の場合も同じです。
+</p>
+<p>
+  変数名の後ろに"->"が続いた場合は,Fieldアクセス,あるいは,Arrayアクセスと解釈します。
+</p>
+<p>
+  1. その後ろに,続くCharacterが"a-z""A-Z""0-9""_""{""["であった場合は,解釈を進めます。
+</p>
+<p>
+  2. "1."の後ろに続くCharacterが"}""]"であった場合は,その次のCharacterが"->""{""["であった場合は,解釈を進め,1に戻ります。otherwise 解釈を止めます。
+</p>
+<p>
+  末尾の$はVariable Expansionの開始としては扱われず"$"として扱われます。
+</p>
+<pre>
+"AAA$"
+</pre>
+
+<h3 id="language-string">String</h3>
+<p>
+  SPVMのStringのデータ表現は,<a href="#language-type-byte">byte Type</a>のArrayです。特別な内部表現を持たない,単なるバイト列です。
+</p>
+<pre>
+my $string = new byte[3];
+$string->[0] = 'a';
+$string->[1] = 'b';
+$string->[2] = 'c';
+</pre>
+<p>
+  <a href="#language-type-byte">byte Type</a>のArrayは,<a href="#language-type-string">String Type</a>に代入できます。String Typeは,コンパイル時には要素を変更できないTypeですが,実行時は<a href="#language-type-byte">byte Type</a>のArrayになります。
+</p>
+<pre>
+my $string_const : string = $string;
+</pre>
+<p>
+  <a href="#language-literal-string">String Literal</a>を代入することによって,Stringを作成できます。String Literal を元にしたstringTypeの新しいStringを返します。
+</p>
+<pre>
+my $string_const = "abc";
+</pre>
+<p>
+  byte[]はC言語の"char*",String TypeはC言語の"const char*"に該当するように設計されています。
 </p>
 
-<h4 id="language-exception-var">例外変数</h4>
+<h3 id="language-undef">Undefined Value</h3>
 <p>
-  例外変数は"$@"で表現されるグローバル変数のことです。
+  未Definitionは"undef"で表現されます。
 </p>
 <pre>
-$@
+undef
 </pre>
+
 <p>
-  例外変数は,本当の意味では,グローバル変数ではありません。例外変数は,実は,スレッド変数です。SPVMはシングルスレッド設計なので,例外変数は,グローバル変数として振舞うように見えます。ネイティブにおいてスレッドを利用する場合に,違いがあります。
+  Undefined Valueは,任意のObject Type の変数に代入することができます。
 </p>
 <p>
-  Get Exception Variable Valueについては,<a href="#language-expression-get-exception-var">Get Exception Variable Value</a>を見てください。
+  Undefined ValueはObject Type の値と"==""!="Operator を使用して,比較することができます。Undefined Valueは,生成されたオブジェクトと等しくない事が保証されます。
 </p>
 <p>
-  Set Exception Variable Valueについては,<a href="#language-expression-set-exception-var">Set Exception Variable Value</a>を見てください。
+  未Definitionは条件部で使われた場合は,偽になります。
+</p>
+<p>
+  Undefined Valueは,エクステンションにおいてC言語の値として利用された場合は,0と等しくなることが保証されます。
 </p>
 
 <h3 id="language-array">Array</h3>
@@ -3745,661 +4332,6 @@ package Foo::Bar {
 }
 </pre>
 
-<h3 id="language-literal">Literal </h3>
-<ul class="list">
-  <li><a href="#language-literal-integer">Integer Literal</a></li>
-  <li><a href="#language-literal-floating-point">Floating Point Literal</a></li>
-  <li><a href="#language-literal-character">Chracter Literal</a></li>
-  <li><a href="#language-literal-string">String Literal</a></li>
-  <li><a href="#language-literal-string-variable-expansion">Variable Expansion</a></li>
-</ul>
-<h4 id="language-literal-integer">Integer Literal</h4>
-<p>
-  <b>10進数表現</b>
-</p>
-<p>
-  Integer Literal  の数値部は"0～9"の1つ以上の連続したStatement字で表現されます。
-</p>
-<p>
-  先頭に"+"あるいは"-"の符号をつけることができます。
-</p>
-<p>
-  Integer Literal  のTypeは,デフォルトでは<a href="#language-type-int">int Type</a> "になります。
-</p>
-<p>
-  Integer Literal  が<a href="#language-type-int">int Type</a> で表現できる数値の範囲を超えている場合は,a compile-time error occurs
-</p>
-<p>
-  末尾に"L"あるいは"l"のサフィックスをつけることで"long Type"のInteger Literal  を表現できます。
-</p>
-<p>
-  long TypeのInteger Literal  の場合は,long Typeで表現できる数値の範囲を超えている場合は,a compile-time error occurs
-</p>
-<p>
-  Separatorとして"_"を使用することができます。Separatorは意味を持ちません。
-</p>
-<p>
-  Invalid Integer Literal  の表現はa compile-time error occurs
-</p>
-<p>
-  Integer Literal  がbyte Typeの変数に代入される場合,あるいはbyte TypeのSubroutine Argumentsとして渡される場合で,byte Typeで表現できる数値の範囲を超えていない場合は,<a href="#language-type-convertion-numeric-narrowing">Numeric Narrowing Type Convertion</a>によって,byte Typeに自動的に変換されます。範囲を超えている場合は,コンパイル時エラーとなります。
-</p>
-<p>
-  Integer Literal  がshort Typeの変数に代入される場合,あるいはshort TypeのSubroutine Argumentsとして渡される場合で,short Typeで表現できる数値の範囲を超えていない場合は,<a href="#language-type-convertion-numeric-narrowing">Numeric Narrowing Type Convertion</a>によって,short Typeに自動的に変換されます。範囲を超えている場合は,コンパイル時エラーとなります。
-</p>
-<p>
-  Integer Literal  のExampleです。
-</p>
-<pre>
-123
-+123
--123
-123L
-123l
-123_456_789
--123_456_789L
-</pre>
-<p>
-  <b>16進数表現</b>
-</p>
-<p>
-  Integer Literal  の数値部は<b>16進数</b>を使って表現することができます。
-</p>
-<p>
- 数値部を16進数を使って表現するときは"0x"から始めます。
-</p>
-<p>
-  その後ろに"0～9""a～f""A～F"のひとつ以上の連続したStatement字が続きます。
-</p>
-<p>
-  Invalid 16進数表現は,a compile-time error occurs
-</p>
-<p>
-  Integer Literal  を16進数で表現したExampleです。
-</p>
-<pre>
-0x3b4f
--0x3F1A
-0xDeL
-0xFFFFFFFF_FFFFFFFF
-</pre>
-
-<p>
-  <b>8進数表現</b>
-</p>
-<p>
-  Integer Literal  の数値部は<b>8進数</b>を使って表現することができます。
-</p>
-<p>
- 数値部を8進数を使って表現するときは"0"から始めます。
-</p>
-<p>
-  その後ろに"0～7"のひとつ以上の連続したStatement字が続きます。
-</p>
-<p>
-  Invalid 8進数表現は,a compile-time error occurs
-</p>
-<p>
-  Integer Literal  を8進数で表現したExampleです。
-</p>
-<pre>
-0755
--0644
-0666L
-0655_755
-</pre>
-<p>
-  <b>2進数表現</b>
-</p>
-<p>
-  Integer Literal  の数値部は<b>2進数</b>を使って表現することができます。
-</p>
-<p>
- 数値部を2進数を使って表現するときは"0b"から始めます。
-</p>
-<p>
-  その後ろに"0"か"1"のひとつ以上の連続したStatement字が続きます。
-</p>
-<p>
-  Invalid 2進数表現は,a compile-time error occurs
-</p>
-<p>
-  Integer Literal  を2進数で表現したExampleです。
-</p>
-<pre>
-0b0101
--0b1010
-0b110000L
-0b10101010_10101010
-</pre>
-
-
-<h4 id="language-literal-floating-point">Floating Point Literal</h4>
-<p>
-  Floating Point Literal は"符号部""数値部""指数部""サフィックス"から構成されます。
-<p>
-<p>
-  Floating Point Literal には"10進数Floating Point Literal "と"16進数Floating Point Literal "があります。
-</p>
-<p>
-  "符号部"は"+"か"-"で表現されます。"符号部"の存在は,任意です。"符号部"が存在する場合は,先頭にある必要があります。
-</p>
-<p>
-  "10進数Floating Point Literal "は,数値部が"一桁以上の10進数字"で始まる必要があります。
-</p>
-<p>
-  "10進数字"とは"0～9"のことです。
-</p>
-<p>
-  "10進数Floating Point Literal "は,数値部に"小数点"が含まれているか,含まれていない場合は"指数部"あるいは"サフィックス"が必要です。
-</p>
-<p>
-  "小数点"とは"."のことです。
-</p>
-<p>
-  "16進数Floating Point Literal "は,数値部が"0x"あるいは"0X"で始まり,その後ろに"一桁以上の16進数字"が続く必要があります。
-</p>
-<p>
-  16進数字とは"0～9""a～f""A～F"のことです。
-</p>
-<p>
-  "16進数Floating Point Literal "は,"数値部"に"小数点"を含むことができます。
-</p>
-<p>
-  "数値部"はアンダーライン"_"を含むことができます。これは単なるSeparatorで,無視されます。
-</p>
-<p>
-  "16進数Floating Point Literal "は,"指数部"が必要です。
-</p>
-<p>
-  "指数部"は"指数表現"と"符号付10進整数"で構成されます。
-</p>
-<p>
-  "指数表現"は"10進数Floating Point Literal "の場合は"e"あるいは"E","16進数Floating Point Literal "の場合は"p"あるいは"P"になります。
-</p>
-<p>
-  "指数部"の意味は"10進数Floating Point Literal "の場合は,10進数による桁移動,"16進数Floating Point Literal "の場合は,2進数による桁移動になります。
-</p>
-<p>
-  末尾に"f"あるいは"F"のサフィックスをつけると,Floating Point Literal のTypeは"float Type"になります。
-</p>
-<p>
-  末尾に"d"あるいは"D"のサフィックスをつけると,Floating Point Literal のTypeは"double Type"になります。
-</p>
-<p>
-  サフィックスが省略された場合は,Floating Point Literal のTypeは"double Type"になります。
-</p>
-<p>
-  Floating Point Literal が"float Type"の場合はC標準の"strtof関数"を使って,Stringからfloat Typeへの変換が行われます。変換が失敗した場合は,a compile-time error occurs
-</p>
-<p>
-  Floating Point Literal が"double Type"の場合はC標準の"strtod関数"を使って,Stringからdouble Typeへの変換が行われます。変換が失敗した場合は,a compile-time error occurs
-</p>
-<p>
-  無限大を表現するFloating Point Literal はありません。標準関数である<a href="#stdfunc-INFINITY">INFINITY関数</a><a href="#stdfunc-INFINITYF">INFINITYF関数</a>を使用してください。
-</p>
-<p>
-  非値を表現するFloating Point Literal はありません。標準関数である<a href="#stdfunc-NAN">NAN関数</a><a href="#stdfunc-NANF">NANF関数</a>を使用してください。
-</p>
-<p>
-  Floating Point Literal のExampleです
-</p>
-<pre>
-1.32
--1.32
-1.32f
-1.32F
-1.32e3
-1.32e-3
-1.32E+3
-1.32E-3
-0x3d3d.edp0
-0x3d3d.edp3
-0x3d3d.edP3
-0x3d3d.edP-3f
-</pre>
-
-<h4 id="language-literal-character">Chracter Literal </h4>
-<p>
-  Chracter Literal は,シングルクォート"'"で囲まれます。
-</p>
-<p>
-  Chracter Literal の内容は"ひとつのAsciiの印字可能Statement字"あるいは"ひとつのエスケープStatement字"です。
-</p>
-<p>
-  Chracter Literal のTypeは"byte Type"になります。
-</p>
-<p>
-  Invalid Chracter Literal の場合は,a compile-time error occurs
-</p>
-<p>
-  <b>エスケープStatement字</b>
-</p>
-<table class="toc">
-  <tr>
-    <th>
-      エスケープStatement字
-    </th>
-    <th>
-      Description
-    </th>
-  </tr>
-  <tr>
-    <td>
-      <b>\0</b>
-    </td>
-    <td>
-      Ascii Codeの0"NUL"
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <b>\a</b>
-    </td>
-    <td>
-      Ascii Codeの7"BEL"
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <b>\b</b>
-    </td>
-    <td>
-      Ascii Codeの8"BS"
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <b>\t</b>
-    </td>
-    <td>
-      Ascii Codeの9"HT"
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <b>\n</b>
-    </td>
-    <td>
-      Ascii Codeの10"LF"
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <b>\f</b>
-    </td>
-    <td>
-      Ascii Codeの12"FF"
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <b>\r</b>
-    </td>
-    <td>
-      Ascii Codeの13"CR"
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <b>\"</b>
-    </td>
-    <td>
-      Ascii Codeの34"""
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <b>\'</b>
-    </td>
-    <td>
-      Ascii Codeの39"'"
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <b>\\</b>
-    </td>
-    <td>
-      Ascii Codeの92"\"
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <b>\xの後ろに二桁の16進数</b>
-    </td>
-    <td>
-      直接Ascii Codeを指定します。16進数は"0～9""a～f""A～F"で表現します。
-    </td>
-  </tr>
-</table>
-
-<p>
-  <b>Chracter Literal のExample</b>
-</p>
-<p>
-  Chracter Literal のExampleです。
-</p>
-<pre>
-# Chracter Literal 
-'a'
-'x'
-
-# エスケープStatement字を使ったChracter Literal 
-'\a'
-'\b'
-'\t'
-'\n'
-'\f'
-'\r'
-'\"'
-'\''
-'\\'
-'\x0D'
-'\x0A'
-</pre>
-
-<h4 id="language-literal-string">String Literal </h4>
-<p>
-  String Literal は,ダブルクォート"""で囲まれます。
-</p>
-<p>
-  String Literal の内容は"0個以上のAsciiの印字可能Statement字あるいはエスケープStatement字"です。
-</p>
-<p>
-  String Literal のTypeは"stringType"になります。
-</p>
-<p>
-  Invalid String Literal の場合は,a compile-time error occurs
-</p>
-<p>
-  <b>エスケープStatement字</b>
-</p>
-<table class="toc">
-  <tr>
-    <th>
-      エスケープStatement字
-    </th>
-    <th>
-      Description
-    </th>
-  </tr>
-  <tr>
-    <td>
-      <b>\0</b>
-    </td>
-    <td>
-      Ascii Codeの0"NUL"
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <b>\a</b>
-    </td>
-    <td>
-      Ascii Codeの7"BEL"
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <b>\b</b>
-    </td>
-    <td>
-      Ascii Codeの8"BS"
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <b>\t</b>
-    </td>
-    <td>
-      Ascii Codeの9"HT"
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <b>\n</b>
-    </td>
-    <td>
-      Ascii Codeの10"LF"
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <b>\f</b>
-    </td>
-    <td>
-      Ascii Codeの12"FF"
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <b>\r</b>
-    </td>
-    <td>
-      Ascii Codeの13"CR"
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <b>\"</b>
-    </td>
-    <td>
-      Ascii Codeの34"""
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <b>\'</b>
-    </td>
-    <td>
-      Ascii Codeの39"'"
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <b>\\</b>
-    </td>
-    <td>
-      Ascii Codeの92"\"
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <b>\xの後ろに二桁の16進数</b>
-    </td>
-    <td>
-      直接Ascii Codeを指定します。16進数は"0～9""a～f""A～F"で表現します。
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <b>\N{}の中の複数桁の16進数</b>
-    </td>
-    <td>
-      Unicodeのコードポイントを16進数で指定します。UTF-8に変換されます。16進数は"0～9""a～f""A～F"で表現します。
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <b>\s</b>
-    </td>
-    <td>
-      Ascii Codeの92,115の並び"\s"
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <b>\S</b>
-    </td>
-    <td>
-      Ascii Codeの92,83の並び"\S"
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <b>\d</b>
-    </td>
-    <td>
-      Ascii Codeの92,100の並び"\d"
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <b>\D</b>
-    </td>
-    <td>
-      Ascii Codeの92,68の並び"\D"
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <b>\w</b>
-    </td>
-    <td>
-      Ascii Codeの92,119の並び"\w"
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <b>\W</b>
-    </td>
-    <td>
-      Ascii Codeの92,87の並び"\W"
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <b>\の後ろに"a～z""A～Z""0-9"""""'""\""$"以外のAscii Codeがきた場合</b>
-    </td>
-    <td>
-      Ascii Codeの92,アスキーコードで表現されるStatement字の並び。たとえば"\-"の場合は"\-"。
-    </td>
-  </tr>
-</table>
-<p>
-  Unicodeのコードポイントを指定するエスケープStatement字以外は,<a href="#language-literal-character">Chracter Literal</a>のエスケープStatement字と共通です。
-</p>
-<p>
-  <b>String Literal のExample</b>
-</p>
-<p>
-  String Literal のExampleです。
-</p>
-<pre>
-# String Literal 
-"abc"
-"あいう"
-
-# エスケープStatement字を使ったString Literal 
-"abc\tdef\n"
-"\x0D\x0A"
-"\N{U+3042}\N{U+3044}\N{U+3046}"
-</pre>
-
-<h4 id="language-literal-string-variable-expansion">Variable Expansion</h4>
-<p>
-  String Literal 中のLexical Variable ,Package Variable ,Dereference ,Fieldアクセス,定数の添え字のArrayアクセス,例外変数の場合は,Variable Expansionが行われます。
-</p>
-<pre>
-"AAA $foo BBB"
-"AAA $FOO BBB"
-"AAA $$foo BBB"
-"AAA $foo->{x} BBB"
-"AAA $foo->[3] BBB"
-"AAA $foo->{x}[3] BBB"
-"AAA $@ BBB"
-</pre>
-<p>
-  上記は,the following ように展開されます。
-</p>
-<pre>
-"AAA" . $foo . "BBB"
-"AAA" . $FOO . "BBB"
-"AAA" . $$foo . "BBB"
-"AAA" . $foo->{x} . "BBB"
-"AAA" . $foo->[3] . "BBB"
-"AAA" . $foo->{x}[3] . "BBB"
-"AAA" . $@ . "BBB"
-</pre>
-
-<p>
-  変数名の終わりを表すために"{"と"}"で変数名を囲むことができます。
-</p>
-<pre>
-"AAA ${foo}_ccc BBB"
-</pre>
-<p>
-  上記は,the following ように展開されます。
-</p>
-<pre>
-"AAA " . ${foo} . "_ccc BBB"
-</pre>
-<p>
-  "{"と"}"の囲みがない場合は,変数名としてValid Stringまでを変数として解釈します。Dereference の場合も同じです。
-</p>
-<p>
-  変数名の後ろに"->"が続いた場合は,Fieldアクセス,あるいは,Arrayアクセスと解釈します。
-</p>
-<p>
-  1. その後ろに,続くStatement字が"a-z""A-Z""0-9""_""{""["であった場合は,解釈を進めます。
-</p>
-<p>
-  2. "1."の後ろに続くStatement字が"}""]"であった場合は,その次のStatement字が"->""{""["であった場合は,解釈を進め,1に戻ります。otherwise 解釈を止めます。
-</p>
-<p>
-  末尾の$はVariable Expansionの開始としては扱われず"$"として扱われます。
-</p>
-<pre>
-"AAA$"
-</pre>
-
-<h3 id="language-string">String</h3>
-<p>
-  SPVMのStringのデータ表現は,byte TypeのArrayです。特別な内部表現を持たない,単なるバイト列です。
-</p>
-<pre>
-my $string = new byte[3];
-$string->[0] = 'a';
-$string->[1] = 'b';
-$string->[2] = 'c';
-</pre>
-<p>
-  byte TypeのArrayは,<a href="#language-type-string">String Type</a>に代入できます。String Typeは,コンパイル時には要素を変更できないTypeですが,実行時はbyte TypeのArrayになります。
-</p>
-<pre>
-my $string_const : string = $string;
-</pre>
-<p>
-  <a href="#language-literal-string">String Literal</a>を代入することによって,Stringを作成できます。String Literal を元にしたstringTypeの新しいStringを返します。
-</p>
-<pre>
-my $string_const = "abc";
-</pre>
-<p>
-  byte[]はC言語の"char*",String TypeはC言語の"const char*"に該当するように設計されています。
-</p>
-
-<h3 id="language-undef">Undefined Value</h3>
-<p>
-  未Definitionは"undef"で表現されます。
-</p>
-<pre>
-undef
-</pre>
-
-<p>
-  Undefined Valueは,任意のObject Type の変数に代入することができます。
-</p>
-<p>
-  Undefined ValueはObject Type の値と"==""!="Operator を使用して,比較することができます。Undefined Valueは,生成されたオブジェクトと等しくない事が保証されます。
-</p>
-<p>
-  未Definitionは条件部で使われた場合は,偽になります。
-</p>
-<p>
-  Undefined Valueは,エクステンションにおいてC言語の値として利用された場合は,0と等しくなることが保証されます。
-</p>
 <h3 id="language-operator">Operator</h3>
 <ul class="list">
   <li><a href="#language-expression-operator-summary">Operator Summary</a></li>
@@ -4554,7 +4486,7 @@ my $num = +10;
   <a href="#language-expression">Expression</a>に対して,<a href="#language-type-convertion-unary-numeric-widening">Unary Numeric Widening Type Convertion</a>が行われます。
 </p>
 <p>
-  その後,Unary Minus Operator は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,<a href="#language-type-int">int Type</a> ,long Type,float Type,double Typeにおける演算がDefinitionされます。
+  その後,Unary Minus Operator は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,<a href="#language-type-int">int Type</a> ,<a href="#language-type-long">long Type</a>,float Type,double Typeにおける演算がDefinitionされます。
 </p>
 <pre>
 -x
@@ -4588,7 +4520,7 @@ Left Expression + Right Expression
   Left ExpressionとRight Expressionに対して,<a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</a>が行われます。
 </p>
 <p>
-  その後,Addition Operator は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,<a href="#language-type-int">int Type</a> ,long Type,float Type,double Typeにおける演算がDefinitionされます。
+  その後,Addition Operator は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,<a href="#language-type-int">int Type</a> ,<a href="#language-type-long">long Type</a>,float Type,double Typeにおける演算がDefinitionされます。
 </p>
 <pre>
 x + y;
@@ -4616,7 +4548,7 @@ Left Expression - Right Expression
   Left ExpressionとRight Expressionに対して,<a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</a>が行われます。
 </p>
 <p>
-  その後,Subtraction Operator は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,<a href="#language-type-int">int Type</a> ,long Type,float Type,double Typeにおける演算がDefinitionされます。
+  その後,Subtraction Operator は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,<a href="#language-type-int">int Type</a> ,<a href="#language-type-long">long Type</a>,float Type,double Typeにおける演算がDefinitionされます。
 </p>
 <pre>
 x - y;
@@ -4644,7 +4576,7 @@ Left Expression * Right Expression
   Left ExpressionとRight Expressionに対して,<a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</a>が行われます。
 </p>
 <p>
-  その後,Multiplication Operator は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,<a href="#language-type-int">int Type</a> ,long Type,float Type,double Typeにおける演算がDefinitionされます。
+  その後,Multiplication Operator は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,<a href="#language-type-int">int Type</a> ,<a href="#language-type-long">long Type</a>,float Type,double Typeにおける演算がDefinitionされます。
 </p>
 <pre>
 x * y;
@@ -4672,7 +4604,7 @@ Left Expression / Right Expression
   Left ExpressionとRight Expressionに対して,<a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</a>が行われます。
 </p>
 <p>
-  その後,Division Operator は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,<a href="#language-type-int">int Type</a> ,long Type,float Type,double Typeにおける演算がDefinitionされます。
+  その後,Division Operator は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,<a href="#language-type-int">int Type</a> ,<a href="#language-type-long">long Type</a>,float Type,double Typeにおける演算がDefinitionされます。
 </p>
 <pre>
 x / y;
@@ -4704,7 +4636,7 @@ Left Expression % Right Expression
   Left ExpressionとRight Expressionに対して,<a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</a>が行われます。
 </p>
 <p>
-  その後,Remainder Operator は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,<a href="#language-type-int">int Type</a> ,long Typeにおける演算がDefinitionされます。
+  その後,Remainder Operator は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,<a href="#language-type-int">int Type</a> ,<a href="#language-type-long">long Type</a>における演算がDefinitionされます。
 </p>
 <pre>
 x % y;
@@ -4757,7 +4689,7 @@ Dereference ++
 (対象 = (Type Cast)(対象 + 1))
 </pre>
 <p>
-  たとえば,byte Typeの値の前置のインクリメントは,次のExpressionと等価です。
+  たとえば,<a href="#language-type-byte">byte Type</a>の値の前置のインクリメントは,次のExpressionと等価です。
 </p>
 
 <pre>
@@ -4776,7 +4708,7 @@ Dereference ++
 (my 一時変数 = 対象, 対象 = (Type Cast)(対象 + 1), 一時変数)
 </pre>
 <p>
-  たとえば,byte Typeの値の後置のインクリメントは,次のExpressionと等価です。
+  たとえば,<a href="#language-type-byte">byte Type</a>の値の後置のインクリメントは,次のExpressionと等価です。
 </p>
 
 <pre>
@@ -4821,7 +4753,7 @@ Dereference --
 (対象 = (Type Cast)(対象 - 1))
 </pre>
 <p>
-  たとえば,byte Typeの値の前置のデクリメントは,次のExpressionと等価です。
+  たとえば,<a href="#language-type-byte">byte Type</a>の値の前置のデクリメントは,次のExpressionと等価です。
 </p>
 
 <pre>
@@ -4840,7 +4772,7 @@ Dereference --
 (my 一時変数 = 対象, 対象 = (Type Cast)(対象 - 1), 一時変数)
 </pre>
 <p>
-  たとえば,byte Typeの値の後置のデクリメントは,次のExpressionと等価です。
+  たとえば,<a href="#language-type-byte">byte Type</a>の値の後置のデクリメントは,次のExpressionと等価です。
 </p>
 
 <pre>
@@ -4866,7 +4798,7 @@ Left Expression & Right Expression
   Left ExpressionとRight Expressionに対して,<a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</a>が行われます。
 </p>
 <p>
-  その後,Bit AND Operator の演算結果は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,<a href="#language-type-int">int Type</a> ,long Typeにおける演算がDefinitionされます。
+  その後,Bit AND Operator の演算結果は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,<a href="#language-type-int">int Type</a> ,<a href="#language-type-long">long Type</a>における演算がDefinitionされます。
 </p>
 <pre>
 x & y;
@@ -4895,7 +4827,7 @@ Left Expression | Right Expression
   Left ExpressionとRight Expressionに対して,<a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</a>が行われます。
 </p>
 <p>
-  その後,Bit OR Operator の演算結果は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,<a href="#language-type-int">int Type</a> ,long Typeにおける演算がDefinitionされます。
+  その後,Bit OR Operator の演算結果は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,<a href="#language-type-int">int Type</a> ,<a href="#language-type-long">long Type</a>における演算がDefinitionされます。
 </p>
 <pre>
 x | y;
@@ -4924,7 +4856,7 @@ x | y;
   <a href="#language-expression">Expression</a>に対して,<a href="#language-type-convertion-unary-numeric-widening">Unary Numeric Widening Type Convertion</a>が行われます。
 </p>
 <p>
-  その後,Bit NOT Operator の演算結果は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,<a href="#language-type-int">int Type</a> ,long Typeにおける演算がDefinitionされます。
+  その後,Bit NOT Operator の演算結果は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,<a href="#language-type-int">int Type</a> ,<a href="#language-type-long">long Type</a>における演算がDefinitionされます。
 </p>
 <pre>
 ~x
@@ -4966,7 +4898,7 @@ Left Expression << Right Expression
   Right Expressionは,<a href="#language-type-int">int Type</a> でなければなりません。otherwise a compile-time error occurs.
 <p>
 <p>
-  Left Shift Operator の演算結果は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,<a href="#language-type-int">int Type</a> ,long Typeにおける演算がDefinitionされます。
+  Left Shift Operator の演算結果は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,<a href="#language-type-int">int Type</a> ,<a href="#language-type-long">long Type</a>における演算がDefinitionされます。
 </p>
 <pre>
 x << y;
@@ -4995,7 +4927,7 @@ Left Expression >> Right Expression
   Right Expressionは,<a href="#language-type-int">int Type</a> でなければなりません。otherwise a compile-time error occurs.
 <p>
 <p>
-  Arithmetic Right Shift Operator の演算結果は,C99におけるthe following 演算と完全に一致する演算を行います。xに対して,<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,<a href="#language-type-int">int Type</a> ,long Typeにおける演算がDefinitionされます。
+  Arithmetic Right Shift Operator の演算結果は,C99におけるthe following 演算と完全に一致する演算を行います。xに対して,<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,<a href="#language-type-int">int Type</a> ,<a href="#language-type-long">long Type</a>における演算がDefinitionされます。
 </p>
 <pre>
 x >> y;
@@ -5024,7 +4956,7 @@ Left Expression >>> Right Expression
   Right Expressionは,<a href="#language-type-int">int Type</a> でなければなりません。otherwise a compile-time error occurs.
 <p>
 <p>
-  Logical Right Shift Operator の演算結果は,C99におけるthe following 演算と完全に一致する演算を行います。xに対して,<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,<a href="#language-type-int">int Type</a> ,long Typeにおける演算がDefinitionされます。
+  Logical Right Shift Operator の演算結果は,C99におけるthe following 演算と完全に一致する演算を行います。xに対して,<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,<a href="#language-type-int">int Type</a> ,<a href="#language-type-long">long Type</a>における演算がDefinitionされます。
 </p>
 <pre>
 (符号付Integral Type Cast)((符号なしIntegral Type Cast)x >> y);
@@ -5137,7 +5069,7 @@ Left Expression 数値比較Operator  Right Expression
   Numeric Typeの比較の場合は,Left ExpressionとRight Expressionに対して,<a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</a>が行われます。
 </p>
 <p>
-  その後,数値比較Operator は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,<a href="#language-type-int">int Type</a> ,long Type,float Type,double Type,Object Type における演算がDefinitionされます。
+  その後,数値比較Operator は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,<a href="#language-type-int">int Type</a> ,<a href="#language-type-long">long Type</a>,float Type,double Type,Object Type における演算がDefinitionされます。
 </p>
 <pre>
 # Numeric Typeの比較,Object Type の比較
@@ -5459,7 +5391,7 @@ Left Expression Assignment Operator  (Left ExpressionのTypeによるキャス�
   たとえば,加算Assignment Operator の場合は,次のように展開されます。
 </p>
 <pre>
-# 展開前 xはbyte Type
+# 展開前 xは<a href="#language-type-byte">byte Type</a>
 $x += 1;
 
 # 展開後
@@ -5971,7 +5903,7 @@ switch (条件Expression) {
   条件Expressionは,<a href="#language-expression">Expression</a>を指定できます。条件Expressionには,<a href="#language-type-convertion-bool">Bool Type Convertion</a>が実行されます。
 </p>
 <p>
-  case Statementで指定される定数は,byte Typeか<a href="#language-type-int">int Type</a> の定数でなければなりません。byte Typeの定数の場合は,コンパイル時に,<a href="#language-type-int">int Type</a> にType Convertionされます。enumTypeの値や,<a href="#language-type-int">int Type</a> のConstant Subroutine は,<a href="#language-type-int">int Type</a> の定数として,syntax 解析時に展開されるので,利用することができます。
+  case Statementで指定される定数は,<a href="#language-type-byte">byte Type</a>か<a href="#language-type-int">int Type</a> の定数でなければなりません。<a href="#language-type-byte">byte Type</a>の定数の場合は,コンパイル時に,<a href="#language-type-int">int Type</a> にType Convertionされます。enumTypeの値や,<a href="#language-type-int">int Type</a> のConstant Subroutine は,<a href="#language-type-int">int Type</a> の定数として,syntax 解析時に展開されるので,利用することができます。
 </p>
 <p>
   case Statementに指定される定数は,重複してはいけません。重複している場合は,a compile-time error occurs
@@ -6394,10 +6326,10 @@ warn Expression;
   Expressionは,<a href="#language-type-string-compatible">String Compatible Type</a>でなければなりません。
 </p>
 <p>
-  末尾が改行Statement字"\n"であった場合は,標準エラー出力にExpressionで指定されているStringが出力されます。
+  末尾が改行Character"\n"であった場合は,標準エラー出力にExpressionで指定されているStringが出力されます。
 </p>
 <p>
-  末尾が改行Statement字でない場合は,末尾にFile Nameと行番号が追加され,標準エラー出力されます。
+  末尾が改行Characterでない場合は,末尾にFile Nameと行番号が追加され,標準エラー出力されます。
 </p>
 <p>
   Expressionで指定されたStringの長さが0あるいは,Undefined Valueであった場合は,指定されたメッセージが"Warning: something's wrong"であるとしてふるまいます。
@@ -6646,13 +6578,13 @@ See <a href="#language-expression-operator-arithmetic">Arithmetic Operator</a> f
 
 Note that SPVM has only <b>singed</b> Integral Type, and don't has <b>unsigned</b> Integral Type.
 
-<h4 id="language-type-byte">byte Type</h4>
+<h4 id="language-type-byte"><a href="#language-type-byte">byte Type</a></h4>
 <p>
-  byte Typeは,符号付8bit整数を表現する<a href="#language-type-integral">Integral Type</a>です。C99のint8_tTypeと同じTypeです。
+  <a href="#language-type-byte">byte Type</a>は,符号付8bit整数を表現する<a href="#language-type-integral">Integral Type</a>です。C99のint8_tTypeと同じTypeです。
 </p>
 <h4 id="language-type-short">short Type</h4>
 <p>
-  byte Typeは,符号付16bit整数を表現する<a href="#language-type-integral">Integral Type</a>です。C99のint16_tTypeと同じTypeです。
+  <a href="#language-type-byte">byte Type</a>は,符号付16bit整数を表現する<a href="#language-type-integral">Integral Type</a>です。C99のint16_tTypeと同じTypeです。
 </p>
 
 <h4 id="language-type-int">int Type</h4>
@@ -6663,9 +6595,9 @@ This is same as <b>C99 int32_t Type</b>.
 
 This is a <a href="#language-type-integral">Integral Type</a>.
 
-<h4 id="language-type-long">long Type</h4>
+<h4 id="language-type-long"><a href="#language-type-long">long Type</a></h4>
 <p>
-  long Typeは,符号付64bit整数を表現する<a href="#language-type-integral">Integral Type</a>です。C99のint64_tTypeと同じTypeです。
+  <a href="#language-type-long">long Type</a>は,符号付64bit整数を表現する<a href="#language-type-integral">Integral Type</a>です。C99のint64_tTypeと同じTypeです。
 </p>
 
 <h4 id="language-type-floating-point">Floating Point Type</h4>
@@ -7165,10 +7097,10 @@ my $str : string;
 my $str : string = "abc";
 </pre>
 <p>
-  SPVMのStringは,要素を変更できないバイトTypeのArrayです。Arrayアクセスを行って,Statement字を取得することができます。
+  SPVMのStringは,要素を変更できないバイトTypeのArrayです。Arrayアクセスを行って,Characterを取得することができます。
 </p>
 <pre>
-# Statement字の取得
+# Characterの取得
 my $ch = $str->[1];
 </pre>
 <p>
@@ -7366,7 +7298,7 @@ my $objets : object[] = new int[3];
 (Type)Expression
 </pre>
 <p>
-  <a href="#language-type-int">int Type</a> の値をlong Typeに変換するExampleはthe following ようになります。
+  <a href="#language-type-int">int Type</a> の値を<a href="#language-type-long">long Type</a>に変換するExampleはthe following ようになります。
 </p>
 <pre>
 my $num = (long)3;
@@ -7585,7 +7517,7 @@ my $str : string = $num;
 </p>
 <h4 id="language-type-convertion-unary-numeric-widening">Unary Numeric Widening Type Convertion</h4>
 <p>
-  Unary Numeric Widening Type Convertionとは,<a href="#language-expression">Expression</a>がbyte Typeあるいはshort Typeであった場合に,<a href="#language-type-int">int Type</a> へ<a href="#language-type-convertion-numeric-widening">Numeric Widening Type Convertion</a>を行うことをいいます。
+  Unary Numeric Widening Type Convertionとは,<a href="#language-expression">Expression</a>が<a href="#language-type-byte">byte Type</a>あるいはshort Typeであった場合に,<a href="#language-type-int">int Type</a> へ<a href="#language-type-convertion-numeric-widening">Numeric Widening Type Convertion</a>を行うことをいいます。
 </p>
 <p>
   Unary Numeric Widening Type Convertionが行われるのはthe following 場合です。
@@ -7611,7 +7543,7 @@ my $str : string = $num;
   2. 一方のExpressionが,float Typeの場合は,他方のTypeはfloat Typeに変換されます。
 </p>
 <p>
-  3. 一方のExpressionが,long Typeの場合は,他方のTypeはlong Typeに変換されます。
+  3. 一方のExpressionが,<a href="#language-type-long">long Type</a>の場合は,他方のTypeは<a href="#language-type-long">long Type</a>に変換されます。
 </p>
 <p>
   4. それ以外の場合は,<a href="#language-type-int">int Type</a> に変換されます。
@@ -7723,13 +7655,79 @@ while (条件部) {
   Expressionが<a href="#language-type-int">int Type</a> の場合は,その値が返されます。
 </p>
 <p>
-  Expressionがlong Type,float Type,double Type,Object Type である場合は,C99におけるthe following 演算と完全に一致する演算を行い,結果が返されます。
+  Expressionが<a href="#language-type-long">long Type</a>,float Type,double Type,Object Type である場合は,C99におけるthe following 演算と完全に一致する演算を行い,結果が返されます。
 </p>
 <pre>
 !!x
 </pre>
 <p>
   ExpressionがObject Type の場合は,Undefined Valueの場合は0,そうでない場合は1が返されます。
+</p>
+
+<h3 id="language-exception">Exception Handling </h3>
+
+<ul class="list">
+  <li><a href="#language-exception-summary">Exception Handling の概要</a></li>
+  <li><a href="#language-exception-occur">例外の発生</a></li>
+  <li><a href="#language-exception-catch">例外変数のキャッチ</a></li>
+  <li><a href="#language-exception-var">例外変数</a></li>
+</ul>
+
+<h4 id="language-exception-summary">Exception Handling の概要</h4>
+<p>
+  SPVMはException Handling の仕組みを持っています。Exception Handling は,例外の発生と例外のキャッチからなります。
+</p>
+
+<h4 id="language-exception-occur">例外の発生</h4>
+<p>
+  例外の発生を行うには,die Statement を使用します。
+</p>
+<pre>
+die Expression;
+</pre>
+<p>
+  Expressionは,<a href="#language-type-string-compatible">String Compatible Type</a>でなければなりません。
+</p>
+<p>
+  die Statement が実行されると,スタックトレースとExpressionで指定されたStringを表示して,プログラムは終了します。スタックトレースは,Package Name,Subroutine Name,File Name,行番号を含みます。File Nameは,Moduleをロードしたパスからの相対File Nameです。
+</p>
+<pre>
+Error
+from TestCase::Minimal->sum2 at TestCase/Minimal.spvm line 1640
+from TestCase->main at TestCase.spvm line 1198
+</pre>
+
+<h4 id="language-exception-occur">例外のキャッチ</h4>
+<p>
+  例外のキャッチとは,例外がスローされた場合に,プログラムが終了するのを止め,エラーメッセージを取得できる機能のことです。
+</p>
+<p>
+  例外のキャッチは,eval BlockStatementを使って行います。eval BlockStatementは,末尾にセミコロンが必要なので気をつけてください。
+</p>
+<pre>
+eval {
+  # 例外を投げる可能性のある処理
+};
+</pre>
+<p>
+  eval Blockで例外をキャッチした場合は,プログラムの終了は止められ,<a href="#language-exception-var">例外変数</a>に<a href="#language-exception-occur">例外の発生</a>で指定したメッセージが代入されます。
+</p>
+
+<h4 id="language-exception-var">例外変数</h4>
+<p>
+  例外変数は"$@"で表現されるグローバル変数のことです。
+</p>
+<pre>
+$@
+</pre>
+<p>
+  例外変数は,本当の意味では,グローバル変数ではありません。例外変数は,実は,スレッド変数です。SPVMはシングルスレッド設計なので,例外変数は,グローバル変数として振舞うように見えます。ネイティブにおいてスレッドを利用する場合に,違いがあります。
+</p>
+<p>
+  Get Exception Variable Valueについては,<a href="#language-expression-get-exception-var">Get Exception Variable Value</a>を見てください。
+</p>
+<p>
+  Set Exception Variable Valueについては,<a href="#language-expression-set-exception-var">Set Exception Variable Value</a>を見てください。
 </p>
 
 <h3 id="language-garbage-collection">Garbage Collection</h3>
