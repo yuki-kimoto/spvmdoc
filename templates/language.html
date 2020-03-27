@@ -923,7 +923,7 @@ The following is a correspondence table between tokens in yacc/bison and keyword
     <td>VAR</td><td>var</td>
   </tr>
   <tr>
-    <td>CONSTANT</td><td>Literal </td>
+    <td>CONSTANT</td><td>Literal</td>
   </tr>
   <tr>
     <td>PACKAGE_VAR_NAME</td><td>Package Variable Name</td>
@@ -2491,7 +2491,7 @@ switch (Expression) {
 
 <h5>Decimal Representation of Integer Literal</h5>
 
-The numeric part of Decimal Representation of Integer Literal is represented by one or more consecutive characters from "0" to "9".
+Decimal Representation of Integer Literal is represented by one or more consecutive characters from "0" to "9".
 
 Can be prefixed with "+" or "-".
 
@@ -2521,25 +2521,18 @@ If Integer Literal is assigned to a <a href="#language-type-short">short Type</a
 -123_456_789L
 </pre>
 
-<p>
-  <b>16進数表現</b>
-</p>
+<h5>Hexadecimal Representation of Integer Literal</h5>
 
-<p>
-  Integer Literal  の数値部は<b>16進数</b>を使って表現することができます。
-</p>
-<p>
- 数値部を16進数を使って表現するときは"0x"から始めます。
-</p>
-<p>
-  その後ろに"0～9""a～f""A～F"のひとつ以上の連続したCharacterが続きます。
-</p>
-<p>
-  Invalid 16進数表現は,a compile-time error occurs
-</p>
-<p>
-  Integer Literal  を16進数で表現したExampleです。
-</p>
+Hexadecimal Representation of Integer Literal is represented by the following rule.
+
+Hexadecimal Representation of Integer Literal starts with "0x".
+
+It is followed by one or more consecutive characters "0-9" "a-f" "A-F".
+
+Other rules are same as Decimal Representation of Integer Literal
+
+<b>Hexadecimal Representation of Integer Literal Example:</b>
+
 <pre>
 0x3b4f
 -0x3F1A
@@ -2547,55 +2540,41 @@ If Integer Literal is assigned to a <a href="#language-type-short">short Type</a
 0xFFFFFFFF_FFFFFFFF
 </pre>
 
-<p>
-  <b>8進数表現</b>
-</p>
-<p>
-  Integer Literal  の数値部は<b>8進数</b>を使って表現することができます。
-</p>
-<p>
- 数値部を8進数を使って表現するときは"0"から始めます。
-</p>
-<p>
-  その後ろに"0～7"のひとつ以上の連続したCharacterが続きます。
-</p>
-<p>
-  Invalid 8進数表現は,a compile-time error occurs
-</p>
-<p>
-  Integer Literal  を8進数で表現したExampleです。
-</p>
+<h5>Octal Representation of Integer Literal</h5>
+
+Octal Representation of Integer Literal is represented by the following rule.
+
+Octal Representation of Integer Literal starts with "0".
+
+It is followed by one or more consecutive characters "0-7".
+
+Other rules are same as Decimal Representation of Integer Literal
+
+<b>Octal Representation of Integer Literal Example:</b>
+
 <pre>
 0755
 -0644
 0666L
 0655_755
 </pre>
-<p>
-  <b>2進数表現</b>
-</p>
-<p>
-  Integer Literal  の数値部は<b>2進数</b>を使って表現することができます。
-</p>
-<p>
- 数値部を2進数を使って表現するときは"0b"から始めます。
-</p>
-<p>
-  その後ろに"0"か"1"のひとつ以上の連続したCharacterが続きます。
-</p>
-<p>
-  Invalid 2進数表現は,a compile-time error occurs
-</p>
-<p>
-  Integer Literal  を2進数で表現したExampleです。
-</p>
+
+<h5>Binary Representation of Integer Literal</h5>
+
+Binary Representation of Integer Literal is represented by the following rule.
+
+Binary Representation of Integer Literal starts with "0b".
+
+It is followed by one or more consecutive characters "0" or "1".
+
+<b>Binary Representation of Integer Literal Example:</b>
+
 <pre>
 0b0101
 -0b1010
 0b110000L
 0b10101010_10101010
 </pre>
-
 
 <h4 id="language-literal-floating-point">Floating Point Literal</h4>
 <p>
@@ -2658,12 +2637,7 @@ If Integer Literal is assigned to a <a href="#language-type-short">short Type</a
 <p>
   Floating Point Literal が"double Type"の場合はC標準の"strtod関数"を使って,Stringからdouble Typeへの変換が行われます。変換が失敗した場合は,a compile-time error occurs
 </p>
-<p>
-  無限大を表現するFloating Point Literal はありません。標準関数である<a href="#stdfunc-INFINITY">INFINITY関数</a><a href="#stdfunc-INFINITYF">INFINITYF関数</a>を使用してください。
-</p>
-<p>
-  非値を表現するFloating Point Literal はありません。標準関数である<a href="#stdfunc-NAN">NAN関数</a><a href="#stdfunc-NANF">NANF関数</a>を使用してください。
-</p>
+
 <p>
   Floating Point Literal のExampleです
 </p>
