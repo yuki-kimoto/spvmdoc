@@ -4,7 +4,7 @@
 
 SPVM is in beta testing for the 1.0 release. Language Specification will be changed without warning.
 
-Last modified 2020-03-27
+Last modified 2020-03-30
 
 <ul>
   <li><a href="#language-c99">C99 compliant</a></li>
@@ -2478,7 +2478,7 @@ switch (Expression) {
   <li><a href="#language-literal-summary">Literal Summary</a></li>
   <li><a href="#language-literal-integer">Integer Literal</a></li>
   <li><a href="#language-literal-floating-point">Floating Point Literal</a></li>
-  <li><a href="#language-literal-character">Chracter Literal</a></li>
+  <li><a href="#language-literal-character">Charater Literal</a></li>
   <li><a href="#language-literal-string">String Literal</a></li>
   <li><a href="#language-literal-string-variable-expansion">Variable Expansion</a></li>
 </ul>
@@ -2638,26 +2638,22 @@ If Floating Point Literal is <a href="#language-type-double">double Type</a>, th
 0x3d3d.edP-3f
 </pre>
 
-<h4 id="language-literal-character">Chracter Literal </h4>
-<p>
-  Chracter Literal は,シングルクォート"'"で囲まれます。
-</p>
-<p>
-  Chracter Literal の内容は"ひとつのAsciiの印字可能Character"あるいは"ひとつのエスケープCharacter"です。
-</p>
-<p>
-  Chracter Literal のTypeは"<a href="#language-type-byte">byte Type</a>"になります。
-</p>
-<p>
-  Invalid Chracter Literal の場合は,a compile-time error occurs
-</p>
-<p>
-  <b>エスケープCharacter</b>
-</p>
+<h4 id="language-literal-character">Charater Literal</h4>
+
+<b>Charater Literal</b> represents one character of ASCII code.
+
+Character Literal is enclosed in single quotes "'".
+
+Content of Character Literal is one printable ASCII character or one Escape Character of Character Literal.
+
+Charater Literal のTypeは"<a href="#language-type-byte">byte Type</a>"になります。
+
+<a href="#language-type">Type</a> of Charater Literal is <a href="#language-type-byte">byte Type</a>.
+
 <table class="toc">
   <tr>
     <th>
-      エスケープCharacter
+      Escape Characters of Character Literal
     </th>
     <th>
       Description
@@ -2668,7 +2664,7 @@ If Floating Point Literal is <a href="#language-type-double">double Type</a>, th
       <b>\0</b>
     </td>
     <td>
-      Ascii Codeの0"NUL"
+      ASCII Code 0 NUL
     </td>
   </tr>
   <tr>
@@ -2676,7 +2672,7 @@ If Floating Point Literal is <a href="#language-type-double">double Type</a>, th
       <b>\a</b>
     </td>
     <td>
-      Ascii Codeの7"BEL"
+      ASCII Code 7 BEL
     </td>
   </tr>
   <tr>
@@ -2684,7 +2680,7 @@ If Floating Point Literal is <a href="#language-type-double">double Type</a>, th
       <b>\b</b>
     </td>
     <td>
-      Ascii Codeの8"BS"
+      ASCII Code 8 BS
     </td>
   </tr>
   <tr>
@@ -2692,7 +2688,7 @@ If Floating Point Literal is <a href="#language-type-double">double Type</a>, th
       <b>\t</b>
     </td>
     <td>
-      Ascii Codeの9"HT"
+      ASCII Code 9 HT
     </td>
   </tr>
   <tr>
@@ -2700,7 +2696,7 @@ If Floating Point Literal is <a href="#language-type-double">double Type</a>, th
       <b>\n</b>
     </td>
     <td>
-      Ascii Codeの10"LF"
+      ASCII Code 10 LF
     </td>
   </tr>
   <tr>
@@ -2708,7 +2704,7 @@ If Floating Point Literal is <a href="#language-type-double">double Type</a>, th
       <b>\f</b>
     </td>
     <td>
-      Ascii Codeの12"FF"
+      ASCII Codeの12"FF"
     </td>
   </tr>
   <tr>
@@ -2716,7 +2712,7 @@ If Floating Point Literal is <a href="#language-type-double">double Type</a>, th
       <b>\r</b>
     </td>
     <td>
-      Ascii Codeの13"CR"
+      ASCII Code 13 CR
     </td>
   </tr>
   <tr>
@@ -2724,7 +2720,7 @@ If Floating Point Literal is <a href="#language-type-double">double Type</a>, th
       <b>\"</b>
     </td>
     <td>
-      Ascii Codeの34"""
+      ASCII Code 34 "
     </td>
   </tr>
   <tr>
@@ -2732,7 +2728,7 @@ If Floating Point Literal is <a href="#language-type-double">double Type</a>, th
       <b>\'</b>
     </td>
     <td>
-      Ascii Codeの39"'"
+      ASCII Code 39 '
     </td>
   </tr>
   <tr>
@@ -2740,31 +2736,29 @@ If Floating Point Literal is <a href="#language-type-double">double Type</a>, th
       <b>\\</b>
     </td>
     <td>
-      Ascii Codeの92"\"
+      ASCII Code 92 \
     </td>
   </tr>
   <tr>
     <td>
-      <b>\xの後ろに二桁の16進数</b>
+      <b>\x + tow hexadecimal numbers</b>
     </td>
     <td>
-      直接Ascii Codeを指定します。16進数は"0～9""a～f""A～F"で表現します。
+      Specify ASCII code by hexadecimal. Hexadecimal numbers are "0" to "9", "a" to "z", "A" to "Z".
     </td>
   </tr>
 </table>
 
-<p>
-  <b>Chracter Literal のExample</b>
-</p>
-<p>
-  Chracter Literal のExampleです。
-</p>
+<b>Charater Literal Example:</b>
+
+<b>Charater Literal</b> represents one character of ASCII code.
+
 <pre>
-# Chracter Literal 
+# Charater Literal 
 'a'
 'x'
 
-# エスケープCharacterを使ったChracter Literal 
+# Charater Literal using Escape Character
 '\a'
 '\b'
 '\t'
@@ -2778,26 +2772,18 @@ If Floating Point Literal is <a href="#language-type-double">double Type</a>, th
 '\x0A'
 </pre>
 
-<h4 id="language-literal-string">String Literal </h4>
-<p>
-  String Literal は,ダブルクォート"""で囲まれます。
-</p>
-<p>
-  String Literal の内容は"0個以上のAsciiの印字可能CharacterあるいはエスケープCharacter"です。
-</p>
-<p>
-  String Literal のTypeは"stringType"になります。
-</p>
-<p>
-  Invalid String Literal の場合は,a compile-time error occurs
-</p>
-<p>
-  <b>エスケープCharacter</b>
-</p>
+<h4 id="language-literal-string">String Literal</h4>
+
+<b>String Literal</b> represents String.
+
+String Literal is enclosed in double quotes '"'.
+
+The content of String Literal is zero or more ASCII printable Characters or Escape Characters of String Literal".
+
 <table class="toc">
   <tr>
     <th>
-      エスケープCharacter
+      Escape Character of String Literal
     </th>
     <th>
       Description
@@ -2808,7 +2794,7 @@ If Floating Point Literal is <a href="#language-type-double">double Type</a>, th
       <b>\0</b>
     </td>
     <td>
-      Ascii Codeの0"NUL"
+      ASCII Code 0 NUL
     </td>
   </tr>
   <tr>
@@ -2816,7 +2802,7 @@ If Floating Point Literal is <a href="#language-type-double">double Type</a>, th
       <b>\a</b>
     </td>
     <td>
-      Ascii Codeの7"BEL"
+      ASCII Code 7 BEL
     </td>
   </tr>
   <tr>
@@ -2824,7 +2810,7 @@ If Floating Point Literal is <a href="#language-type-double">double Type</a>, th
       <b>\b</b>
     </td>
     <td>
-      Ascii Codeの8"BS"
+      ASCII Code 8 BS
     </td>
   </tr>
   <tr>
@@ -2832,7 +2818,7 @@ If Floating Point Literal is <a href="#language-type-double">double Type</a>, th
       <b>\t</b>
     </td>
     <td>
-      Ascii Codeの9"HT"
+      ASCII Code 9 HT
     </td>
   </tr>
   <tr>
@@ -2840,7 +2826,7 @@ If Floating Point Literal is <a href="#language-type-double">double Type</a>, th
       <b>\n</b>
     </td>
     <td>
-      Ascii Codeの10"LF"
+      ASCII Code 10 LF
     </td>
   </tr>
   <tr>
@@ -2848,7 +2834,7 @@ If Floating Point Literal is <a href="#language-type-double">double Type</a>, th
       <b>\f</b>
     </td>
     <td>
-      Ascii Codeの12"FF"
+      ASCII Code 12 FF
     </td>
   </tr>
   <tr>
@@ -2856,7 +2842,7 @@ If Floating Point Literal is <a href="#language-type-double">double Type</a>, th
       <b>\r</b>
     </td>
     <td>
-      Ascii Codeの13"CR"
+      ASCII Code 13 CR
     </td>
   </tr>
   <tr>
@@ -2864,7 +2850,7 @@ If Floating Point Literal is <a href="#language-type-double">double Type</a>, th
       <b>\"</b>
     </td>
     <td>
-      Ascii Codeの34"""
+      ASCII Code 34 "
     </td>
   </tr>
   <tr>
@@ -2872,7 +2858,7 @@ If Floating Point Literal is <a href="#language-type-double">double Type</a>, th
       <b>\'</b>
     </td>
     <td>
-      Ascii Codeの39"'"
+      ASCII Code 39 '
     </td>
   </tr>
   <tr>
@@ -2880,23 +2866,23 @@ If Floating Point Literal is <a href="#language-type-double">double Type</a>, th
       <b>\\</b>
     </td>
     <td>
-      Ascii Codeの92"\"
+      ASCII Code 92 \
     </td>
   </tr>
   <tr>
     <td>
-      <b>\xの後ろに二桁の16進数</b>
+      <b>\x + two hexadecimal numbers</b>
     </td>
     <td>
-      直接Ascii Codeを指定します。16進数は"0～9""a～f""A～F"で表現します。
+      Specify ASCII code by hexadecimal. Hexadecimal numbers are "0" to "9", "a" to "z", "A" to "Z". <br>For example, \x0D.
     </td>
   </tr>
   <tr>
     <td>
-      <b>\N{}の中の複数桁の16進数</b>
+      <b>\N{U+} + hexadecimal numbers after U+</b>
     </td>
     <td>
-      Unicodeのコードポイントを16進数で指定します。UTF-8に変換されます。16進数は"0～9""a～f""A～F"で表現します。
+      Specify the Unicode code point in hexadecimal. Hexadecimal numbers are expressed as "0" to "9", "a" to "f", "A" to "F".<br>For example, \N{U+3046}.<br>The code point is converted to UTF-8. 
     </td>
   </tr>
   <tr>
@@ -2904,7 +2890,7 @@ If Floating Point Literal is <a href="#language-type-double">double Type</a>, th
       <b>\s</b>
     </td>
     <td>
-      Ascii Codeの92,115の並び"\s"
+      ASCII Code 92,115 \s
     </td>
   </tr>
   <tr>
@@ -2912,7 +2898,7 @@ If Floating Point Literal is <a href="#language-type-double">double Type</a>, th
       <b>\S</b>
     </td>
     <td>
-      Ascii Codeの92,83の並び"\S"
+      ASCII Code 92,83 \S
     </td>
   </tr>
   <tr>
@@ -2920,7 +2906,7 @@ If Floating Point Literal is <a href="#language-type-double">double Type</a>, th
       <b>\d</b>
     </td>
     <td>
-      Ascii Codeの92,100の並び"\d"
+      ASCII Code 92,100 \d
     </td>
   </tr>
   <tr>
@@ -2928,7 +2914,7 @@ If Floating Point Literal is <a href="#language-type-double">double Type</a>, th
       <b>\D</b>
     </td>
     <td>
-      Ascii Codeの92,68の並び"\D"
+      ASCII Code 92,68 \D
     </td>
   </tr>
   <tr>
@@ -2936,7 +2922,7 @@ If Floating Point Literal is <a href="#language-type-double">double Type</a>, th
       <b>\w</b>
     </td>
     <td>
-      Ascii Codeの92,119の並び"\w"
+      ASCII Code 92,119 \w
     </td>
   </tr>
   <tr>
@@ -2944,33 +2930,27 @@ If Floating Point Literal is <a href="#language-type-double">double Type</a>, th
       <b>\W</b>
     </td>
     <td>
-      Ascii Codeの92,87の並び"\W"
+      ASCII Code 92,87 \W
     </td>
   </tr>
   <tr>
     <td>
-      <b>\の後ろに"a～z""A～Z""0-9"""""'""\""$"以外のAscii Codeがきた場合</b>
+      <b>\ + ASCII Code Punctuation Character(33 to 47, 58 to 64, 91 to 96, 123 to 125)</b>
     </td>
     <td>
-      Ascii Codeの92,アスキーコードで表現されるCharacterの並び。たとえば"\-"の場合は"\-"。
+      ASCII Code 92, Number of ASCII Code Punctuation Character. For eample, \- represents \-. \+ represents \+.
     </td>
   </tr>
 </table>
-<p>
-  Unicodeのコードポイントを指定するエスケープCharacter以外は,<a href="#language-literal-character">Chracter Literal</a>のエスケープCharacterと共通です。
-</p>
-<p>
-  <b>String Literal のExample</b>
-</p>
-<p>
-  String Literal のExampleです。
-</p>
+
+<b>String Literal Example:</b>
+
 <pre>
 # String Literal 
 "abc"
 "あいう"
 
-# エスケープCharacterを使ったString Literal 
+# Escape Character of String Literal 
 "abc\tdef\n"
 "\x0D\x0A"
 "\N{U+3042}\N{U+3044}\N{U+3046}"
@@ -3029,6 +3009,7 @@ If Floating Point Literal is <a href="#language-type-double">double Type</a>, th
 <p>
   末尾の$はVariable Expansionの開始としては扱われず"$"として扱われます。
 </p>
+
 <pre>
 "AAA$"
 </pre>
@@ -3044,19 +3025,19 @@ $string->[1] = 'b';
 $string->[2] = 'c';
 </pre>
 <p>
-  <a href="#language-type-byte">byte Type</a>のArrayは,<a href="#language-type-string">String Type</a>に代入できます。String Typeは,コンパイル時には要素を変更できないTypeですが,実行時は<a href="#language-type-byte">byte Type</a>のArrayになります。
+  <a href="#language-type-byte">byte Type</a>のArrayは,<a href="#language-type-string">string Type</a>に代入できます。<a href="#language-type-string">string Type</a>は,コンパイル時には要素を変更できないTypeですが,実行時は<a href="#language-type-byte">byte Type</a>のArrayになります。
 </p>
 <pre>
 my $string_const : string = $string;
 </pre>
 <p>
-  <a href="#language-literal-string">String Literal</a>を代入することによって,Stringを作成できます。String Literal を元にしたstringTypeの新しいStringを返します。
+  <a href="#language-literal-string">String Literal</a>を代入することによって,Stringを作成できます。String Literal を元にした<a href="#language-type-string">string Type</a>の新しいStringを返します。
 </p>
 <pre>
 my $string_const = "abc";
 </pre>
 <p>
-  byte[]はC言語の"char*",String TypeはC言語の"const char*"に該当するように設計されています。
+  byte[]はC言語の"char*",<a href="#language-type-string">string Type</a>はC言語の"const char*"に該当するように設計されています。
 </p>
 
 <h3 id="language-undef">Undefined Value</h3>
@@ -3620,7 +3601,7 @@ $@
  Get Exception Variable Valueは,<a href="#language-expression">Expression</a>を返します。
 </p>
 <p>
- Get Exception Variable Valueは,<a href="#language-type-string">String Type</a>の値を返します。
+ Get Exception Variable Valueは,<a href="#language-type-string">string Type</a>の値を返します。
 </p>
 <p>
   <b>Get Exception Variable ValueのExample</b>
@@ -3652,7 +3633,7 @@ $@ = Right Expression
  Set Exception Variable Valueは,<a href="#language-expression">Expression</a>を返します。
 </p>
 <p>
- Set Exception Variable Valueは,設定後の例外変数の値を返します。これは,<a href="#language-type-string">String Type</a>です。
+ Set Exception Variable Valueは,設定後の例外変数の値を返します。これは,<a href="#language-type-string">string Type</a>です。
 </p>
 <p>
   <b>Set Exception Variable ValueのExample</b>
@@ -5232,7 +5213,7 @@ Left Expression || Right Expression
 Left Expression . Right Expression
 </pre>
 <p>
-  Left ExpressionあるいはRight Expressionが,<a href="#language-type-numeric">Numeric Type</a>であった場合は,<a href="#language-type-convertion-numeric-to-string">Numeric-to-String Type Convertion</a>によってStringに変換されます。
+  Left ExpressionあるいはRight Expressionが,<a href="#language-type-numeric">Numeric Type</a>であった場合は,<a href="#language-type-convertion-numeric-to-string">Numeric-to-<a href="#language-type-string">string Type</a> Convertion</a>によってStringに変換されます。
 </p>
 <p>
   Left ExpressionとRight Expressionはどちらも<a href="#language-type-string-compatible">String Compatible Type</a>でなければなりません。otherwise コンパイルエラーになります。
@@ -5241,7 +5222,7 @@ Left Expression . Right Expression
   String連結Operator は,Left ExpressionとRight Expressionで表現される<a href="#language-string">String</a>を連結し,新しいStringを返します。
 </p>
 <p>
-  String連結Operator は<a href="#language-expression">Expression</a>を返し,Typeは<a href="#language-type-string">String Type</a>です。
+  String連結Operator は<a href="#language-expression">Expression</a>を返し,Typeは<a href="#language-type-string">string Type</a>です。
 </p>
 <p>
   Left ExpressionとRight Expressionの両方が,<a href="#language-literal-string">String Literal</a>であった場合は,コンパイル時に連結されたString Literal が生成されます。パフォーマンスのコストを意識せずに,String連結Operator で,String Literal を連結できます。
@@ -6364,7 +6345,7 @@ my $num = 1 + 2;
   <li><a href="#language-type-array-object">Object Array Type</a></li>
   <li><a href="#language-type-array-mulnum">Multi Numeric Array Type</a></li>
   <li><a href="#language-type-any-object-array">Any Object Array Type</a></li>
-  <li><a href="#language-type-string">String Type</a></li>
+  <li><a href="#language-type-string">string Type</a></li>
   <li><a href="#language-type-string-compatible">String Compatible Type</a></li>
   <li><a href="#language-type-multi-numeric">Multi Numeric Type</a></li>
   <li><a href="#language-type-ref">Reference Type</a></li>
@@ -6648,7 +6629,7 @@ package Foo : pointer_t {
 
 <h4 id="language-type-object">Object Type </h4>
 <p>
-  Object Type とは<a href="#language-type-class">Class Type</a><a href="#language-type-callback">Callback Type</a><a href="#language-type-array">Array Type</a><a href="#language-type-string">String Type</a><a href="#language-type-any-object">Any Object Type</a>を合わせたものをいいます。"Multi Numeric Type""Reference Type "は含みません。
+  Object Type とは<a href="#language-type-class">Class Type</a><a href="#language-type-callback">Callback Type</a><a href="#language-type-array">Array Type</a><a href="#language-type-string">string Type</a><a href="#language-type-any-object">Any Object Type</a>を合わせたものをいいます。"Multi Numeric Type""Reference Type "は含みません。
 </p>
 <p>
   Object Type の値は"Any Object Type "に代入できます。
@@ -6873,7 +6854,7 @@ my $object : object = new Foo[3];
 
 <h4 id="language-type-basic">Basic Type</h4>
 <p>
-  次元を持たないTypeをBasic Typeと呼びます。<a href="#language-type-numeric">Numeric Type</a>,<a href="#language-type-package">Package Type</a>,<a href="#language-type-any-object">Any Object Type</a>,<a href="#language-type-string">String Type</a>は,Basic Typeです。
+  次元を持たないTypeをBasic Typeと呼びます。<a href="#language-type-numeric">Numeric Type</a>,<a href="#language-type-package">Package Type</a>,<a href="#language-type-any-object">Any Object Type</a>,<a href="#language-type-string">string Type</a>は,Basic Typeです。
 </p>
 
 <h4 id="language-type-array">Array Type</h4>
@@ -6953,7 +6934,7 @@ my $nums = new int[][3];
 byte[]
 </pre>
 <p>
-  <a href="#language-type-string">String Type</a>は,コンパイル時にはString Typeとして扱われますが,実行時にはbyte[] Typeになります。
+  <a href="#language-type-string">string Type</a>は,コンパイル時には<a href="#language-type-string">string Type</a>として扱われますが,実行時にはbyte[] Typeになります。
 </p>
 
 <h4 id="language-type-array-object">Object Array Type</h4>
@@ -7039,9 +7020,9 @@ $array->[0] = SPVM::Int->new(5);
   Any Object Array Typeの要素の値の設定においては,要素のTypeが,ArrayのType Dimensionよりも1だけ小さくなっているかの実行時チェックが入ります。チェックに失敗した場合は,例外が発生します。Any Object Array Typeは,実行時Type安全性を保証します。
 </p>
 
-<h4 id="language-type-string">String Type</h4>
+<h4 id="language-type-string"><a href="#language-type-string">string Type</a></h4>
 <p>
-  String Typeは,Stringを表現するTypeです。stringによって表現します。C言語の"const char*"を表現するために設計されました。
+  <a href="#language-type-string">string Type</a>は,Stringを表現するTypeです。stringによって表現します。C言語の"const char*"を表現するために設計されました。
 </p>
 <pre>
 my $str : string;
@@ -7067,10 +7048,10 @@ my $ch = $str->[1];
 $str->[1] = 'd';
 </pre>
 <p>
-  String Typeは,コンパイルが終わった後は,バイトTypeのArrayとまったく同じものになります。たとえば,一つ目の表現は,二つ目の表現として扱われます。
+  <a href="#language-type-string">string Type</a>は,コンパイルが終わった後は,バイトTypeのArrayとまったく同じものになります。たとえば,一つ目の表現は,二つ目の表現として扱われます。
 </p>
 <pre>
-# isa String Type
+# isa <a href="#language-type-string">string Type</a>
 if ($str isa string) {
 
 }
@@ -7084,7 +7065,7 @@ if ($str isa byte[]) {
   SPVMのStringは,変更不可ですが,これは,コンパイル時チェックであることに注意してください。
 </p>
 <p>
-  String Typeは,byte[] Typeに,キャストすることができ,実行時にStringを変更することができます。
+  <a href="#language-type-string">string Type</a>は,byte[] Typeに,キャストすることができ,実行時にStringを変更することができます。
 </p>
 <pre>
 my $bytes = (byte[])$str;
@@ -7096,7 +7077,7 @@ $bytes->[1] = 'd';
 
 <h4 id="language-type-string-compatible">String Compatible Type</h4>
 <p>
-  String Compatible Typeとは,<a href="#language-type-string">String Type</a>と<a href="#language-type-array-byte">byte[] Type</a>のことを言います。
+  String Compatible Typeとは,<a href="#language-type-string">string Type</a>と<a href="#language-type-array-byte">byte[] Type</a>のことを言います。
 </p>
 <p>
   String Compatible Typeの値が生成される場合には,値のために確保されたメモリ領域の最後のひとつ後ろは"\0"になることが保証されます。(たとえば"abc"であれば"c"の後ろは"\0")SPVM言語から見た場合,この"\0"は意味を持ちませんが,ネイティブAPIを使う場合は,String Compatible Typeを,C言語のStringとして扱うことができます。
@@ -7192,10 +7173,10 @@ my $num2 : int;
 $num1 = $num2;
 </pre>
 <p>
-  <b>移動元のTypeがbyte[] Typeで,移動先のTypeがString Typeの場合</b>
+  <b>移動元のTypeがbyte[] Typeで,移動先のTypeが<a href="#language-type-string">string Type</a>の場合</b>
 </p>
 <p>
-  移動元のTypeがbyte[] Typeで,移動先のTypeがString Typeの場合は,Type Compatibilityがあります。
+  移動元のTypeがbyte[] Typeで,移動先のTypeが<a href="#language-type-string">string Type</a>の場合は,Type Compatibilityがあります。
 </p>
 <pre>
 my $bytes = new byte[3];
@@ -7239,7 +7220,7 @@ my $objets : object[] = new int[3];
   <li><a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</a></li>
   <li><a href="#language-type-convertion-numeric-narrowing">Numeric Narrowing Type Convertion</a></li>
   <li><a href="#language-type-convertion-numeric-widening">Numeric Widening Type Convertion</a></li>
-  <li><a href="#language-type-convertion-numeric-to-string">Numeric-to-String Type Convertion</a></li>
+  <li><a href="#language-type-convertion-numeric-to-string">Numeric-to-<a href="#language-type-string">string Type</a> Convertion</a></li>
   <li><a href="#language-type-convertion-boxing">Boxing Type Convertion</a></li>
   <li><a href="#language-type-convertion-unboxing">Unboxing Type Convertion</a></li>
   <li><a href="#language-type-convertion-bool">Bool Type Convertion</a></li>
@@ -7365,7 +7346,7 @@ my $num : int = (int)4;
   </tr>
   <tr>
     <td>
-      <b>String Type</b>
+      <b><a href="#language-type-string">string Type</a></b>
     </td>
     <td>
       <b>Numeric Type</b>
@@ -7459,10 +7440,10 @@ my $num : int = $object;
 my $num_obj = SPVM::Int->new(3);
 my $num : int = $num_obj;
 </pre>
-  移動元のTypeがNumeric Typeで,移動先のTypeが,String Typeの場合は,<a href="#language-type-convertion-numeric-to-string">Numeric-to-String Type Convertion</a>が行われます。the following 場合の例では,数値の"123"がString""123""に変換されたものが代入されます。
+  移動元のTypeがNumeric Typeで,移動先のTypeが,<a href="#language-type-string">string Type</a>の場合は,<a href="#language-type-convertion-numeric-to-string">Numeric-to-<a href="#language-type-string">string Type</a> Convertion</a>が行われます。the following 場合の例では,数値の"123"がString""123""に変換されたものが代入されます。
 </p>
 <pre>
-# String Typeへの暗黙のBoxing Type Convertion
+# <a href="#language-type-string">string Type</a>への暗黙のBoxing Type Convertion
 my $num = 123;
 my $str : string = $num;
 </pre>
