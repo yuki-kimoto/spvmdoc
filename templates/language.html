@@ -40,7 +40,6 @@ Last modified 2020-03-30
   <li><a href="#language-garbage-collection">Garbage Collection</a></li>
   <li><a href="#language-callback">Callback</a></li>
   <li><a href="#language-weak-ref">Weaken Reference</a></li>
-  <li><a href="#language-limitation">Limitation</a></li>
 </ul>
 
 <h3 id="language-c99">C99 compliant</h3><!-- 2019/2/27 almost ok -->
@@ -1821,6 +1820,8 @@ Subroutine Name is allowed as same as <a href="#language-lex-keyword">Keyword</a
 Type of Return Value must be <a href="#language-type-void">void Type</a>, <a href="#language-type-numeric">Numeric Type</a>, or <a href="#language-type-object">Object Type</a>, otherwise a compile-time error occurs.
 
 Argument name must be follow the rule of <a href="#language-lex-identifier-lex-var-name">Lexical Variable Name</a>.
+
+Minimal Argument Count is 0. Max Argument Count is 255.
 
 Type of Argument must be <a href="#language-type-numeric">Numeric Type</a>, <a href="#language-type-object">Object Type</a>, or <a href="#language-type-reference">Reference Type</a>, otherwise a compile-time error occurs.
 
@@ -7923,28 +7924,3 @@ Captureは,このような長い記述を,短く書くためのSyntaxです。
 <p>
   Weaken Reference関連のSyntaxとして,Weaken Referenceを解除できる<a href="#language-Statement-weaken">weaken Statement</a>と,FieldがWeaken Referenceかどうかを確認できる<a href="#language-expression-operator-isweak">isweakOperator</a>があります。
 </p>
-
-<h3 id="language-limitation">Limitation</h3>
-<p>
-  SPVMにおけるLimitation です。
-</p>
-
-<h4 id="language-limitation-sub-arguments-count">Subroutine Argumentsの個数のLimitation </h4>
-<p>
-  SPVMのSubroutine Argumentsの個数の最大は256個です。
-</p>
-<p>
-  Multi Numeric Typeの引数を渡すときは,Fieldの個数が,引数の個数としてカウントされます。たとえばSPVM::Complex_2dTypeが引数で指定された場合は,2個と数えます。
-</p>
-<p>
-  Multi Numeric Reference Type の引数を渡すときは,Multi Numeric TypeのFieldの個数が,引数の個数としてカウントされます。たとえばSPVM::Complex_2d&Typeが引数で指定された場合は,2個と数えます。
-</p>
-<p>
-  もし,最大値を超えた場合は,a compile-time error occurs
-</p>
-
-<h4 id="language-limitation-value-type-fileds-count">Multi Numeric TypeのFieldの個数のLimitation </h4>
-<p>
-  Multi Numeric TypeのFieldの個数の最大値は,256個で,少なくともひとつのFieldが必要です。otherwise a compile-time error occurs.
-</p>
-
