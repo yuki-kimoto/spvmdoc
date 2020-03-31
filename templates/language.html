@@ -3012,51 +3012,55 @@ The trailing $ is not treated as the start of Variable Expansion. It is treated 
 </pre>
 
 <h3 id="language-string">String</h3>
-<p>
-  SPVMのStringのデータ表現は,<a href="#language-type-byte">byte Type</a>のArrayです。特別な内部表現を持たない,単なるバイト列です。
-</p>
+
+SPVM String is <a href="#language-type-array-byte">byte[] Type</a>. 
+
 <pre>
+# String is Array of byte Type
 my $string = new byte[3];
 $string->[0] = 'a';
 $string->[1] = 'b';
 $string->[2] = 'c';
 </pre>
-<p>
-  <a href="#language-type-byte">byte Type</a>のArrayは,<a href="#language-type-string">string Type</a>に代入できます。<a href="#language-type-string">string Type</a>は,コンパイル時には要素を変更できないTypeですが,実行時は<a href="#language-type-byte">byte Type</a>のArrayになります。
-</p>
+
+<a href="#language-type-array-byte">byte[] Type</a> can be assigned to <a href="#language-type-string">string Type</a>. The address of String is copied to the distination Variable.
+
 <pre>
 my $string_const : string = $string;
 </pre>
-<p>
-  <a href="#language-literal-string">String Literal</a>を代入することによって,Stringを作成できます。String Literal を元にした<a href="#language-type-string">string Type</a>の新しいStringを返します。
-</p>
+
+<a href="#language-type-string">string Type</a> is same as <a href="#language-type-array-byte">byte[] Type</a>, but can't set the element value.
+
+<pre>
+# Compile Time Error
+$string_const->[0] = 'd';
+</pre>
+
+String can be created by assigning <a href="#language-literal-string">String Literal</a>. a new String that is return  a new String based on String Literal.
+
+A new String is created that copies the value of the String Literal. The Type of the returned string is <a href="#language-type-string">string Type</a>.
+
 <pre>
 my $string_const = "abc";
 </pre>
-<p>
-  byte[]はC言語の"char*",<a href="#language-type-string">string Type</a>はC言語の"const char*"に該当するように設計されています。
-</p>
+
+<a href="#language-type-array-byte">byte [] Type</a> is designed to represent "<b>char *</b>" type in C language.
+
+<a href="#language-type-string">string Type</a> is designed to represent "<b>const char *</b>" type in C language.
 
 <h3 id="language-undef">Undefined Value</h3>
-<p>
-  未Definitionは"undef"で表現されます。
-</p>
+
+Undefined Value is "undef"
+
 <pre>
 undef
 </pre>
 
-<p>
-  Undefined Valueは,任意のObject Type の変数に代入することができます。
-</p>
-<p>
-  Undefined ValueはObject Type の値と"==""!="Operator を使用して,比較することができます。Undefined Valueは,生成されたオブジェクトと等しくない事が保証されます。
-</p>
-<p>
-  未Definitionは条件部で使われた場合は,偽になります。
-</p>
-<p>
-  Undefined Valueは,エクステンションにおいてC言語の値として利用された場合は,0と等しくなることが保証されます。
-</p>
+Undefined Value can be assigned to all <a href="#language-type-object">Object Type</a> variable.
+
+Undefined Value can be compared with the value of Object Type using "==" Operator or "!=" Operator. Undefined Value is guaranteed not to be equal to the created object.
+
+If Undefined Value is used in the Condition Part, it will be false.
 
 <h3 id="language-array">Array</h3>
 <ul class="list">
