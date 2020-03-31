@@ -4,7 +4,7 @@
 
 SPVM is in beta testing for the 1.0 release. Language Specification will be changed without warning.
 
-Last modified 2020-03-30
+Last modified 2020-03-31
 
 <ul>
   <li><a href="#language-c99">C99 compliant</a></li>
@@ -36,7 +36,7 @@ Last modified 2020-03-30
   <li><a href="#language-type-inference">Type Inference</a></li>
   <li><a href="#language-type-compatible">Type Compatibility</a></li>
   <li><a href="#language-type-convertion">Type Convertion</a></li>
-  <li><a href="#language-exception">Exception Handling</a></li>
+  <li><a href="#language-exception">Exception</a></li>
   <li><a href="#language-garbage-collection">Garbage Collection</a></li>
   <li><a href="#language-callback">Callback</a></li>
   <li><a href="#language-weak-ref">Weaken Reference</a></li>
@@ -2958,9 +2958,9 @@ The content of String Literal is zero or more ASCII printable Characters or Esca
 </pre>
 
 <h4 id="language-literal-string-variable-expansion">Variable Expansion</h4>
-<p>
-  String Literal 中のLexical Variable ,Package Variable ,Dereference ,Fieldアクセス,定数の添え字のArrayアクセス,例外変数の場合は,Variable Expansionが行われます。
-</p>
+
+<b>Variable Expansion</b> applys <a href="#language-lex-var">Lexical Variable</a>, <a href="#language-package-var">Package Variable</a>, <a href="#language-ref-deref">Dereference</a>, <a href="#language-field-access">Field Access</a>, <a href="#language-array-access">Array Access</a>, <a href="#language-exception-var">Exception Variable</a> in String Literal.
+
 <pre>
 "AAA $foo BBB"
 "AAA $FOO BBB"
@@ -2970,9 +2970,9 @@ The content of String Literal is zero or more ASCII printable Characters or Esca
 "AAA $foo->{x}[3] BBB"
 "AAA $@ BBB"
 </pre>
-<p>
-  上記は,the following ように展開されます。
-</p>
+
+The above is expanded as the following.
+
 <pre>
 "AAA" . $foo . "BBB"
 "AAA" . $FOO . "BBB"
@@ -2983,33 +2983,29 @@ The content of String Literal is zero or more ASCII printable Characters or Esca
 "AAA" . $@ . "BBB"
 </pre>
 
-<p>
-  変数名の終わりを表すために"{"と"}"で変数名を囲むことができます。
-</p>
+The variable name can besurround with "{" and "}" to indicate the end of the variable name.
+
 <pre>
 "AAA ${foo}_ccc BBB"
 </pre>
 <p>
-  上記は,the following ように展開されます。
+
+The above is expanded as the following.
+
 </p>
 <pre>
 "AAA " . ${foo} . "_ccc BBB"
 </pre>
-<p>
-  "{"と"}"の囲みがない場合は,変数名としてValid Stringまでを変数として解釈します。Dereference の場合も同じです。
-</p>
-<p>
-  変数名の後ろに"->"が続いた場合は,Fieldアクセス,あるいは,Arrayアクセスと解釈します。
-</p>
-<p>
-  1. その後ろに,続くCharacterが"a-z""A-Z""0-9""_""{""["であった場合は,解釈を進めます。
-</p>
-<p>
-  2. "1."の後ろに続くCharacterが"}""]"であった場合は,その次のCharacterが"->""{""["であった場合は,解釈を進め,1に戻ります。otherwise 解釈を止めます。
-</p>
-<p>
-  末尾の$はVariable Expansionの開始としては扱われず"$"として扱われます。
-</p>
+
+If there is no enclosing "{" and "}", up to the valid part as a variable name is interpreted as a Variable. Dereference interpreting is same as this.
+
+If "->" follows the variable name, it is interpreted as <a href="#language-field-access">Field Access</a> or <a href="#language-array-access">Array Access</a>.
+
+[1] If the following Characters are "a-z" "A-Z" "0-9" "_" "{" "[", proceed with the interpretation.
+
+[2] If the Character following [1] is "}", or "]", then if the next Character is "->", "{", or "[", proceed with the interpretation and return back to [1]. Otherwise stop interpreting.
+
+The trailing $ is not treated as the start of Variable Expansion. It is treated as "$".
 
 <pre>
 "AAA$"
@@ -3593,7 +3589,7 @@ package Foo {
 
 <h4 id="language-expression-get-exception-var">Get Exception Variable Value</h4>
 <p>
-  例外変数の値を取得するにはthe following syntax を使用します。
+  Exception Variableの値を取得するにはthe following syntax を使用します。
 </p>
 <pre>
 $@
@@ -3622,7 +3618,7 @@ if (my $message = $@) {
 
 <h4 id="language-expression-set-exception-var">Set Exception Variable Value</h4>
 <p>
-  例外変数の値を設定するにはthe following syntax を使用します。
+  Exception Variableの値を設定するにはthe following syntax を使用します。
 </p>
 <pre>
 $@ = Right Expression
@@ -3634,7 +3630,7 @@ $@ = Right Expression
  Set Exception Variable Valueは,<a href="#language-expression">Expression</a>を返します。
 </p>
 <p>
- Set Exception Variable Valueは,設定後の例外変数の値を返します。これは,<a href="#language-type-string">string Type</a>です。
+ Set Exception Variable Valueは,設定後のException Variableの値を返します。これは,<a href="#language-type-string">string Type</a>です。
 </p>
 <p>
   <b>Set Exception Variable ValueのExample</b>
@@ -6122,7 +6118,7 @@ die Expression;
   Expressionは,String Compatible Typeでなければなりません。
 </p>
 <p>
-  die Statement の詳しい解説については,<a href="#language-exception">Exception Handling</a>を見てください。
+  die Statement の詳しい解説については,<a href="#language-exception">Exception</a>を見てください。
 </p>
 
 <h4 id="language-Statement-weaken">weaken Statement </h4>
@@ -7602,18 +7598,18 @@ while (条件部) {
   ExpressionがObject Type の場合は,Undefined Valueの場合は0,そうでない場合は1が返されます。
 </p>
 
-<h3 id="language-exception">Exception Handling </h3>
+<h3 id="language-exception">Exception</h3>
 
 <ul class="list">
-  <li><a href="#language-exception-summary">Exception Handling の概要</a></li>
+  <li><a href="#language-exception-summary">Exception の概要</a></li>
   <li><a href="#language-exception-occur">例外の発生</a></li>
-  <li><a href="#language-exception-catch">例外変数のキャッチ</a></li>
-  <li><a href="#language-exception-var">例外変数</a></li>
+  <li><a href="#language-exception-catch">Exception Variableのキャッチ</a></li>
+  <li><a href="#language-exception-var">Exception Variable</a></li>
 </ul>
 
-<h4 id="language-exception-summary">Exception Handling の概要</h4>
+<h4 id="language-exception-summary">Exception の概要</h4>
 <p>
-  SPVMはException Handling の仕組みを持っています。Exception Handling は,例外の発生と例外のキャッチからなります。
+  SPVMはException の仕組みを持っています。Exception は,例外の発生と例外のキャッチからなります。
 </p>
 
 <h4 id="language-exception-occur">例外の発生</h4>
@@ -7648,18 +7644,18 @@ eval {
 };
 </pre>
 <p>
-  eval Blockで例外をキャッチした場合は,プログラムの終了は止められ,<a href="#language-exception-var">例外変数</a>に<a href="#language-exception-occur">例外の発生</a>で指定したメッセージが代入されます。
+  eval Blockで例外をキャッチした場合は,プログラムの終了は止められ,<a href="#language-exception-var">Exception Variable</a>に<a href="#language-exception-occur">例外の発生</a>で指定したメッセージが代入されます。
 </p>
 
-<h4 id="language-exception-var">例外変数</h4>
+<h4 id="language-exception-var">Exception Variable</h4>
 <p>
-  例外変数は"$@"で表現されるグローバル変数のことです。
+  Exception Variableは"$@"で表現されるグローバル変数のことです。
 </p>
 <pre>
 $@
 </pre>
 <p>
-  例外変数は,本当の意味では,グローバル変数ではありません。例外変数は,実は,スレッド変数です。SPVMはシングルスレッド設計なので,例外変数は,グローバル変数として振舞うように見えます。ネイティブにおいてスレッドを利用する場合に,違いがあります。
+  Exception Variableは,本当の意味では,グローバル変数ではありません。Exception Variableは,実は,スレッド変数です。SPVMはシングルスレッド設計なので,Exception Variableは,グローバル変数として振舞うように見えます。ネイティブにおいてスレッドを利用する場合に,違いがあります。
 </p>
 <p>
   Get Exception Variable Valueについては,<a href="#language-expression-get-exception-var">Get Exception Variable Value</a>を見てください。
