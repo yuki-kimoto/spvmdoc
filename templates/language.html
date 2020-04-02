@@ -4,7 +4,7 @@
 
 SPVM is in beta testing for the 1.0 release. Language Specification will be changed without warning.
 
-Last modified 2020-03-31
+Last modified 2020-04-02
 
 <ul>
   <li><a href="#language-c99">C99 compliant</a></li>
@@ -3063,60 +3063,54 @@ Undefined Value can be compared with the value of Object Type using "==" Operato
 If Undefined Value is used in the Condition Part, it will be false.
 
 <h3 id="language-array">Array</h3>
+
 <ul class="list">
   <li><a href="#language-array-summary">Array Summary</a></li>
   <li><a href="#language-array-new">Create Array</a></li>
   <li><a href="#language-array-access">Array Access</a></li>
 </ul>
 <h4 id="language-array-summary">Array Summary</h4>
-<p>
-  Arrayとは,複数の値の連続領域を表現するためのデータ構造です。
-</p>
-<p>
-  Arrayには次の種類があります。
-</p>
+
+Array is a data structure for continuous multiple values.
+
+There are the following types of Array.
+
 <ul class="list">
   <li>
-    <a href="#language-type-numeric">Numeric Type</a>のArray
+    Numeric Type Array
   </li>
   <li>
-    Object Type のArray
+    Object Type Array
   </li>
   <li>
-    Multi Numeric TypeのArray
+    Multi Numeric Type Array
   </li>
 </ul>
-<p>
-  <a href="#language-type-numeric">Numeric Type</a>のArrayとは,<a href="#language-type-numeric">Numeric Type</a>の値が連続に並んだArrayのことです。
-</p>
-<p>
-  Object Type のArrayとは,<a href="#language-type-object">Object Type</a>の値が連続に並んだArrayのことです。
-</p>
-<p>
-  Multi Numeric TypeのArrayとは,<a href="#language-type-multi-numeric">Multi Numeric Type</a>の値が連続に並んだArrayのことです。
-</p>
+
+Numeric Type Array is Array that element type is <a href="#language-type-numeric">Numeric Type</a>.
+
+Numeric Type Array is Array that element type is <a href="#language-type-object">Object Type</a>.
+
+Numeric Type Array is Array that element type is <a href="#language-type-multi-numeric">Multi Numeric Type</a>.
 
 <h4 id="language-array-summary">Create Array</h4>
-<p>
-  Arrayを生成については,<a href="#language-expression-new-array">Create Array</a>を見てください。
-</p>
+
+See <a href="#language-expression-new-array">Create Array</a> to create Array.
 
 <h4 id="language-array-access">Array Access</h4>
-<p>
-  Array Accessとは,Arrayにアクセスして,値を取得したり,設定したりする操作のことです。また,the following 記述そのものを指します。
-</p>
+
+Array Access is an operation to access the element of Array to get or set the value.
+
 <pre>
-Array->[添え字]
+ARRAY->[INDEX]
 </pre>
 
-<p>
-  Arrayの取得については,<a href="#language-expression-get-array-element">Get Array Element Value</a>を見てください。
-</p>
-<p>
-  Arrayの設定については,<a href="#language-expression-set-set-array-element">Set Array Element Value</a>を見てください。
-</p>
+See <a href="#language-expression-get-array-element">Get Array Element Value</a> to get the element value of Array.
+
+See <a href="#language-expression-set-array-element">Set Array Element Value</a> to set the element value of Array.
 
 <h3 id="language-mulnum">Multi Numeric Value</h3>
+
 <ul class="list">
   <li><a href="#language-mulnum-definition">Multi Numeric TypeのDefinition</a></li>
   <li><a href="#language-mulnum-usage">Multi Numeric Typeの使用</a></li>
@@ -3439,6 +3433,7 @@ $point_ref->{x} = 1;
 Expression is a syntax component that can be evaluated as a value.
 
 <ul class="list">
+  <li><a href="#language-expression-operator">Operator</a></li>
   <li><a href="#language-expression-get-lex-var">Get Lexical Variable Value</a></li>
   <li><a href="#language-expression-set-lex-var">Set Lexical Variable Value</a></li>
   <li><a href="#language-expression-set-package-var">Get Package Variable Value</a></li>
@@ -3459,24 +3454,16 @@ Expression is a syntax component that can be evaluated as a value.
   <li><a href="#language-expression-typecast">Type Cast</a></li>
   <li><a href="#language-expression-new">Create Object</a></li>
   <li><a href="#language-expression-new-array">Create Array</a></li>
-  <li><a href="#language-garbage-collection">Garbage Collection</a></li>
   <li><a href="#language-expression-array-init">Array Initialization</a></li>
-  <li><a href="#language-expression-operator-array-length">Array Length Operator</a></li>
-  <li><a href="#language-expression-operator-string-length">String Length Operator</a></li>
-  <li><a href="#language-expression-operator-arithmetic">Arithmetic Operator</a></li>
-  <li><a href="#language-expression-operator-bit">Bit Operator</a></li>
-  <li><a href="#language-expression-operator-shift">Shift Operator</a></li>
-  <li><a href="#language-expression-operator-concat">String連結Operator</a></li>
-  <li><a href="#language-expression-operator-ref">Reference Operator</a></li>
-  <li><a href="#language-expression-operator-assign">Assignment Operator</a></li>
-  <li><a href="#language-expression-operator-array-length">Array Length Operator</a></li>
-  <li><a href="#language-expression-operator-string-length">String Length Operator</a></li>
-  <li><a href="#language-expression-operator-scalar">Scalar Operator</a></li>
   <li><a href="#language-expression-current-package">Get Current Package Name</a></li>
   <li><a href="#language-expression-current-file">Get Current File Name</a></li>
   <li><a href="#language-expression-current-line">Get Current Line Number</a></li>
   <li>(Expression)</li>
 </ul>
+
+<h4 id="language-expression-operator">Operator</h4>
+
+<a href="#language-operator">Operator</a> is a Expression.
 
 <h4 id="language-expression-get-lex-var">Get Lexical Variable Value</h4>
 <p>
@@ -4294,27 +4281,27 @@ package Foo::Bar {
   <li><a href="#language-expression-operator-left-shift">Left Shift Operator</a></li>
   <li><a href="#language-expression-operator-arithmetic-right-shift">Arithmetic Right Shift Operator</a></li>
   <li><a href="#language-expression-operator-logical-right-shift">Logical Right Shift Operator</a></li>
-  <li><a href="#language-expression-operator-comparison">比較Operator</a></li>
-  <li><a href="#language-expression-operator-comparison-numeric">数値比較Operator</a></li>
-  <li><a href="#language-expression-operator-comparison-string">String比較Operator</a></li>
+  <li><a href="#language-expression-operator-comparison">Comparison Operator</a></li>
+  <li><a href="#language-expression-operator-comparison-numeric">Numeric Comparison Operator</a></li>
+  <li><a href="#language-expression-operator-comparison-string">String Comparison Operator</a></li>
   <li><a href="#language-expression-operator-isa">isa Operator</a></li>
-  <li><a href="#language-expression-operator-logical">論理Operator</a></li>
+  <li><a href="#language-expression-operator-logical">Logical Operator</a></li>
   <li><a href="#language-expression-operator-logical-and">Logical AND Operator</a></li>
   <li><a href="#language-expression-operator-logical-or">Logical OR Operator</a></li>
   <li><a href="#language-expression-operator-logical-not">Logical NOT Operator</a></li>
-  <li><a href="#language-expression-operator-concat">String連結Operator</a></li>
+  <li><a href="#language-expression-operator-concat">String Concatenation Operator</a></li>
   <li><a href="#language-expression-operator-assign">Assignment Operator</a></li>
   <li><a href="#language-expression-operator-assign-special">Special Assignment Operator</a></li>
   <li><a href="#language-expression-operator-ref">Reference Operator</a></li>
   <li><a href="#language-expression-operator-array-length">Array Length Operator</a></li>
   <li><a href="#language-expression-operator-string-length">String Length Operator</a></li>
   <li><a href="#language-expression-operator-scalar">Scalar Operator</a></li>
-  <li><a href="#language-expression-operator-isweak">isweakOperator</a></li>
+  <li><a href="#language-expression-operator-isweak">isweak Operator</a></li>
 </ul>
 
 <h4 id="language-expression-operator-summary">Operator Summary </h4>
 <p>
-  Operator は,<a href="#language-expression-operator-unary">Unary Operator</a>,<a href="#language-expression-operator-binary">Binary Operator</a>,<a href="#language-expression-operator-inc">Increment Operator</a>,<a href="#language-expression-operator-dec">Decrement Operator</a>,<a href="#language-expression-operator-comparison">比較Operator</a>,<a href="#language-expression-operator-logical">論理Operator</a>,<a href="#language-expression-operator-assign">Assignment Operator</a>からなります。
+  Operator は,<a href="#language-expression-operator-unary">Unary Operator</a>,<a href="#language-expression-operator-binary">Binary Operator</a>,<a href="#language-expression-operator-inc">Increment Operator</a>,<a href="#language-expression-operator-dec">Decrement Operator</a>,<a href="#language-expression-operator-comparison">Comparison Operator</a>,<a href="#language-expression-operator-logical">Logical Operator</a>,<a href="#language-expression-operator-assign">Assignment Operator</a>からなります。
 </p>
 
 <h4 id="language-expression-operator-unary">Unary Operator  </h4>
@@ -4340,7 +4327,7 @@ Left Expression Binary Operator   Right Expression
 </pre>
 
 <p>
-  Binary Operator  には,<a href="#language-expression-operator-add">Addition Operator</a>,<a href="#language-expression-operator-subtract">Subtraction Operator</a>,<a href="#language-expression-operator-multiply">Multiplication Operator</a>,<a href="#language-expression-operator-divide">Division Operator</a>,<a href="#language-expression-operator-remainder">Remainder Operator</a>,<a href="#language-expression-operator-bit-and">Bit AND Operator</a>,<a href="#language-expression-operator-bit-or">Bit OR Operator</a>,<a href="#language-expression-operator-logical-and">Logical AND Operator</a>,<a href="#language-expression-operator-logical-or">Logical OR Operator</a>,<a href="#language-expression-operator-shift">Shift Operator</a>,<a href="#language-expression-operator-concat">String連結Operator</a>があります。
+  Binary Operator  には,<a href="#language-expression-operator-add">Addition Operator</a>,<a href="#language-expression-operator-subtract">Subtraction Operator</a>,<a href="#language-expression-operator-multiply">Multiplication Operator</a>,<a href="#language-expression-operator-divide">Division Operator</a>,<a href="#language-expression-operator-remainder">Remainder Operator</a>,<a href="#language-expression-operator-bit-and">Bit AND Operator</a>,<a href="#language-expression-operator-bit-or">Bit OR Operator</a>,<a href="#language-expression-operator-logical-and">Logical AND Operator</a>,<a href="#language-expression-operator-logical-or">Logical OR Operator</a>,<a href="#language-expression-operator-shift">Shift Operator</a>,<a href="#language-expression-operator-concat">String Concatenation Operator</a>があります。
 </p>
 
 <h4 id="language-expression-operator-sequential">Sequential Operator </h4>
@@ -4906,26 +4893,26 @@ Left Expression >>> Right Expression
   Logical Right Shift Operator は,例外を発生させません。
 </p>
 
-<h4 id="language-expression-operator-comparison">比較Operator </h4>
+<h4 id="language-expression-operator-comparison">Comparison Operator </h4>
 <p>
-  比較Operator とは,Left ExpressionとRight Expressionの間に置かれるOperator で,<a href="#language-expression">Expression</a>を返すOperator のことをいいます。
+  Comparison Operator とは,Left ExpressionとRight Expressionの間に置かれるOperator で,<a href="#language-expression">Expression</a>を返すOperator のことをいいます。
 </p>
 <pre>
-Left Expression 比較Operator  Right Expression
+Left Expression Comparison Operator  Right Expression
 </pre>
 <p>
-  比較Operator には,<a href="#language-expression-operator-comparison-numeric">数値比較Operator</a>,<a href="#language-expression-operator-comparison-string">String比較Operator</a>,isa Operator があります。
+  Comparison Operator には,<a href="#language-expression-operator-comparison-numeric">Numeric Comparison Operator</a>,<a href="#language-expression-operator-comparison-string">String Comparison Operator</a>,isa Operator があります。
 </p>
 
-<h4 id="language-expression-operator-comparison-numeric">数値比較Operator </h4>
+<h4 id="language-expression-operator-comparison-numeric">Numeric Comparison Operator </h4>
 <p>
-  数値比較Operator とは,数値あるいはオブジェクトのアドレスを比較するために,Left ExpressionとRight Expressionの間に置かれるOperator で,<a href="#language-expression">Expression</a>を返すOperator のことをいいます。
+  Numeric Comparison Operator とは,数値あるいはオブジェクトのアドレスを比較するために,Left ExpressionとRight Expressionの間に置かれるOperator で,<a href="#language-expression">Expression</a>を返すOperator のことをいいます。
 </p>
 <pre>
-Left Expression 数値比較Operator  Right Expression
+Left Expression Numeric Comparison Operator  Right Expression
 </pre>
 <p>
-  数値比較Operator の一覧です。
+  Numeric Comparison Operator の一覧です。
 </p>
 <table>
   <tr>
@@ -5007,7 +4994,7 @@ Left Expression 数値比較Operator  Right Expression
   Numeric Typeの比較の場合は,Left ExpressionとRight Expressionに対して,<a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</a>が行われます。
 </p>
 <p>
-  その後,数値比較Operator は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,<a href="#language-type-int">int Type</a> ,<a href="#language-type-long">long Type</a>,<a href="#language-type-float">float Type</a>,<a href="#language-type-double">double Type</a>,Object Type における演算がDefinitionされます。
+  その後,Numeric Comparison Operator は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,<a href="#language-type-int">int Type</a> ,<a href="#language-type-long">long Type</a>,<a href="#language-type-float">float Type</a>,<a href="#language-type-double">double Type</a>,Object Type における演算がDefinitionされます。
 </p>
 <pre>
 # Numeric Typeの比較,Object Type の比較
@@ -5021,24 +5008,24 @@ Left Expression 数値比較Operator  Right Expression
 (int32_t)(x <= y);
 </pre>
 <p>
-  数値比較Operator のReturn ValueのTypeは,<a href="#language-type-int">int Type</a> です。
+  Numeric Comparison Operator のReturn ValueのTypeは,<a href="#language-type-int">int Type</a> です。
 </p>
 <p>
-  数値比較Operator は,例外を発生させません。
+  Numeric Comparison Operator は,例外を発生させません。
 </p>
 
-<h4 id="language-expression-operator-comparison-string">String比較Operator </h4>
+<h4 id="language-expression-operator-comparison-string">String Comparison Operator </h4>
 <p>
-  String比較Operator とは,Stringを比較するために,Left ExpressionとRight Expressionの間に置かれるOperator で,<a href="#language-expression">Expression</a>を返すOperator のことをいいます。
+  String Comparison Operator とは,Stringを比較するために,Left ExpressionとRight Expressionの間に置かれるOperator で,<a href="#language-expression">Expression</a>を返すOperator のことをいいます。
 </p>
 <pre>
-Left Expression String比較Operator  Right Expression
+Left Expression String Comparison Operator  Right Expression
 </pre>
 <p>
   Left ExpressionとRight Expressionは,<a href="#language-type-string-compatible">String Compatible Type</a>でなければなりません。
 </p>
 <p>
-  String比較Operator の一覧です。
+  String Comparison Operator の一覧です。
 </p>
 <table>
   <tr>
@@ -5095,11 +5082,11 @@ Left Expression String比較Operator  Right Expression
   </tr>
 </table>
 <p>
-  String比較Operator のReturn ValueのTypeは,<a href="#language-type-int">int Type</a> です。条件が満たされた場合は1を,そうでない場合は0を返します。
+  String Comparison Operator のReturn ValueのTypeは,<a href="#language-type-int">int Type</a> です。条件が満たされた場合は1を,そうでない場合は0を返します。
 </p>
 <h4 id="language-expression-operator-isa">isa Operator </h4>
 <p>
-  数値比較Operator とは,数値あるいはオブジェクトのアドレスを比較するために,Left ExpressionとRight Expressionの間に置かれるOperator で,<a href="#language-expression">Expression</a>を返すOperator のことをいいます。
+  Numeric Comparison Operator とは,数値あるいはオブジェクトのアドレスを比較するために,Left ExpressionとRight Expressionの間に置かれるOperator で,<a href="#language-expression">Expression</a>を返すOperator のことをいいます。
 </p>
 <p>
   isa Operator とはは,Typeの適合性をチェックするためのOperator で,<a href="#language-expression">Expression</a>を返します。
@@ -5120,12 +5107,12 @@ Left Expression isa 右Type
   3. 右Typeが,<a href="#language-type-callback">Callback Type</a>であった場合は,実行時にLeft ExpressionのTypeがClass Typeであり,そのClassがCallback Typeを満たすかどうかをチェックします。満たした場合は<a href="#language-type-int">int Type</a> の1を,そうでない場合は0を返します。Left ExpressionのTypeは,Object Type でなければなりません。otherwise a compile-time error occurs.
 </p>
 
-<h4 id="language-expression-operator-logical">論理Operator </h4>
+<h4 id="language-expression-operator-logical">Logical Operator </h4>
 <p>
-  論理Operator は,論理演算を行うOperator のことで,><a href="#language-expression-operator-logical-and">Logical AND Operator</a>,<a href="#language-expression-operator-logical-or">Logical OR Operator</a>,<a href="#language-expression-operator-logical-not">Logical NOT Operator</a>からなります。
+  Logical Operator は,論理演算を行うOperator のことで,><a href="#language-expression-operator-logical-and">Logical AND Operator</a>,<a href="#language-expression-operator-logical-or">Logical OR Operator</a>,<a href="#language-expression-operator-logical-not">Logical NOT Operator</a>からなります。
 </p>
 <p>
-  論理Operator は,<a href="#language-expression">Expression</a>を返します。
+  Logical Operator は,<a href="#language-expression">Expression</a>を返します。
 </p>
 
 <h4 id="language-expression-operator-logical-and">Logical AND Operator </h4>
@@ -5206,9 +5193,9 @@ Left Expression || Right Expression
   Logical NOT Operator は,例外を発生させません。
 </p>
 
-<h4 id="language-expression-operator-concat">String連結Operator </h4>
+<h4 id="language-expression-operator-concat">String Concatenation Operator </h4>
 <p>
-  String連結Operator は"."で表現される<a href="#language-expression-operator-binary">Binary Operator</a>です。
+  String Concatenation Operator は"."で表現される<a href="#language-expression-operator-binary">Binary Operator</a>です。
 </p>
 <pre>
 Left Expression . Right Expression
@@ -5220,19 +5207,19 @@ Left Expression . Right Expression
   Left ExpressionとRight Expressionはどちらも<a href="#language-type-string-compatible">String Compatible Type</a>でなければなりません。otherwise コンパイルエラーになります。
 </p>
 <p>
-  String連結Operator は,Left ExpressionとRight Expressionで表現される<a href="#language-string">String</a>を連結し,新しいStringを返します。
+  String Concatenation Operator は,Left ExpressionとRight Expressionで表現される<a href="#language-string">String</a>を連結し,新しいStringを返します。
 </p>
 <p>
-  String連結Operator は<a href="#language-expression">Expression</a>を返し,Typeは<a href="#language-type-string">string Type</a>です。
+  String Concatenation Operator は<a href="#language-expression">Expression</a>を返し,Typeは<a href="#language-type-string">string Type</a>です。
 </p>
 <p>
-  Left ExpressionとRight Expressionの両方が,<a href="#language-literal-string">String Literal</a>であった場合は,コンパイル時に連結されたString Literal が生成されます。パフォーマンスのコストを意識せずに,String連結Operator で,String Literal を連結できます。
+  Left ExpressionとRight Expressionの両方が,<a href="#language-literal-string">String Literal</a>であった場合は,コンパイル時に連結されたString Literal が生成されます。パフォーマンスのコストを意識せずに,String Concatenation Operator で,String Literal を連結できます。
 </p>
 <p>
   実行時に,Left ExpressionあるいはRight Expressionが<a href="#language-undef">Undefined Value</a>だった場合は,例外が発生します。
 </p>
 <p>
-  <b>String連結Operator のExample</b>
+  <b>String Concatenation Operator のExample</b>
 </p>
 <pre>
 my $str = "abc" . "def";
@@ -5462,9 +5449,9 @@ my $nums = new int[3];
 foo(scalar @$nums);
 </pre>
 
-<h4 id="language-expression-operator-isweak">isweakOperator</h4>
+<h4 id="language-expression-operator-isweak">isweak Operator</h4>
 <p>
-  isweakOperator は,Fieldが,<a href="#language-weak-ref">Weaken Reference</a>かを確認するOperator です。
+  isweak Operator は,Fieldが,<a href="#language-weak-ref">Weaken Reference</a>かを確認するOperator です。
 </p>
 <pre>
 isweak 変数->{Field Name};
@@ -5482,7 +5469,7 @@ isweak 変数->{Field Name};
   実行時にFieldに保存されている値が,<a href="#language-undef">Undefined Value</a>だった場合は,偽を返します。これは,<a href="#language-expression">Expression</a>です。
 </p>
 <p>
-  isweakOperator は,FieldがWeaken Referenceの場合は,<a href="#language-type-int">int Type</a> の1を,そうでない場合は0を返します。これは,<a href="#language-expression">Expression</a>です。
+  isweak Operator は,FieldがWeaken Referenceの場合は,<a href="#language-type-int">int Type</a> の1を,そうでない場合は0を返します。これは,<a href="#language-expression">Expression</a>です。
 </p>
 
 <h3 id="language-expression-operator-precedence">Operator Precidence</h3>
@@ -5592,7 +5579,7 @@ isweak 変数->{Field Name};
     <td>
       Addition Operator "+"<br>
       Subtraction Operator "-"<br>
-      String連結Operator "."
+      String Concatenation Operator "."
     </td>
   </tr>
   <tr>
@@ -7497,7 +7484,7 @@ my $str : string = $num;
   <li><a href="#language-expression-operator-remainder">Remainder Operator</a></li>
   <li><a href="#language-expression-operator-bit-and">Bit AND Operator</a></li>
   <li><a href="#language-expression-operator-bit-or">Bit OR Operator</a></li>
-  <li><a href="#language-expression-operator-comparison-numeric">数値比較Operator</a></li>
+  <li><a href="#language-expression-operator-comparison-numeric">Numeric Comparison Operator</a></li>
 </ul>
 
 <h4 id="language-type-convertion-numeric-narrowing">Numeric Narrowing Type Convertion</h4>
@@ -7922,5 +7909,5 @@ Captureは,このような長い記述を,短く書くためのSyntaxです。
 }
 </pre>
 <p>
-  Weaken Reference関連のSyntaxとして,Weaken Referenceを解除できる<a href="#language-Statement-weaken">weaken Statement</a>と,FieldがWeaken Referenceかどうかを確認できる<a href="#language-expression-operator-isweak">isweakOperator</a>があります。
+  Weaken Reference関連のSyntaxとして,Weaken Referenceを解除できる<a href="#language-Statement-weaken">weaken Statement</a>と,FieldがWeaken Referenceかどうかを確認できる<a href="#language-expression-operator-isweak">isweak Operator</a>があります。
 </p>
