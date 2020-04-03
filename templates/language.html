@@ -1767,9 +1767,9 @@ $z->{x} = 1;
 $z->{y} = 3;
 </pre>
 
-See <a href="#language-expression-get-field-multi-numeric">Get Multi Numeric Field Value</a> to get field of the value of <a href="#language-type-multi-numeric">Multi Numeric Type</a>.
+See <a href="#language-expression-get-field-multi-numeric">Get Multi Numeric Type Field Value</a> to get field of the value of <a href="#language-type-multi-numeric">Multi Numeric Type</a>.
 
-See <a href="#language-expression-set-field-multi-numeric">Set Multi Numeric Field Value</a> to set field of the value of <a href="#language-type-multi-numeric">Multi Numeric Type</a>.
+See <a href="#language-expression-set-field-multi-numeric">Set Multi Numeric Type Field Value</a> to set field of the value of <a href="#language-type-multi-numeric">Multi Numeric Type</a>.
 
 <b>3. Dereference Multi Numeric Field</b>
 
@@ -1782,9 +1782,9 @@ $z_ref->{x} = 1;
 $z_ref->{y} = 3;
 </pre>
 
-See <a href="#language-expression-get-field-multi-numeric-deref">Get Multi Numeric Field Value via Dereference</a> to get Multi Numeric Field via Dereference.
+See <a href="#language-expression-get-field-multi-numeric-deref">Get Multi Numeric Type Field Value via Dereference</a> to get Multi Numeric Field via Dereference.
 
-See <a href="#language-expression-set-field-multi-numeric-deref">Set Multi Numeric Field Value via Dereference</a> to set Multi Numeric Field via Dereference.
+See <a href="#language-expression-set-field-multi-numeric-deref">Set Multi Numeric Type Field Value via Dereference</a> to set Multi Numeric Field via Dereference.
 
 <h3 id="language-sub">Subroutine</h3>
 <ul class="list">
@@ -3112,51 +3112,75 @@ See <a href="#language-expression-set-array-element">Set Array Element Value</a>
 <h3 id="language-mulnum">Multi Numeric Value</h3>
 
 <ul class="list">
-  <li><a href="#language-mulnum-definition">Multi Numeric TypeのDefinition</a></li>
-  <li><a href="#language-mulnum-usage">Multi Numeric Typeの使用</a></li>
-  <li><a href="#language-mulnum-access">Multi Numeric TypeのField Access</a></li>
+  <li><a href="#language-mulnum-definition">Multi Numeric Type Definition</a></li>
+  <li><a href="#language-mulnum-definition">Multi Numeric Type Suffix</a></li>
+  <li><a href="#language-mulnum-usage">Multi Numeric Type Usage</a></li>
+  <li><a href="#language-mulnum-access">Multi Numeric Type Field Access</a></li>
 </ul>
 
-<h4 id="language-mulnum-definition">Multi Numeric TypeのDefinition</h3>
-<p>
-  SPVMには,他の言語ではあまり見ることのない値というものがあります。
-</p>
-<p>
-  値は,連続した数値を表現します。たとえば,連続した32bit符号付整数が3つであるとか,連続した倍精度浮動小数点が2つなどです。3次元の点,複素数,四元数などを表現することが想定されています。
-</p>
-<p>
-  値を使用するには,最初に,Multi Numeric TypeをDefinitionします。Multi Numeric Typeは,<a href="#language-package-definition">Package Definition</a>において,mulnum_tDescriptorを指定することでDefinitionできます。
-</p>
+<h4 id="language-mulnum-definition">Multi Numeric Type Definition</h4>
+
+Multi Numeric type represents continuous numeric values. For example, there are three consecutive 32-bit signed integers, two consecutive double-precision floating point numbers. It isplaned to use 3D points, complex numbers, quaternions, etc.
+
+Multi Numeric Type is defined by specifying mulnum_t <a href="#language-package-descriptor">Package Descriptor</a> in <a href="#language-package-definition">Package Definition</a>.
+
 <pre>
-# 連続した32bit符号付整数が3つ
+# Three consecutive 32bit signed integers
 package Point_3i : mulnum_t {
   has x : int;
   has y : int;
   has z : int;
 }
 
-連続した倍精度浮動小数点が2つ
+# Tow consecutive 64bit floating point numbers
 package Complex_2d : mulnum_t {
   x : double;
   y : double;
 }
 </pre>
-<p>
-  すべてのFieldは同じ<a href="#language-type-numeric">Numeric Type</a>でなければなりません。
-</p>
-<p>
-  Multi Numeric Typeの末尾は"_""Fieldの個数""Multi Numeric Typeのサフィックス"でなければなりません。
-</p>
-<p>
-  <b>Multi Numeric Typeのサフィクスの一覧</b>
-</p>
+
+Multi Numeric Type must end with "_", Number of Fields, <a href="#language-mulnum-definition"> Multi Numeric Type Suffix</a>.
+
+The suffix must correspond to <a href="#language-type-numeric">Numeric Type</a>.
+
+All Fields must be the same <a href="#language-type-numeric">Numeric Type</a>.
+
+The maximum number of Fields is 255.
+
+Multi Numeric Type can be used as <a href="#language-type">Type</a> of <a href="#language-lex-var-declaration">Lexical Variable Declaration</a>.
+
+Multi Numeric Type can be used as an argument <a href="#language-type">Type</a> in <a href="#language-sub-definition">Subroutine Definition</a> .
+
+Multi Numeric Type can be used as <a href="#language-type">Type</a> of Return Value in <a href="#language-sub-definition">Subroutine Definition</a>.
+
+Multi Numeric Type can be used as <a href="#language-type-basic">Basic Type</a> of <a href="#language-type-array">Array Type</a> .
+
+<pre>
+my $points = new Point_3i[5];
+</pre>
+
+Reference can be created for Multi Numeric Type value.
+
+<pre>
+my $point : Point_3i;
+my $point_ref = \$point;
+</pre>
+
+<a href="#language-undef">Undefined Value</a> cannot be assigned to Multi Numeric Type value.
+
+See <a href="#language-mulnum-access">Multi Numeric Type Field Access</a> to get and set the value of field of Multi Numeric Type Value.
+
+<h4>Multi Numeric Type Suffix</h4>
+
+List of Multi Numeric Type Suffix.
+
 <table>
   <tr>
     <th>
       <b>Numeric Type</b>
     </th>
     <th>
-      サフィックス
+      Multi Numeric Type Suffix
     </th>
   </tr>
   <tr>
@@ -3208,46 +3232,37 @@ package Complex_2d : mulnum_t {
     </td>
   </tr>
 </table>
-<p>
-  サフィックスは,実際にDefinitionされている<a href="#language-type-numeric">Numeric Type</a>と対応している必要があります。
-</p>
-<p>
-  Multi Numeric TypeのDefinitionにおいて,Fieldの個数の最大は255個です。
-</p>
-<p>
-  Invalid Multi Numeric TypeのDefinitionの場合は,a compile-time error occurs
-</p>
-<p>
-  Multi Numeric Typeは,<a href="#language-lex-var-declaration">Lexical Variable Declaration</a>のTypeとして利用することができます。
-</p>
-<p>
-  Multi Numeric Typeは,<a href="#language-sub-definition">Subroutine Definition</a>における引数のTypeとして利用することができます。
-</p>
-<p>
-  Multi Numeric Typeは,<a href="#language-sub-definition">Subroutine Definition</a>におけるReturn ValueのTypeとして利用することができます。
-</p>
-<p>
-  Multi Numeric Typeは<a href="#language-type-array">Array Type</a>の<a href="#language-type-basic">Basic Type</a>として利用することができます。
-</p>
+
+<h4 id="language-mulnum-usage">Multi Numeric Type Usage</h4>
+
+To use Multi Numeric Type, load a Module using <a href="#language-module-use">use Statement</a>.
+
 <pre>
-my $points = new Point_3i[5];
+use Point_3i;
+use Complex_2d;
 </pre>
-<p>
-  Multi Numeric Typeは,FieldのTypeとして利用することはできません。
-</p>
-<p>
-  Multi Numeric Typeは,Package Variable のTypeとして利用することはできません。
-</p>
-<p>
-  Multi Numeric Typeの値に対しては,Referenceを生成することができます。
-</p>
+
+
+Next is <a href="#language-lex-var-declaration">Lexical Variable Declaration</a>. Lexical Variable Declaration create continuous area for fields of Multi Numeric Type Value on <a href="#language-sub-stack">Subroutine Callstack</a>. All fields of of Multi Numeric Type Value are initialized by <a href="language-type-initial-value">Type Initial Value</a>.
+
 <pre>
 my $point : Point_3i;
-my $point_ref = \$point;
+my $z : Complex_2d;
 </pre>
-<p>
-  Multi Numeric Typeの値に,Undefined Valueを代入することはできません。代入しようとした場合は,a compile-time error occurs
-</p>
+
+Note that Multi Numeric Type value are not object, so cannot create a Object by <a href="#language-expression-new">new</a> syntax.
+
+<h4 id="language-mulnum-access">Multi Numeric Type Field Access</h3>
+
+<b>Multi Numeric Type Field Access</b> is an operation to access Multi Numeric Type Field to get or set a value.
+
+<pre>
+MULTI_NUMERIC_TYPE_VALUE->{FIELD_NAME}
+</pre>
+
+See <a href="#language-expression-get-field-multi-numeric">Get Multi Numeric Type Field Value</a> to get Multi Numeric Type Field Value.
+
+See <a href="#language-expression-set-field-multi-numeric">Set Multi Numeric Type Field Value</a> to set Multi Numeric Type Field Value.
 
 <h3 id="language-mulnum-array">Multi Numeric Array</h3>
 <ul class="list">
@@ -3293,52 +3308,6 @@ Array->[添え字]
 <p>
   Arrayの設定については,<a href="#language-expression-set-set-array-element">Set Array Element Value</a>を見てください。
 </p>
-
-<h4 id="language-mulnum-usage">Multi Numeric Typeの使用</h3>
-<p>
-  Multi Numeric Typeを使用するにはuseStatementを使って,Moduleをロードします。
-</p>
-<pre>
-use Point_3i;
-use Complex_2d;
-</pre>
-<p>
-  次に,Lexical Variable Declaration を行います。Lexical Variable Declaration を行うと,連続した領域が,<a href="#language-sub-stack">Subroutine Callstack</a>上に確保されます。Fieldのすべての値は,<a href="language-type-initial-value">Type Initial Value</a>で初期化されます。
-</p>
-<pre>
-my $point : Point_3i;
-my $z : Complex_2d;
-</pre>
-<p>
-  Multi Numeric Typeの値は,オブジェクトではないので,<a href="#language-expression-new">Create Object</a>のsyntax では生成できないことに注意してください。
-</p>
-
-<h4 id="language-mulnum-access">Multi Numeric TypeのField Access</h3>
-<p>
-  Multi Numeric TypeのField Accessとは,Multi Numeric TypeのFieldにアクセスして,値を取得したり,設定したりする操作のことです。また,the following 記述そのものを指します。
-</p>
-<pre>
-Invocant ->{Field Name}
-</pre>
-<p>
-  Multi Numeric TypeのFieldの取得については,<a href="#language-expression-get-field-multi-numeric">Get Multi Numeric Field Value</a>を見てください。
-</p>
-<p>
-  Multi Numeric TypeのFieldの設定については,<a href="#language-expression-set-field-multi-numeric">Set Multi Numeric Field Value</a>を見てください。
-</p>
-<p>
-  <b>Get Multi Numeric Field Value・設定のExample</b>
-</p>
-<p>
-  Get Multi Numeric Field Value・設定のExampleです。
-</p>
-<pre>
-$ival2->{x} = 1;
-my $y = $ival2->{y};
-
-$dval4->{t} = 2.5;
-my $z = $dval4->{z};
-</pre>
 
 <h3 id="language-ref">Reference</h3>
 <ul>
@@ -3445,10 +3414,10 @@ Expression is a syntax component that can be evaluated as a value.
   <li><a href="#language-expression-callsub">Subroutine Call</a></li>
   <li><a href="#language-expression-get-field-class-based-object">Get Class Based Object Field Value</a></li>
   <li><a href="#language-expression-set-field-class-based-object">Set Class Based Object Field Value</a></li>
-  <li><a href="#language-expression-get-field-multi-numeric">Get Multi Numeric Field Value</a></li>
-  <li><a href="#language-expression-set-field-multi-numeric">Set Multi Numeric Field Value</a></li>
-  <li><a href="#language-expression-get-field-multi-numeric-deref">Get Multi Numeric Field Value via Dereference</a></li>
-  <li><a href="#language-expression-set-field-multi-numeric-deref">Set Multi Numeric Field Value via Dereference</a></li>
+  <li><a href="#language-expression-get-field-multi-numeric">Get Multi Numeric Type Field Value</a></li>
+  <li><a href="#language-expression-set-field-multi-numeric">Set Multi Numeric Type Field Value</a></li>
+  <li><a href="#language-expression-get-field-multi-numeric-deref">Get Multi Numeric Type Field Value via Dereference</a></li>
+  <li><a href="#language-expression-set-field-multi-numeric-deref">Set Multi Numeric Type Field Value via Dereference</a></li>
   <li><a href="#language-expression-get-array-element">Get Array Element Value</a></li>
   <li><a href="#language-expression-set-array-element">Set Array Element Value</a></li>
   <li><a href="#language-expression-typecast">Type Cast</a></li>
@@ -3641,7 +3610,7 @@ $@ = "Error";
 Invocant Expression->{Field Name}
 </pre>
 <p>
-  Invocant Expressionは,<a href="#language-type-class">Class Type</a>の値でなければなりません。Invocant Expressionが,<a href="#language-type-multi-numeric">Multi Numeric Type</a>の値であった場合は,<a href="#language-expression-get-field-multi-numeric">Get Multi Numeric Field Value</a>になり,<a href="#language-type-ref-multi-numeric">Multi Numeric Reference Type</a>の値であった場合は,<a href="#language-expression-get-field-multi-numeric-deref">Get Multi Numeric Field Value via Dereference</a>になり,それ以外の場合は,a compile-time error occurs
+  Invocant Expressionは,<a href="#language-type-class">Class Type</a>の値でなければなりません。Invocant Expressionが,<a href="#language-type-multi-numeric">Multi Numeric Type</a>の値であった場合は,<a href="#language-expression-get-field-multi-numeric">Get Multi Numeric Type Field Value</a>になり,<a href="#language-type-ref-multi-numeric">Multi Numeric Reference Type</a>の値であった場合は,<a href="#language-expression-get-field-multi-numeric-deref">Get Multi Numeric Type Field Value via Dereference</a>になり,それ以外の場合は,a compile-time error occurs
 </p>
 <p>
   Field Nameが,存在しない場合は,a compile-time error occurs
@@ -3671,7 +3640,7 @@ my $x = $point->{x};
 Invocant Expression->{Field Name} = Right Expression
 </pre>
 <p>
-  Invocant Expressionは,<a href="#language-type-class">Class Type</a>の値でなければなりません。Invocant Expressionが,<a href="#language-type-multi-numeric">Multi Numeric Type</a>の値であった場合は,<a href="#language-expression-get-field-multi-numeric">Set Multi Numeric Field Value</a>になり,<a href="#language-type-ref-multi-numeric">Multi Numeric Reference Type</a>の値であった場合は,<a href="#language-expression-get-field-multi-numeric-deref">Set Multi Numeric Field Value via Dereference</a>になり,それ以外の場合は,a compile-time error occurs
+  Invocant Expressionは,<a href="#language-type-class">Class Type</a>の値でなければなりません。Invocant Expressionが,<a href="#language-type-multi-numeric">Multi Numeric Type</a>の値であった場合は,<a href="#language-expression-get-field-multi-numeric">Set Multi Numeric Type Field Value</a>になり,<a href="#language-type-ref-multi-numeric">Multi Numeric Reference Type</a>の値であった場合は,<a href="#language-expression-get-field-multi-numeric-deref">Set Multi Numeric Type Field Value via Dereference</a>になり,それ以外の場合は,a compile-time error occurs
 </p>
 <p>
   Field Nameが,存在しない場合は,a compile-time error occurs
@@ -3702,45 +3671,45 @@ my $point = Point->new;
 $point->{x} = 1;
 </pre>
 
-<h4 id="language-expression-get-field-multi-numeric">Get Multi Numeric Field Value</h4>
+<h4 id="language-expression-get-field-multi-numeric">Get Multi Numeric Type Field Value</h4>
 <p>
-  Get Multi Numeric Field Valueは,次のように記述します。
+  Get Multi Numeric Type Field Valueは,次のように記述します。
 </p>
 <pre>
 Invocant Expression->{Field Name}
 </pre>
 <p>
-  Invocant Expressionは,<a href="#language-type-class">Multi Numeric Type</a>の値でなければなりません。Invocant Expressionが,<a href="#language-type-class">Class Type</a>の値であった場合は,<a href="#language-expression-get-field-class-based-object">Get Class Based Object Field Value</a>になり,<a href="#language-type-ref-multi-numeric">Multi Numeric Reference Type</a>の値であった場合は,<a href="#language-expression-get-field-multi-numeric-deref">Get Multi Numeric Field Value via Dereference</a>になり,それ以外の場合は,a compile-time error occurs
+  Invocant Expressionは,<a href="#language-type-class">Multi Numeric Type</a>の値でなければなりません。Invocant Expressionが,<a href="#language-type-class">Class Type</a>の値であった場合は,<a href="#language-expression-get-field-class-based-object">Get Class Based Object Field Value</a>になり,<a href="#language-type-ref-multi-numeric">Multi Numeric Reference Type</a>の値であった場合は,<a href="#language-expression-get-field-multi-numeric-deref">Get Multi Numeric Type Field Value via Dereference</a>になり,それ以外の場合は,a compile-time error occurs
 </p>
 <p>
   Field Nameが,存在しない場合は,a compile-time error occurs
 </p>
 <p>
-  Get Multi Numeric Field Valueは,<a href="#language-sub-stack">Subroutine Callstack</a>に保存されている該当するFieldの値を返します。これは<a href="#language-expression">Expression</a>です。
+  Get Multi Numeric Type Field Valueは,<a href="#language-sub-stack">Subroutine Callstack</a>に保存されている該当するFieldの値を返します。これは<a href="#language-expression">Expression</a>です。
 </p>
 <p>
   返される値のTypeは,FieldのTypeです。
 </p>
 <p>
-  <b>Get Multi Numeric Field ValueのExample</b>
+  <b>Get Multi Numeric Type Field ValueのExample</b>
 </p>
 <p>
-  Get Multi Numeric Field ValueのExampleです。
+  Get Multi Numeric Type Field ValueのExampleです。
 </p>
 <pre>
 my $z : SPVM::Complex_2d;
 my $re = $z->{x};
 </pre>
 
-<h4 id="language-expression-set-field-multi-numeric">Set Multi Numeric Field Value</h4>
+<h4 id="language-expression-set-field-multi-numeric">Set Multi Numeric Type Field Value</h4>
 <p>
-  Set Multi Numeric Field Valueは,次のように記述します。
+  Set Multi Numeric Type Field Valueは,次のように記述します。
 </p>
 <pre>
 Invocant Expression->{Field Name} = Right Expression
 </pre>
 <p>
-  Invocant Expressionは,<a href="#language-type-class">Multi Numeric Type</a>の値でなければなりません。Invocant Expressionが,<a href="#language-type-class">Class Type</a>の値であった場合は,<a href="#language-expression-set-field-class-based-object">Set Class Based Object Field Value</a>になり,<a href="#language-type-ref-multi-numeric">Multi Numeric Reference Type</a>の値であった場合は,<a href="#language-expression-set-field-multi-numeric-deref">Set Multi Numeric Field Value via Dereference</a>になり,それ以外の場合は,a compile-time error occurs
+  Invocant Expressionは,<a href="#language-type-class">Multi Numeric Type</a>の値でなければなりません。Invocant Expressionが,<a href="#language-type-class">Class Type</a>の値であった場合は,<a href="#language-expression-set-field-class-based-object">Set Class Based Object Field Value</a>になり,<a href="#language-type-ref-multi-numeric">Multi Numeric Reference Type</a>の値であった場合は,<a href="#language-expression-set-field-multi-numeric-deref">Set Multi Numeric Type Field Value via Dereference</a>になり,それ以外の場合は,a compile-time error occurs
 </p>
 <p>
   Field Nameが,存在しない場合は,a compile-time error occurs
@@ -3749,46 +3718,46 @@ Invocant Expression->{Field Name} = Right Expression
   Right ExpressionのTypeは,FieldのTypeと同じでなければなりません。otherwise a compile-time error occurs.
 </p>
 <p>
-  Set Multi Numeric Field Valueは,設定後の<a href="#language-sub-stack">Subroutine Callstack</a>に保存されている該当するFieldの値を返します。これは<a href="#language-expression">Expression</a>です。
+  Set Multi Numeric Type Field Valueは,設定後の<a href="#language-sub-stack">Subroutine Callstack</a>に保存されている該当するFieldの値を返します。これは<a href="#language-expression">Expression</a>です。
 </p>
 <p>
   返される値のTypeは,FieldのTypeです。
 </p>
 <p>
-  <b>Set Multi Numeric Field ValueのExample</b>
+  <b>Set Multi Numeric Type Field ValueのExample</b>
 </p>
 <p>
-  Set Multi Numeric Field ValueのExampleです。
+  Set Multi Numeric Type Field ValueのExampleです。
 </p>
 <pre>
 my $z : SPVM::Complex_2d;
 $z->{x} = 2.5;
 </pre>
 
-<h4 id="language-expression-get-field-multi-numeric-deref">Dereference によるGet Multi Numeric Field Value</h4>
+<h4 id="language-expression-get-field-multi-numeric-deref">Dereference によるGet Multi Numeric Type Field Value</h4>
 <p>
-  Dereference によるGet Multi Numeric Field Valueは,次のように記述します。
+  Dereference によるGet Multi Numeric Type Field Valueは,次のように記述します。
 </p>
 <pre>
 Invocant Expression->{Field Name}
 </pre>
 <p>
-  Invocant Expressionは,<a href="#language-type-ref-multi-numeric">Multi Numeric Reference Type</a>の値でなければなりません。Invocant Expressionが,<a href="#language-type-class">Class Type</a>の値であった場合は,<a href="#language-expression-get-field-class-based-object">Get Class Based Object Field Value</a>になり,<a href="#language-type-multi-numeric">Multi Numeric Type</a>の値であった場合は,<a href="#language-expression-get-field-multi-numeric">Get Multi Numeric Field Value</a>になり,それ以外の場合は,a compile-time error occurs
+  Invocant Expressionは,<a href="#language-type-ref-multi-numeric">Multi Numeric Reference Type</a>の値でなければなりません。Invocant Expressionが,<a href="#language-type-class">Class Type</a>の値であった場合は,<a href="#language-expression-get-field-class-based-object">Get Class Based Object Field Value</a>になり,<a href="#language-type-multi-numeric">Multi Numeric Type</a>の値であった場合は,<a href="#language-expression-get-field-multi-numeric">Get Multi Numeric Type Field Value</a>になり,それ以外の場合は,a compile-time error occurs
 </p>
 <p>
   Field Nameが,存在しない場合は,a compile-time error occurs
 </p>
 <p>
-  Dereference によるGet Multi Numeric Field Valueは,<a href="#language-sub-stack">Subroutine Callstack</a>に保存されている該当するFieldの値を返します。これは<a href="#language-expression">Expression</a>です。
+  Dereference によるGet Multi Numeric Type Field Valueは,<a href="#language-sub-stack">Subroutine Callstack</a>に保存されている該当するFieldの値を返します。これは<a href="#language-expression">Expression</a>です。
 </p>
 <p>
   返される値のTypeは,FieldのTypeです。
 </p>
 <p>
-  <b>Dereference によるGet Multi Numeric Field ValueのExample</b>
+  <b>Dereference によるGet Multi Numeric Type Field ValueのExample</b>
 </p>
 <p>
-  Dereference によるGet Multi Numeric Field ValueのExampleです。
+  Dereference によるGet Multi Numeric Type Field ValueのExampleです。
 </p>
 <pre>
 my $z : SPVM::Complex_2d;
@@ -3796,15 +3765,15 @@ my $z_ref = \$z;
 my $re = $z_ref->{x};
 </pre>
 
-<h4 id="language-expression-set-field-multi-numeric-deref">Dereference によるSet Multi Numeric Field Value</h4>
+<h4 id="language-expression-set-field-multi-numeric-deref">Dereference によるSet Multi Numeric Type Field Value</h4>
 <p>
-  Dereference によるSet Multi Numeric Field Valueは,次のように記述します。
+  Dereference によるSet Multi Numeric Type Field Valueは,次のように記述します。
 </p>
 <pre>
 Invocant Expression->{Field Name} = Right Expression
 </pre>
 <p>
-  Invocant Expressionは,<a href="#language-type-ref-multi-numeric">Multi Numeric Reference Type</a>の値でなければなりません。Invocant Expressionが,<a href="#language-type-class">Class Type</a>の値であった場合は,<a href="#language-expression-set-field-class-based-object">Set Class Based Object Field Value</a>になり,<a href="#language-type-multi-numeric">Multi Numeric Type</a>の値であった場合は,<a href="#language-expression-set-field-multi-numeric">Set Multi Numeric Field Value</a>になり,それ以外の場合は,a compile-time error occurs
+  Invocant Expressionは,<a href="#language-type-ref-multi-numeric">Multi Numeric Reference Type</a>の値でなければなりません。Invocant Expressionが,<a href="#language-type-class">Class Type</a>の値であった場合は,<a href="#language-expression-set-field-class-based-object">Set Class Based Object Field Value</a>になり,<a href="#language-type-multi-numeric">Multi Numeric Type</a>の値であった場合は,<a href="#language-expression-set-field-multi-numeric">Set Multi Numeric Type Field Value</a>になり,それ以外の場合は,a compile-time error occurs
 </p>
 <p>
   Field Nameが,存在しない場合は,a compile-time error occurs
@@ -3813,16 +3782,16 @@ Invocant Expression->{Field Name} = Right Expression
   Right ExpressionのTypeは,FieldのTypeと同じでなければなりません。otherwise a compile-time error occurs.
 </p>
 <p>
-  Dereference によるSet Multi Numeric Field Valueは,設定後の<a href="#language-sub-stack">Subroutine Callstack</a>に保存されている該当するFieldの値を返します。これは<a href="#language-expression">Expression</a>です。
+  Dereference によるSet Multi Numeric Type Field Valueは,設定後の<a href="#language-sub-stack">Subroutine Callstack</a>に保存されている該当するFieldの値を返します。これは<a href="#language-expression">Expression</a>です。
 </p>
 <p>
   返される値のTypeは,FieldのTypeです。
 </p>
 <p>
-  <b>Dereference によるSet Multi Numeric Field ValueのExample</b>
+  <b>Dereference によるSet Multi Numeric Type Field ValueのExample</b>
 </p>
 <p>
-  Dereference によるSet Multi Numeric Field ValueのExampleです。
+  Dereference によるSet Multi Numeric Type Field ValueのExampleです。
 </p>
 <pre>
 my $z : SPVM::Complex_2d;
