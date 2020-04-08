@@ -1953,7 +1953,7 @@ sub SUB_NAME : TYPE  ($self : self, ARGUMENT2 : TYPE2, ARGUMENT3 : TYPE3, ARGUME
 
 <a href="#language-type-self">self Type</a> must be first argument.
 
-Method can be called from the object created by <a href="#language-expression-new">new</a>. See <a href="language-expression-callsub">Subroutine Call</a> for Method Call.
+Method can be called from the object created by <a href="#language-expression-new">new</a>. See <a href="#language-expression-callsub">Subroutine Call</a> for Method Call.
 
 $self is called Invocant.
 
@@ -3243,7 +3243,7 @@ use Complex_2d;
 </pre>
 
 
-Next is <a href="#language-lex-var-declaration">Lexical Variable Declaration</a>. Lexical Variable Declaration create continuous area for fields of Multi Numeric Type Value on <a href="#language-sub-stack">Subroutine Callstack</a>. All fields of of Multi Numeric Type Value are initialized by <a href="language-type-initial-value">Type Initial Value</a>.
+Next is <a href="#language-lex-var-declaration">Lexical Variable Declaration</a>. Lexical Variable Declaration create continuous area for fields of Multi Numeric Type Value on <a href="#language-sub-stack">Subroutine Callstack</a>. All fields of of Multi Numeric Type Value are initialized by <a href="#language-type-initial-value">Type Initial Value</a>.
 
 <pre>
 my $point : Point_3i;
@@ -3266,53 +3266,44 @@ See <a href="#language-expression-set-field-multi-numeric">Set Multi Numeric Typ
 
 <h3 id="language-mulnum-array">Multi Numeric Array</h3>
 <ul class="list">
-  <li><a href="language-array-summary">Multi Numeric Array Summary</a></li>
-  <li><a href="language-array-access">Multi Numeric Array Access</a></li>
+  <li><a href="#language-mulnum-array-summary">Multi Numeric Array Summary</a></li>
+  <li><a href="#language-mulnum-array-access">Multi Numeric Array Access</a></li>
 </ul>
 
-<h4 id="language-array-summary">Multi Numeric Array Summary</h4>
-<p>
-  Multi Numeric Typeの値は,<a href="#language-array">Array</a>にすることができます。
-</p>
+<h4 id="language-mulnum-array-summary">Multi Numeric Array Summary</h4>
+
+<a href="#language-mulnum">Multi Numeric Value</a> can be an element of <a href="#language-array">Array</a>.
+
 <pre>
 my $points = new Point_3i[5];
 
 my $zs = new Complex_2d[5];
 </pre>
-<p>
-  Multi Numeric Arrayは,Multi Numeric Typeの値が,連続したデータ構造をとります。Arrayの要素は,オブジェクトではなく,数値がメモリ上に一直線に並んで,配置されます。
-</p>
-<p>
-  たとえば,Point_3iTypeの5の長さのArrayであれば,Point_3iTypeは,<a href="#language-type-int">int Type</a> の数値が3つ並んだTypeで,長さが5なので,"5 * 3 = 15"個の<a href="#language-type-int">int Type</a> の数値が,メモリ上に一直線に並んだデータになります。
-</p>
-<p>
-  Multi Numeric ArrayのTypeは,<a href="#language-type-array">Array Type</a>です。
-</p>
-<p>
-  Multi Numeric Arrayの要素のTypeは,<a href="#language-type-multi-numeric">Multi Numeric Type</a>です。
-</p>
 
-<h4 id="language-array-access">Multi Numeric Array Access</h4>
-<p>
-  Multi Numeric Array Accessとは,Multi Numeric Arrayにアクセスして,値を取得したり,設定したりする操作のことです。また,the following 記述そのものを指します。
-</p>
+Multi Numeric Array has continuous Multi Numeric Values.
+
+The Element Type is <a href="#language-type-multi-numeric">Multi Numeric Type</a>, not <a href="#language-type-object">Object Type</a>.
+
+For example, Point_3i[5] is continuous 15 (= 3 * 5) count <a href="#language-type-int">int Type</a> Value.
+
+<a href="#language-type">Type</a> of Multi Numeric Array is <a href="#language-type-array">Array Type</a>.
+
+<h4 id="language-mulnum-array-access">Multi Numeric Array Access</h4>
+
+Multi Numeric Array Access is an operation to access Multi Numeric Array to get and set the element value.
+
 <pre>
-Array->[添え字]
+Array->[INDEX]
 </pre>
-<p>
-  Multi Numeric Array Accessは,Arrayのアクセスと同じsyntax で行うことができます。
-</p>
-<p>
-  Arrayの取得については,<a href="#language-expression-get-array-element">Get Array Element Value</a>を見てください。
-</p>
-<p>
-  Arrayの設定については,<a href="#language-expression-set-set-array-element">Set Array Element Value</a>を見てください。
-</p>
+
+See <a href="#language-expression-get-array-element">Get Array Element Value</a> to get Array Element Value.
+
+See <a href="#language-expression-set-array-element">Set Array Element Value</a> to get Array Element Value.
 
 <h3 id="language-ref">Reference</h3>
 <ul>
-  <li><a href="language-ref-summary">Referenceの概要</a></li>
-  <li><a href="language-ref-deref">Dereference</a></li>
+  <li><a href="#language-ref-summary">Referenceの概要</a></li>
+  <li><a href="#language-ref-deref">Dereference</a></li>
 </ul>
 
 <h4 id="language-ref">Referenceの概要</h4>
@@ -3897,7 +3888,7 @@ my $object = new PACKAGE_NAME;
   指定されたPackage は,<a href="#language-type-class">Class Type</a>でなければなりません。otherwise a compile-time error occurs.
 </p>
 <p>
-  Fieldは,すべて<a href="language-type-initial-value">Type Initial Value</a>で初期化されます。
+  Fieldは,すべて<a href="#language-type-initial-value">Type Initial Value</a>で初期化されます。
 </p>
 <p>
   Create Objectは,<a href="#language-expression">Expression</a>を返します。
@@ -3941,7 +3932,7 @@ my $object = new Type[要素数Expression];
   要素数Expressionで指定された長さのArrayが生成されます。
 </p>
 <p>
-  Arrayの要素は,すべて<a href="language-type-initial-value">Type Initial Value</a>で初期化されます。
+  Arrayの要素は,すべて<a href="#language-type-initial-value">Type Initial Value</a>で初期化されます。
 </p>
 <p>
   Arrayにおいて,要素は,メモリ上に連続していることが保証されます。
@@ -5396,13 +5387,13 @@ my $length = length $nums;
 
 <h4 id="language-expression-operator-scalar">Scalar Operator </h4>
 <p>
-  Scalar Operator は,何もしないで,与えられた値そのものを返すOperator です。<a href="language-expression-operator-array-length">Array Length Operator</a>の意味を分かりやすくするためだけに用意されています。
+  Scalar Operator は,何もしないで,与えられた値そのものを返すOperator です。<a href="#language-expression-operator-array-length">Array Length Operator</a>の意味を分かりやすくするためだけに用意されています。
 </p>
 <pre>
 scalar Right Expression
 </pre>
 <p>
-  Right Expressionは<a href="language-expression-operator-array-length">Array Length Operator</a>でなければなりません。otherwise a compile-time error occurs.
+  Right Expressionは<a href="#language-expression-operator-array-length">Array Length Operator</a>でなければなりません。otherwise a compile-time error occurs.
 </p>
 <p>
   Scalar Operator returns Expression.
@@ -7744,7 +7735,7 @@ my $comparator = sub : int ($self : self, $x1 : object, $x2 : object) {
 </pre>
 
 <p>
-  Create Callback Objectによって生成されたオブジェクトは,通常のオブジェクトなので,Methodを呼び出すことができます。Create Callback Objectの呼び出しについては,<a href="language-expression-callsub">Subroutine Call</a>を見てください。
+  Create Callback Objectによって生成されたオブジェクトは,通常のオブジェクトなので,Methodを呼び出すことができます。Create Callback Objectの呼び出しについては,<a href="#language-expression-callsub">Subroutine Call</a>を見てください。
 <p>
 
 <h4 id="language-sub-capture">Capture</h4>
