@@ -3302,42 +3302,40 @@ See <a href="#language-expression-set-array-element">Set Array Element Value</a>
 
 <h3 id="language-ref">Reference</h3>
 <ul>
-  <li><a href="#language-ref-summary">Referenceの概要</a></li>
+  <li><a href="#language-ref-summary">Reference Summary</a></li>
   <li><a href="#language-ref-deref">Dereference</a></li>
 </ul>
 
-<h4 id="language-ref">Referenceの概要</h4>
-<p>
-  Referenceとは,Lexical Variable のアドレスのことをいいます。Referenceは,C言語のポインタに該当する機能を実現するために,設計されました。
-</p>
-<p>
-  Lexical Variable のアドレスは,<a href="#language-expression-operator-ref">Reference Operator</a>を使用して取得できます。<a href="#language-type-ref">Reference Type</a>は,<a href="#language-type-numeric">Numeric Type</a>あるいは<a href="#language-type-multi-numeric">Multi Numeric Type</a>の後ろに"&"を続けたものになります。
-</p>
+<h4 id="language-ref">Reference Summary</h4>
+
+Reference is data that indicates the location of <a href="#language-lex-var">Lexical Variable</a> in the memory. Reference is a feature corresponding to Pointer in C language.
+
+You can get Reference of Lexical Variable using <a href="#language-expression-operator-ref">Reference Operator</a>.
+
+<a href="#language-type-ref">Reference Type</a> is represented by <a href="#language-type-numeric">Numeric Type</a> "&" or <a href="# language-type-multi-numeric ">Multi Numeric Type</a> followed by "&".
+Reference types are represented by appending an & after <a href="#language-type-numeric">Numeric Type</a> or <a href="# language-type-multi-numeric ">Multi Numeric Type</a>.
+
 <pre>
-# Numeric Typeの変数のReference
+# Numeric Type Reference
 my $num : int;
 my $num_ref : int& = \$num;
 
-# Multi Numeric Typeの変数のReference
+# Multi Numeric Type Reference
 my $point : Point_3d;
 my $point_ref : Point_3d& = \$point;
 </pre>
-<p>
-  $num_refの値は,Lexical Variable "$num"のアドレスになります。$point_refの値は,Lexical Variable "$point"のアドレスになります。
-</p>
-<p>
-  Reference Operator  の対象は,<a href="#language-type-numeric">Numeric Type</a>あるいは<a href="#language-type-multi-numeric">Multi Numeric Type</a>の値が格納された変数だけです。Object Type の変数や定数に対して,使うことはできません。
-</p>
-<p>
-  <a href="#language-type-ref">Reference Type</a>の値は,Subroutine Argumentsとして利用することができます。
-</p>
+
+Target of Reference Operator is Variable of <a href="#language-type-numeric">Numeric Type</a> or <a href="#language-type-multi-numeric">Multi Numeric Type</a>. <a href="#language-type-object">Object Type</a> Variable or <a href="#language-literal">Literal</a> can't be target of Reference Operator.
+
+<a href="#language-type-ref">Reference Type</a> can be used in Subroutine Argument.
+
 <pre>
 # Subroutine Definition
 sub sum : void ($out_ref : int&, $in1 : int, $in2 : int) {
   $$out_ref = $in1 + $in2;
 }
 
-# Subroutine の利用
+# Subroutine Call
 my $num1 = 1;
 my $num2 = 2;
 my $out : int;
@@ -3345,48 +3343,33 @@ my $out_ref = \$out;
 sum($out_ref, $num1, $num2);
 </pre>
 
-<h4 id="language-ref-deref">Dereference </h4>
-<p>
-  Dereference とは,アドレスの場所にあるLexical Variable の値を取得・設定する操作をいいます。
-</p>
-<p>
-  Dereference することで,アドレスを通して値を取得したり,変更することができます。
-</p>
+<h4 id="language-ref-deref">Dereference</h4>
+
+Dereference is an operation to get and set the value pointed by Reference.
+
 <pre>
-# Numeric Typeの値を取得
+# Dereference Numeric Type Reference to get the pointed value
 my $num2 = $$num_ref;
 
-# Numeric Typeの値を変更
+# Dereference Numeric Type Reference to set the pointed value
 $$num_ref = 3;
 
-# Multi Numeric Typeの値を取得
+# Dereference Mutil Numeric Type Reference to get the pointed value
 my $point2 = $$point_ref;
 
-# Multi Numeric Typeの値を設定
+# Dereference Mutil Numeric Type Reference to set the pointed value
 $$point_ref = $point2;
 </pre>
 
-<p>
-  Reference Type の対象がMulti Numeric Typeであった場合に,Multi Numeric TypeのFieldの設定と取得は,Arrow Operator で行うことができます。
-</p>
+If the target of Reference Type is <a href="#language-type-multi-numeric">Multi Numeric Type</a>, the setting and getting of Multi Numeric Type Field Value can be done by Arrow Operator.
+
 <pre>
-# Reference Type の対象がMulti Numeric Typeであった場合に,Multi Numeric TypeのFieldを取得
+# If the target of Reference Type is Multi Numeric Type, get Multi Numeric Type Field Value
 my $x = $point_ref->{x};
 
-# Reference Type の対象がMulti Numeric Typeであった場合に,Multi Numeric TypeのFieldを設定
+# If the Target of Reference Type is Multi Numeric Type, set Multi Numeric Type Field Value
 $point_ref->{x} = 1;
 </pre>
-
-<h4 id="language-type-ref-numeric">Numeric Reference Type </h4>
-<p>
-  Numeric Reference Type とは,<a href="#language-type-numeric">Numeric Type</a>の変数に対する<a href="#language-type-ref">Reference Type</a>のことをいいます。
-</p>
-<h4 id="language-type-ref-multi-numeric">Multi Numeric Reference Type </h4>
-<p>
-  Multi Numeric Reference Type とは,<a href="#language-type-multi-numeric">Multi Numeric Type</a>の変数に対する<a href="#language-type-ref">Reference Type</a>のことをいいます。
-</p>
-
-</p>
 
 <h3 id="language-expression"><a href="#language-expression">Expression</a></h3>
 
@@ -7086,6 +7069,18 @@ my $point_ref : Point_3i& = \$point;
 </p>
 <p>
   Referenceの詳しい解説については,<a href="#language-ref">Reference</a>を見てください。
+</p>
+
+<h4 id="language-type-ref-numeric">Numeric Reference Type</h4>
+
+<p>
+  Numeric Reference Type とは,<a href="#language-type-numeric">Numeric Type</a>の変数に対する<a href="#language-type-ref">Reference Type</a>のことをいいます。
+</p>
+
+<h4 id="language-type-ref-multi-numeric">Multi Numeric Reference Type</h4>
+
+<p>
+  Multi Numeric Reference Type とは,<a href="#language-type-multi-numeric">Multi Numeric Type</a>の変数に対する<a href="#language-type-ref">Reference Type</a>のことをいいます。
 </p>
 
 <h3 id="language-type-inference">Type Inference</h3>
