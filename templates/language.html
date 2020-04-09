@@ -30,7 +30,6 @@ Last modified 2020-04-02
   <li><a href="#language-ref">Reference</a></li>
   <li><a href="#language-expression">Expression</a></li>
   <li><a href="#language-operator">Operator</a></li>
-  <li><a href="#language-expression-operator-precedence">Operator Precidence</a></li>
   <li><a href="#language-Statement">Statement</a></li>
   <li><a href="#language-type">Type</a></li>
   <li><a href="#language-type-inference">Type Inference</a></li>
@@ -3402,6 +3401,7 @@ Expression is a syntax component that can be evaluated as a value.
   <li><a href="#language-expression-current-file">Get Current File Name</a></li>
   <li><a href="#language-expression-current-line">Get Current Line Number</a></li>
   <li>(Expression)</li>
+  <li><a href="#language-expression-operator-precedence">Operator Precidence</a></li>
 </ul>
 
 <h4 id="language-expression-operator">Operator</h4>
@@ -5415,7 +5415,7 @@ isweak 変数->{Field Name};
   isweak Operator は,FieldがWeaken Referenceの場合は,<a href="#language-type-int">int Type</a> の1を,そうでない場合は0を返します。これは,<a href="#language-expression">Expression</a>です。
 </p>
 
-<h3 id="language-expression-operator-precedence">Operator Precidence</h3>
+<h4 id="language-expression-operator-precedence">Operator Precidence</h4>
 <p>
   Operator Precidenceは,the following 通りです。下にいくほど,優先順位が高くなります。
 </p>
