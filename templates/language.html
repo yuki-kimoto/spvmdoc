@@ -3372,18 +3372,17 @@ $point_ref->{x} = 1;
 
 <h3 id="language-expression"><a href="#language-expression">Expression</a></h3>
 
-Expression is a syntax component that can be evaluated as a value.
-
 <ul class="list">
+  <li><a href="#language-expression-summary">Expression Summary</a></li>
   <li><a href="#language-expression-operator">Operator</a></li>
+  <li><a href="#language-expression-literal">Literal</a></li>
+  <li><a href="#language-expression-undef">Undefined Value</a></li>
   <li><a href="#language-expression-get-lex-var">Get Lexical Variable Value</a></li>
   <li><a href="#language-expression-set-lex-var">Set Lexical Variable Value</a></li>
   <li><a href="#language-expression-set-package-var">Get Package Variable Value</a></li>
   <li><a href="#language-expression-get-package-var">Set Package Variable Value</a></li>
   <li><a href="#language-expression-get-exception-var">Get Exception Variable Value</a></li>
   <li><a href="#language-expression-set-exception-var">Set Exception Variable Value</a></li>
-  <li><a href="#language-literal">Literal</a></li>
-  <li><a href="#language-undef">Undefined Value</a></li>
   <li><a href="#language-expression-callsub">Subroutine Call</a></li>
   <li><a href="#language-expression-get-field-class-based-object">Get Class Based Object Field Value</a></li>
   <li><a href="#language-expression-set-field-class-based-object">Set Class Based Object Field Value</a></li>
@@ -3404,77 +3403,66 @@ Expression is a syntax component that can be evaluated as a value.
   <li><a href="#language-expression-operator-precedence">Operator Precidence</a></li>
 </ul>
 
+<h4 id="language-expression-summary">Expression Summary</h4>
+
+Expression is a syntax component that can be evaluated as a value.
+
 <h4 id="language-expression-operator">Operator</h4>
 
 <a href="#language-operator">Operator</a> is a Expression.
 
+<h4 id="language-expression-literal">Undefined Value</h4>
+
+<a href="#language-undef">Undefined Value</a> is a Expression.
+
+<h4 id="language-expression-undef">Literal</h4>
+
+<a href="#language-literal">Literal</a> is a Expression.
+
 <h4 id="language-expression-get-lex-var">Get Lexical Variable Value</h4>
-<p>
-  Get Lexical Variable Valueをするには,Lexical Variable 自体を記述します。
-</p>
+
+<b>Get Lexical Variable Value</b> is a Expression to get <a href="#language-lex-var">Lexical Variable</a> Value.
+
 <pre>
 $var
 </pre>
-<p>
-  Get Lexical Variable Valueは,<a href="#language-expression">Expression</a>です。
-</p>
 
 <h4 id="language-expression-set-lex-var">Set Lexical Variable Value</h4>
-<p>
-  Set Lexical Variable Valueを行うには,<a href="#language-expression-operator-assign">Assignment Operator</a>を使用します。
-</p>
+
+<b>Set Lexical Variable Value Expression</b> is a Expression to set <a href="#language-lex-var">Lexical Variable</a> Value using <a href="#language-expression-operator-assign">Assignment Operator</a>.
+
 <pre>
-$var = Right Expression
+$var = RIGHT_EXPRESSION
 </pre>
-<p>
-  代入が<a href="#language-type-compatible">Type Compatibility</a>を満たさない場合は,a compile-time error occurs
-</p>
-<p>
-  Set Lexical Variable Valueは,設定後の値を返します。
-</p>
-<p>
-  Set Lexical Variable Valueは,<a href="#language-expression">Expression</a>です。
-</p>
-<p>
-  Right Expressionが,Object Type であった場合は,オブジェクトのReference Countが1増やされます。
-</p>
-<p>
-  代入前に,すでに$varにオブジェクトが代入されていた場合は,そのオブジェクトのReference Countが1減らされます。
-</p>
+
+If the assignment does not meet <a href="#language-type-compatible">Type Compatibility</a>, a compile-time error occurs.
+
+Set Lexical Variable Value Expression returns the value after setting.
+
+When Right Expression is <a href="#language-type-object">Object Type</a>, Reference Count of the object is incremented by 1.
+
+If an object has already been assigned to $var before the assignment, the Reference Count of that object is decremented by 1.
 
 <h4 id="language-expression-get-package-var">Get Package Variable Value</h4>
 
-Use the following syntax to get the value of Package Variable.
-
-<p>
-  Package Variable の値を取得するにはthe following syntax を使用します。
-</p>
+<b>Get Package Variable Value Expression</b> is a Expression to get <a href="#language-package-var">Package Variable</a> Value.
 
 <pre>
 $PACKAGE_NAME::PACKAGE_VARIABLE_NAME
 </pre>
-<p>
-  自分自身のPackage に属するPackage Variable の場合は"PACKAGE_NAME::"を省略できます。
-</p>
+
+"PACKAGE_NAME::" can be omitted when the Package Variable belongs to own <a href="#language-package">Package</a>.
+
 <pre>
 $PACKAGE_VARIABLE_NAME
 </pre>
 
-<p>
- Get Package Variable Valueは,<a href="#language-expression">Expression</a>を返します。
-</p>
+If you try to get the value of a Package Variable that is not defined, a compile-time error occurs.
 
-<p>
-  DefinitionされていないPackage Variable の値を取得しようとした場合は,a compile-time error occurs
-</p>
+If you try to access a private Package Variable from outside the Package, a compile-time error occurs.
 
-<p>
-  Package 外側からプライベートなPackage Variable にアクセスしようとした場合は,a compile-time error occurs
-</p>
+<b>Get Package Variable Value Example:</b>
 
-<p>
-  <b>Get Package Variable Value Example:</b>
-</p>
 <pre>
 package Foo {
   our $VAR : int;
@@ -3487,29 +3475,28 @@ package Foo {
 </pre>
 
 <h4 id="language-expression-set-package-var">Set Package Variable Value</h4>
-<p>
-  Package Variable の値を設定するにはthe following syntax を使用します。
-</p>
+
+<b>Set Package Variable Value Expression</b> is a Expression to set <a href="#language-package-var">Package Variable</a> Value using <a href="#language-expression-operator-assign">Assignment Operator</a>.
+.
+
 <pre>
-$Class名::Package Variable Name = Right Expression
+$PACKAGE_NAME::PACKAGE_VARIABLE_NAME = RIGHT_EXPRESSION
 </pre>
-  自分自身のPackage に属するPackage Variable の場合は"Class名::"を省略できます。
-</p>
+
+"PACKAGE_NAME::" can be omitted when the Package Variable belongs to own <a href="#language-package">Package</a>.
+
 <pre>
-$Package Variable Name = Right Expression
+$PACKAGE_VARIABLE_NAME = RIGHT_EXPRESSION
 </pre>
-<p>
-  Package Variable 設定は,<a href="#language-expression">Expression</a>を返します。返される結果は,代入後のPackage Variable の値です。
-</p>
-<p>
-  DefinitionされていないPackage Variable の値を設定しようとした場合は,コンパイル時エラーが設定します。
-</p>
-<p>
-  Package 外側からプライベートなPackage Variable にアクセスしようとした場合は,a compile-time error occurs
-</p>
-<p>
-  <b>Set Package Variable Value Example:</b>
-</p>
+
+Set Package Variable Value Expression returns the value after setting.
+
+If you try to get the value of a Package Variable that is not defined, a compile-time error occurs.
+
+If you try to access a private Package Variable from outside the Package, a compile-time error occurs.
+
+<b>Set Package Variable Value Example:</b>
+
 <pre>
 package Foo {
   our $VAR : int;
@@ -3522,24 +3509,17 @@ package Foo {
 </pre>
 
 <h4 id="language-expression-get-exception-var">Get Exception Variable Value</h4>
-<p>
-  Exception Variableの値を取得するにはthe following syntax を使用します。
-</p>
+
+<b>Get Exception Variable Value Expression</b> is a Expression to get the value of <a href="#language-exception-var">Exception Variable</a>.
+
 <pre>
 $@
 </pre>
-<p>
- Get Exception Variable Valueは,<a href="#language-expression">Expression</a>を返します。
-</p>
-<p>
- Get Exception Variable Valueは,<a href="#language-type-string">string Type</a>の値を返します。
-</p>
-<p>
-  <b>Get Exception Variable ValueのExample</b>
-</p>
-<p>
-  Get Exception Variable ValueのExampleです。
-</p>
+
+Get Exception Variable Value Expression returns the value of <a href="#language-type-string">string Type</a>.
+
+<b>Get Exception Variable Value Example:</b>
+
 <pre>
 eval {
   foo();
@@ -3551,27 +3531,21 @@ if (my $message = $@) {
 </pre>
 
 <h4 id="language-expression-set-exception-var">Set Exception Variable Value</h4>
-<p>
-  Exception Variableの値を設定するにはthe following syntax を使用します。
-</p>
+
+<b>Set Exception Variable Value Expression</b> is a Expression to set the value of <a href="#language-exception-var">Exception Variable</a> using <a href="#language-expression-operator-assign">Assignment Operator</a>.
+
 <pre>
-$@ = Right Expression
+$@ = RIGHT_EXPRESSION
 </pre>
+
 <p>
-  Right Expressionは<a href="#language-type-string-compatible">String Compatible Type</a>でなければなりません。
+  Right Expression must be <a href="#language-type-string-compatible">String Compatible Type</a>.
 </p>
-<p>
- Set Exception Variable Valueは,<a href="#language-expression">Expression</a>を返します。
-</p>
-<p>
- Set Exception Variable Valueは,設定後のException Variableの値を返します。これは,<a href="#language-type-string">string Type</a>です。
-</p>
-<p>
-  <b>Set Exception Variable ValueのExample</b>
-</p>
-<p>
-  Set Exception Variable ValueのExampleです。
-</p>
+
+Returns the value of Exception Variable after setting. This is <a href="#language-type-string">string Type</a>.
+
+<b>Set Exception Variable Value Example:</b>
+
 <pre>
 $@ = "Error";
 </pre>
@@ -7594,21 +7568,16 @@ eval {
 </p>
 
 <h4 id="language-exception-var">Exception Variable</h4>
-<p>
-  Exception Variableは"$@"で表現されるグローバル変数のことです。
-</p>
+
+<b>Exception Variable</b> is a global variable that is represented by "<b>$@</b>"
+
 <pre>
 $@
 </pre>
-<p>
-  Exception Variableは,本当の意味では,グローバル変数ではありません。Exception Variableは,実は,スレッド変数です。SPVMはシングルスレッド設計なので,Exception Variableは,グローバル変数として振舞うように見えます。ネイティブにおいてスレッドを利用する場合に,違いがあります。
-</p>
-<p>
-  Get Exception Variable Valueについては,<a href="#language-expression-get-exception-var">Get Exception Variable Value</a>を見てください。
-</p>
-<p>
-  Set Exception Variable Valueについては,<a href="#language-expression-set-exception-var">Set Exception Variable Value</a>を見てください。
-</p>
+
+See <a href="#language-expression-get-exception-var">Get Exception Variable Value</a> to get Exception Variable Value.
+
+See <a href="#language-expression-set-exception-var">Set Exception Variable Value</a> to set Exception Variable Value.
 
 <h3 id="language-garbage-collection">Garbage Collection</h3>
 <p>
