@@ -30,7 +30,7 @@ Last modified 2020-04-02
   <li><a href="#language-ref">Reference</a></li>
   <li><a href="#language-expression">Expression</a></li>
   <li><a href="#language-operator">Operator</a></li>
-  <li><a href="#language-Statement">Statement</a></li>
+  <li><a href="#language-statement">Statement</a></li>
   <li><a href="#language-type">Type</a></li>
   <li><a href="#language-type-inference">Type Inference</a></li>
   <li><a href="#language-type-compatible">Type Compatibility</a></li>
@@ -413,16 +413,16 @@ The following is Syntax Parsing Definition in SPVM, using the syntax in yacc/bis
 %type <opval> enumeration enumeration_block opt_enumeration_values enumeration_values enumeration_value
 %type <opval> sub cb_obj opt_args args arg invocant has use require our string_length
 %type <opval> opt_descriptors descriptors sub_names opt_sub_names
-%type <opval> opt_Statements Statements Statement if_Statement else_Statement 
-%type <opval> for_Statement while_Statement switch_Statement case_Statement default_Statement
-%type <opval> block eval_block begin_block switch_block if_require_Statement
+%type <opval> opt_statements statements statement if_statement else_statement 
+%type <opval> for_statement while_statement switch_statement case_statement default_statement
+%type <opval> block eval_block begin_block switch_block if_require_statement
 %type <opval> unary_op binary_op num_comparison_op str_comparison_op isa logical_op
 %type <opval> call_sub opt_vaarg
 %type <opval> array_access field_access weaken_field unweaken_field isweak_field convert array_length
 %type <opval> deref ref assign inc dec allow
 %type <opval> new array_init
 %type <opval> my_var var
-%type <opval> expression opt_expressions expressions opt_expression case_Statements
+%type <opval> expression opt_expressions expressions opt_expression case_statements
 %type <opval> field_name sub_name
 %type <opval> type basic_type array_type array_type_with_length ref_type  type_or_void
 
@@ -554,24 +554,24 @@ descriptors
 : descriptors DESCRIPTOR
 | DESCRIPTOR
 
-opt_Statements
+opt_statements
 :	/* Empty */
-|	Statements
+|	statements
 
-Statements
-: Statements Statement 
-| Statement
+statements
+: statements statement 
+| statement
 
-Statement
-: if_Statement
-| for_Statement
-| while_Statement
+statement
+: if_statement
+| for_statement
+| while_statement
 | block
-| switch_Statement
-| case_Statement
-| default_Statement
+| switch_statement
+| case_statement
+| default_statement
 | eval_block
-| if_require_Statement
+| if_require_statement
 | expression ';'
 | LAST ';'
 | NEXT ';'
@@ -586,46 +586,46 @@ Statement
 | unweaken_field ';'
 | ';'
 
-for_Statement
+for_statement
 : FOR '(' opt_expression ';' expression ';' opt_expression ')' block
 
-while_Statement
+while_statement
 : WHILE '(' expression ')' block
 
-switch_Statement
+switch_statement
 : SWITCH '(' expression ')' switch_block
 
 switch_block
-: '{' case_Statements '}'
-| '{' case_Statements default_Statement '}'
+: '{' case_statements '}'
+| '{' case_statements default_statement '}'
 
-case_Statements
-: case_Statements case_Statement
-| case_Statement
+case_statements
+: case_statements case_statement
+| case_statement
 
-case_Statement
+case_statement
 : CASE expression ':' block
 | CASE expression ':'
 
-default_Statement
+default_statement
 : DEFAULT ':' block
 | DEFAULT ':'
 
-if_require_Statement
+if_require_statement
 : IF '(' require ')' block
 | IF '(' require ')' block ELSE block
 
-if_Statement
-: IF '(' expression ')' block else_Statement
-| UNLESS '(' expression ')' block else_Statement
+if_statement
+: IF '(' expression ')' block else_statement
+| UNLESS '(' expression ')' block else_statement
 
-else_Statement
+else_statement
 : /* NULL */
 | ELSE block
-| ELSIF '(' expression ')' block else_Statement
+| ELSIF '(' expression ')' block else_statement
 
 block 
-: '{' opt_Statements '}'
+: '{' opt_statements '}'
 
 eval_block
 : EVAL block ';'
@@ -1752,9 +1752,9 @@ my $point = new Point;
 $point->{x} = 1;
 </pre>
 
-See <a href="#language-expression-get-field-class-based-object">Get Field Value</a> to get field of Class Based Object.
+See <a href="#language-expression-get-field">Get Field Value</a> to get field of Class Based Object.
 
-See <a href="#language-expression-set-field-class-based-object">Set Field Value</a> to set field of Class Based Object.
+See <a href="#language-expression-set-field">Set Field Value</a> to set field of Class Based Object.
 
 <b>2. Multi Numeric Field Access</b>
 
@@ -1766,9 +1766,9 @@ $z->{x} = 1;
 $z->{y} = 3;
 </pre>
 
-See <a href="#language-expression-get-field-multi-numeric">Get Multi Numeric Type Field Value</a> to get field of the value of <a href="#language-type-multi-numeric">Multi Numeric Type</a>.
+See <a href="#language-expression-get-field-multi-numeric">Get Multi Numeric Field Value</a> to get field of the value of <a href="#language-type-multi-numeric">Multi Numeric Type</a>.
 
-See <a href="#language-expression-set-field-multi-numeric">Set Multi Numeric Type Field Value</a> to set field of the value of <a href="#language-type-multi-numeric">Multi Numeric Type</a>.
+See <a href="#language-expression-set-field-multi-numeric">Set Multi Numeric Field Value</a> to set field of the value of <a href="#language-type-multi-numeric">Multi Numeric Type</a>.
 
 <b>3. Dereference Multi Numeric Field</b>
 
@@ -1781,9 +1781,9 @@ $z_ref->{x} = 1;
 $z_ref->{y} = 3;
 </pre>
 
-See <a href="#language-expression-get-field-multi-numeric-deref">Get Multi Numeric Type Field Value via Dereference</a> to get Multi Numeric Field via Dereference.
+See <a href="#language-expression-get-field-multi-numeric-deref">Get Multi Numeric Field Value via Dereference</a> to get Multi Numeric Field via Dereference.
 
-See <a href="#language-expression-set-field-multi-numeric-deref">Set Multi Numeric Type Field Value via Dereference</a> to set Multi Numeric Field via Dereference.
+See <a href="#language-expression-set-field-multi-numeric-deref">Set Multi Numeric Field Value via Dereference</a> to set Multi Numeric Field via Dereference.
 
 <h3 id="language-sub">Subroutine</h3>
 <ul class="list">
@@ -1826,7 +1826,7 @@ Type of Argument must be <a href="#language-type-numeric">Numeric Type</a>, <a h
 
 The defined Subroutine can be called. See <a href="#language-expression-callsub">Subroutine Call</a> about calling Subroutine, .
 
-<a href="#language-scope-block-Statement-sub">Subroutine Block</a> can have zero or more Statements.
+<a href="#language-scope-block-statement-sub">Subroutine Block</a> can have zero or more Statements.
 
 Subroutine Definition can have <a href="#language-sub-descriptor">Subroutine Descriptor</a>.
 
@@ -2129,7 +2129,7 @@ my $flag3 = Foo->FLAG3;
 </pre>
 
 <p>
-  In special case, Enumeration Call can be used in <a href="#language-Statement-case">case Statement</a> of <a href="#language-Statement-switch">switch Statement</a>.
+  In special case, Enumeration Call can be used in <a href="#language-statement-case">case Statement</a> of <a href="#language-statement-switch">switch Statement</a>.
 </p>
 
 <pre>
@@ -2174,7 +2174,7 @@ package Foo {
 }
 </pre>
 
-Zero or more <a href="#language-Statement">Statements</a> can be written in BEGIN Block.
+Zero or more <a href="#language-statement">Statements</a> can be written in BEGIN Block.
 
 <pre>
 BEGIN {
@@ -2183,7 +2183,7 @@ BEGIN {
 }
 </pre>
 
-<a href="#language-Statement-return">return Statement</a> cannot be written in BEGIN Block.
+<a href="#language-statement-return">return Statement</a> cannot be written in BEGIN Block.
 
 Internally, BEGIN Block is a <a href="#language-sub">Subroutine</a> that Return Type is <a href="#language-type-void">void Type</a> and has no arguments.
 
@@ -2358,23 +2358,23 @@ There are <a href="#language-scope-scope-block">Scope Block</a> that creates a s
 
 <h4 id="language-scope-scope-block">Scope Block </h4>
 
-<b>Scope Block</b> is a block that creates a Scope. Zero or more <a href="#language-Statement">Statement</a> can be written in Scope Block.
+<b>Scope Block</b> is a block that creates a Scope. Zero or more <a href="#language-statement">Statement</a> can be written in Scope Block.
 
 <b>List of Scope Blocks</b>
 
 <ul class="list">
-  <li><a href="#language-scope-block-Statement-simple">Simple Block</a></li>
-  <li><a href="#language-scope-block-Statement-sub">Subroutine Block</a></li>
-  <li><a href="#language-scope-block-Statement-eval">eval Block</a></li>
-  <li><a href="#language-scope-block-Statement-if">if Block</a></li>
-  <li><a href="#language-scope-block-Statement-elsif">elsif Block</a></li>
-  <li><a href="#language-scope-block-Statement-else">else Block</a></li>
-  <li><a href="#language-scope-block-Statement-for">for Block</a></li>
-  <li><a href="#language-scope-block-Statement-while">while Block</a></li>
-  <li><a href="#language-scope-block-Statement-switch">switch Block</a></li>
+  <li><a href="#language-scope-block-statement-simple">Simple Block</a></li>
+  <li><a href="#language-scope-block-statement-sub">Subroutine Block</a></li>
+  <li><a href="#language-scope-block-statement-eval">eval Block</a></li>
+  <li><a href="#language-scope-block-statement-if">if Block</a></li>
+  <li><a href="#language-scope-block-statement-elsif">elsif Block</a></li>
+  <li><a href="#language-scope-block-statement-else">else Block</a></li>
+  <li><a href="#language-scope-block-statement-for">for Block</a></li>
+  <li><a href="#language-scope-block-statement-while">while Block</a></li>
+  <li><a href="#language-scope-block-statement-switch">switch Block</a></li>
 </ul>
 
-<h4 id="language-scope-block-Statement-simple">Simple Block</h4>
+<h4 id="language-scope-block-statement-simple">Simple Block</h4>
 
 Simple Block is a scope block.
 
@@ -2385,7 +2385,7 @@ Simple Block is a scope block.
 }
 </pre>
 
-<h4 id="language-scope-block-Statement-sub">Subroutine Block</h4>
+<h4 id="language-scope-block-statement-sub">Subroutine Block</h4>
 
 Subroutine Block is a scope block.
 
@@ -2396,7 +2396,7 @@ sub foo : int () {
 }
 </pre>
 
-<h4 id="language-scope-block-Statement-eval">eval Block</h4>
+<h4 id="language-scope-block-statement-eval">eval Block</h4>
 
 eval Block is a scope block.
 
@@ -2407,7 +2407,7 @@ eval {
 }
 </pre>
 
-<h4 id="language-scope-block-Statement-if">if Block</h4>
+<h4 id="language-scope-block-statement-if">if Block</h4>
 
 if Block is a scope block.
 
@@ -2418,7 +2418,7 @@ if (Expression) {
 }
 </pre>
 
-<h4 id="language-scope-block-Statement-elsif">elsif Block</h4>
+<h4 id="language-scope-block-statement-elsif">elsif Block</h4>
 
 elsif Block is a scope block.
 
@@ -2429,7 +2429,7 @@ elsif (Expression) {
 }
 </pre>
 
-<h4 id="language-scope-block-Statement-else">else Block</h4>
+<h4 id="language-scope-block-statement-else">else Block</h4>
 
 else Block is a scope block.
 
@@ -2440,7 +2440,7 @@ else {
 }
 </pre>
 
-<h4 id="language-scope-block-Statement-for">for Block</h4>
+<h4 id="language-scope-block-statement-for">for Block</h4>
 
 for Block is a scope block.
 
@@ -2451,7 +2451,7 @@ for (my $i = 0; $i < 3; $i++) {
 }
 </pre>
 
-<h4 id="language-scope-block-Statement-while">while Block</h4>
+<h4 id="language-scope-block-statement-while">while Block</h4>
 
 while Block is a scope block.
 
@@ -2462,7 +2462,7 @@ while (Expression) {
 }
 </pre>
 
-<h4 id="language-scope-block-Statement-switch">switch Block</h4>
+<h4 id="language-scope-block-statement-switch">switch Block</h4>
 
 switch Block is a scope block.
 
@@ -3259,9 +3259,9 @@ Note that Multi Numeric Type value are not object, so cannot create a Object by 
 MULTI_NUMERIC_TYPE_VALUE->{FIELD_NAME}
 </pre>
 
-See <a href="#language-expression-get-field-multi-numeric">Get Multi Numeric Type Field Value</a> to get Multi Numeric Type Field Value.
+See <a href="#language-expression-get-field-multi-numeric">Get Multi Numeric Field Value</a> to get Multi Numeric Type Field Value.
 
-See <a href="#language-expression-set-field-multi-numeric">Set Multi Numeric Type Field Value</a> to set Multi Numeric Type Field Value.
+See <a href="#language-expression-set-field-multi-numeric">Set Multi Numeric Field Value</a> to set Multi Numeric Type Field Value.
 
 <h3 id="language-mulnum-array">Multi Numeric Array</h3>
 <ul class="list">
@@ -3383,19 +3383,19 @@ $point_ref->{x} = 1;
   <li><a href="#language-expression-get-package-var">Set Package Variable Value</a></li>
   <li><a href="#language-expression-get-exception-var">Get Exception Variable Value</a></li>
   <li><a href="#language-expression-set-exception-var">Set Exception Variable Value</a></li>
-  <li><a href="#language-expression-callsub">Subroutine Call</a></li>
-  <li><a href="#language-expression-get-field-class-based-object">Get Field Value</a></li>
-  <li><a href="#language-expression-set-field-class-based-object">Set Field Value</a></li>
-  <li><a href="#language-expression-get-field-multi-numeric">Get Multi Numeric Type Field Value</a></li>
-  <li><a href="#language-expression-set-field-multi-numeric">Set Multi Numeric Type Field Value</a></li>
-  <li><a href="#language-expression-get-field-multi-numeric-deref">Get Multi Numeric Type Field Value via Dereference</a></li>
-  <li><a href="#language-expression-set-field-multi-numeric-deref">Set Multi Numeric Type Field Value via Dereference</a></li>
+  <li><a href="#language-expression-get-field">Get Field Value</a></li>
+  <li><a href="#language-expression-set-field">Set Field Value</a></li>
+  <li><a href="#language-expression-get-field-multi-numeric">Get Multi Numeric Field Value</a></li>
+  <li><a href="#language-expression-set-field-multi-numeric">Set Multi Numeric Field Value</a></li>
+  <li><a href="#language-expression-get-field-multi-numeric-deref">Get Multi Numeric Field Value via Dereference</a></li>
+  <li><a href="#language-expression-set-field-multi-numeric-deref">Set Multi Numeric Field Value via Dereference</a></li>
   <li><a href="#language-expression-get-array-element">Get Array Element Value</a></li>
   <li><a href="#language-expression-set-array-element">Set Array Element Value</a></li>
   <li><a href="#language-expression-typecast">Type Cast</a></li>
   <li><a href="#language-expression-new">Create Object</a></li>
   <li><a href="#language-expression-new-array">Create Array</a></li>
   <li><a href="#language-expression-array-init">Array Initialization</a></li>
+  <li><a href="#language-expression-callsub">Subroutine Call</a></li>
   <li><a href="#language-expression-current-package">Get Current Package Name</a></li>
   <li><a href="#language-expression-current-file">Get Current File Name</a></li>
   <li><a href="#language-expression-current-line">Get Current Line Number</a></li>
@@ -3435,7 +3435,7 @@ $var
 $var = RIGHT_EXPRESSION
 </pre>
 
-If the assignment does not satisfy <a href="#language-type-compatible">Type Compatibility</a>, a compile-time error occurs.
+The Assignment must satisfy <a href="#language-type-compatible">Type Compatibility</a>.
 
 Set Lexical Variable Value Expression returns the value after setting.
 
@@ -3560,7 +3560,7 @@ If an object has already been assigned to Exception Variable before the assignme
 $@ = "Error";
 </pre>
 
-<h4 id="language-expression-get-field-class-based-object">Get Field Value</h4>
+<h4 id="language-expression-get-field">Get Field Value</h4>
 
 <b>Get Field Value Expression</b> is a Expression to get <a href="#language-field">Field</a> Value.
 
@@ -3568,13 +3568,13 @@ $@ = "Error";
 INVOCANT_EXPRESSION->{FIELD_NAME}
 </pre>
 
-Invocant Expression is <a href="#language-type-class">Class Type</a>. If Expression is <a href="#language-type-multi-numeric">Multi Numeric Type</a> Value, The Field Access is <a href="#language-expression-get-field-multi-numeric">Get Multi Numeric Type Field Value</a>. If Expression is <a href="#language-type-ref-multi-numeric">Multi Numeric Reference Type</a> Value, The Field Access is ,<a href="#language-expression-get-field-multi-numeric-deref">. Otherwise a compile-time error occurs.
+Invocant Expression is <a href="#language-type-class">Class Type</a>. If Expression is <a href="#language-type-multi-numeric">Multi Numeric Type</a> Value, The Field Access is <a href="#language-expression-get-field-multi-numeric">Get Multi Numeric Field Value</a>. If Expression is <a href="#language-type-ref-multi-numeric">Multi Numeric Reference Type</a> Value, The Field Access is ,<a href="#language-expression-get-field-multi-numeric-deref">. Otherwise a compile-time error occurs.
 
 If the Field Name does not found in the <a href="#language-package">Package</a>, a compile-time error occurs
 
 Get Field Value Expression returns the value of the Field stored in the object.
 
-Retrun Type is The <a href="#language-type">Type</a> of Field.
+Retrun Type is The <a href="#language-type">Type</a> of the Field.
 
 <b>Get Field Value Example:</b>
 
@@ -3583,7 +3583,7 @@ my $point = Point->new;
 my $x = $point->{x};
 </pre>
 
-<h4 id="language-expression-set-field-class-based-object">Set Field Value</h4>
+<h4 id="language-expression-set-field">Set Field Value</h4>
 
 <b>Set Field Value Expression</b> is a Expression to set <a href="#language-field">Field</a> Value.
 
@@ -3591,11 +3591,11 @@ my $x = $point->{x};
 INVOCANT_EXPRESSION->{FIELD_NAME} = RIGHT_EXPRESSION
 </pre>
 
-Invocant Expression is <a href="#language-type-class">Class Type</a>. If Invocant Expression is <a href="#language-type-multi-numeric">Multi Numeric Type</a>, the Field Access is ,<a href="#language-expression-get-field-multi-numeric">Set Multi Numeric Type Field Value</a>. If Invocant Expression is <a href="#language-type-ref-multi-numeric">Multi Numeric Reference Type</a>, the Field Access is <a href="#language-expression-get-field-multi-numeric-deref">Set Multi Numeric Type Field Value via Dereference</a>. Otherwise a compile-time error occurs.
+Invocant Expression is <a href="#language-type-class">Class Type</a>. If Invocant Expression is <a href="#language-type-multi-numeric">Multi Numeric Type</a>, the Field Access is ,<a href="#language-expression-get-field-multi-numeric">Set Multi Numeric Field Value</a>. If Invocant Expression is <a href="#language-type-ref-multi-numeric">Multi Numeric Reference Type</a>, the Field Access is <a href="#language-expression-get-field-multi-numeric-deref">Set Multi Numeric Field Value via Dereference</a>. Otherwise a compile-time error occurs.
 
 If the assignment does not satisfy <a href="#language-type-compatible">Type Compatibility</a> of the Type of Field, a compile-time error occurs.
 
-If the Field Name does not found in the <a href="#language-package">Package</a>, a compile-time error occurs
+If the Field Name does not found in the <a href="#language-package">Package</a>, a compile-time error occurs.
 
 Set Field Value Expression returns the value of Field after setting. 
 
@@ -3612,93 +3612,80 @@ my $point = Point->new;
 $point->{x} = 1;
 </pre>
 
-<h4 id="language-expression-get-field-multi-numeric">Get Multi Numeric Type Field Value</h4>
-<p>
-  Get Multi Numeric Type Field Valueは,次のように記述します。
-</p>
+<h4 id="language-expression-get-field-multi-numeric">Get Multi Numeric Field Value</h4>
+
+<b>Get Multi Numeric Field Value Expression</b> is a Expression to get Field Value of <a href="#language-mulnum">Multi Numeric Value</a>.
+
 <pre>
-Invocant Expression->{FIELD_NAME}
+INVOCANT_EXPRESSION->{FIELD_NAME}
 </pre>
 <p>
-  Invocant Expressionは,<a href="#language-type-class">Multi Numeric Type</a>の値でなければなりません。Invocant Expressionが,<a href="#language-type-class">Class Type</a>の値であった場合は,<a href="#language-expression-get-field-class-based-object">Get Field Value</a>になり,<a href="#language-type-ref-multi-numeric">Multi Numeric Reference Type</a>の値であった場合は,<a href="#language-expression-get-field-multi-numeric-deref">Get Multi Numeric Type Field Value via Dereference</a>になり,それ以外の場合は,a compile-time error occurs
-</p>
-<p>
-  Field Nameが,存在しない場合は,a compile-time error occurs
-</p>
-<p>
-  Get Multi Numeric Type Field Valueは,<a href="#language-sub-stack">Subroutine Callstack</a>に保存されている該当するFieldの値を返します。これは<a href="#language-expression">Expression</a>です。
-</p>
-<p>
-  返される値のTypeは,FieldのTypeです。
-</p>
-<p>
-  <b>Get Multi Numeric Type Field ValueのExample</b>
-</p>
-<p>
-  Get Multi Numeric Type Field ValueのExampleです。
-</p>
+  Invocant Expression is <a href="#language-type-class">Multi Numeric Type</a>. If Invocant Expression is <a href="#language-type-class">Class Type</a>, the Field Access is <a href="#language-expression-get-field">. If Invocant Expression <a href="#language-type-ref-multi-numeric"> is Multi Numeric Reference Type</a>, the Field Access is <a href="#language-expression-get-field-multi-numeric-deref">Get Multi Numeric Field Value via Dereference</a>. Otherwise a compile-time error occurs.
+  
+If the Field Name does not found in the <a href="#language-package">Package</a>, a compile-time error occurs
+
+Get Multi Numeric Field Value returns the field value in the Multi Numeric Value.
+
+Retrun Type is The <a href="#language-type">Type</a> of the Field.
+
+<b>Get Multi Numeric Field Value Example:</b>
+
 <pre>
 my $z : SPVM::Complex_2d;
 my $re = $z->{x};
 </pre>
 
-<h4 id="language-expression-set-field-multi-numeric">Set Multi Numeric Type Field Value</h4>
-<p>
-  Set Multi Numeric Type Field Valueは,次のように記述します。
-</p>
+<h4 id="language-expression-set-field-multi-numeric">Set Multi Numeric Field Value</h4>
+
+Set Multi Numeric Field Value Expression is a Expression to set Field Value of <a href="#language-mulnum">Multi Numeric Value</a>  using <a href="#language-expression-operator-assign">Assignment Operator</a>..
+
 <pre>
-Invocant Expression->{FIELD_NAME} = Right Expression
+INVOCANT_EXPRESSION->{FIELD_NAME} = RIGHT_EXPRESSION
 </pre>
-<p>
-  Invocant Expressionは,<a href="#language-type-class">Multi Numeric Type</a>の値でなければなりません。Invocant Expressionが,<a href="#language-type-class">Class Type</a>の値であった場合は,<a href="#language-expression-set-field-class-based-object">Set Field Value</a>になり,<a href="#language-type-ref-multi-numeric">Multi Numeric Reference Type</a>の値であった場合は,<a href="#language-expression-set-field-multi-numeric-deref">Set Multi Numeric Type Field Value via Dereference</a>になり,それ以外の場合は,a compile-time error occurs
-</p>
-<p>
-  Field Nameが,存在しない場合は,a compile-time error occurs
-</p>
-<p>
-  Right ExpressionのTypeは,FieldのTypeと同じでなければなりません。otherwise a compile-time error occurs.
-</p>
-<p>
-  Set Multi Numeric Type Field Valueは,設定後の<a href="#language-sub-stack">Subroutine Callstack</a>に保存されている該当するFieldの値を返します。これは<a href="#language-expression">Expression</a>です。
-</p>
-<p>
-  返される値のTypeは,FieldのTypeです。
-</p>
-<p>
-  <b>Set Multi Numeric Type Field ValueのExample</b>
-</p>
-<p>
-  Set Multi Numeric Type Field ValueのExampleです。
-</p>
+<
+
+Invocant Expression is <a href="#language-type-class">Multi Numeric Type</a>. If Invocant Expression is <a href="#language-type-class">Class Type</a>, the Field Access is <a href="#language-expression-set-field">Set Field Value</a>. Invocant Expression is <a href="#language-type-ref-multi-numeric">Multi Numeric Reference Type</a>, <a href="#language-expression-set-field-multi-numeric-deref">Set Multi Numeric Field Value via Dereference</a>. Otherwise a compile-time error occurs.
+
+If the Field Name does not found in the <a href="#language-package">Package</a>, a compile-time error occurs.
+
+Set Multi Numeric Field Value Expression returns the value of Field after setting. 
+
+The Assignment must satisfy <a href="#language-type-compatible">Type Compatibility</a>.
+
+Return Value Type is the Type of Field.
+
+<b>Set Multi Numeric Field Value Example:</b>
+
 <pre>
 my $z : SPVM::Complex_2d;
 $z->{x} = 2.5;
 </pre>
 
-<h4 id="language-expression-get-field-multi-numeric-deref">Dereference によるGet Multi Numeric Type Field Value</h4>
+<h4 id="language-expression-get-field-multi-numeric-deref">Dereference によるGet Multi Numeric Field Value</h4>
+
 <p>
-  Dereference によるGet Multi Numeric Type Field Valueは,次のように記述します。
+  Dereference によるGet Multi Numeric Field Valueは,次のように記述します。
 </p>
 <pre>
 Invocant Expression->{FIELD_NAME}
 </pre>
 <p>
-  Invocant Expressionは,<a href="#language-type-ref-multi-numeric">Multi Numeric Reference Type</a>の値でなければなりません。Invocant Expressionが,<a href="#language-type-class">Class Type</a>の値であった場合は,<a href="#language-expression-get-field-class-based-object">Get Field Value</a>になり,<a href="#language-type-multi-numeric">Multi Numeric Type</a>の値であった場合は,<a href="#language-expression-get-field-multi-numeric">Get Multi Numeric Type Field Value</a>になり,それ以外の場合は,a compile-time error occurs
+  Invocant Expressionは,<a href="#language-type-ref-multi-numeric">Multi Numeric Reference Type</a>の値でなければなりません。Invocant Expressionが,<a href="#language-type-class">Class Type</a>の値であった場合は,<a href="#language-expression-get-field">Get Field Value</a>になり,<a href="#language-type-multi-numeric">Multi Numeric Type</a>の値であった場合は,<a href="#language-expression-get-field-multi-numeric">Get Multi Numeric Field Value</a>になり,それ以外の場合は,a compile-time error occurs
 </p>
 <p>
   Field Nameが,存在しない場合は,a compile-time error occurs
 </p>
 <p>
-  Dereference によるGet Multi Numeric Type Field Valueは,<a href="#language-sub-stack">Subroutine Callstack</a>に保存されている該当するFieldの値を返します。これは<a href="#language-expression">Expression</a>です。
+  Dereference によるGet Multi Numeric Field Valueは,<a href="#language-sub-stack">Subroutine Callstack</a>に保存されている該当するFieldの値を返します。これは<a href="#language-expression">Expression</a>です。
 </p>
 <p>
   返される値のTypeは,FieldのTypeです。
 </p>
 <p>
-  <b>Dereference によるGet Multi Numeric Type Field ValueのExample</b>
+  <b>Dereference によるGet Multi Numeric Field ValueのExample</b>
 </p>
 <p>
-  Dereference によるGet Multi Numeric Type Field ValueのExampleです。
+  Dereference によるGet Multi Numeric Field ValueのExampleです。
 </p>
 <pre>
 my $z : SPVM::Complex_2d;
@@ -3706,15 +3693,15 @@ my $z_ref = \$z;
 my $re = $z_ref->{x};
 </pre>
 
-<h4 id="language-expression-set-field-multi-numeric-deref">Dereference によるSet Multi Numeric Type Field Value</h4>
+<h4 id="language-expression-set-field-multi-numeric-deref">Dereference によるSet Multi Numeric Field Value</h4>
 <p>
-  Dereference によるSet Multi Numeric Type Field Valueは,次のように記述します。
+  Dereference によるSet Multi Numeric Field Valueは,次のように記述します。
 </p>
 <pre>
-Invocant Expression->{FIELD_NAME} = Right Expression
+Invocant Expression->{FIELD_NAME} = RIGHT_EXPRESSION
 </pre>
 <p>
-  Invocant Expressionは,<a href="#language-type-ref-multi-numeric">Multi Numeric Reference Type</a>の値でなければなりません。Invocant Expressionが,<a href="#language-type-class">Class Type</a>の値であった場合は,<a href="#language-expression-set-field-class-based-object">Set Field Value</a>になり,<a href="#language-type-multi-numeric">Multi Numeric Type</a>の値であった場合は,<a href="#language-expression-set-field-multi-numeric">Set Multi Numeric Type Field Value</a>になり,それ以外の場合は,a compile-time error occurs
+  Invocant Expressionは,<a href="#language-type-ref-multi-numeric">Multi Numeric Reference Type</a>の値でなければなりません。Invocant Expressionが,<a href="#language-type-class">Class Type</a>の値であった場合は,<a href="#language-expression-set-field">Set Field Value</a>になり,<a href="#language-type-multi-numeric">Multi Numeric Type</a>の値であった場合は,<a href="#language-expression-set-field-multi-numeric">Set Multi Numeric Field Value</a>になり,それ以外の場合は,a compile-time error occurs
 </p>
 <p>
   Field Nameが,存在しない場合は,a compile-time error occurs
@@ -3723,16 +3710,16 @@ Invocant Expression->{FIELD_NAME} = Right Expression
   Right ExpressionのTypeは,FieldのTypeと同じでなければなりません。otherwise a compile-time error occurs.
 </p>
 <p>
-  Dereference によるSet Multi Numeric Type Field Valueは,設定後の<a href="#language-sub-stack">Subroutine Callstack</a>に保存されている該当するFieldの値を返します。これは<a href="#language-expression">Expression</a>です。
+  Dereference によるSet Multi Numeric Field Valueは,設定後の<a href="#language-sub-stack">Subroutine Callstack</a>に保存されている該当するFieldの値を返します。これは<a href="#language-expression">Expression</a>です。
 </p>
 <p>
   返される値のTypeは,FieldのTypeです。
 </p>
 <p>
-  <b>Dereference によるSet Multi Numeric Type Field ValueのExample</b>
+  <b>Dereference によるSet Multi Numeric Field ValueのExample</b>
 </p>
 <p>
-  Dereference によるSet Multi Numeric Type Field ValueのExampleです。
+  Dereference によるSet Multi Numeric Field ValueのExampleです。
 </p>
 <pre>
 my $z : SPVM::Complex_2d;
@@ -3784,7 +3771,7 @@ my $object = (Point)$objects->[1];
   Arrayの要素の値を設定するには,次のように記述します。
 </p>
 <p>
-ArrayExpression->[インデックスExpression] = Right Expression
+ArrayExpression->[インデックスExpression] = RIGHT_EXPRESSION
 </p>
 <p>
   ArrayExpressionは,<a href="#language-type-array">Array Type</a>の値でなければなりません。otherwise a compile-time error occurs.
@@ -4832,7 +4819,7 @@ Left Expression Numeric Comparison Operator  Right Expression
   </tr>
   <tr>
     <td>
-      Left Expression == Right Expression
+      Left Expression == RIGHT_EXPRESSION
     </td>
     <td>
       Left ExpressionとRight ExpressionがNumeric Type,Left ExpressionとRight ExpressionがObject Type (Undefined Valueを含む)
@@ -4843,7 +4830,7 @@ Left Expression Numeric Comparison Operator  Right Expression
   </tr>
   <tr>
     <td>
-      Left Expression != Right Expression
+      Left Expression != RIGHT_EXPRESSION
     </td>
     <td>
       Left ExpressionとRight ExpressionがNumeric Type,Left ExpressionとRight ExpressionがObject Type (Undefined Valueを含む)
@@ -4865,7 +4852,7 @@ Left Expression Numeric Comparison Operator  Right Expression
   </tr>
   <tr>
     <td>
-      Left Expression >= Right Expression
+      Left Expression >= RIGHT_EXPRESSION
     </td>
     <td>
       Left ExpressionとRight ExpressionがNumeric Type
@@ -4887,7 +4874,7 @@ Left Expression Numeric Comparison Operator  Right Expression
   </tr>
   <tr>
     <td>
-      Left Expression <= Right Expression
+      Left Expression <= RIGHT_EXPRESSION
     </td>
     <td>
       Left ExpressionとRight ExpressionがNumeric Type
@@ -5551,7 +5538,7 @@ a * b + c
 a * (b + c)
 </pre>
 
-<h3 id="language-Statement">Statement</h3>
+<h3 id="language-statement">Statement</h3>
 <p>
   Statementは,ひとつの処理のことで<a href="#language-scope-scope-block">Scope Block</a>の中に複数記述することができます。<a href="#language-expression">Expression</a>のように値として評価されることはありません。
 </p>
@@ -5562,29 +5549,29 @@ a * (b + c)
   Statementの一覧です。
 </p>
 <ul class="list">
-  <li><a href="#language-Statement-if">if Statement</a></li>
-  <li><a href="#language-Statement-switch">switch Statement</a></li>
-  <li><a href="#language-Statement-case">case Statement</a></li>
-  <li><a href="#language-Statement-while">while Statement</a></li>
-  <li><a href="#language-Statement-for">for Statement</a></li>
-  <li><a href="#language-Statement-default">default Statement</a></li>
-  <li><a href="#language-Statement-block-simple">Simple Block</a></li>
-  <li><a href="#language-Statement-eval">eval Statement</a></li>
-  <li><a href="#language-Statement-ifrequire">if requireStatement</a></li>
-  <li><a href="#language-Statement-next">next Statement</a></li>
-  <li><a href="#language-Statement-last">last Statement</a></li>
-  <li><a href="#language-Statement-break">break Statement</a></li>
-  <li><a href="#language-Statement-return">return Statement</a></li>
-  <li><a href="#language-Statement-die">die Statement</a></li>
-  <li><a href="#language-Statement-weaken">weaken Statement</a></li>
-  <li><a href="#language-Statement-unweaken">unweaken Statement</a></li>
-  <li><a href="#language-Statement-expression">expression Statement</a></li>
-  <li><a href="#language-Statement-print">print Statement</a></li>
-  <li><a href="#language-Statement-warn">warn Statement</a></li>
-  <li><a href="#language-Statement-empty">empty Statement</a></li>
+  <li><a href="#language-statement-if">if Statement</a></li>
+  <li><a href="#language-statement-switch">switch Statement</a></li>
+  <li><a href="#language-statement-case">case Statement</a></li>
+  <li><a href="#language-statement-while">while Statement</a></li>
+  <li><a href="#language-statement-for">for Statement</a></li>
+  <li><a href="#language-statement-default">default Statement</a></li>
+  <li><a href="#language-statement-block-simple">Simple Block</a></li>
+  <li><a href="#language-statement-eval">eval Statement</a></li>
+  <li><a href="#language-statement-ifrequire">if requireStatement</a></li>
+  <li><a href="#language-statement-next">next Statement</a></li>
+  <li><a href="#language-statement-last">last Statement</a></li>
+  <li><a href="#language-statement-break">break Statement</a></li>
+  <li><a href="#language-statement-return">return Statement</a></li>
+  <li><a href="#language-statement-die">die Statement</a></li>
+  <li><a href="#language-statement-weaken">weaken Statement</a></li>
+  <li><a href="#language-statement-unweaken">unweaken Statement</a></li>
+  <li><a href="#language-statement-expression">expression Statement</a></li>
+  <li><a href="#language-statement-print">print Statement</a></li>
+  <li><a href="#language-statement-warn">warn Statement</a></li>
+  <li><a href="#language-statement-empty">empty Statement</a></li>
 </ul>
 
-<h4 id="language-Statement-if">if Statement</h4>
+<h4 id="language-statement-if">if Statement</h4>
 <p>
   if Statementは,条件分岐を行うためのStatementです。
 </p>
@@ -5678,7 +5665,7 @@ else {
 }
 </pre>
 <p>
-  if Statementの条件部で,変数宣言を行うときは,目には見えない<a href="#language-scope-block-Statement-simple">Simple Block</a>で囲まれていることと,elsifは,内部的には,if StatementとelseStatementに展開されるということを,意識してください。
+  if Statementの条件部で,変数宣言を行うときは,目には見えない<a href="#language-scope-block-statement-simple">Simple Block</a>で囲まれていることと,elsifは,内部的には,if StatementとelseStatementに展開されるということを,意識してください。
 </p>
 <pre>
 # 展開前
@@ -5712,7 +5699,7 @@ my $num = 1;
 }
 </pre>
 
-<h4 id="language-Statement-switch">switch Statement</h4>
+<h4 id="language-statement-switch">switch Statement</h4>
 <p>
   switch Statementは,<a href="#language-type-int">int Type</a> の整数を条件にして,条件分岐を行うためのStatementです。条件が<a href="#language-type-int">int Type</a> の整数で,たくさんの分岐がある場合は,if Statementよりも高速です。
 </p>
@@ -5828,17 +5815,17 @@ switch ($code) {
 }
 </pre>
 
-<h4 id="language-Statement-switch">case Statement</h4>
+<h4 id="language-statement-switch">case Statement</h4>
 <p>
-  case Statementは,switch Blockの中で使うことができる,条件を指定するためのStatementです。case Statementについての詳細は,<a href="#language-Statement-switch">switch Statement</a>の解説を見てください。
+  case Statementは,switch Blockの中で使うことができる,条件を指定するためのStatementです。case Statementについての詳細は,<a href="#language-statement-switch">switch Statement</a>の解説を見てください。
 </p>
 
-<h4 id="language-Statement-switch">default Statement</h4>
+<h4 id="language-statement-switch">default Statement</h4>
 <p>
-  default Statementは,switch Blockの中で使うことができる,デフォルトの条件を指定するためのStatementです。default Statementについての詳細は,<a href="#language-Statement-switch">switch Statement</a>の解説を見てください。
+  default Statementは,switch Blockの中で使うことができる,デフォルトの条件を指定するためのStatementです。default Statementについての詳細は,<a href="#language-statement-switch">switch Statement</a>の解説を見てください。
 </p>
 
-<h4 id="language-Statement-while">while Statement</h4>
+<h4 id="language-statement-while">while Statement</h4>
 <p>
   while Statementは,繰り返しを行うためのStatementです。
 </p>
@@ -5866,7 +5853,7 @@ while ($i < 5) {
 }
 </pre>
 <p>
-  while Blockの内部では,<a href="#language-Statement-last">last Statement</a>を使って,while Blockを抜けることができます。
+  while Blockの内部では,<a href="#language-statement-last">last Statement</a>を使って,while Blockを抜けることができます。
 </p>
 <pre>
 while (1) {
@@ -5875,7 +5862,7 @@ while (1) {
 </pre>
 
 <p>
-  while Blockの内部では,<a href="#language-Statement-next">next Statement</a>を使って,次に実行される条件Expressionの直前に移動することができます。
+  while Blockの内部では,<a href="#language-statement-next">next Statement</a>を使って,次に実行される条件Expressionの直前に移動することができます。
 </p>
 <pre>
 my $i = 0;
@@ -5892,7 +5879,7 @@ while ($i < 5) {
 </pre>
 
 <p>
-  while Statementは,内部的には,目には見えない<a href="#language-scope-block-Statement-simple">Simple Block</a>で囲まれています。
+  while Statementは,内部的には,目には見えない<a href="#language-scope-block-statement-simple">Simple Block</a>で囲まれています。
 </p>
 <pre>
 {
@@ -5902,7 +5889,7 @@ while ($i < 5) {
 }
 </pre>
 <p>
-  while Statementの条件部で,変数宣言を行うときは,目には見えない<a href="#language-scope-block-Statement-simple">Simple Block</a>で囲まれていることを意識してください。
+  while Statementの条件部で,変数宣言を行うときは,目には見えない<a href="#language-scope-block-statement-simple">Simple Block</a>で囲まれていることを意識してください。
 </p>
 <pre>
 # 展開前
@@ -5922,7 +5909,7 @@ my $num = 5;
 }
 </pre>
 
-<h4 id="language-Statement-for">for Statement</h4>
+<h4 id="language-statement-for">for Statement</h4>
 <p>
   for Statementは,繰り返しを行うためのStatementです。
 </p>
@@ -5941,7 +5928,7 @@ for (初期化Expression; 条件Expression; インクリメントExpression) {
   インクリメントExpressionには,<a href="#language-expression">Expression</a>を記述できます。一般的には,ループ変数のインクリメントのExpressionを記述します。インクリメントExpressionは省略することが可能です。
 </p>
 <p>
-  for Statementはthe following while Statementと同じ意味を持ちます。インクリメントExpressionは,Block の最後に実行されます。初期化Expressionは,<a href="#language-scope-block-Statement-simple">Simple Block</a>に囲まれています。
+  for Statementはthe following while Statementと同じ意味を持ちます。インクリメントExpressionは,Block の最後に実行されます。初期化Expressionは,<a href="#language-scope-block-statement-simple">Simple Block</a>に囲まれています。
 </p>
 <pre>
 {
@@ -5967,7 +5954,7 @@ for (my $i = 0; $i < 5; $i++) {
 }
 </pre>
 <p>
-  for Blockの内部では,<a href="#language-Statement-last">last Statement</a>を使って,for Blockを抜けることができます。
+  for Blockの内部では,<a href="#language-statement-last">last Statement</a>を使って,for Blockを抜けることができます。
 </p>
 
 <pre>
@@ -5977,7 +5964,7 @@ for (初期化Expression; 条件Expression; インクリメントExpression) {
 </pre>
 
 <p>
-  for Blockの内部では,<a href="#language-Statement-next">next Statement</a>を使って,次に実行されるインクリメントExpressionの直前に移動することができます。
+  for Blockの内部では,<a href="#language-statement-next">next Statement</a>を使って,次に実行されるインクリメントExpressionの直前に移動することができます。
 </p>
 <pre>
 for (my $i = 0; $i < 5; $i++) {
@@ -5988,7 +5975,7 @@ for (my $i = 0; $i < 5; $i++) {
 }
 </pre>
 
-<h4 id="language-Statement-return">returnl Statement</h4>
+<h4 id="language-statement-return">returnl Statement</h4>
 <p>
   returnl Statementを使うと,Subroutine から脱出します。モータル変数に代入されているオブジェクトは,自動的に解放されます。
 </p>
@@ -6008,7 +5995,7 @@ return Expression;
   <a href="#language-sub-definition">Subroutine Definition</a>においてReturn ValueのTypeが<a href="#language-type-void">void Type</a>以外の場合は,ExpressionのTypeと一致していなければなりません。otherwise a compile-time error occurs.
 </p>
 
-<h4 id="language-Statement-die">die Statement </h4>
+<h4 id="language-statement-die">die Statement </h4>
 <p>
   die Statement は,例外を発生させるためのStatementです。
 </p>
@@ -6022,7 +6009,7 @@ die Expression;
   die Statement の詳しい解説については,<a href="#language-exception">Exception</a>を見てください。
 </p>
 
-<h4 id="language-Statement-weaken">weaken Statement </h4>
+<h4 id="language-statement-weaken">weaken Statement </h4>
 <p>
   weaken Statement は,Fieldに対して,<a href="#language-weak-ref">Weaken Reference</a>を設定するStatementです。
 </p>
@@ -6084,7 +6071,7 @@ weaken $baz->{foo};
   バックReferenceの情報が必要なのは,<a href="#language-garbage-collection">Garbage Collection</a>が行われるときに,バックReferenceが指すFieldにUndefined Valueを代入する必要があるからです。
 </p>
 
-<h4 id="language-Statement-unweaken">unweaken Statement</h4>
+<h4 id="language-statement-unweaken">unweaken Statement</h4>
 <p>
   unweaken Statementは,Fieldに対して,<a href="#language-weak-ref">Weaken Reference</a>を解除するStatementです。
 </p>
@@ -6116,40 +6103,40 @@ unweaken 変数->{FIELD_NAME};
   3. Fieldに保存されているオブジェクトのバックReferenceから,Fieldを削除します。
 </p>
 
-<h4 id="language-Statement-next">next Statement</h4>
+<h4 id="language-statement-next">next Statement</h4>
 <p>
-  "next Statement"は,次のループの先頭に移動するためのStatementです。<a href="#language-scope-block-Statement-while">while Block</a>,<a href="#language-scope-block-Statement-for">for Block</a>の中で使うことができます。
+  "next Statement"は,次のループの先頭に移動するためのStatementです。<a href="#language-scope-block-statement-while">while Block</a>,<a href="#language-scope-block-statement-for">for Block</a>の中で使うことができます。
 </p>
 <pre>
 next;
 </pre>
 <p>
-  実際の動作については<a href="#language-Statement-while">while Statement</a>,<a href="#language-Statement-for">for Statement</a>の解説を見てください。
+  実際の動作については<a href="#language-statement-while">while Statement</a>,<a href="#language-statement-for">for Statement</a>の解説を見てください。
 </p>
 
-<h4 id="language-Statement-last">last Statement</h4>
+<h4 id="language-statement-last">last Statement</h4>
 <p>
-  "last Statement"は,ループを脱出するためのStatementです。<a href="#language-scope-block-Statement-while">while Block</a>,<a href="#language-scope-block-Statement-for">for Block</a>の中で使うことができます。
+  "last Statement"は,ループを脱出するためのStatementです。<a href="#language-scope-block-statement-while">while Block</a>,<a href="#language-scope-block-statement-for">for Block</a>の中で使うことができます。
 </p>
 <p>
-  実際の動作については<a href="#language-Statement-while">while Statement</a>,<a href="#language-Statement-for">for Statement</a>の解説を見てください。
+  実際の動作については<a href="#language-statement-while">while Statement</a>,<a href="#language-statement-for">for Statement</a>の解説を見てください。
 </p>
 <pre>
 last;
 </pre>
 
-<h4 id="language-Statement-break">break Statement</h4>
+<h4 id="language-statement-break">break Statement</h4>
 <p>
-  "break Statement"は,switch Blockを脱出するためのStatementです。<a href="#language-scope-block-Statement-switch">switch Block</a>の中で使うことができます。
+  "break Statement"は,switch Blockを脱出するためのStatementです。<a href="#language-scope-block-statement-switch">switch Block</a>の中で使うことができます。
 </p>
 <p>
-  実際の動作については<a href="#language-Statement-switch">switch Statement</a>の解説を見てください。
+  実際の動作については<a href="#language-statement-switch">switch Statement</a>の解説を見てください。
 </p>
 <pre>
 break;
 </pre>
 
-<h4 id="language-Statement-warn">warn Statement</h4>
+<h4 id="language-statement-warn">warn Statement</h4>
 
 <p>
   警告を発生させるにはwarnStatementを使用します。
@@ -6173,7 +6160,7 @@ warn Expression;
   標準エラー出力のバッファがフラッシュされます。
 </p>
 
-<h4 id="language-Statement-print">print Statement</h4>
+<h4 id="language-statement-print">print Statement</h4>
 <p>
   標準出力にStringを出力するにはprint Statementを使用します。
 </p>
@@ -6187,7 +6174,7 @@ print Expression;
   ExpressionがUndefined Valueであった場合は,何もしません。
 </p>
 
-<h4 id="language-Statement-expression">expression Statement</h4>
+<h4 id="language-statement-expression">expression Statement</h4>
 <p>
   expression Statementは<a href="#language-expression">Expression</a>と";"で構成されるStatementのことです。
 </p>
@@ -6206,7 +6193,7 @@ foo();
 my $num = 1 + 2;
 </pre>
 
-<h4 id="language-Statement-empty">empty Statement</h4>
+<h4 id="language-statement-empty">empty Statement</h4>
 <p>
   empty Statementは";"だけで終わるStatementのことです。
 </p>
@@ -7784,7 +7771,7 @@ Captureは,このような長い記述を,短く書くためのSyntaxです。
   Weaken Referenceは,Reference CountGCを持つプログラミング言語において,循環参照が発生した場合に,オブジェクトの破棄を正しく行うための機能です。
 </p>
 <p>
-  このような場合は,ひとつのFieldを,<a href="#language-Statement-weaken">weaken Statement</a>を使って,Weaken Referenceに設定することで,正しく解放することができます。
+  このような場合は,ひとつのFieldを,<a href="#language-statement-weaken">weaken Statement</a>を使って,Weaken Referenceに設定することで,正しく解放することができます。
 </p>
 <pre>
 {
@@ -7826,5 +7813,5 @@ Captureは,このような長い記述を,短く書くためのSyntaxです。
 }
 </pre>
 <p>
-  Weaken Reference関連のSyntaxとして,Weaken Referenceを解除できる<a href="#language-Statement-weaken">weaken Statement</a>と,FieldがWeaken Referenceかどうかを確認できる<a href="#language-expression-operator-isweak">isweak Operator</a>があります。
+  Weaken Reference関連のSyntaxとして,Weaken Referenceを解除できる<a href="#language-statement-weaken">weaken Statement</a>と,FieldがWeaken Referenceかどうかを確認できる<a href="#language-expression-operator-isweak">isweak Operator</a>があります。
 </p>
