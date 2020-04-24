@@ -3391,7 +3391,6 @@ $point_ref->{x} = 1;
   <li><a href="#language-expression-set-field-multi-numeric-deref">Set Multi Numeric Field Value via Dereference</a></li>
   <li><a href="#language-expression-get-array-element">Get Array Element Value</a></li>
   <li><a href="#language-expression-set-array-element">Set Array Element Value</a></li>
-  <li><a href="#language-expression-typecast">Type Cast</a></li>
   <li><a href="#language-expression-new">Create Object</a></li>
   <li><a href="#language-expression-new-array">Create Array</a></li>
   <li><a href="#language-expression-array-init">Array Initialization</a></li>
@@ -3399,6 +3398,7 @@ $point_ref->{x} = 1;
   <li><a href="#language-expression-current-package">Get Current Package Name</a></li>
   <li><a href="#language-expression-current-file">Get Current File Name</a></li>
   <li><a href="#language-expression-current-line">Get Current Line Number</a></li>
+  <li><a href="#language-expression-typecast">Type Cast</a></li>
   <li>(Expression)</li>
   <li><a href="#language-expression-operator-precedence">Operator Precidence</a></li>
 </ul>
@@ -3780,36 +3780,30 @@ $objects->[2] = Point->new(3, 5);
 </pre>
 
 <h4 id="language-expression-new">Create Object</h4>
-<p>
-  オブジェクトを生成するには,new  Keyword とthe following syntax をを使用します。
-</p>
+
+<b>Create Object Expression</b> is a Expression to create Object using <b>new</b> keyword.
+
 <pre>
 my $object = new PACKAGE_NAME;
 </pre>
-<p>
-  指定されたPackage は,<a href="#language-type-class">Class Type</a>でなければなりません。otherwise a compile-time error occurs.
-</p>
-<p>
-  Fieldは,すべて<a href="#language-type-initial-value">Type Initial Value</a>で初期化されます。
-</p>
-<p>
-  Create Objectは,<a href="#language-expression">Expression</a>を返します。
-</p>
-<p>
-  生成直後のオブジェクトのReference Countは,0です。代入が実行されるタイミングで,Reference Countが1増やされます。明示的な代入が行われない場合でも,一時変数が作成され,そこに代入されます。
-</p>
-<p>
-  <b>Create ObjectのExample</b>
-</p>
+
+<a href="#language-package">Package</a> that is specified by <a href="#language-lex-identifier-package-name">Package Name</a> must be <a href="#language-type-class">Class Type</a>.
+
+Fields of the Object are initialized by <a href="#language-type-initial-value">Type Initial Value</a>.
+
+Created Object Reference count is 0 at first. If the Object is assigned to some Variable by <a href="#language-expression-operator-assign">Assignment Operator</a>, The Reference Count is incremented by 1. If implicite assignment is not done, Temporary Variable is created, the object is assigned to the Temporary Variable.
+
+<b>Create Object Example:</b>
+
 <pre>
 my $object = new Foo;
 </pre>
-<p>
-  生成されたオブジェクトは内部的に次の情報を持っています。
-</p>
+
+Create Object has the following information.
+
 <ul class="list">
   <li>Reference Count</li>
-  <li>Back references of Weaken Reference</li>
+  <li>Back references of <a href="#language-weak-ref">Weaken Reference</a></li>
   <li>Basic Type ID</li>
   <li>Type Dimension(Always 0)</li>
 </ul>
