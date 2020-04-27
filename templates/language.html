@@ -3809,64 +3809,56 @@ Create Object has the following information.
 </ul>
 
 <h4 id="language-expression-new-array">Create Array</h4>
-<p>
-  Arrayを作成するには,new  Keyword とthe following syntax をを使用します。
-</p>
+
+<b>Create Array Expression</b> is a Expression to create Array with <b>new</b> Keyword.
+
 <pre>
-my $object = new Type[要素数Expression];
+new Type[ELEMENTS_COUNT_EXPRESSION]
 </pre>
-<p>
-  Typeには,<a href="#language-type-numeric">Numeric Type</a>,<a href="#language-type-object">Object Type</a>,<a href="#language-type-multi-numeric">Multi Numeric Type</a>が指定できます。それ以外のTypeを指定した場合は,a compile-time error occurs
-</p>
-<p>
-  要素数Expressionは,<a href="#language-type-int">int Type</a> the following <a href="#language-type-numeric">Numeric Type</a>でなければなりません。otherwise a compile-time error occurs.
-</p>
-<p>
-  要素数Expressionに対して,<a href="#language-type-convertion-unary-numeric-widening">Unary Numeric Widening Type Convertion</a>が行われます。
-</p>
-<p>
-  要素数Expressionで指定された長さのArrayが生成されます。
-</p>
-<p>
-  Arrayの要素は,すべて<a href="#language-type-initial-value">Type Initial Value</a>で初期化されます。
-</p>
-<p>
-  Arrayにおいて,要素は,メモリ上に連続していることが保証されます。
-</p>
-<p>
-  Create Arrayは,<a href="#language-expression">Expression</a>を返します。
-</p>
-<p>
-  Arrayは,<a href="#language-type-object">Object Type</a>です。
-</p>
-<p>
-  <b>Create ArrayのExample</b>
-</p>
+
+Type must be <a href="#language-type-numeric">Numeric Type</a>, <a href="#language-type-object">Object Type</a>, <a href="#language-type-multi-numeric">Multi Numeric Type</a>.
+
+Elements Count Expression must be <a href="#language-type-int">int Type</a> or the Type that become <a href="#language-type-int">int Type</a> by <a href="#language-type-convertion-unary-numeric-widening">Unary Numeric Widening Type Convertion</a>.
+
+If Index Expression is lower than 0, a Runtime Exception occurs.
+
+Created Array Length is the value of Elements Count Expression.
+
+All Array Element is initialized by <a href="#language-type-initial-value">Type Initial Value</a>.
+
+All Element is gurantied to be continued on Memory.
+
+Array is <a href="#language-type-array">Array Type</a>. This is also <a href="#language-type-object">Object Type</a>.
+
+<b>Create Array Example:</b>
+
 <pre>
 my $nums = new int[3];
 my $objects = new Foo[3];
 my $objects = new object[3];
 my $values = new Complex_2d[3]
 </pre>
-<p>
-  生成されたArrayは,内部的に次の情報を持っています。
-</p>
+
+Created Array has the following information.
+
 <ul class="list">
   <li>Reference Count</li>
   <li>Basic Type ID</li>
-  <li>Type Dimension(1以上の値)</li>
+  <li>Type Dimension(the value is 1)</li>
   <li>Array Length</li>
 </ul>
-<p>
-  多次元Arrayは,上記のsyntax を使用して,作成できます。要素は,<a href="#language-type-initial-value">Type Initial Value</a>によって初期化されます。
-</p>
+
+Multi-Dimention Array is created by the following syntax.
+
 <pre>
+# 2 Dimention Array (3 elements of int[] Type)
 my $nums = new int[][3];
+
+# 3 Dimention Array (3 elements of int[][] Type)
 my $nums = new int[][][3];
 </pre>
-<p>
-  多次元Arrayの次元数の最大は,255です。
-</p>
+
+The max of Dimention of Multi-Dimention Array is 255.
 
 <h4 id="language-expression-array-init">Array Initialization</h4>
 <p>
