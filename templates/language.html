@@ -3309,7 +3309,7 @@ See <a href="#language-expression-set-array-element">Set Array Element Value</a>
 
 Reference is data that indicates the location of <a href="#language-lex-var">Lexical Variable</a> in the memory. Reference is a feature corresponding to Pointer in C language.
 
-You can get Reference of Lexical Variable using <a href="#language-expression-operator-ref">Reference Operator</a>.
+You can get Reference of Lexical Variable using <a href="#language-operator-ref">Reference Operator</a>.
 
 <a href="#language-type-ref">Reference Type</a> is represented by <a href="#language-type-numeric">Numeric Type</a> "&" or <a href="# language-type-multi-numeric ">Multi Numeric Type</a> followed by "&".
 Reference types are represented by appending an & after <a href="#language-type-numeric">Numeric Type</a> or <a href="# language-type-multi-numeric ">Multi Numeric Type</a>.
@@ -3400,7 +3400,7 @@ $point_ref->{x} = 1;
   <li><a href="#language-expression-current-line">Get Current Line Number</a></li>
   <li><a href="#language-expression-typecast">Type Cast</a></li>
   <li>(Expression)</li>
-  <li><a href="#language-expression-operator-precedence">Operator Precidence</a></li>
+  <li><a href="#language-operator-precedence">Operator Precidence</a></li>
 </ul>
 
 <h4 id="language-expression-summary">Expression Summary</h4>
@@ -3429,7 +3429,7 @@ $var
 
 <h4 id="language-expression-set-lex-var">Set Lexical Variable Value</h4>
 
-<b>Set Lexical Variable Value Expression</b> is a Expression to set <a href="#language-lex-var">Lexical Variable</a> Value using <a href="#language-expression-operator-assign">Assignment Operator</a>.
+<b>Set Lexical Variable Value Expression</b> is a Expression to set <a href="#language-lex-var">Lexical Variable</a> Value using <a href="#language-operator-assign">Assignment Operator</a>.
 
 <pre>
 $var = RIGHT_EXPRESSION
@@ -3478,7 +3478,7 @@ package Foo {
 
 <h4 id="language-expression-set-package-var">Set Package Variable Value</h4>
 
-<b>Set Package Variable Value Expression</b> is a Expression to set <a href="#language-package-var">Package Variable</a> Value using <a href="#language-expression-operator-assign">Assignment Operator</a>.
+<b>Set Package Variable Value Expression</b> is a Expression to set <a href="#language-package-var">Package Variable</a> Value using <a href="#language-operator-assign">Assignment Operator</a>.
 .
 
 <pre>
@@ -3540,7 +3540,7 @@ if (my $message = $@) {
 
 <h4 id="language-expression-set-exception-var">Set Exception Variable Value</h4>
 
-<b>Set Exception Variable Value Expression</b> is a Expression to set the value of <a href="#language-exception-var">Exception Variable</a> using <a href="#language-expression-operator-assign">Assignment Operator</a>.
+<b>Set Exception Variable Value Expression</b> is a Expression to set the value of <a href="#language-exception-var">Exception Variable</a> using <a href="#language-operator-assign">Assignment Operator</a>.
 
 <pre>
 $@ = RIGHT_EXPRESSION
@@ -3637,7 +3637,7 @@ my $re = $z->{x};
 
 <h4 id="language-expression-set-field-multi-numeric">Set Multi Numeric Field Value</h4>
 
-Set Multi Numeric Field Value Expression is a Expression to set Field Value of <a href="#language-mulnum">Multi Numeric Value</a> using <a href="#language-expression-operator-assign">Assignment Operator</a>.
+Set Multi Numeric Field Value Expression is a Expression to set Field Value of <a href="#language-mulnum">Multi Numeric Value</a> using <a href="#language-operator-assign">Assignment Operator</a>.
 
 <pre>
 INVOCANT_EXPRESSION->{FIELD_NAME} = RIGHT_EXPRESSION
@@ -3687,7 +3687,7 @@ my $re = $z_ref->{x};
 
 <h4 id="language-expression-set-field-multi-numeric-deref">Set Multi Numeric Field Value via Dereference</h4>
 
-Set Multi Numeric Field Value Expression via Dereference is a Expression to set Field Value of <a href="#language-mulnum">Multi Numeric Value</a> via <a href="#language-deref">Dereference</a> using <a href="#language-expression-operator-assign">Assignment Operator</a>.
+Set Multi Numeric Field Value Expression via Dereference is a Expression to set Field Value of <a href="#language-mulnum">Multi Numeric Value</a> via <a href="#language-deref">Dereference</a> using <a href="#language-operator-assign">Assignment Operator</a>.
 
 <pre>
 INVOCANT_EXPRESSION->{FIELD_NAME} = RIGHT_EXPRESSION
@@ -3744,7 +3744,7 @@ my $object = (Point)$objects->[1];
 
 <h4 id="language-expression-set-array-element">Set Array Element Value</h4>
 
-Set Array Element Value Expression is a Expression to set a Element Value of a Array using <a href="#language-expression-operator-assign">Assignment Operator</a>.
+Set Array Element Value Expression is a Expression to set a Element Value of a Array using <a href="#language-operator-assign">Assignment Operator</a>.
 
 <pre>
 ARRAY_EXPRESSION->[INDEX_EXPRESSION] = RIGHT_EXPRESSION
@@ -3791,7 +3791,7 @@ my $object = new PACKAGE_NAME;
 
 Fields of the Object are initialized by <a href="#language-type-initial-value">Type Initial Value</a>.
 
-Created Object Reference count is 0 at first. If the Object is assigned to some Variable by <a href="#language-expression-operator-assign">Assignment Operator</a>, The Reference Count is incremented by 1. If implicite assignment is not done, Temporary Variable is created, the object is assigned to the Temporary Variable.
+Created Object Reference count is 0 at first. If the Object is assigned to some Variable by <a href="#language-operator-assign">Assignment Operator</a>, The Reference Count is incremented by 1. If implicite assignment is not done, Temporary Variable is created, the object is assigned to the Temporary Variable.
 
 <b>Create Object Example:</b>
 
@@ -3979,7 +3979,7 @@ my $cb_obj = sub : int ($self: self, $num1 : int, $num2 : int) {
 my $ret = $cb_obj->(1, 2);
 </pre>
 
-<h4 id="language-expression-operator-deref-get">Dereference による値の取得</h4>
+<h4 id="language-operator-deref-get">Dereference による値の取得</h4>
 <p>
   Dereference による値の取得とは,Referenceから実際の値を取得するための操作のことです。C言語の関節Operator "*"を実現するために設計されました。
 </p>
@@ -4005,7 +4005,7 @@ my $z_ref : SPVM::Complex_2d& = \$z;
 my $z_deref : SPVM::Complex_2d = $$z_ref;
 </pre>
 
-<h4 id="language-expression-operator-deref-set">Dereference による値の設定</h4>
+<h4 id="language-operator-deref-set">Dereference による値の設定</h4>
 <p>
   Dereference による値の設定とは,Referenceから実際の値を設定するための操作のことです。C言語の関節Operator "*"を実現するために設計されました。
 </p>
@@ -4107,65 +4107,65 @@ package Foo::Bar {
 
 <h3 id="language-operator">Operator</h3>
 <ul class="list">
-  <li><a href="#language-expression-operator-summary">Operator Summary</a></li>
-  <li><a href="#language-expression-operator-unary">Unary Operator</a></li>
-  <li><a href="#language-expression-operator-binary">Binary Operator</a></li>
-  <li><a href="#language-expression-operator-sequential">Sequential Operator</a></li>
-  <li><a href="#language-expression-operator-arithmetic">Arithmetic Operator</a></li>
-  <li><a href="#language-expression-operator-unary-plus">Unary Plus Operator</a></li>
-  <li><a href="#language-expression-operator-unary-minus">Unary Minus Operator</a></li>
-  <li><a href="#language-expression-operator-add">Addition Operator</a></li>
-  <li><a href="#language-expression-operator-subtract">Subtraction Operator</a></li>
-  <li><a href="#language-expression-operator-multiply">Multiplication Operator</a></li>
-  <li><a href="#language-expression-operator-divide">Division Operator</a></li>
-  <li><a href="#language-expression-operator-remainder">Remainder Operator</a></li>
-  <li><a href="#language-expression-operator-inc">Increment Operator</a></li>
-  <li><a href="#language-expression-operator-dec">Decrement Operator</a></li>
-  <li><a href="#language-expression-operator-bit">Bit Operator</a></li>
-  <li><a href="#language-expression-operator-bit-and">Bit AND Operator</a></li>
-  <li><a href="#language-expression-operator-bit-or">Bit OR Operator</a></li>
-  <li><a href="#language-expression-operator-bit-not">Bit NOT Operator</a></li>
-  <li><a href="#language-expression-operator-shift">Shift Operator</a></li>
-  <li><a href="#language-expression-operator-left-shift">Left Shift Operator</a></li>
-  <li><a href="#language-expression-operator-arithmetic-right-shift">Arithmetic Right Shift Operator</a></li>
-  <li><a href="#language-expression-operator-logical-right-shift">Logical Right Shift Operator</a></li>
-  <li><a href="#language-expression-operator-comparison">Comparison Operator</a></li>
-  <li><a href="#language-expression-operator-comparison-numeric">Numeric Comparison Operator</a></li>
-  <li><a href="#language-expression-operator-comparison-string">String Comparison Operator</a></li>
-  <li><a href="#language-expression-operator-isa">isa Operator</a></li>
-  <li><a href="#language-expression-operator-logical">Logical Operator</a></li>
-  <li><a href="#language-expression-operator-logical-and">Logical AND Operator</a></li>
-  <li><a href="#language-expression-operator-logical-or">Logical OR Operator</a></li>
-  <li><a href="#language-expression-operator-logical-not">Logical NOT Operator</a></li>
-  <li><a href="#language-expression-operator-concat">String Concatenation Operator</a></li>
-  <li><a href="#language-expression-operator-assign">Assignment Operator</a></li>
-  <li><a href="#language-expression-operator-assign-special">Special Assignment Operator</a></li>
-  <li><a href="#language-expression-operator-ref">Reference Operator</a></li>
-  <li><a href="#language-expression-operator-array-length">Array Length Operator</a></li>
-  <li><a href="#language-expression-operator-string-length">String Length Operator</a></li>
-  <li><a href="#language-expression-operator-scalar">Scalar Operator</a></li>
-  <li><a href="#language-expression-operator-isweak">isweak Operator</a></li>
+  <li><a href="#language-operator-summary">Operator</a></li>
+  <li><a href="#language-operator-unary">Unary Operator</a></li>
+  <li><a href="#language-operator-binary">Binary Operator</a></li>
+  <li><a href="#language-operator-sequential">Sequential Operator</a></li>
+  <li><a href="#language-operator-arithmetic">Arithmetic Operator</a></li>
+  <li><a href="#language-operator-unary-plus">Unary Plus Operator</a></li>
+  <li><a href="#language-operator-unary-minus">Unary Minus Operator</a></li>
+  <li><a href="#language-operator-add">Addition Operator</a></li>
+  <li><a href="#language-operator-subtract">Subtraction Operator</a></li>
+  <li><a href="#language-operator-multiply">Multiplication Operator</a></li>
+  <li><a href="#language-operator-divide">Division Operator</a></li>
+  <li><a href="#language-operator-remainder">Remainder Operator</a></li>
+  <li><a href="#language-operator-inc">Increment Operator</a></li>
+  <li><a href="#language-operator-dec">Decrement Operator</a></li>
+  <li><a href="#language-operator-bit">Bit Operator</a></li>
+  <li><a href="#language-operator-bit-and">Bit AND Operator</a></li>
+  <li><a href="#language-operator-bit-or">Bit OR Operator</a></li>
+  <li><a href="#language-operator-bit-not">Bit NOT Operator</a></li>
+  <li><a href="#language-operator-shift">Shift Operator</a></li>
+  <li><a href="#language-operator-left-shift">Left Shift Operator</a></li>
+  <li><a href="#language-operator-arithmetic-right-shift">Arithmetic Right Shift Operator</a></li>
+  <li><a href="#language-operator-logical-right-shift">Logical Right Shift Operator</a></li>
+  <li><a href="#language-operator-comparison">Comparison Operator</a></li>
+  <li><a href="#language-operator-comparison-numeric">Numeric Comparison Operator</a></li>
+  <li><a href="#language-operator-comparison-string">String Comparison Operator</a></li>
+  <li><a href="#language-operator-isa">isa Operator</a></li>
+  <li><a href="#language-operator-logical">Logical Operator</a></li>
+  <li><a href="#language-operator-logical-and">Logical AND Operator</a></li>
+  <li><a href="#language-operator-logical-or">Logical OR Operator</a></li>
+  <li><a href="#language-operator-logical-not">Logical NOT Operator</a></li>
+  <li><a href="#language-operator-concat">String Concatenation Operator</a></li>
+  <li><a href="#language-operator-assign">Assignment Operator</a></li>
+  <li><a href="#language-operator-assign-special">Special Assignment Operator</a></li>
+  <li><a href="#language-operator-ref">Reference Operator</a></li>
+  <li><a href="#language-operator-array-length">Array Length Operator</a></li>
+  <li><a href="#language-operator-string-length">String Length Operator</a></li>
+  <li><a href="#language-operator-scalar">Scalar Operator</a></li>
+  <li><a href="#language-operator-isweak">isweak Operator</a></li>
 </ul>
 
-<h4 id="language-expression-operator-summary">Operator Summary</h4>
+<h4 id="language-operator-summary">Operator</h4>
 
-<b>Operator</b> is a Expression to culcurate number mainly.
+<b>Operator</b> is a <a href="#language-expression">Expression</a> to culcurate number mainly.
 
-<b>Operators</b> are <a href="#language-expression-operator-unary">Unary Operator</a>, <a href="#language-expression-operator-binary">Binary Operator</a>, <a href="#language-expression-operator-inc">Increment Operator</a>, <a href="#language-expression-operator-dec">Decrement Operator</a>, <a href="#language-expression-operator-comparison">Comparison Operator</a>, <a href="#language-expression-operator-logical">Logical Operator</a>, and <a href="#language-expression-operator-assign">Assignment Operator</a>.
+<b>Operators</b> are <a href="#language-operator-unary">Unary Operator</a>, <a href="#language-operator-binary">Binary Operator</a>, <a href="#language-operator-inc">Increment Operator</a>, <a href="#language-operator-dec">Decrement Operator</a>, <a href="#language-operator-comparison">Comparison Operator</a>, <a href="#language-operator-logical">Logical Operator</a>, and <a href="#language-operator-assign">Assignment Operator</a>.
 
-<h4 id="language-expression-operator-unary">Unary Operator</h4>
+<h4 id="language-operator-unary">Unary Operator</h4>
 
-Unary Operator is an Operator placed before <a href="#language-expresssion">Expression</a>.
+Unary Operator is an Operator placed before <a href="#language-expression">Expression</a>.
 
 <pre>
 UNARY_OPERATOR EXPRESSION
 </pre>
 
-Unary Operators are <a href="#language-expression-operator-unary-plus">Unary Plus Operator</a>, <a href="#language-expression-operator-unary-minus">Unary Minus Operator</a>, <a href="#language-expression-operator-bit-not">Bit NOT Operator</a>, <a href="#language-expression-operator-logical-not">Logical NOT Operator</a>, <a href="#language-expression-operator-array-length">Array Length Operator</a>, and <a href="#language-expression-operator-string-length">String Length Operator</a>.
+Unary Operators are <a href="#language-operator-unary-plus">Unary Plus Operator</a>, <a href="#language-operator-unary-minus">Unary Minus Operator</a>, <a href="#language-operator-bit-not">Bit NOT Operator</a>, <a href="#language-operator-logical-not">Logical NOT Operator</a>, <a href="#language-operator-array-length">Array Length Operator</a>, and <a href="#language-operator-string-length">String Length Operator</a>.
 
-Note that <a href="#language-expression-operator-inc">Increment Operator</a> and <a href="#language-expression-operator-dec">Decrement Operator</a> is not Unary Operator.
+Note that <a href="#language-operator-inc">Increment Operator</a> and <a href="#language-operator-dec">Decrement Operator</a> is not Unary Operator.
 
-<h4 id="language-expression-operator-binary">Binary Operator </h4>
+<h4 id="language-operator-binary">Binary Operator </h4>
 
 Binary Operator is a Operator placed between Left <a href="#language-expresssion">Expression</a> and Right <a href="#language-expresssion">Expression</a>.
 
@@ -4173,9 +4173,9 @@ Binary Operator is a Operator placed between Left <a href="#language-expresssion
 LEFT_EXPRESSION BINARY_OPERATOR RIGHT_EXPRESSION
 </pre>
 
-Binary Operators are <a href="#language-expression-operator-add">Addition Operator</a>, <a href="#language-expression-operator-subtract">Subtraction Operator</a>, <a href="#language-expression-operator-multiply">Multiplication Operator</a>, <a href="#language-expression-operator-divide">Division Operator</a>, <a href="#language-expression-operator-remainder">Remainder Operator</a>, <a href="#language-expression-operator-bit-and">Bit AND Operator</a>, <a href="#language-expression-operator-bit-or">Bit OR Operator</a>, <a href="#language-expression-operator-logical-and">Logical AND Operator</a>, <a href="#language-expression-operator-logical-or">Logical OR Operator</a>, <a href="#language-expression-operator-shift">Shift Operator</a>, and <a href="#language-expression-operator-concat">String Concatenation Operator</a>.
+Binary Operators are <a href="#language-operator-add">Addition Operator</a>, <a href="#language-operator-subtract">Subtraction Operator</a>, <a href="#language-operator-multiply">Multiplication Operator</a>, <a href="#language-operator-divide">Division Operator</a>, <a href="#language-operator-remainder">Remainder Operator</a>, <a href="#language-operator-bit-and">Bit AND Operator</a>, <a href="#language-operator-bit-or">Bit OR Operator</a>, <a href="#language-operator-logical-and">Logical AND Operator</a>, <a href="#language-operator-logical-or">Logical OR Operator</a>, <a href="#language-operator-shift">Shift Operator</a>, and <a href="#language-operator-concat">String Concatenation Operator</a>.
 
-<h4 id="language-expression-operator-sequential">Sequential Operator</h4>
+<h4 id="language-operator-sequential">Sequential Operator</h4>
 
 Sequential Operator is an Operator that join "," with multiple <a href="#language-expression">Expressions</a> and return the last Expression.
 
@@ -4197,14 +4197,14 @@ my $y = 2;
 my $ret = ($x += 2, $x + $y);
 </pre>
 
-<h4 id="language-expression-operator-arithmetic">Arithmetic Operator</h4>
+<h4 id="language-operator-arithmetic">Arithmetic Operator</h4>
 <p>
-  Arithmetic Operator は,算術を行うOperator のことで,<a href="#language-expression-operator-add">Addition Operator</a>,<a href="#language-expression-operator-subtract">Subtraction Operator</a>,<a href="#language-expression-operator-multiply">Multiplication Operator</a>,<a href="#language-expression-operator-divide">Division Operator</a>,<a href="#language-expression-operator-remainder">Remainder Operator</a>,<a href="#language-expression-operator-unary-plus">Unary Plus Operator</a>,<a href="#language-expression-operator-unary-minus">Unary Minus Operator</a>,<a href="#language-expression-operator-inc">Increment Operator</a>,<a href="#language-expression-operator-dec">Decrement Operator</a>からなります。
+  Arithmetic Operator は,算術を行うOperator のことで,<a href="#language-operator-add">Addition Operator</a>,<a href="#language-operator-subtract">Subtraction Operator</a>,<a href="#language-operator-multiply">Multiplication Operator</a>,<a href="#language-operator-divide">Division Operator</a>,<a href="#language-operator-remainder">Remainder Operator</a>,<a href="#language-operator-unary-plus">Unary Plus Operator</a>,<a href="#language-operator-unary-minus">Unary Minus Operator</a>,<a href="#language-operator-inc">Increment Operator</a>,<a href="#language-operator-dec">Decrement Operator</a>からなります。
 </p>
 
-<h4 id="language-expression-operator-unary-plus">Unary Plus Operator</h4>
+<h4 id="language-operator-unary-plus">Unary Plus Operator</h4>
 
-Unary Plus Operator is a <a href="#language-expression-operator-unary">Unary Operator</a> represented by "+".
+Unary Plus Operator is a <a href="#language-operator-unary">Unary Operator</a> represented by "+".
 
 <pre>
 +Expression
@@ -4214,39 +4214,38 @@ Expression must be <a href="#language-type-numeric">Numeric Type</a>, otherwise 
 
 <a href="#language-type-convertion-unary-numeric-widening">Unary Numeric Widening Type Convertion</a> applys to Expression.
 
-After that, Unary Plus Operator returns the value copied from the avobe value.
+After that, returns the value copied from the avobe value.
 
-<p>
-  Unary Plus Operator のReturn ValueのTypeは,<a href="#language-type-convertion-unary-numeric-widening">Unary Numeric Widening Type Convertion</a>されたTypeです。
-</p>
-<p>
-  Unary Plus Operator は例外を発生させません。
-</p>
-<p>
-  <b>Unary Plus Operator のExample</b>
-</p>
+Return Type of Unary Plus Operator is the Type after <a href="#language-type-convertion-unary-numeric-widening">Unary Numeric Widening Type Convertion</a> is applied.
+
+Unary Plus Operator does not raise <a href="#language-exception">Exception</a>.
+
+<b>Unary Plus Operator Example:</b>
+
 <pre>
 my $num = +10;
 </pre>
-<h4 id="language-expression-operator-unary-minus">Unary Minus Operator</h4>
-<p>
-  Unary Minus Operator は"-"で表現される<a href="#language-expression-operator-unary">Unary Operator</a>です。
-</p>
+
+<h4 id="language-operator-unary-minus">Unary Minus Operator</h4>
+
+Unary Minus Operator is a <a href="#language-operator-unary">Unary Operator</a> represented by "-".
+
 <pre>
 -Expression
 </pre>
-<p>
-  Expressionは<a href="#language-type-numeric">Numeric Type</a>でなければなりません。otherwise a compile-time error occurs.
-</p>
-<p>
-  <a href="#language-expression">Expression</a>に対して,<a href="#language-type-convertion-unary-numeric-widening">Unary Numeric Widening Type Convertion</a>が行われます。
-</p>
-<p>
-  その後,Unary Minus Operator は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,<a href="#language-type-int">int Type</a> ,<a href="#language-type-long">long Type</a>,<a href="#language-type-float">float Type</a>,<a href="#language-type-double">double Type</a>における演算がDefinitionされます。
-</p>
+
+Expression must be <a href="#language-type-numeric">Numeric Type</a>, otherwise a compile-time error occurs.
+
+<a href="#language-type-convertion-unary-numeric-widening">Unary Numeric Widening Type Convertion</a> applys to Expression.
+
+After that, Unary Minus Operator performs an operation that exactly matches the following operation in C99.
+
 <pre>
 -x
 </pre>
+
+<a href="#language-type-int">int Type</a> Operation, <a href="#language-type-long">long Type</a> Operation, <a href="#language-type-float">float Type</a> Operation, and <a href="#language-type-double">double Type</a> Operation is defined corresponding to <a href="#language-c99-type">C99 Type</a>
+
 <p>
   Unary Minus Operator は<a href="#language-expression">Expression</a>を返します。
 </p>
@@ -4262,9 +4261,9 @@ my $num = +10;
 <pre>
 my $num = -10;
 </pre>
-<h4 id="language-expression-operator-add">Addition Operator</h4>
+<h4 id="language-operator-add">Addition Operator</h4>
 <p>
-  Addition Operator は"+"で表現される,加算を行うための<a href="#language-expression-operator-binary">Binary Operator</a>です。
+  Addition Operator は"+"で表現される,加算を行うための<a href="#language-operator-binary">Binary Operator</a>です。
 </p>
 <pre>
 Left Expression + Right Expression
@@ -4290,9 +4289,9 @@ x + y;
 <p>
   Addition Operator は,例外を発生させません。
 </p>
-<h4 id="language-expression-operator-subtract">Subtraction Operator</h4>
+<h4 id="language-operator-subtract">Subtraction Operator</h4>
 <p>
-  Subtraction Operator は"-"で表現される<a href="#language-expression-operator-binary">Binary Operator</a>です。
+  Subtraction Operator は"-"で表現される<a href="#language-operator-binary">Binary Operator</a>です。
 </p>
 <pre>
 Left Expression - Right Expression
@@ -4318,9 +4317,9 @@ x - y;
 <p>
   Subtraction Operator は,例外を発生させません。
 </p>
-<h4 id="language-expression-operator-multiply">Multiplication Operator</h4>
+<h4 id="language-operator-multiply">Multiplication Operator</h4>
 <p>
-  Multiplication Operator は"*"で表現される<a href="#language-expression-operator-binary">Binary Operator</a>です。
+  Multiplication Operator は"*"で表現される<a href="#language-operator-binary">Binary Operator</a>です。
 </p>
 <pre>
 Left Expression * Right Expression
@@ -4346,9 +4345,9 @@ x * y;
 <p>
   Multiplication Operator は,例外を発生させません。
 </p>
-<h4 id="language-expression-operator-divide">Division Operator</h4>
+<h4 id="language-operator-divide">Division Operator</h4>
 <p>
-  Division Operator は"/"で表現される<a href="#language-expression-operator-binary">Binary Operator</a>です。
+  Division Operator は"/"で表現される<a href="#language-operator-binary">Binary Operator</a>です。
 </p>
 <pre>
 Left Expression / Right Expression
@@ -4378,9 +4377,9 @@ x / y;
   Floating Point Typeに対する演算の場合には,Division Operator は,例外を発生させません。
 </p>
 
-<h4 id="language-expression-operator-remainder">Remainder Operator</h4>
+<h4 id="language-operator-remainder">Remainder Operator</h4>
 <p>
-  Remainder Operator は"%"で表現される<a href="#language-expression-operator-binary">Binary Operator</a>です。
+  Remainder Operator は"%"で表現される<a href="#language-operator-binary">Binary Operator</a>です。
 </p>
 <pre>
 Left Expression % Right Expression
@@ -4407,7 +4406,7 @@ x % y;
   Remainder Operator は,右辺が0であった場合に,例外が発生します。
 </p>
 
-<h4 id="language-expression-operator-inc">Increment Operator</h4>
+<h4 id="language-operator-inc">Increment Operator</h4>
 <p>
   Increment Operator は,値を1加算するOperator です。Increment Operator が前置されるか,後置されるかで,意味が変わります。
 </p>
@@ -4471,7 +4470,7 @@ Dereference ++
 (my $tmp = $num, $num = (byte)($num + 1), $tmp)
 </pre>
 
-<h4 id="language-expression-operator-dec">Decrement Operator</h4>
+<h4 id="language-operator-dec">Decrement Operator</h4>
 <p>
   Decrement Operator は,値を1減算するOperator です。Decrement Operator が前置されるか,後置されるかで,意味が変わります。
 </p>
@@ -4535,14 +4534,14 @@ Dereference --
 (my $tmp = $num, $num = (byte)($num - 1), $tmp)
 </pre>
 
-<h4 id="language-expression-operator-bit">Bit Operator</h4>
+<h4 id="language-operator-bit">Bit Operator</h4>
 <p>
-  Bit Operator は,Bit 演算を行うOperator のことで,><a href="#language-expression-operator-bit-and">Bit AND Operator</a>,<a href="#language-expression-operator-bit-or">Bit OR Operator</a>,<a href="#language-expression-operator-bit-not">Bit NOT Operator</a>からなります。
+  Bit Operator は,Bit 演算を行うOperator のことで,><a href="#language-operator-bit-and">Bit AND Operator</a>,<a href="#language-operator-bit-or">Bit OR Operator</a>,<a href="#language-operator-bit-not">Bit NOT Operator</a>からなります。
 </p>
 
-<h4 id="language-expression-operator-bit-and">Bit AND Operator</h4>
+<h4 id="language-operator-bit-and">Bit AND Operator</h4>
 <p>
-  Bit ANDは"&"で表現される<a href="#language-expression-operator-binary">Binary Operator</a>です。
+  Bit ANDは"&"で表現される<a href="#language-operator-binary">Binary Operator</a>です。
 </p>
 <pre>
 Left Expression & Right Expression
@@ -4569,9 +4568,9 @@ x & y;
   Bit AND Operator は,例外を発生させません。
 </p>
 
-<h4 id="language-expression-operator-bit-or">Bit OR Operator</h4>
+<h4 id="language-operator-bit-or">Bit OR Operator</h4>
 <p>
-  Bit ORは"|"で表現される<a href="#language-expression-operator-binary">Binary Operator</a>です。
+  Bit ORは"|"で表現される<a href="#language-operator-binary">Binary Operator</a>です。
 </p>
 <pre>
 Left Expression | Right Expression
@@ -4598,9 +4597,9 @@ x | y;
   Bit OR Operator は,例外を発生させません。
 </p>
 
-<h4 id="language-expression-operator-bit-not">Bit NOT Operator</h4>
+<h4 id="language-operator-bit-not">Bit NOT Operator</h4>
 <p>
-  Bit NOT Operator は"~"で表現される<a href="#language-expression-operator-unary">Unary Operator</a>です。
+  Bit NOT Operator は"~"で表現される<a href="#language-operator-unary">Unary Operator</a>です。
 </p>
 <pre>
 ~Expression
@@ -4633,13 +4632,13 @@ x | y;
 my $num = ~0xFF0A;
 </pre>
 
-<h4 id="language-expression-operator-shift">Shift Operator</h4>
+<h4 id="language-operator-shift">Shift Operator</h4>
 <p>
-  Shift Operator は,Bit シフトを行うOperator で,<a href="#language-expression-operator-left-shift">Left Shift Operator</a>,<a href="#language-expression-operator-arithmetic-right-shift">Arithmetic Right Shift Operator</a>,<a href="#language-expression-operator-logical-right-shift">Logical Right Shift Operator</a>からなります。
+  Shift Operator は,Bit シフトを行うOperator で,<a href="#language-operator-left-shift">Left Shift Operator</a>,<a href="#language-operator-arithmetic-right-shift">Arithmetic Right Shift Operator</a>,<a href="#language-operator-logical-right-shift">Logical Right Shift Operator</a>からなります。
 </p>
-<h4 id="language-expression-operator-left-shift">Left Shift Operator</h4>
+<h4 id="language-operator-left-shift">Left Shift Operator</h4>
 <p>
-  左シフトは"<<"で表現される<a href="#language-expression-operator-binary">Binary Operator</a>です。
+  左シフトは"<<"で表現される<a href="#language-operator-binary">Binary Operator</a>です。
 </p>
 <pre>
 Left Expression << Right Expression
@@ -4666,9 +4665,9 @@ x << y;
   Left Shift Operator は,例外を発生させません。
 </p>
 
-<h4 id="language-expression-operator-arithmetic-right-shift">Arithmetic Right Shift Operator</h4>
+<h4 id="language-operator-arithmetic-right-shift">Arithmetic Right Shift Operator</h4>
 <p>
-  算術右シフトは">>"で表現される<a href="#language-expression-operator-binary">Binary Operator</a>です。
+  算術右シフトは">>"で表現される<a href="#language-operator-binary">Binary Operator</a>です。
 </p>
 <pre>
 Left Expression >> Right Expression
@@ -4695,9 +4694,9 @@ x >> y;
   Arithmetic Right Shift Operator は,例外を発生させません。
 </p>
 
-<h4 id="language-expression-operator-logical-right-shift">Logical Right Shift Operator</h4>
+<h4 id="language-operator-logical-right-shift">Logical Right Shift Operator</h4>
 <p>
-  論理右シフトは">>>"で表現される<a href="#language-expression-operator-binary">Binary Operator</a>です。
+  論理右シフトは">>>"で表現される<a href="#language-operator-binary">Binary Operator</a>です。
 </p>
 <pre>
 Left Expression >>> Right Expression
@@ -4724,7 +4723,7 @@ Left Expression >>> Right Expression
   Logical Right Shift Operator は,例外を発生させません。
 </p>
 
-<h4 id="language-expression-operator-comparison">Comparison Operator</h4>
+<h4 id="language-operator-comparison">Comparison Operator</h4>
 <p>
   Comparison Operator とは,Left ExpressionとRight Expressionの間に置かれるOperator で,<a href="#language-expression">Expression</a>を返すOperator のことをいいます。
 </p>
@@ -4732,10 +4731,10 @@ Left Expression >>> Right Expression
 Left Expression Comparison Operator  Right Expression
 </pre>
 <p>
-  Comparison Operator には,<a href="#language-expression-operator-comparison-numeric">Numeric Comparison Operator</a>,<a href="#language-expression-operator-comparison-string">String Comparison Operator</a>,isa Operator があります。
+  Comparison Operator には,<a href="#language-operator-comparison-numeric">Numeric Comparison Operator</a>,<a href="#language-operator-comparison-string">String Comparison Operator</a>,isa Operator があります。
 </p>
 
-<h4 id="language-expression-operator-comparison-numeric">Numeric Comparison Operator</h4>
+<h4 id="language-operator-comparison-numeric">Numeric Comparison Operator</h4>
 <p>
   Numeric Comparison Operator とは,数値あるいはオブジェクトのアドレスを比較するために,Left ExpressionとRight Expressionの間に置かれるOperator で,<a href="#language-expression">Expression</a>を返すOperator のことをいいます。
 </p>
@@ -4845,7 +4844,7 @@ Left Expression Numeric Comparison Operator  Right Expression
   Numeric Comparison Operator は,例外を発生させません。
 </p>
 
-<h4 id="language-expression-operator-comparison-string">String Comparison Operator</h4>
+<h4 id="language-operator-comparison-string">String Comparison Operator</h4>
 <p>
   String Comparison Operator とは,Stringを比較するために,Left ExpressionとRight Expressionの間に置かれるOperator で,<a href="#language-expression">Expression</a>を返すOperator のことをいいます。
 </p>
@@ -4915,7 +4914,7 @@ Left Expression String Comparison Operator  Right Expression
 <p>
   String Comparison Operator のReturn ValueのTypeは,<a href="#language-type-int">int Type</a> です。条件が満たされた場合は1を,そうでない場合は0を返します。
 </p>
-<h4 id="language-expression-operator-isa">isa Operator</h4>
+<h4 id="language-operator-isa">isa Operator</h4>
 <p>
   Numeric Comparison Operator とは,数値あるいはオブジェクトのアドレスを比較するために,Left ExpressionとRight Expressionの間に置かれるOperator で,<a href="#language-expression">Expression</a>を返すOperator のことをいいます。
 </p>
@@ -4938,17 +4937,17 @@ Left Expression isa 右Type
   3. 右Typeが,<a href="#language-type-callback">Callback Type</a>であった場合は,実行時にLeft ExpressionのTypeがClass Typeであり,そのClassがCallback Typeを満たすかどうかをチェックします。満たした場合は<a href="#language-type-int">int Type</a> の1を,そうでない場合は0を返します。Left ExpressionのTypeは,Object Type でなければなりません。otherwise a compile-time error occurs.
 </p>
 
-<h4 id="language-expression-operator-logical">Logical Operator</h4>
+<h4 id="language-operator-logical">Logical Operator</h4>
 <p>
-  Logical Operator は,論理演算を行うOperator のことで,><a href="#language-expression-operator-logical-and">Logical AND Operator</a>,<a href="#language-expression-operator-logical-or">Logical OR Operator</a>,<a href="#language-expression-operator-logical-not">Logical NOT Operator</a>からなります。
+  Logical Operator は,論理演算を行うOperator のことで,><a href="#language-operator-logical-and">Logical AND Operator</a>,<a href="#language-operator-logical-or">Logical OR Operator</a>,<a href="#language-operator-logical-not">Logical NOT Operator</a>からなります。
 </p>
 <p>
   Logical Operator は,<a href="#language-expression">Expression</a>を返します。
 </p>
 
-<h4 id="language-expression-operator-logical-and">Logical AND Operator</h4>
+<h4 id="language-operator-logical-and">Logical AND Operator</h4>
 <p>
-  Logical AND Operator とは,Logical AND演算を行うために,"&&"で表現される,<a href="#language-expresssion">Expression</a>をオペランドとする<a href="#language-expression-operator-binary">Binary Operator</a>です。
+  Logical AND Operator とは,Logical AND演算を行うために,"&&"で表現される,<a href="#language-expresssion">Expression</a>をオペランドとする<a href="#language-operator-binary">Binary Operator</a>です。
 </p>
 <pre>
 Left Expression && Right Expression
@@ -4975,9 +4974,9 @@ Left Expression && Right Expression
   Logical AND Operator は,例外を発生させません。
 </p>
 
-<h4 id="language-expression-operator-logical-or">Logical OR Operator</h4>
+<h4 id="language-operator-logical-or">Logical OR Operator</h4>
 <p>
-  Logical OR Operator とは,Logical OR演算を行うために,"||"で表現される,<a href="#language-expresssion">Expression</a>をオペランドとする<a href="#language-expression-operator-binary">Binary Operator</a>です。
+  Logical OR Operator とは,Logical OR演算を行うために,"||"で表現される,<a href="#language-expresssion">Expression</a>をオペランドとする<a href="#language-operator-binary">Binary Operator</a>です。
 </p>
 <pre>
 Left Expression || Right Expression
@@ -5004,9 +5003,9 @@ Left Expression || Right Expression
   Logical OR Operator は,例外を発生させません。
 </p>
 
-<h4 id="language-expression-operator-logical-not">Logical NOT Operator</h4>
+<h4 id="language-operator-logical-not">Logical NOT Operator</h4>
 <p>
-  Logical NOT Operator とは,論理NOT演算を行うために,Expressionの左に置かれるOperator で,"!"で表現される<a href="#language-expression">Expression</a>を返す<a href="#language-expression-operator-binary">Unary Operator</a>です。Expressionについては,<a href="#language-expresssion">Expression</a>を参考にしてください。
+  Logical NOT Operator とは,論理NOT演算を行うために,Expressionの左に置かれるOperator で,"!"で表現される<a href="#language-expression">Expression</a>を返す<a href="#language-operator-binary">Unary Operator</a>です。Expressionについては,<a href="#language-expresssion">Expression</a>を参考にしてください。
 </p>
 <pre>
 !Expression
@@ -5024,9 +5023,9 @@ Left Expression || Right Expression
   Logical NOT Operator は,例外を発生させません。
 </p>
 
-<h4 id="language-expression-operator-concat">String Concatenation Operator</h4>
+<h4 id="language-operator-concat">String Concatenation Operator</h4>
 <p>
-  String Concatenation Operator は"."で表現される<a href="#language-expression-operator-binary">Binary Operator</a>です。
+  String Concatenation Operator は"."で表現される<a href="#language-operator-binary">Binary Operator</a>です。
 </p>
 <pre>
 Left Expression . Right Expression
@@ -5057,9 +5056,9 @@ my $str = "abc" . "def";
 my $str = "def" . 34;
 my $str = 123 . 456;
 </pre>
-<h4 id="language-expression-operator-assign">Assignment Operator</h4>
+<h4 id="language-operator-assign">Assignment Operator</h4>
 <p>
-  Assignment Operator は"="で表現される,代入を行うための<a href="#language-expression-operator-binary">Binary Operator</a>です。
+  Assignment Operator は"="で表現される,代入を行うための<a href="#language-operator-binary">Binary Operator</a>です。
 </p>
 <pre>
 LEFT_EXPRESSION = RIGHTH_EXPRESSION
@@ -5075,9 +5074,9 @@ LEFT_EXPRESSION = RIGHTH_EXPRESSION
   <li><a href="#language-expression-set-lex-var">Set Lexical Variable Value</a></li>
 </ul>
 
-<h4 id="language-expression-operator-assign-special">Special Assignment Operator</h4>
+<h4 id="language-operator-assign-special">Special Assignment Operator</h4>
 <p>
-  Special Assignment Operator とは,<a href="#language-expression-operator-binary">Binary Operator</a>と<a href="#language-expression-operator-assign">Assignment Operator</a>の組み合わせで表現される特殊な代入を行う<a href="#language-expression-operator-binary">Binary Operator</a>のことです。
+  Special Assignment Operator とは,<a href="#language-operator-binary">Binary Operator</a>と<a href="#language-operator-assign">Assignment Operator</a>の組み合わせで表現される特殊な代入を行う<a href="#language-operator-binary">Binary Operator</a>のことです。
 </p>
 <pre>
 Left Expression Special Assignment Operator  Right Expression
@@ -5172,7 +5171,7 @@ $x <<= 1;
 $x >>= 1;
 $x >>>= 1;
 </pre>
-<h4 id="language-expression-operator-ref">Reference Operator </h4>
+<h4 id="language-operator-ref">Reference Operator </h4>
 <p>
   Reference Operator  は,<a href="#language-type-numeric">Numeric Type</a>または<a href="#language-type-multi-numeric">Multi Numeric Type</a>の変数のアドレスを取得するOperator です。C言語のアドレスOperator "&"を実現するために設計されました。
 </p>
@@ -5199,9 +5198,9 @@ my $z_ref : SPVM::Complex_2d& = \$z;
   Referenceの詳しい解説については,<a href="#language-ref">Reference</a>を見てください。
 </p>
 
-<h4 id="language-expression-operator-array-length">Array Length Operator</h4>
+<h4 id="language-operator-array-length">Array Length Operator</h4>
 <p>
-  Array Length Operator は,<a href="#language-array">Array</a>の長さを取得するための"@"で表現される<a href="#language-expression-operator-binary">Unary Operator</a>です。
+  Array Length Operator は,<a href="#language-array">Array</a>の長さを取得するための"@"で表現される<a href="#language-operator-binary">Unary Operator</a>です。
 </p>
 <pre>
 @Right Expression
@@ -5229,9 +5228,9 @@ my $length = @$nums;
   SPVMにはPerlにおけるコンテキストという考え方はなく,Array Length Operator は,常にArray Lengthを返すことに注意してください。
 </p>
 
-<h4 id="language-expression-operator-string-length">String Length Operator</h4>
+<h4 id="language-operator-string-length">String Length Operator</h4>
 <p>
-  String Length Operator は,<a href="#language-string">String</a>の長さを取得するための"length"で表現される<a href="#language-expression-operator-binary">Unary Operator</a>です。
+  String Length Operator は,<a href="#language-string">String</a>の長さを取得するための"length"で表現される<a href="#language-operator-binary">Unary Operator</a>です。
 </p>
 <pre>
 length Right Expression
@@ -5256,15 +5255,15 @@ my $nums = "abcde";
 my $length = length $nums;
 </pre>
 
-<h4 id="language-expression-operator-scalar">Scalar Operator</h4>
+<h4 id="language-operator-scalar">Scalar Operator</h4>
 <p>
-  Scalar Operator は,何もしないで,与えられた値そのものを返すOperator です。<a href="#language-expression-operator-array-length">Array Length Operator</a>の意味を分かりやすくするためだけに用意されています。
+  Scalar Operator は,何もしないで,与えられた値そのものを返すOperator です。<a href="#language-operator-array-length">Array Length Operator</a>の意味を分かりやすくするためだけに用意されています。
 </p>
 <pre>
 scalar Right Expression
 </pre>
 <p>
-  Right Expressionは<a href="#language-expression-operator-array-length">Array Length Operator</a>でなければなりません。otherwise a compile-time error occurs.
+  Right Expressionは<a href="#language-operator-array-length">Array Length Operator</a>でなければなりません。otherwise a compile-time error occurs.
 </p>
 <p>
   Scalar Operator returns Expression.
@@ -5280,7 +5279,7 @@ my $nums = new int[3];
 foo(scalar @$nums);
 </pre>
 
-<h4 id="language-expression-operator-isweak">isweak Operator</h4>
+<h4 id="language-operator-isweak">isweak Operator</h4>
 <p>
   isweak Operator は,Fieldが,<a href="#language-weak-ref">Weaken Reference</a>かを確認するOperator です。
 </p>
@@ -5303,7 +5302,7 @@ isweak 変数->{FIELD_NAME};
   isweak Operator は,FieldがWeaken Referenceの場合は,<a href="#language-type-int">int Type</a> の1を,そうでない場合は0を返します。これは,<a href="#language-expression">Expression</a>です。
 </p>
 
-<h4 id="language-expression-operator-precedence">Operator Precidence</h4>
+<h4 id="language-operator-precedence">Operator Precidence</h4>
 <p>
   Operator Precidenceは,the following 通りです。下にいくほど,優先順位が高くなります。
 </p>
@@ -6330,7 +6329,7 @@ Integral Type are the following four types.
   </tr>
 </table>
 
-See <a href="#language-expression-operator-arithmetic">Arithmetic Operator</a> for integer calculation rules.
+See <a href="#language-operator-arithmetic">Arithmetic Operator</a> for integer calculation rules.
 
 Note that SPVM has only <b>singed</b> Integral Type, and don't has <b>unsigned</b> Integral Type.
 
@@ -6396,7 +6395,7 @@ This is a <a href="#language-type-integral">Integral Type</a>.
   </tr>
 </table>
 
-See <a href="#language-expression-operator-arithmetic">Arithmetic Operator</a> for floating-point calculation rules.
+See <a href="#language-operator-arithmetic">Arithmetic Operator</a> for floating-point calculation rules.
 
 <h4 id="language-type-float"><a href="#language-type-float">float Type</a></h4>
 <p>
@@ -6821,7 +6820,7 @@ my $array : oarray = new object[3];
   "oarrayType"は"object[]Type"と異なるTypeであることに注意してください。oarrayTypeは,Object Type の値を要素として持つ任意のArray Typeの値を代入できるTypeであるのに対して,"object[]Type"は,"objectTypeの値を要素に持つArray"を表現するTypeで,任意のArray Typeの値を代入することはできません。
 </p>
 <p>
-  Any Object Array Typeは,<a href="#language-type-array">Array Type</a>です。<a href="#language-expression-operator-array-length">Array Length Operator</a>によって長さを取得すること,<a href="#language-expression-set-array-element">Set Array Element Value</a>,<a href="#language-expression-get-array-element">Get Array Element Value</a>ができます。
+  Any Object Array Typeは,<a href="#language-type-array">Array Type</a>です。<a href="#language-operator-array-length">Array Length Operator</a>によって長さを取得すること,<a href="#language-expression-set-array-element">Set Array Element Value</a>,<a href="#language-expression-get-array-element">Get Array Element Value</a>ができます。
 </p>
 <pre>
 my $array : oarray = new SPVM::Int[3];
@@ -6932,7 +6931,7 @@ my $point : Point_3i;
 my $point_ref : Point_3i& = \$point;
 </pre>
 <p>
-  Reference Type の値に代入できるのは,<a href="#language-expression-operator-ref">Reference Operator</a>で取得したLexical Variable のアドレスだけです。
+  Reference Type の値に代入できるのは,<a href="#language-operator-ref">Reference Operator</a>で取得したLexical Variable のアドレスだけです。
 </p>
 <p>
   Reference Type のLexical Variable Declaration だけが行われた場合は,a compile-time error occurs
@@ -7320,14 +7319,14 @@ my $str : string = $num;
   Binary Numeric Widening Type Convertionが行われるのはthe following 場合です。
 </p>
 <ul class="list">
-  <li><a href="#language-expression-operator-add">Addition Operator</a></li>
-  <li><a href="#language-expression-operator-subtract">Subtraction Operator</a></li>
-  <li><a href="#language-expression-operator-multiply">Multiplication Operator</a></li>
-  <li><a href="#language-expression-operator-divide">Division Operator</a></li>
-  <li><a href="#language-expression-operator-remainder">Remainder Operator</a></li>
-  <li><a href="#language-expression-operator-bit-and">Bit AND Operator</a></li>
-  <li><a href="#language-expression-operator-bit-or">Bit OR Operator</a></li>
-  <li><a href="#language-expression-operator-comparison-numeric">Numeric Comparison Operator</a></li>
+  <li><a href="#language-operator-add">Addition Operator</a></li>
+  <li><a href="#language-operator-subtract">Subtraction Operator</a></li>
+  <li><a href="#language-operator-multiply">Multiplication Operator</a></li>
+  <li><a href="#language-operator-divide">Division Operator</a></li>
+  <li><a href="#language-operator-remainder">Remainder Operator</a></li>
+  <li><a href="#language-operator-bit-and">Bit AND Operator</a></li>
+  <li><a href="#language-operator-bit-or">Bit OR Operator</a></li>
+  <li><a href="#language-operator-comparison-numeric">Numeric Comparison Operator</a></li>
 </ul>
 
 <h4 id="language-type-convertion-numeric-narrowing">Numeric Narrowing Type Convertion</h4>
@@ -7747,5 +7746,5 @@ Captureは,このような長い記述を,短く書くためのSyntaxです。
 }
 </pre>
 <p>
-  Weaken Reference関連のSyntaxとして,Weaken Referenceを解除できる<a href="#language-statement-weaken">weaken Statement</a>と,FieldがWeaken Referenceかどうかを確認できる<a href="#language-expression-operator-isweak">isweak Operator</a>があります。
+  Weaken Reference関連のSyntaxとして,Weaken Referenceを解除できる<a href="#language-statement-weaken">weaken Statement</a>と,FieldがWeaken Referenceかどうかを確認できる<a href="#language-operator-isweak">isweak Operator</a>があります。
 </p>
