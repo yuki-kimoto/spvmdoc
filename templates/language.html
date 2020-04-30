@@ -4245,7 +4245,7 @@ After that, Unary Minus Operator performs an operation that exactly matches the 
 -x
 </pre>
 
-<a href="#language-type-int">int Type</a> Operation, <a href="#language-type-long">long Type</a> Operation, <a href="#language-type-float">float Type</a> Operation, and <a href="#language-type-double">double Type</a> Operation is defined corresponding to <a href="#language-c99-type">C99 Type</a>
+<a href="#language-type-int">int Type</a> Operation, <a href="#language-type-long">long Type</a> Operation, <a href="#language-type-float">float Type</a> Operation, and <a href="#language-type-double">double Type</a> Operation are defined corresponding to <a href="#language-c99-type">C99 Type</a>
 
 Return Type of Unary Minus Operator is the Type after <a href="#language-type-convertion-unary-numeric-widening">Unary Numeric Widening Type Convertion</a> is applied.
 
@@ -4275,7 +4275,7 @@ After that, Addition Operator performs an operation that exactly matches the fol
 x + y;
 </pre>
 
-<a href="#language-type-int">int Type</a> Operation, <a href="#language-type-long">long Type</a> Operation, <a href="#language-type-float">float Type</a> Operation, and <a href="#language-type-double">double Type</a> Operation is defined corresponding to <a href="#language-c99-type">C99 Type</a>
+<a href="#language-type-int">int Type</a> Operation, <a href="#language-type-long">long Type</a> Operation, <a href="#language-type-float">float Type</a> Operation, and <a href="#language-type-double">double Type</a> Operation are defined corresponding to <a href="#language-c99-type">C99 Type</a>
 
 Return Type of Addition Operator is the Type after <a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</a> is applied.
 
@@ -4321,72 +4321,61 @@ After that, Multiplication Operator performs an operation that exactly matches t
 x * y;
 </pre>
 
-<a href="#language-type-int">int Type</a> Operation, <a href="#language-type-long">long Type</a> Operation, <a href="#language-type-float">float Type</a> Operation, and <a href="#language-type-double">double Type</a> Operation is defined corresponding to <a href="#language-c99-type">C99 Type</a>
+<a href="#language-type-int">int Type</a> Operation, <a href="#language-type-long">long Type</a> Operation, <a href="#language-type-float">float Type</a> Operation, and <a href="#language-type-double">double Type</a> Operation are defined corresponding to <a href="#language-c99-type">C99 Type</a>
 
 Return Type of Multiplication Operator is the Type after <a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</a> is applied.
 
 Addition Operator does not throw <a href="#language-exception">Exception</a>.
 
 <h4 id="language-operator-divide">Division Operator</h4>
-<p>
-  Division Operator は"/"で表現される<a href="#language-operator-binary">Binary Operator</a>です。
-</p>
+
+<b>Division Operator</b> is a <a href="#language-operator-binary">Binary Operator</a> represtented by "/" to perform Division.
+
 <pre>
-Left Expression / Right Expression
+LEFT_EXPRESSION / RIGHT_EXPRESSION
 </pre>
-<p>
-  Left ExpressionとRight Expressionは,<a href="#language-type-numeric">Numeric Type</a>でなければなりません。otherwise a compile-time error occurs.
-<p>
-<p>
-  Left ExpressionとRight Expressionに対して,<a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</a>が行われます。
-</p>
-<p>
-  その後,Division Operator は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,<a href="#language-type-int">int Type</a> ,<a href="#language-type-long">long Type</a>,<a href="#language-type-float">float Type</a>,<a href="#language-type-double">double Type</a>における演算がDefinitionされます。
-</p>
+
+Left Expression and Right Expression must be <a href="#language-type-numeric">Numeric Type</a>, otherwise a compile-time error occurs.
+
+<a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</a> is applied to Left Expression and Right Expression.
+
+After that, Division Operator performs an operation that exactly matches the following operation in C99.
+
 <pre>
 x / y;
 </pre>
-<p>
-  Division Operator は<a href="#language-expression">Expression</a>を返します。
-</p>
-<p>
-  Division Operator のReturn ValueのTypeは,<a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</a>されたTypeです。
-</p>
-<p>
-  Integral Typeに対する演算の場合には,Division Operator は,右辺が0であった場合に,例外が発生します。
-</p>
-<p>
-  Floating Point Typeに対する演算の場合には,Division Operator は,例外を発生させません。
-</p>
+
+<a href="#language-type-int">int Type</a> Operation, <a href="#language-type-long">long Type</a> Operation, <a href="#language-type-float">float Type</a> Operation, and <a href="#language-type-double">double Type</a> Operation are defined corresponding to <a href="#language-c99-type">C99 Type</a>
+
+Return Type of Division Operator is the Type after <a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</a> is applied.
+
+In the operation to <a href="#language-type-integral">Integral Type</a>, Division Operator throw <a href="#language-exception">Exception</a> if Right Expression is 0.
+
+In the operation to <a href="#language-type-floating-point">Floating Point Type</a>, Division Operator dose not throw <a href="#language-exception">Exception</a>.
 
 <h4 id="language-operator-remainder">Remainder Operator</h4>
-<p>
-  Remainder Operator は"%"で表現される<a href="#language-operator-binary">Binary Operator</a>です。
-</p>
+
+<b>Remainder Operator</b> is a <a href="#language-operator-binary">Binary Operator</a> represtented by "%" to perform Division.
+
 <pre>
-Left Expression % Right Expression
+LEFT_EXPRESSION % RIGHT_EXPRESSION
 </pre>
-<p>
-  Left ExpressionとRight Expressionは,<a href="#language-type-integral">Integral Type</a>でなければなりません。otherwise a compile-time error occurs.
-<p>
-<p>
-  Left ExpressionとRight Expressionに対して,<a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</a>が行われます。
-</p>
-<p>
-  その後,Remainder Operator は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,<a href="#language-type-int">int Type</a> ,<a href="#language-type-long">long Type</a>における演算がDefinitionされます。
-</p>
+
+Left Expression and Right Expression must be <a href="#language-type-integral">Integral Type</a>, otherwise a compile-time error occurs.
+
+<a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</a> is applied to Left Expression and Right Expression.
+
+After that, Remainder Operator performs an operation that exactly matches the following operation in C99.
+
 <pre>
 x % y;
 </pre>
-<p>
-  Remainder Operator は<a href="#language-expression">Expression</a>を返します。
-</p>
-<p>
-  Remainder Operator のReturn ValueのTypeは,<a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</a>されたTypeです。
-</p>
-<p>
-  Remainder Operator は,右辺が0であった場合に,例外が発生します。
-</p>
+
+<a href="#language-type-int">int Type</a> Operation, and <a href="#language-type-long">long Type</a> Operation are defined corresponding to <a href="#language-c99-type">C99 Type</a>
+
+Return Type of Remainder Operator is the Type after <a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</a> is applied.
+
+Remainder Operator throw <a href="#language-exception">Exception</a> if Right Expression is 0.
 
 <h4 id="language-operator-inc">Increment Operator</h4>
 <p>
