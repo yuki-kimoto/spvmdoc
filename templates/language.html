@@ -4198,9 +4198,10 @@ my $ret = ($x += 2, $x + $y);
 </pre>
 
 <h4 id="language-operator-arithmetic">Arithmetic Operator</h4>
-<p>
-  Arithmetic Operator は,算術を行うOperator のことで,<a href="#language-operator-add">Addition Operator</a>,<a href="#language-operator-subtract">Subtraction Operator</a>,<a href="#language-operator-multiply">Multiplication Operator</a>,<a href="#language-operator-divide">Division Operator</a>,<a href="#language-operator-remainder">Remainder Operator</a>,<a href="#language-operator-unary-plus">Unary Plus Operator</a>,<a href="#language-operator-unary-minus">Unary Minus Operator</a>,<a href="#language-operator-inc">Increment Operator</a>,<a href="#language-operator-dec">Decrement Operator</a>からなります。
-</p>
+
+<b>Arithmetic Operator</b> is an <a href="#language-operator-summary">Operator</a> that performs arithmetic.
+
+<b>Arithmetic Operators</b> are <a href="#language-operator-add">Addition Operator</a>, <a href="#language-operator-subtract">Subtraction Operator</a>, <a href="#language-operator-multiply">Multiplication Operator</a>, <a href="#language-operator-divide">Division Operator</a>, <a href="#language-operator-remainder">Remainder Operator</a>, <a href="#language-operator-unary-plus">Unary Plus Operator</a>, <a href="#language-operator-unary-minus">Unary Minus Operator</a>, <a href="#language-operator-inc">Increment Operator</a>, and <a href="#language-operator-dec">Decrement Operator</a>.
 
 <h4 id="language-operator-unary-plus">Unary Plus Operator</h4>
 
@@ -4218,7 +4219,7 @@ After that, returns the value copied from the avobe value.
 
 Return Type of Unary Plus Operator is the Type after <a href="#language-type-convertion-unary-numeric-widening">Unary Numeric Widening Type Convertion</a> is applied.
 
-Unary Plus Operator does not raise <a href="#language-exception">Exception</a>.
+Unary Plus Operator does not throw <a href="#language-exception">Exception</a>.
 
 <b>Unary Plus Operator Example:</b>
 
@@ -4246,105 +4247,86 @@ After that, Unary Minus Operator performs an operation that exactly matches the 
 
 <a href="#language-type-int">int Type</a> Operation, <a href="#language-type-long">long Type</a> Operation, <a href="#language-type-float">float Type</a> Operation, and <a href="#language-type-double">double Type</a> Operation is defined corresponding to <a href="#language-c99-type">C99 Type</a>
 
-<p>
-  Unary Minus Operator は<a href="#language-expression">Expression</a>を返します。
-</p>
-<p>
-  Unary Minus Operator のReturn ValueのTypeは,<a href="#language-type-convertion-unary-numeric-widening">Unary Numeric Widening Type Convertion</a>されたTypeです。
-</p>
-<p>
-  Unary Minus Operator は例外を発生させません。
-</p>
-<p>
-  <b>Unary Minus Operator のExample</b>
-</p>
+Return Type of Unary Minus Operator is the Type after <a href="#language-type-convertion-unary-numeric-widening">Unary Numeric Widening Type Convertion</a> is applied.
+
+Unary Minus Operator does not throw <a href="#language-exception">Exception</a>.
+
+<b>Unary Minus Operator Example:</b>
+
 <pre>
 my $num = -10;
 </pre>
+
 <h4 id="language-operator-add">Addition Operator</h4>
-<p>
-  Addition Operator は"+"で表現される,加算を行うための<a href="#language-operator-binary">Binary Operator</a>です。
-</p>
+
+<b>Addition Operator</b> is a <a href="#language-operator-binary">Binary Operator</a> represtented by "+" to perform addition.
+
 <pre>
-Left Expression + Right Expression
+LEFT_EXPRESSION + RIGHT_EXPRESSION
 </pre>
-<p>
-  Left ExpressionとRight Expressionは,<a href="#language-type-numeric">Numeric Type</a>でなければなりません。otherwise a compile-time error occurs.
-<p>
-<p>
-  Left ExpressionとRight Expressionに対して,<a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</a>が行われます。
-</p>
-<p>
-  その後,Addition Operator は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,<a href="#language-type-int">int Type</a> ,<a href="#language-type-long">long Type</a>,<a href="#language-type-float">float Type</a>,<a href="#language-type-double">double Type</a>における演算がDefinitionされます。
-</p>
+
+Left Expression and Right Expression must be <a href="#language-type-numeric">Numeric Type</a>, otherwise a compile-time error occurs.
+
+<a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</a> is applied to Left Expression and Right Expression.
+
+After that, Addition Operator performs an operation that exactly matches the following operation in C99.
+
 <pre>
 x + y;
 </pre>
-<p>
-  Addition Operator は<a href="#language-expression">Expression</a>を返します。
-</p>
-<p>
-  Addition Operator のReturn ValueのTypeは,<a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</a>されたTypeです。
-</p>
-<p>
-  Addition Operator は,例外を発生させません。
-</p>
+
+<a href="#language-type-int">int Type</a> Operation, <a href="#language-type-long">long Type</a> Operation, <a href="#language-type-float">float Type</a> Operation, and <a href="#language-type-double">double Type</a> Operation is defined corresponding to <a href="#language-c99-type">C99 Type</a>
+
+Return Type of Addition Operator is the Type after <a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</a> is applied.
+
+Addition Operator does not throw <a href="#language-exception">Exception</a>.
+
 <h4 id="language-operator-subtract">Subtraction Operator</h4>
-<p>
-  Subtraction Operator は"-"で表現される<a href="#language-operator-binary">Binary Operator</a>です。
-</p>
+
+<b>Subtraction Operator</b> is a <a href="#language-operator-binary">Binary Operator</a> represtented by "-" to perform Subtraction.
+
 <pre>
-Left Expression - Right Expression
+LEFT_EXPRESSION - RIGHT_EXPRESSION
 </pre>
-<p>
-  Left ExpressionとRight Expressionは,<a href="#language-type-numeric">Numeric Type</a>でなければなりません。otherwise a compile-time error occurs.
-<p>
-<p>
-  Left ExpressionとRight Expressionに対して,<a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</a>が行われます。
-</p>
-<p>
-  その後,Subtraction Operator は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,<a href="#language-type-int">int Type</a> ,<a href="#language-type-long">long Type</a>,<a href="#language-type-float">float Type</a>,<a href="#language-type-double">double Type</a>における演算がDefinitionされます。
-</p>
+
+Left Expression and Right Expression must be <a href="#language-type-numeric">Numeric Type</a>, otherwise a compile-time error occurs.
+
+<a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</a> is applied to Left Expression and Right Expression.
+
+After that, Subtraction Operator performs an operation that exactly matches the following operation in C99.
+
 <pre>
 x - y;
 </pre>
-<p>
-  Subtraction Operator は<a href="#language-expression">Expression</a>を返します。
-</p>
-<p>
-  Subtraction Operator のReturn ValueのTypeは,<a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</a>されたTypeです。
-</p>
-<p>
-  Subtraction Operator は,例外を発生させません。
-</p>
+
+Return Type of Subtraction Operator is the Type after <a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</a> is applied.
+
+Subtraction Operator does not throw <a href="#language-exception">Exception</a>.
+
 <h4 id="language-operator-multiply">Multiplication Operator</h4>
-<p>
-  Multiplication Operator は"*"で表現される<a href="#language-operator-binary">Binary Operator</a>です。
-</p>
+
+<b>Multiplication Operator</b> is a <a href="#language-operator-binary">Binary Operator</a> represtented by "*" to perform Multiplication.
+
 <pre>
-Left Expression * Right Expression
+LEFT_EXPRESSION * RIGHT_EXPRESSION
 </pre>
-<p>
-  Left ExpressionとRight Expressionは,<a href="#language-type-numeric">Numeric Type</a>でなければなりません。otherwise a compile-time error occurs.
-<p>
-<p>
-  Left ExpressionとRight Expressionに対して,<a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</a>が行われます。
-</p>
-<p>
-  その後,Multiplication Operator は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,<a href="#language-type-int">int Type</a> ,<a href="#language-type-long">long Type</a>,<a href="#language-type-float">float Type</a>,<a href="#language-type-double">double Type</a>における演算がDefinitionされます。
-</p>
+
+Left Expression and Right Expression must be <a href="#language-type-numeric">Numeric Type</a>, otherwise a compile-time error occurs.
+
+<a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</a> is applied to Left Expression and Right Expression.
+
+After that, Multiplication Operator performs an operation that exactly matches the following operation in C99.
+
 <pre>
 x * y;
 </pre>
-<p>
-  Multiplication Operator は<a href="#language-expression">Expression</a>を返します。
-</p>
-<p>
-  Multiplication Operator のReturn ValueのTypeは,<a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</a>されたTypeです。
-</p>
-<p>
-  Multiplication Operator は,例外を発生させません。
-</p>
+
+<a href="#language-type-int">int Type</a> Operation, <a href="#language-type-long">long Type</a> Operation, <a href="#language-type-float">float Type</a> Operation, and <a href="#language-type-double">double Type</a> Operation is defined corresponding to <a href="#language-c99-type">C99 Type</a>
+
+Return Type of Multiplication Operator is the Type after <a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</a> is applied.
+
+Addition Operator does not throw <a href="#language-exception">Exception</a>.
+
 <h4 id="language-operator-divide">Division Operator</h4>
 <p>
   Division Operator は"/"で表現される<a href="#language-operator-binary">Binary Operator</a>です。
