@@ -4,7 +4,7 @@
 
 SPVM is in beta testing for the 1.0 release. Language Specification will be changed without warning.
 
-Last modified 2020-05-01
+Last modified 2020-05-08
 
 <ul>
   <li><a href="#language-c99">C99 compliant</a></li>
@@ -6631,10 +6631,10 @@ my $object : object = new Foo[3];
 
 <h4 id="language-type-self">self Type</h4>
 <p>
-  self Typeとは,自身の属するPackage Typeを表現し,引数がInvocant であることを示します。
+  self Type represents the Package Type to which it belongs, and indicates that the argument is Invocant.
 </p>
 <p>
-  <a href="#language-sub-definition">Subroutine Definition</a>において第一引数のTypeとしてのみ利用できます。
+  It can only be used as the Type of the first argument in <a href="#language-sub-definition"> Subroutine Definition </a>.
 </p>
 
 <h4 id="language-type-void"><a href="#language-type-void">void Type</a></h4>
@@ -6643,12 +6643,12 @@ my $object : object = new Foo[3];
 
 <h4 id="language-type-basic">Basic Type</h4>
 <p>
-  次元を持たないTypeをBasic Typeと呼びます。<a href="#language-type-numeric">Numeric Type</a>,<a href="#language-type-package">Package Type</a>,<a href="#language-type-any-object">Any Object Type</a>,<a href="#language-type-string">string Type</a>は,Basic Typeです。
+  A Type that does not have dimensions is called a Basic Type. <a href="#language-type-numeric"> Numeric Type </a>, <a href="#language-type-package"> Package Type </a>, <a href = "# language-type- any-object "> Any Object Type </a>, <a href="#language-type-string"> string Type </a> is a Basic Type.
 </p>
 
 <h4 id="language-type-array">Array Type</h4>
 <p>
-  Array Typeは,連続した複数のデータ領域を表現します。<a href="#language-type-basic">Basic Type</a>は,Arrayにすることができます。
+  Array Type represents multiple continuous data areas. <a href="#language-type-basic"> Basic Type </a> can be an Array.
 </p>
 <pre>
 int[]
@@ -6658,36 +6658,36 @@ object[]
 string[]
 </pre>
 <p>
-  Arrayは次元を持ち最大255次元まで表現できます。
+  Array has dimensions and can express up to 255 dimensions.
 </p>
 <pre>
-# 二次元
+# Two dimensions
 int[][]
 
-# 三次元
+# Three-dimensional
 int[][][]
 </pre>
 <p>
-  Array Typeは,<a href="#language-type-object">Object Type</a>です。
+  Array Type is <a href="#language-type-object"> Object Type </a>.
 </p>
 <p>
-  Arrayを作成するには,new Operator を使用します。the following 例では,要素数が3の<a href="#language-type-int">int Type</a> のArrayを作成しています。
+  Use new Operator to create an Array. In the following example, <a href="#language-type-int"> int Type </a> Array with 3 elements is created.
 </p>
 <p>
 my $nums = new int[3];
 </p>
 <p>
-  多次元Arrayを作成するときも,new Operator を使用します。the following 例では,要素数が3のint[]TypeのArrayを作成しています。
+  You also use new Operator when creating a multidimensional Array. The following example creates an Array of int [] Type with 3 elements.
 </p>
 <p>
 my $nums = new int[][3];
 </p>
 <h4 id="language-type-array-numeric">Numeric Array Type</h4>
 <p>
-  Numeric Array Typeとは,<a href="#language-type-numeric">Numeric Type</a>の値を要素に持つ<a href="#language-type-array">Array Type</a>のことです。
+  Numeric Array Type means <a href="#language-type-numeric"> Numeric Type </a> with the element <a href="#language-type-array"> Array Type </a> It is.
 </p>
 <p>
-  <b>Numeric Array Typeの一覧</b>
+  <b>Numeric Array Type list</b>
 </p>
 <ul class="list">
   <li>
@@ -6710,25 +6710,25 @@ my $nums = new int[][3];
   </li>
 </ul>
 <p>
-  Numeric Array Typeによって表現されるデータは,要素が<a href="#language-type-numeric">Numeric Type</a>のSizeで,Array Lengthの個数で連続していなければなりません。
+  Data represented by Numeric Array Type must have elements whose size is <a href="#language-type-numeric"> Numeric Type </a>, and must be consecutive by the number of Array Length.
 </p>
 <p>
-  Numeric Array Typeのすべての要素は,Create Arrayが行われたときに<a href="#language-type-initial-value">Type Initial Value</a>によって初期化されます。
+  All elements of Numeric Array Type are initialized by <a href="#language-type-initial-value"> Type Initial Value </a> when Create Array is performed.
 </p>
 <h4 id="language-type-array-byte">byte[] Type</h4>
 <p>
-  SPVMにおいては,byte[] Typeは<a href="#language-type-string-compatible">String Compatible Type</a>であるという点において特別なTypeです。
+  In SPVM, the byte [] Type is a special Type in that it is <a href="#language-type-string-compatible"> String Compatible Type </a>.
 </p>
 <pre>
 byte[]
 </pre>
 <p>
-  <a href="#language-type-string">string Type</a>は,コンパイル時には<a href="#language-type-string">string Type</a>として扱われますが,実行時にはbyte[] Typeになります。
+  <a href="#language-type-string"> string Type </a> is treated as <a href="#language-type-string"> string Type </a> at compile time, but at runtime It will be byte [] Type.
 </p>
 
 <h4 id="language-type-array-object">Object Array Type</h4>
 <p>
-  Object Array Typeとは,<a href="#language-type-object">Object Type</a>の値を要素に持つ<a href="#language-type-array">Array Type</a>のことです。
+  Object Array Type is <a href="#language-type-array"> Array Type </a> that has the value of <a href="#language-type-object"> Object Type </a> as an element. It is.
 </p>
 <p>
   <b>Object Array TypeのExample</b>
@@ -6748,18 +6748,18 @@ byte[]
   </li>
 </ul>
 <p>
-  Object Array Typeによって表現されるデータは,要素が<a href="#language-type-object">Object Type</a>のSizeで,Array Lengthの個数で連続していなければなりません。
+  The data represented by Object Array Type must have elements of size of <a href="#language-type-object"> Object Type </a> and consecutive by the number of Array Length.
 </p>
 <p>
-  Object Array Typeのすべての要素は,Create Arrayが行われたときに<a href="#language-type-initial-value">Type Initial Value</a>によって初期化されます。
+  All elements of Object Array Type are initialized by <a href="#language-type-initial-value"> Type Initial Value </a> when Create Array is performed.
 </p>
 
 <h4 id="language-type-array-mulnum">Multi Numeric Array Type</h4>
 <p>
-  Multi Numeric Array Typeとは,<a href="#language-type-multi-numeric">Multi Numeric Type</a>の値を要素に持つ<a href="#language-type-array">Array Type</a>のことです。
+  Multi Numeric Array Type means <a href="#language-type-array"> Array Type that has the value of <a href="#language-type-multi-numeric"> Multi Numeric Type </a> as an element. </a>.
 </p>
 <p>
-  <b>Multi Numeric Array TypeのExample</b>
+  <b>Multi Numeric Array Type Example</b>
 </p>
 <ul class="list">
   <li>
@@ -6770,114 +6770,114 @@ byte[]
   </li>
 </ul>
 <p>
-  Multi Numeric Array Typeによって表現されるデータは,要素が<a href="#language-type-numeric">Multi Numeric Type</a>のSizeで,Array Lengthの個数で連続していなければなりません。
+  Data represented by Multi Numeric Array Type must have elements whose size is <a href="#language-type-numeric"> Multi Numeric Type </a> and must be contiguous with the number of Array Length ..
 </p>
 <p>
-  Multi Numeric Array Typeのすべての要素は,Create Arrayが行われたときに<a href="#language-type-initial-value">Type Initial Value</a>によって初期化されます。
+  All elements of Multi Numeric Array Type are initialized by <a href="#language-type-initial-value"> Type Initial Value </a> when Create Array is performed.
 </p>
 
 <h4 id="language-type-any-object-array">Any Object Array Type</h4>
 <p>
-  Any Object Array Typeとは,oarrayで表現される,<a href="#language-type-object">Object Type</a>の値を要素として持つ任意の<a href="#language-type-array">Array Type</a>の値を代入できるTypeです。C言語のqsort関数の第一引数には,任意のArray Typeをvoid*Typeにキャストして渡すことができますが,これに該当する機能を実現するために,Any Object Array Typeは設計されました。
+  Any Object Array Type is an arbitrary <a href="#language-type- that has the value of <a href="#language-type-object"> Object Type </a> expressed as an oarray as an element. A Type that can be assigned the value of array "> Array Type </a>. Any Array Type can be cast to void * Type and passed to the first argument of the C language qsort function, but Any Object Array Type is not designed to realize the function corresponding to this. It was
 </p>
 <pre>
 my $array : oarray = new Point[3];
 my $array : oarray = new object[3];
 </pre>
 <p>
-  Object Type 以外のTypeを持つ値が代入された場合は,a compile-time error occurs
+  If a value with a Type other than Object Type is assigned, a compile-time error occurs
 </p>
 <p>
-  "oarrayType"は"object[]Type"と異なるTypeであることに注意してください。oarrayTypeは,Object Type の値を要素として持つ任意のArray Typeの値を代入できるTypeであるのに対して,"object[]Type"は,"objectTypeの値を要素に持つArray"を表現するTypeで,任意のArray Typeの値を代入することはできません。
+  Note that "oarrayType" is a different Type than "object [] Type". While oarrayType is a Type that can be substituted with an arbitrary Array Type value that has an Object Type value as an element, "object [] Type" is a Type that represents an "Array that has an objectType value as an element". Therefore, the value of arbitrary Array Type cannot be assigned.
 </p>
 <p>
-  Any Object Array Typeは,<a href="#language-type-array">Array Type</a>です。<a href="#language-operator-array-length">Array Length Operator</a>によって長さを取得すること,<a href="#language-expression-set-array-element">Set Array Element Value</a>,<a href="#language-expression-get-array-element">Get Array Element Value</a>ができます。
+  Any Object Array Type is <a href="#language-type-array"> Array Type </a>. <a href="#language-operator-array-length"> Array Length Operator </a> to get length, <a href="#language-expression-set-array-element"> Set Array Element You can use Value </a>, <a href="#language-expression-get-array-element"> Get Array Element Value </a>.
 </p>
 <pre>
 my $array : oarray = new SPVM::Int[3];
 
-# Any Object Array Typeの要素の長さを取得
+# Get the length of the element of Any Object Array Type
 my $length = @$array;
 
-# Any Object Array Typeの要素の値の取得
+# Get the value of any object array type element
 my $num = (SPVM::Int)$array->[0];
 
-# Any Object Array Typeの要素の値の設定
+# Setting the value of the element of Any Object Array Type
 $array->[0] = SPVM::Int->new(5);
 </pre>
 <p>
-  Any Object Array Typeの要素の値の設定においては,要素のTypeが,ArrayのType Dimensionよりも1だけ小さくなっているかの実行時チェックが入ります。チェックに失敗した場合は,例外が発生します。Any Object Array Typeは,実行時Type安全性を保証します。
+  When setting the value of the element of Any Object Array Type, a check is made at runtime whether the Type of the element is smaller than the Type Dimension of Array by 1. If the check fails, an exception will occur. Any Object Array Type guarantees runtime Type safety.
 </p>
 
 <h4 id="language-type-string"><a href="#language-type-string">string Type</a></h4>
 <p>
-  <a href="#language-type-string">string Type</a>は,Stringを表現するTypeです。stringによって表現します。C言語の"const char*"を表現するために設計されました。
+  <a href="#language-type-string"> string Type </a> is a Type that represents a String. Expressed by string. Designed to represent C "const char *".
 </p>
 <pre>
 my $str : string;
 </pre>
 <p>
-  String Literal によって,生成されたStringオブジェクトを代入できます。
+  String Literal allows you to assign the generated String object.
 </p>
 <pre>
 my $str : string = "abc";
 </pre>
 <p>
-  SPVMのStringは,要素を変更できないバイトTypeのArrayです。Arrayアクセスを行って,Characterを取得することができます。
+  SPVM String is an Array of bytes whose elements cannot be changed. You can get the Character by accessing the Array.
 </p>
 <pre>
-# Characterの取得
+# Acquisition of Character
 my $ch = $str->[1];
 </pre>
 <p>
-  要素を変更しようとした場合は,a compile-time error occurs
+  If you try to change the element, a compile-time error occurs
 </p>
 <pre>
-# 要素の変更はコンパイルエラー
+# Compile error when changing element
 $str->[1] = 'd';
 </pre>
 <p>
-  <a href="#language-type-string">string Type</a>は,コンパイルが終わった後は,バイトTypeのArrayとまったく同じものになります。たとえば,一つ目の表現は,二つ目の表現として扱われます。
+  <a href="#language-type-string"> string Type </a> will be exactly the same as the Array of bytes Type after compilation. For example, the first expression is treated as the second expression.
 </p>
 <pre>
-# isa <a href="#language-type-string">string Type</a>
+# isa string Type
 if ($str isa string) {
 
 }
 
-# isa バイトTypeのArray
+# isa byte[] Type
 if ($str isa byte[]) {
 
 }
 </pre>
 <p>
-  SPVMのStringは,変更不可ですが,これは,コンパイル時チェックであることに注意してください。
+  Note that SPVM Strings are immutable, but this is a compile-time check.
 </p>
 <p>
-  <a href="#language-type-string">string Type</a>は,byte[] Typeに,キャストすることができ,実行時にStringを変更することができます。
+  <a href="#language-type-string"> string Type </a> can be cast to byte [] Type, and the String can be changed at runtime.
 </p>
 <pre>
 my $bytes = (byte[])$str;
 $bytes->[1] = 'd';
 </pre>
 <p>
-  Stringは,常に変更が可能であるものとして,扱ってください。
+  Treat String as if you can always change it.
 </p>
 
 <h4 id="language-type-string-compatible">String Compatible Type</h4>
 <p>
-  String Compatible Typeとは,<a href="#language-type-string">string Type</a>と<a href="#language-type-array-byte">byte[] Type</a>のことを言います。
+  String Compatible Type is a combination of <a href="#language-type-string"> string Type </a> and <a href="#language-type-array-byte"> byte [] Type </a>. Say that.
 </p>
 <p>
-  String Compatible Typeの値が生成される場合には,値のために確保されたメモリ領域の最後のひとつ後ろは"\0"になることが保証されます。(たとえば"abc"であれば"c"の後ろは"\0")SPVM言語から見た場合,この"\0"は意味を持ちませんが,ネイティブAPIを使う場合は,String Compatible Typeを,C言語のStringとして扱うことができます。
+  When a String Compatible Type value is generated, it is guaranteed that the last one after the last memory area reserved for the value will be "\ 0". (For example, if it is "abc", "c" is followed by "\ 0".) From the SPVM language, this "\ 0" has no meaning, but when using the native API, String Compatible Type is It can be handled as a C language String.
 </p>
 
 <h4 id="language-type-multi-numeric">Multi Numeric Type</h4>
 <p>
-  Multi Numeric Typeとは,連続した数値を表現できるTypeです。
+  Multi Numeric Type is a type that can represent continuous numerical values.
 </p>
 <p>
-  <a href="#language-package-definition">Package Definition</a>において"mulnum_t"Descriptorを指定することで,Multi Numeric TypeをDefinitionできます。
+  Multi Numeric Type can be defined by specifying "mulnum_t" Descriptor in <a href="#language-package-definition"> Package Definition </a>.
 </p>
 <pre>
 package Point_3i : mulnum_t {
@@ -6887,12 +6887,12 @@ package Point_3i : mulnum_t {
 }
 </pre>
 <p>
-  Multi Numeric Typeの詳しい解説については,<a href="#language-mulnum">値</a>を見てください。
+  See <a href="#language-mulnum"> Values ​​</a> for a detailed explanation of Multi Numeric Type.
 </p>
 
 <h4 id="language-type-ref">Reference Type</h4>
 <p>
-  Reference Type とは,変数のアドレスが格納できるTypeのことです。<a href="#language-type-numeric">Numeric Type</a>あるいは<a href="#language-type-multi-numeric">Multi Numeric Type</a>の後ろに"&"を付けることでDefinitionできます。
+  Reference Type is a Type that can store the address of a variable. Add "&" after <a href="#language-type-numeric"> Numeric Type </a> or <a href="#language-type-multi-numeric"> Multi Numeric Type </a> You can define it.
 </p>
 <pre>
 my $num : int;
@@ -6902,25 +6902,25 @@ my $point : Point_3i;
 my $point_ref : Point_3i& = \$point;
 </pre>
 <p>
-  Reference Type の値に代入できるのは,<a href="#language-operator-ref">Reference Operator</a>で取得したLexical Variable のアドレスだけです。
+  Only the address of the Lexical Variable acquired by <a href="#language-operator-ref"> Reference Operator </a> can be assigned to the value of Reference Type.
 </p>
 <p>
-  Reference Type のLexical Variable Declaration だけが行われた場合は,a compile-time error occurs
+  If only Lexical Variable Declaration of Reference Type is performed, a compile-time error occurs
 </p>
 <p>
-  Reference Type は,<a href="#language-lex-var-declaration">Lexical Variable Declaration</a>のTypeとして利用できます。必ずReference Operator  によって,Lexical Variable のアドレスが格納される必要があります。Lexical Variable Declaration だけの場合は,a compile-time error occurs
+  Reference Type can be used as Type of <a href="#language-lex-var-declaration"> Lexical Variable Declaration </a>. The address of the Lexical Variable must be stored by the Reference Operator. In case of only Lexical Variable Declaration, a compile-time error occurs
 </p>
 <p>
-  Reference Type は,<a href="#language-sub-definition">Subroutine Definition</a>における引数のTypeとして利用できます。
+  Reference Type can be used as Type of argument in <a href="#language-sub-definition"> Subroutine Definition </a>.
 </p>
 <p>
-  Reference Type は,<a href="#language-sub-definition">Subroutine Definition</a>におけるReturn ValueのTypeとして利用できません。
+  Reference Type cannot be used as Return Value Type in <a href="#language-sub-definition"> Subroutine Definition </a>.
 </p>
 <p>
-  Reference Type は,<a href="#language-package-definition">Package Definition</a>におけるFieldのTypeとして利用できません。
+  Reference Type cannot be used as the Type of Field in <a href="#language-package-definition"> Package Definition </a>.
 </p>
 <p>
-  Reference Type は,<a href="#language-package-definition">Package Definition</a>におけるPackage Variable のTypeとして利用できません。
+  Reference Type cannot be used as the Type of Package Variable in <a href="#language-package-definition"> Package Definition </a>.
 </p>
 <p>
   If the Reference Type is used at an Invalid location, a compile-time error occurs
