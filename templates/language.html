@@ -4,7 +4,7 @@
 
 SPVM is in beta testing for the 1.0 release. Language Specification will be changed without warning.
 
-Last modified 2020-04-28
+Last modified 2020-05-01
 
 <ul>
   <li><a href="#language-c99">C99 compliant</a></li>
@@ -6923,27 +6923,27 @@ my $point_ref : Point_3i& = \$point;
   Reference Type は,<a href="#language-package-definition">Package Definition</a>におけるPackage Variable のTypeとして利用できません。
 </p>
 <p>
-  Invalid 場所で,Reference Type が使用された場合は,a compile-time error occurs
+  If the Reference Type is used at an Invalid location, a compile-time error occurs
 </p>
 <p>
-  Referenceの詳しい解説については,<a href="#language-ref">Reference</a>を見てください。
+  See <a href="#language-ref"> Reference </a> for a detailed explanation of Reference.
 </p>
 
 <h4 id="language-type-ref-numeric">Numeric Reference Type</h4>
 
 <p>
-  Numeric Reference Type とは,<a href="#language-type-numeric">Numeric Type</a>の変数に対する<a href="#language-type-ref">Reference Type</a>のことをいいます。
+  Numeric Reference Type means <a href="#language-type-numeric"> Numeric Type </a> for <a href="#language-type-ref"> Reference Type </a>. Says.
 </p>
 
 <h4 id="language-type-ref-multi-numeric">Multi Numeric Reference Type</h4>
 
 <p>
-  Multi Numeric Reference Type とは,<a href="#language-type-multi-numeric">Multi Numeric Type</a>の変数に対する<a href="#language-type-ref">Reference Type</a>のことをいいます。
+  Multi Numeric Reference Type means <a href="#language-type-ref"> Reference Type </a> for <a href="#language-type-multi-numeric"> Multi Numeric Type </a> variables. > Means.
 </p>
 
 <h3 id="language-type-inference">Type Inference</h3>
 <p>
-  Type Inferenceによって,<a href="#language-lex-var-declaration">Lexical Variable Declaration</a>するときに,<a href="#language-type">Type</a>の指定を省略することができます。Type Inferenceは,常にAssignment Operator の右辺のTypeによって,行われます。
+  Omitting <a href="#language-type"> Type </a> when <a href="#language-lex-var-declaration"> Lexical Variable Declaration </a> by Type Inference can. Type Inference is always performed by the Type on the right side of Assignment Operator.
 </p>
 <pre>
 # int
@@ -6957,16 +6957,16 @@ my $foo = new Foo;
 </pre>
 <h3 id="language-type-compatible">Type Compatibility</h3>
 <p>
-  Typeに互換性があるというのは,<a href="#language-expression-typecast">Type Cast</a>を行わないで,値が移動ができるTypeのことです。
+  Type compatibility means that the value can be moved without performing <a href="#language-expression-typecast"> Type Cast </a>.
 </p>
 <p>
-  Typeに互換性があるのは次の場合です。
+  Types are compatible in the following cases.
 </p>
 <p>
-  <b>移動元と移動先のTypeが同一の場合</b>
+  <b>When the source and destination types are the same</b>
 </p>
 <p>
-  移動元と移動先のTypeが同一の場合は,Type Compatibilityがあります。
+  If the source and destination types are the same, there is Type Compatibility.
 </p>
 <pre>
 my $num1 : int;
@@ -6974,10 +6974,10 @@ my $num2 : int;
 $num1 = $num2;
 </pre>
 <p>
-  <b>移動元のTypeがbyte[] Typeで,移動先のTypeが<a href="#language-type-string">string Type</a>の場合</b>
+  <b>When the source Type is byte [] Type and the destination Type is <a href="#language-type-string"> string Type </a></b>
 </p>
 <p>
-  移動元のTypeがbyte[] Typeで,移動先のTypeが<a href="#language-type-string">string Type</a>の場合は,Type Compatibilityがあります。
+  If the source Type is byte [] Type and the destination Type is <a href="#language-type-string"> string Type </a>, there is Type Compatibility.
 </p>
 <pre>
 my $bytes = new byte[3];
@@ -6985,7 +6985,7 @@ my $str : string;
 $str = $bytes;
 </pre>
 <p>
-  <b>移動元のTypeがObject Type で,移動先のTypeがAny Object Type の場合</b>
+  <b>When the source Type is Object Type and the destination Type is Any Object Type</b>
 </p>
 <pre>
 my $foo : Foo = new Foo;
@@ -6993,7 +6993,7 @@ my $object : object;
 $object = $foo;
 </pre>
 <p>
-  <b>移動元のTypeと移動先のTypeが,Any Object Type あるいは,Any Object Type のArrayで,移動元のType Dimension数が,移動先のType Dimension数以上の場合</b>
+  <b>When the source Type and destination Type are Any Object Type or Any Object Type Array and the source Type Dimension count is greater than or equal to the destination Type Dimension count</b>
 </p>
 <pre>
 my $objects_dim2_src : object[];
@@ -7001,21 +7001,21 @@ my $objects_dim1_dist : object;
 $objects_dim1_dist = $objects_dim2_src;
 </pre>
 <p>
-  注意点として,汎用オブジェクトのArrayとBasic TypeのArrayには互換性はありません。
+  Note that the general object Array and the Basic Type Array are not compatible.
 </p>
 <pre>
-# コンパイルエラー
+# Compilation error
 my $objets : object[] = new int[3];
 </pre>
 <p>
-  Typeに互換性がない場合は,<a href="#language-type-convertion-implicite">暗黙的なType Convertion</a>が試みられます。暗黙のType Convertionに失敗した場合は,a compile-time error occurs
+  If the types are not compatible, <a href="#language-type-convertion-implicite"> implicit Type Convertion </a> is tried. If the implicit Type Conversion fails, a compile-time error occurs
 </p>
 
 <h3 id="language-type-convertion">Type Convertion</h3>
 <ul class="list">
   <li><a href="#language-type-convertion-typecast">Type Cast</a></li>
   <li><a href="#language-type-convertion-typecast">Numeric Type Type Convertion</a></li>
-  <li><a href="#language-type-convertion-implicite">暗黙的なType Convertion</a></li>
+  <li><a href="#language-type-convertion-implicite">Implicit Type Convertion</a></li>
   <li><a href="#language-type-convertion-numeric-type-order">Numeric Type Order</a></li>
   <li><a href="#language-type-convertion-unary-numeric-widening">Unary Numeric Widening Type Convertion</a></li>
   <li><a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</a></li>
@@ -7029,43 +7029,43 @@ my $objets : object[] = new int[3];
 
 <h4 id="language-type-convertion-typecast">Type Cast</h4>
 <p>
-  Type Castとは,明示的に記述して行うType Convertionのことを言います。
+  Type Cast is Type Convertion that is explicitly described.
 </p>
 <pre>
 # Type Cast
 (Type)Expression
 </pre>
 <p>
-  <a href="#language-type-int">int Type</a> の値を<a href="#language-type-long">long Type</a>に変換するExampleはthe following ようになります。
+  <a href="#language-type-int"> int Type </a> value is converted to <a href="#language-type-long"> long Type </a> Become.
 </p>
 <pre>
 my $num = (long)3;
 </pre>
 <p>
-  Type Castは,<a href="#language-expression">Expression</a>を返します。
+  ype Cast returns <a href="#language-expression"> Expression </a>.
 </p>
 <p>
-  移動元のTypeと指定したTypeが同一の場合は,単に値のコピーになります。
+  If the source Type and the specified Type are the same, the value is simply copied.
 </p>
 <pre>
 my $num : int = (int)4;
 </pre>
 <p>
-  <b>Type CastにおけるType Convertionの一覧</b>
+  <b>List of Type Convertion in Type Cast</b>
 </p>
 <p>
-  Type CastにおけるType Convertionの一覧です。この表にないType Castが行われた場合は,a compile-time error occurs
+  It is a list of Type Convertion in Type Cast. If a Type Cast not listed in this table is performed, a compile-time error occurs.
 </p>
 <table>
   <tr>
     <th>
-      <b>指定したType</b>
+      <b>The specified Type</b>
     </th>
     <th>
-      <b>移動元のType</b>
+      <b>Source type</b>
     </th>
     <th>
-      変換の内容
+      Content of conversion
     </th>
   </tr>
   <tr>
@@ -7076,7 +7076,7 @@ my $num : int = (int)4;
       <b>string</b>
     </td>
     <td>
-      アドレス値がコピーされます。
+      The address value is copied.
     </td>
   </tr>
   <tr>
@@ -7087,7 +7087,7 @@ my $num : int = (int)4;
       <b>byte[]</b>
     </td>
     <td>
-      アドレス値がコピーされます。
+      The address value is copied.
     </td>
   </tr>
   <tr>
@@ -7098,7 +7098,7 @@ my $num : int = (int)4;
       <b>Numeric Type</b>
     </td>
     <td>
-      <a href="#language-type-convertion-numeric-widening">Numeric Type Type Convertion</a>が行われます。
+      <a href="#language-type-convertion-numeric-widening"> Numeric Type Type Convertion </a> is performed.
     </td>
   </tr>
   <tr>
@@ -7109,7 +7109,7 @@ my $num : int = (int)4;
       <b>Numeric Type</b>
     </td>
     <td>
-      <a href="#language-type-convertion-boxing">Boxing Type Convertion</a>が行われます。Numeric TypeとNumeric Object Type が表現するNumeric Typeは,同じでなければなりません。たとえば,Numeric Typeがintの場合は,Numeric Object Type はSPVM::Int Type でなければなりません。
+      <a href="#language-type-convertion-boxing"> Boxing Type Convertion </a> is performed. Numeric Type represented by Numeric Type and Numeric Object Type must be the same. For example, if Numeric Type is int, Numeric Object Type must be SPVM::Int Type.
     </td>
   </tr>
   <tr>
@@ -7120,7 +7120,7 @@ my $num : int = (int)4;
       <b>Numeric Type</b>
     </td>
     <td>
-      <a href="#language-type-convertion-boxing">Boxing Type Convertion</a>が行われます。
+      <a href="#language-type-convertion-boxing"> Boxing Type Convertion </a> is performed.
     </td>
   </tr>
   <tr>
@@ -7131,7 +7131,7 @@ my $num : int = (int)4;
       <b>Numeric Object Type </b>
     </td>
     <td>
-      <a href="#language-type-convertion-unboxing">Unboxing Type Convertion</a>が行われます。Numeric TypeとNumeric Object Type が表現するNumeric Typeは,同じでなければなりません。たとえば,Numeric Typeがintの場合は,Numeric Object Type はSPVM::Int Type でなければなりません。
+      <a href="#language-type-convertion-unboxing"> Unboxing Type Convertion </a> is performed. Numeric Type represented by Numeric Type and Numeric Object Type must be the same. For example, if Numeric Type is int, Numeric Object Type must be SPVM::Int Type.
     </td>
   </tr>
   <tr>
@@ -7142,7 +7142,7 @@ my $num : int = (int)4;
       <b>Any Object Type </b>
     </td>
     <td>
-      <a href="#language-type-convertion-unboxing">Unboxing Type Convertion</a>が行われます。
+      <a href="#language-type-convertion-unboxing"> Unboxing Type Convertion </a> is performed.
     </td>
   </tr>
   <tr>
@@ -7153,141 +7153,153 @@ my $num : int = (int)4;
       <b>Numeric Type</b>
     </td>
     <td>
-      数値が,C標準のsprintf関数の"%g"フォーマットを使って,String化されます。
+      The number is converted to a string using the "%g" format of the C standard sprintf function.
     </td>
   </tr>
 </table>
 
 <h4 id="language-type-convertion-numeric">Numeric Type Type Convertion</h4>
 <p>
-  Numeric Type Type Convertionとは,<a href="#language-type-numeric">Numeric Type</a>から<a href="#language-type-numeric">Numeric Type</a>への変換のことです。
+  Numeric Type Type Conversion is the conversion from <a href="#language-type-numeric"> Numeric Type </a> to <a href="#language-type-numeric"> Numeric Type </a>. That is.
 </p>
 <p>
-  Numeric Type Type Convertionは,対応するC言語におけるNumeric TypeによるType Convertionと全く同じ処理を行います。例えば,SPVMにおけるintからlongへのType Convertionは,C言語のint32_tTypeからint64_tTypeへのType Convertionと同じ処理を行います。
+  Numeric Type Type Conversion performs exactly the same processing as Numeric Type Type Conversion in the corresponding C language. For example, Type Conversion from int to long in SPVM is the same as Type Conversion from int32_tType to int64_tType in C language.
 </p>
 <pre>
-# SPVMの変換
+# SPVM conversion
 my $src : int = 5;
 my $dist = (long)$src;
 
-# C言語における対応
+# Correspondence in C language
 int32_t src = 5;
 int64_t dist = (int64_t)src;
 </pre>
+
 <p>
-  Typeの対応については,<a href="#language-c99-type">C99とのTypeの対応</a>を見てください。
+  For the correspondence of Type, see <a href="#language-c99-type"> Correspondence of Type with C99 </a>.
 </p>
 <p>
-  大きなTypeから小さなTypeに変換した場合や,浮動小数点からIntegral Typeに変換した場合は,Valid 情報が保持されない場合があります。SPVMでは,C99に対応するType Convertionをそのまま行っているので,Valid 情報が保持されない場合に,どの値に変換されるかは,C99の仕様と同じです。
+  Valid information may not be retained when converting from a large type to a small type or when converting from a floating point to an integral type. In SPVM, since the Type Conversion corresponding to C99 is performed as it is, which value is converted when the Valid information is not retained is the same as the C99 specification.
 </p>
 
-<h4 id="language-type-convertion-implicite">暗黙的なType Convertion</h4>
+<h4 id="language-type-convertion-implicite">Implicit Type Convertion</h4>
 <p>
-  暗黙的なType Convertionとは,SPVMによって行われる自動的なType Convertionのことです。次の箇所が,暗黙的なType Convertionが行われる可能性のある個所です。
+  Implicit type conversion is automatic type conversion performed by SPVM. The following are the places where implicit Type Conversion may occur.
 </p>
 <ul class="list">
-  <li>異なるTypeに代入する場合</li>
-  <li>異なるTypeのSubroutine Argumentsに渡す場合</li>
-  <li>Return Valueとは異なるTypeを返却する場合</li>
+  <li>When assigning to a different Type</li>
+  <li>When passing to Subroutine Arguments of different Type</li>
+  <li>When returning a Type different from Return Value</li>
 </ul>
 <p>
-  次の場合に暗黙的なType Convertionが行われます。
+  Implicit Type Convertion occurs when:
 </p>
 <p>
-  移動元と移動先のTypeがどちらもNumeric Typeで,移動元のTypeよりも移動先のTypeが大きい場合は,<a href="#language-type-convertion-numeric-widening">Numeric Widening Type Convertion</a>が行われます。
+  If both the source and destination Type are Numeric Type and the destination Type is larger than the source Type, <a href="#language-type-convertion-numeric-widening"> Numeric Widening Type Convertion </a> is done.
 </p>
 <pre>
-# 暗黙の拡大Type Convertion
+# Implicit Widening Type Convertion
 my $num : long = 123;
 my $num : double = 12.5f;
 </pre>
+
 <p>
-  移動元と移動先のTypeがどちらもNumeric Typeで,移動元のTypeよりも移動先のTypeが小さい場合で,移動元の値が,Integer Literal  かつ移動先のTypeの値の範囲で表現できる場合は,<a href="#language-type-convertion-numeric-narrowing">Numeric Narrowing Type Convertion</a>が行われます。
+  Both the source and destination Type are Numeric Type, and the destination Type is smaller than the source Type, and the source value can be expressed in the range of Integer Literal and destination Type value. <a href="#language-type-convertion-numeric-narrowing">Numeric Narrowing Type Convertion</a> is performed.
 </p>
+
 <pre>
-# 暗黙の縮小Type Convertion
+# Implicit Narrowing Type Convertion
 my $num : byte = 123;
 my $num : short = 134;
 </pre>
+
 <p>
-  移動元のTypeがNumeric Typeで,移動先のTypeがAny Object Type の場合は,対応するNumeric Object Type への<a href="#language-type-convertion-boxing">Boxing Type Convertion</a>が行われます。the following 場合の例では,SPVM::Int Type のオブジェクトに変換されたものが,汎用オブジェクトに代入されます。
+  If the source Type is Numeric Type and the destination Type is Any Object Type, <a href="#language-type-convertion-boxing">Boxing Type Convertion</a> to the corresponding Numeric Object Type Is done. In the following case, the converted SPVM::Int Type object is assigned to the generic object.
 </p>
+
 <pre>
-# objectTypeへの暗黙のBoxing Type Convertion
+# Implicit Boxing Type Convertion to objectType
 my $num = 123;
 my $object : object = $num;
 </pre>
 <p>
-  移動元のTypeがNumeric Typeで,移動先のTypeが対応するNumeric Object Type の場合は,対応するNumeric Object Type への<a href="#language-type-convertion-boxing">Boxing Type Convertion</a>が行われます。
+  When the source Type is Numeric Type and the destination Type is the corresponding Numeric Object Type, <a href="#language-type-convertion-boxing"> Boxing Type Convertion </a> to the corresponding Numeric Object Type a> is done.
 </p>
 <pre>
-# objectTypeへの暗黙のBoxing Type Convertion
+# Implicit Boxing Type Convertion to object Type
 my $num = 123;
 my $object : SPVM::Int = $num;
 </pre>
+
 <p>
-  移動元のTypeがAny Object Type で,移動先のTypeがNumeric Typeの場合は,対応するNumeric Typeにおける<a href="#language-type-convertion-unboxing">Unboxing Type Convertion</a>が行われます。the following 場合の例では,SPVM::Int Type のオブジェクトから<a href="#language-type-int">int Type</a> への変換が試みられます。
+  When the source Type is Any Object Type and the destination Type is Numeric Type, <a href="#language-type-convertion-unboxing"> Unboxing Type Convertion </a> in the corresponding Numeric Type is displayed. Will be opened. In the following case, an attempt is made to convert the SPVM::Int Type object to <a href="#language-type-int"> int Type </a>.
 </p>
+
 <pre>
-# objectTypeからの暗黙のUnboxing Type Convertion - 
+# Implicit Unboxing Type Convertion from objectType-
 my $object : object;
 my $num : int = $object;
 </pre>
 <p>
-  移動元のTypeがNumeric Object Type で,移動先のTypeが対応するNumeric Typeの場合は,対応するNumeric Typeにおける<a href="#language-type-convertion-unboxing">Unboxing Type Convertion</a>が行われます。
+  
+If the source Type is Numeric Object Type and the destination Type is the corresponding Numeric Type, <a href="#language-type-convertion-unboxing"> Unboxing Type Convertion </a> in the corresponding Numeric Type Is done.
 </p>
+
 <pre>
-# Numeric Object Type からの暗黙のUnboxing Type Convertion
+# Implicit Unboxing Type Convertion from Numeric Object Type
 my $num_obj = SPVM::Int->new(3);
 my $num : int = $num_obj;
 </pre>
-  移動元のTypeがNumeric Typeで,移動先のTypeが,<a href="#language-type-string">string Type</a>の場合は,<a href="#language-type-convertion-numeric-to-string">Numeric-to-<a href="#language-type-string">string Type</a> Convertion</a>が行われます。the following 場合の例では,数値の"123"がString""123""に変換されたものが代入されます。
+
+<p>
+  If the source Type is Numeric Type and the destination Type is <a href="#language-type-string"> string Type </a>, <a href = "# language-type-convertion- numeric-to-string "> Numeric-to- <a href="#language-type-string"> string Type </a> Convertion </a> is performed. In the following case, the numerical value "123" is converted to String "" 123 "" and assigned.
 </p>
+
 <pre>
-# <a href="#language-type-string">string Type</a>への暗黙のBoxing Type Convertion
+# mplicit Boxing Type Convertion to string Type
 my $num = 123;
 my $str : string = $num;
 </pre>
 
 <h4 id="language-type-convertion-numeric-type-order">Numeric Type Order</h4>
 <p>
-  <a href="#language-type-numeric">Numeric Type</a>は,Typeの順序を持ちます。Typeの順序は小さい方から"byte""short""int""long""float""double"です。
+  <a href="#language-type-numeric"> Numeric Type </a> has the order of Type. The order of Type is "byte", "short", "int", "long", "float", "double" from the smallest.
 </p>
 <h4 id="language-type-convertion-unary-numeric-widening">Unary Numeric Widening Type Convertion</h4>
 <p>
-  Unary Numeric Widening Type Convertionとは,<a href="#language-expression">Expression</a>が<a href="#language-type-byte">byte Type</a>あるいはshort Typeであった場合に,<a href="#language-type-int">int Type</a> へ<a href="#language-type-convertion-numeric-widening">Numeric Widening Type Convertion</a>を行うことをいいます。
+  Unary Numeric Widening Type Convertion means that <a href="#language-expression"> Expression </a> is <a href="#language-type-byte"> byte Type </a> or short Type. In this case, perform <a href="#language-type-convertion-numeric-widening"> Numeric Widening Type Convertion </a> to <a href="#language-type-int"> int Type </a> I say that.
 </p>
 <p>
-  Unary Numeric Widening Type Convertionが行われるのはthe following 場合です。
+  Unary Numeric Widening Type Convertion is performed in the following cases.
 </p>
 <ul class="list">
-  <li>ArrayのIndex</li>
-  <li>Arrayを作成する場合の次元</li>
-  <li>Unary Plus Operator のオペランド</li>
-  <li>Unary Minus Operator のオペランド</li>
-  <li>Shift Operator "<<"">>"">>>"の左右のオペランド</li>
+  <li>Array Index</li>
+  <li>Dimension when creating Array</li>
+  <li>Unary Plus Operator operands</li>
+  <li>Unary Minus Operator operands</li>
+  <li>Left and right operands of Shift Operator "<<" ">>" ">>>"</li>
 </ul>
 <h4 id="language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</h4>
 <p>
-  Binary Numeric Widening Type Convertionとは,左辺と右辺にNumeric TypeをとるBinary Operator  において,Left ExpressionとRight Expressionに適用される<a href="#language-type-convertion-numeric-widening">Numeric Widening Type Convertion</a>のことをいいます。
+  Binary Numeric Widening Type Convertion is applied to Left Expression and Right Expression in Binary Operator that takes Numeric Type on the left and right sides. <a href="#language-type-convertion-numeric-widening"> Numeric Widening Type Convertion </a>.
 </p>
 <p>
-  次のルールが適用されます。
+  The following rules apply.
 </p>
 <p>
-  1. 一方のExpressionが,<a href="#language-type-double">double Type</a>の場合は,他方のTypeは<a href="#language-type-double">double Type</a>に変換されます。
+  1. When one Expression is <a href="#language-type-double"> double Type </a>, the other Type is <a href="#language-type-double"> double Type </a> Is converted to>.
 </p>
 <p>
-  2. 一方のExpressionが,<a href="#language-type-float">float Type</a>の場合は,他方のTypeは<a href="#language-type-float">float Type</a>に変換されます。
+  2. If one Expression is <a href="#language-type-float"> float Type </a>, the other Type is <a href="#language-type-float"> float Type </a> Is converted to>.
 </p>
 <p>
-  3. 一方のExpressionが,<a href="#language-type-long">long Type</a>の場合は,他方のTypeは<a href="#language-type-long">long Type</a>に変換されます。
+  3. When one Expression is <a href="#language-type-long"> long Type </a>, the other Type is <a href="#language-type-long"> long Type </a> Is converted to>.
 </p>
 <p>
-  4. それ以外の場合は,<a href="#language-type-int">int Type</a> に変換されます。
+  4. Otherwise, it will be converted to <a href="#language-type-int"> int Type </a>.
 </p>
 <p>
-  Binary Numeric Widening Type Convertionが行われるのはthe following 場合です。
+  Binary Numeric Widening Type Convertion is performed in the following cases.
 </p>
 <ul class="list">
   <li><a href="#language-operator-add">Addition Operator</a></li>
@@ -7302,132 +7314,132 @@ my $str : string = $num;
 
 <h4 id="language-type-convertion-numeric-narrowing">Numeric Narrowing Type Convertion</h4>
 <p>
-  Numeric Narrowing Type Convertionとは,<a href="#language-type-numeric">Numeric Type</a>において大きいTypeから小さいTypeへの変換が行われる場合に適用される変換の規則のことです。
+  Numeric Narrowing Type Conversion is a conversion rule applied when converting from a large type to a small type in <a href="#language-type-numeric"> Numeric Type </a>.
 </p>
 
 <h4 id="language-type-convertion-numeric-widening">Numeric Widening Type Convertion</h4>
 <p>
-  Numeric Widening Type Convertionとは,<a href="#language-type-numeric">Numeric Type</a>において小さいTypeから大きいTypeへの変換が行われる場合に適用される変換の規則のことです。
+  Numeric Widening Type Conversion is a conversion rule applied when converting from a small type to a large type in <a href="#language-type-numeric"> Numeric Type </a>.
 </p>
 
 <h4 id="language-type-convertion-boxing">Boxing Type Convertion</h4>
 <p>
-  Boxing Type Convertionとは,Numeric Typeの値を,Numeric Object Type に変換する操作のことをいいます。
+  Boxing Type Convertion is the operation to convert the value of Numeric Type to Numeric Object Type.
 </p>
 
 <h4 id="language-type-convertion-unboxing">Unboxing Type Convertion</h4>
 <p>
-  Unboxing Type Convertionとは,Numeric Object Type の値を,対応するNumeric Typeの値に変換する操作のことをいいます。
+  Unboxing Type Convertion is an operation to convert the value of Numeric Object Type to the corresponding value of Numeric Type.
 </p>
 
 <h4 id="language-type-convertion-bool">Bool Type Convertion</h4>
 <p>
-  Bool Type Convertionとは,if Statementの条件部などで適用される,真偽値判定のために,適用される変換のことです。
+  Bool Type Conversion is a conversion applied in the conditional part of if Statement, etc. for true / false value judgment.
 </p>
 <p>
-  <b>Bool Type Convertionが行われる場所</b>
+  <b>Where Bool Type Convertion takes place</b>
 </p>
 <p>
-  <b>if Statementのかっこの中</b>
+  <b>Inside the if statement braces</b>
 </p>
 <pre>
-if (条件部) {
+if (CONDITION) {
 
 }
 </pre>
 <p>
-  <b>unless Statementのかっこの中</b>
+  <b>In unless statement brackets</b>
 </p>
 <pre>
-unless (条件部) {
+unless (CONDITION) {
 
 }
 </pre>
 <p>
-  <b>forのかっこの中の二つ目</b>
+  <b>The second in the parentheses for</b>
 </p>
 <pre>
-for (初期化;条件部;次の値;) {
+for (INITIALIZEATION;CONDITION;NEXT_VALUE;) {
 
 }
 </pre>
 <p>
-  <b>whileのかっこの中</b>
+  <b>in parentheses while</b>
 </p>
 <pre>
-while (条件部) {
+while (CONDITION) {
 
 }
 </pre>
 <p>
-  <b>Logical AND Operator の左右</b>
+  <b>Left and right of Logical AND Operator</b>
 </p>
 <pre>
-条件部 && 条件部
+CONDITION && CONDITION
 </pre>
 <p>
-  <b>Logical OR Operator の左右</b>
+  <b>Left and right of Logical OR Operator</b>
 </p>
 <pre>
-条件部 || 条件部
+CONDITION || CONDITION
 </pre>
 <p>
-  <b>Logical NOT Operator の右側</b>
+  <b>Right side of Logical NOT Operator</b>
 </p>
 <pre>
-!条件部
+!CONDITION
 </pre>
 <p>
-  Bool Type Convertionで指定されるExpressionは,<a href="#language-type-numeric">Numeric Type</a>あるいは<a href="#language-type-object">Object Type</a>あるいは<a href="#language-type-undef">Undefined Type</a>でなければなりません。otherwise a compile-time error occurs.
+  Expression specified by Bool Type Convertion is <a href="#language-type-numeric"> Numeric Type </a> or <a href="#language-type-object"> Object Type </a> or It must be <a href="#language-type-undef"> Undefined Type </a>. otherwise a compile-time error occurs.
 </p>
 <p>
-  Bool Type ConvertionのReturn Valueは,<a href="#language-type-int">int Type</a> のExpressionです。
+  Return Value of Bool Type Convertion is Expression of <a href="#language-type-int"> int Type </a>.
 </p>
 <p>
-  Expressionが<a href="#language-undef">Undefined Value</a>である場合は,0が返されます。
+  If Expression is <a href="#language-undef"> Undefined Value </a>, 0 is returned.
 </p>
 <p>
-  Expressionが,<a href="#language-type-numeric">Numeric Type</a>の場合は,<a href="#language-type-convertion-unary-numeric-widening">Unary Numeric Widening Type Convertion</a>が行われます。
+  When Expression is <a href="#language-type-numeric"> Numeric Type </a>, <a href="#language-type-convertion-unary-numeric-widening"> Unary Numeric Widening Type Convertion </a> is done.
 </p>
 <p>
-  Expressionが<a href="#language-type-int">int Type</a> の場合は,その値が返されます。
+  If Expression is <a href="#language-type-int"> int Type </a>, that value is returned.
 </p>
 <p>
-  Expressionが<a href="#language-type-long">long Type</a>,<a href="#language-type-float">float Type</a>,<a href="#language-type-double">double Type</a>,Object Type である場合は,C99におけるthe following 演算と完全に一致する演算を行い,結果が返されます。
+  Expression is <a href="#language-type-long"> long Type </a>, <a href="#language-type-float"> float Type </a>, <a href = "# language- If it is type-double "> double Type </a>, Object Type, the operation that exactly matches the following operation in C99 is performed and the result is returned.
 </p>
 <pre>
 !!x
 </pre>
 <p>
-  ExpressionがObject Type の場合は,Undefined Valueの場合は0,そうでない場合は1が返されます。
+  If Expression is Object Type, 0 is returned if it is Undefined Value, 1 otherwise.
 </p>
 
 <h3 id="language-exception">Exception</h3>
 
 <ul class="list">
-  <li><a href="#language-exception-summary">Exception の概要</a></li>
-  <li><a href="#language-exception-occur">例外の発生</a></li>
-  <li><a href="#language-exception-catch">Exception Variableのキャッチ</a></li>
+  <li><a href="#language-exception-summary">Exception overview</a></li>
+  <li><a href="#language-exception-occur">Exception raised</a></li>
+  <li><a href="#language-exception-catch">Exception Variable catch</a></li>
   <li><a href="#language-exception-var">Exception Variable</a></li>
 </ul>
 
-<h4 id="language-exception-summary">Exception の概要</h4>
+<h4 id="language-exception-summary">Exception overview</h4>
 <p>
-  SPVMはException の仕組みを持っています。Exception は,例外の発生と例外のキャッチからなります。
+  SPVM has a mechanism of Exception. Exception consists of raising an exception and catching the exception.
 </p>
 
-<h4 id="language-exception-occur">例外の発生</h4>
+<h4 id="language-exception-occur">Exception raised</h4>
 <p>
-  例外の発生を行うには,die Statement を使用します。
+  Use die Statement to raise an exception.
 </p>
 <pre>
-die Expression;
+die EXPRESSION;
 </pre>
 <p>
   Expressionは,<a href="#language-type-string-compatible">String Compatible Type</a>でなければなりません。
 </p>
 <p>
-  die Statement が実行されると,スタックトレースとExpressionで指定されたStringを表示して,プログラムは終了します。スタックトレースは,Package Name,Subroutine Name,File Name,行番号を含みます。File Nameは,Moduleをロードしたパスからの相対File Nameです。
+  When the die statement is executed, the stack trace and the String specified by Expression are displayed, and the program ends. The stack trace includes Package Name, Subroutine Name, File Name and line number. File Name is a relative File Name from the path where Module is loaded.
 </p>
 <pre>
 Error
@@ -7435,20 +7447,20 @@ from TestCase::Minimal->sum2 at TestCase/Minimal.spvm line 1640
 from TestCase->main at TestCase.spvm line 1198
 </pre>
 
-<h4 id="language-exception-occur">例外のキャッチ</h4>
+<h4 id="language-exception-occur">Exception catch</h4>
 <p>
-  例外のキャッチとは,例外がスローされた場合に,プログラムが終了するのを止め,エラーメッセージを取得できる機能のことです。
+  Exception catching is a function that can stop the program from ending and get an error message when an exception is thrown.
 </p>
 <p>
-  例外のキャッチは,eval BlockStatementを使って行います。eval BlockStatementは,末尾にセミコロンが必要なので気をつけてください。
+  Exceptions are caught using eval Block Statement. Please note that the eval Block Statement requires a semicolon at the end.
 </p>
 <pre>
 eval {
-  # 例外を投げる可能性のある処理
+  # Processing that may throw an exception
 };
 </pre>
 <p>
-  eval Blockで例外をキャッチした場合は,プログラムの終了は止められ,<a href="#language-exception-var">Exception Variable</a>に<a href="#language-exception-occur">例外の発生</a>で指定したメッセージが代入されます。
+  When an exception is caught by the eval Block, the program termination is stopped and <a href="#language-exception-occur"> is added to <a href="#language-exception-var"> Exception Variable </a>. The message specified in Exception raised </a> is substituted.
 </p>
 
 <h4 id="language-exception-var">Exception Variable</h4>
@@ -7465,19 +7477,19 @@ See <a href="#language-expression-set-exception-var">Set Exception Variable Valu
 
 <h3 id="language-garbage-collection">Garbage Collection</h3>
 <p>
-  オブジェクトは,Reference Countが0になるとメモリから解放されます。
+  The object is released from memory when the Reference Count reaches 0.
 </p>
 <p>
-  オブジェクトが,Object Type の値を要素として持つArrayだった場合は,Garbage Collectionの前に,Undefined ValueではないすべてのArrayの要素のReference Countが1減らされます
+  If the object is an Array that has Object Type values ​​as elements, the Reference Count of all Array elements that are not Undefined Value is decremented by 1 before Garbage Collection
 </p>
 <p>
-  オブジェクトが,Class Typeで,Object Type のFieldを持つときは,Garbage Collectionの前に,Undefined ValueではないすべてのObject Type のFieldが所有するオブジェクトのReference Countが1減らされます。Fieldに保存されているオブジェクトにWeaken Referenceが設定されていた場合は,Reference Countが1減らされる前に,Weaken Referenceが解除されます。
+  When an object is a Class Type and has a Field of Object Type, the Reference Count of the objects owned by all Fields of Object Type that are not Undefined Value is decremented by 1 before Garbage Collection. If Weaken Reference is set to the object saved in Field, Weaken Reference is released before Reference Count is decremented by 1.
 </p>
 <p>
-  オブジェクトがBack references of Weaken Referenceを持つときは,バックReferenceとして登録されているFieldすべてに,Undefined Valueを代入し,バックReferenceをすべて削除します。
+  When the object has Back references of Weaken Reference, Undefined Value is assigned to all Fields registered as back References and all back References are deleted.
 </p>
 <p>
-  上記の処理は,再帰的に行われます。
+  The above process is done recursively.
 </p>
 
 <h3 id="language-callback">Callback</h3>
@@ -7488,10 +7500,10 @@ See <a href="#language-expression-set-exception-var">Set Exception Variable Valu
 </ul>
 
 <p>
-  SPVMにおけるCallback Typeとは,実装を持たない名前のないMethodが一つだけDefinitionされたPackage Typeのことをいいます。<a href="#language-package-definition">Package Definition</a>においてcallback_tDescriptorを指定すると,Callback Typeになります。
+  Callback Type in SPVM is a Package Type in which only one unnamed Method with no implementation is defined. If callback_tDescriptor is specified in <a href="#language-package-definition"> Package Definition </a>, it becomes Callback Type.
 </p>
 <p>
-  Callback Typeの目的は,異なるオブジェクトが,同じMethodDefinitionを持つときに,どちらも代入できるTypeを提供することにあります。C言語の関数ポインタに該当する機能をSPVMにおいて実現するものと考えてください。
+  The purpose of Callback Type is to provide a Type that can be assigned to different objects when they have the same MethodDefinition. Consider that the function corresponding to the C function pointer is realized in SPVM.
 </p>
 <pre>
 package Foo1 {
@@ -7518,10 +7530,10 @@ sub : int ($self : self, $num : int);
 </pre>
 
 <p>
-  Foo1とFoo2は同じMethodDefinition"sub : int ($self : self, $num : int)"を持ちます。ここで,選択的にFoo1またはFoo2のMethodを呼び出したいとします。
+  Foo1 and Foo2 have the same MethodDefinition "sub: int ($ self: self, $ num: int)". Now suppose you want to selectively call the Foo1 or Foo2 Method.
 </p>
 <p>
-  この場合に,同じMethodDefinitionを持つCallback TypeFooCallbackをDefinitionすると,このTypeにどちらのオブジェクトも代入できます。そして,このオブジェクトから,Methodを呼び出すことができます。
+  In this case, if you define a Callback TypeFooCallback with the same MethodDefinition, you can assign either object to this Type. Then you can call Method from this object.
 </p>
 <pre>
 my $foo1 = Foo1->new;
@@ -7540,26 +7552,26 @@ else {
 my $ret = $foo->(5);
 </pre>
 <p>
-  $flagが1の場合は,Foo1の無名Methodが,そうでない場合はFoo2の無名Methodが呼び出されます。
+  If $ flag is 1, the anonymous Method of Foo1 is called, otherwise the anonymous Method of Foo2 is called.
 </p>
 <p>
-  Callback Typeの詳細については,<a href="#language-type-callback">Callback Type</a>を見てください。
+  For more information on Callback Type, see <a href="#language-type-callback"> Callback Type </a>.
 </p>
 
 <h4 id="language-sub-new-callback-object">Create Callback Object</h4>
 
 <p>
-  Create Callback Objectとは,Callbackの用途で,特別なsyntax を使って,Callback Typeに適合するオブジェクトを生成するSyntaxのことです。
+  Create Callback Object is a Syntax that creates an object that conforms to Callback Type by using a special syntax for the purpose of Callback.
 </p>
 
 <pre>
-sub : Type Name  ($self : self, 引数1, 引数2, ..., 引数n) {
+sub : TYPE_NAME  ($self : self, ARGS1 : TYPE1, ARGS2 : TYPE2, ARGSN : TYPEN) {
 
 }
 </pre>
 
 <p>
-  Create Callback Objectを行うと,内部的に,<a href="#language-package-definition">Package Definition</a>がおこなわれ,そのPackage を元にしたオブジェクトが生成され,<a href="#language-expression">Expression</a>として返されます。the following ように変数に代入することが可能です。
+  When Create Callback Object is performed, <a href="#language-package-definition"> Package Definition </a> is performed internally, an object based on that Package is generated, and <a href = " Returned as # language-expression "> Expression </a>. It is possible to assign to a variable like the following.
 </p>
 
 <pre>
@@ -7569,11 +7581,11 @@ my $cb_obj = sub : Type Name  ($self : self, 引数1, 引数2, ..., 引数n) {
 </pre>
 
 <p>
-  Create Callback ObjectでDefinitionされるSubroutine は,<a href="#language-sub-method">Method</a>でなければなりません。また名前を持たないSubroutine でなければなりません。
+  Subroutine defined by Create Callback Object must be <a href="#language-sub-method"> Method </a>. It must also be a Subroutine with no name.
 </p>
 
 <p>
-  <b>Create Callback ObjectのExample</b>
+  <b>Create Callback Object Example</b>
 </p>
 
 <pre>
@@ -7583,12 +7595,12 @@ my $comparator = sub : int ($self : self, $x1 : object, $x2 : object) {
 </pre>
 
 <p>
-  Create Callback Objectによって生成されたオブジェクトは,通常のオブジェクトなので,Methodを呼び出すことができます。Create Callback Objectの呼び出しについては,<a href="#language-expression-callsub">Subroutine Call</a>を見てください。
+  You can call Method because the object created by Create Callback Object is a normal object. For the call to Create Callback Object, see <a href="#language-expression-callsub"> Subroutine Call </a>.
 <p>
 
 <h4 id="language-sub-capture">Capture</h4>
 <p>
-  Create Callback Objectにおいては,Captureというsyntax を使って,Create Callback ObjectによってDefinitionされたSubroutine の外側でDefinitionされた変数を,Create Callback ObjectによってDefinitionされたSubroutine の内側で使うことができます。
+  In Create Callback Object, you can use the syntax called Capture to use the variables defined outside the Subroutine defined by Create Callback Object inside the Subroutine defined by Create Callback Object.
 </p>
 <pre>
 # Capture
@@ -7597,7 +7609,7 @@ my $comparator = sub : int ($self : self, $x1 : object, $x2 : object) {
 };
 </pre>
 
-CaptureのExample。
+Capture Example.
 
 <pre>
 my $foo = 1;
@@ -7610,19 +7622,19 @@ my $comparator = [$foo : int, $bar : long] sub : int ($self : self, $x1 : object
 }
 </pre>
 <p>
-  Captureで使用する変数名は,<a href="#language-lex-identifier-field-name">Field Name</a>の先頭に"$"を付けたものでなければなりません。
+  The variable name used in Capture must be the one with "$" added at the beginning of <a href="#language-lex-identifier-field-name"> Field Name </a>.
 </p>
 <p>
-  Captureは,実際には,ClassのFieldとしてDefinitionされます。Captureは,Field Definitionと値の設定のシンタックスシュガーです。
+  The Capture is actually defined as a Field of Class. Capture is a field definition and value setting syntax sugar.
 </p>
 <p>
-  Scope内で,Capture変数と同名の<a href="#language-lex-var">Lexical Variable</a>が存在する場合は,Lexical Variable にアクセスします。
+  If <a href="#language-lex-var"> Lexical Variable </a> with the same name as the Capture variable exists in the Scope, access the Lexical Variable.
 </p>
 <p>
-  Capture変数と同名の<a href="#language-package-var">Package Variable</a>が存在する場合は,Capture変数にアクセスします。
+  If there is a <a href="#language-package-var"> Package Variable </a> with the same name as the Capture variable, access the Capture variable.
 </p>
 <p>
-  Create Callback ObjectとCaptureをシンタックスシュガーを使わないで記述すると次のようになります。
+  If you write Create Callback Object and Capture without using syntax sugar, it will be as follows.
 </p>
 
 <pre>
@@ -7647,17 +7659,17 @@ $comparator->{foo} = $foo;
 $comparator->{bar} = $bar;
 </pre>
 
-Captureは,このような長い記述を,短く書くためのSyntaxです。
+Capture is a syntax for writing such a long description short.
 
 <h3 id="language-weak-ref">Weaken Reference</h3>
 <p>
-  Weaken Referenceとは,Reference Countを増やさない参照のことです。Weaken Referenceを使用すると,循環参照の問題を解決することができます。
+  Weaken Reference is a reference that does not increase the Reference Count. Weaken Reference can be used to solve the problem of circular references.
 </p>
 <p>
-  SPVMは,Reference CountTypeのGCを持ちます。Reference CountTypeのGCにおいては,Reference Countが0になった場合に,オブジェクトは自動的に開放されますが,循環参照が発生した場合は,Reference Countが0にならず,オブジェクトが自動的に解放されません。
+  SPVM has GC of Reference Count Type. In the GC of Reference Count Type, the object is automatically released when the Reference Count becomes 0, but when the circular reference occurs, the Reference Count does not become 0 and the object is automatically released. not.
 </p>
 <p>
-  オブジェクトのFieldが,循環参照している場合のExampleです。
+  This is an Example when the Field of the object is circularly referenced.
 </p>
 <pre>
 {
@@ -7669,13 +7681,13 @@ Captureは,このような長い記述を,短く書くためのSyntaxです。
 }
 </pre>
 <p>
-  この場合は,Scopeが終了しても,両方のオブジェクトは解放されません。なぜなら,循環参照が発生しており,Reference Countが0にならないためです。
+  In this case, both objects are not released when the Scope ends. This is because a circular reference has occurred and the Reference Count does not become 0.
 </p>
 <p>
-  Weaken Referenceは,Reference CountGCを持つプログラミング言語において,循環参照が発生した場合に,オブジェクトの破棄を正しく行うための機能です。
+  Weaken Reference is a function to correctly destroy objects when a circular reference occurs in a programming language that has a Reference Count GC.
 </p>
 <p>
-  このような場合は,ひとつのFieldを,<a href="#language-statement-weaken">weaken Statement</a>を使って,Weaken Referenceに設定することで,正しく解放することができます。
+  In such a case, it is possible to release correctly by setting one Field to Weaken Reference using <a href="#language-statement-weaken"> weaken Statement </a>.
 </p>
 <pre>
 {
@@ -7689,19 +7701,19 @@ Captureは,このような長い記述を,短く書くためのSyntaxです。
 }
 </pre>
 <p>
-  weaken Statement が実行される前の,$fooのReference Countは2,$barのReference Countは2です。
+  Before the weaken statement is executed, $ foo has a Reference Count of 2 and $bar has a Reference Count of 2.
 </p>
 <p>
-  もしweaken Statement がない場合は,Scopeが終了したとしても,$fooのReference Countも,$barのReference Countも0にならず,解放されません。
+  If there is no weaken statement, the reference count of $ foo and the reference count of $bar will not be 0 and will not be released even if the scope ends.
 </p>
 <p>
-  weaken Statement が実行されるとは,$fooのReference Countは2,$barのReference Countは1になります。
+  When a weaken statement is executed, $ foo has a Reference Count of 2 and $bar has a Reference Count of 1.
 </p>
 <p>
-  Scopeが終了すると,$barのReference Countが1減らされ0になるので,正しく解放されます。
+  When the Scope ends, the Reference Count of $bar is decremented by 1 and becomes 0, so it is released correctly.
 </p>
 <p>
-  3つの循環参照の場合でも,ひとつのFieldにWeaken Referenceを設定すれば,正しく解放できます。
+  Even if there are 3 circular references, you can release them correctly by setting Weaken Reference in 1 Field.
 </p>
 <pre>
 {
@@ -7717,5 +7729,6 @@ Captureは,このような長い記述を,短く書くためのSyntaxです。
 }
 </pre>
 <p>
-  Weaken Reference関連のSyntaxとして,Weaken Referenceを解除できる<a href="#language-statement-weaken">weaken Statement</a>と,FieldがWeaken Referenceかどうかを確認できる<a href="#language-operator-isweak">isweak Operator</a>があります。
+
+As a syntax related to Weaken Reference, Weaken Reference can be released <a href="#language-statement-weaken"> weaken Statement </a>, and it can be confirmed whether Field is Weaken Reference <a href = "# language- There is an operator-isweak "> isweak Operator </a>.
 </p>
