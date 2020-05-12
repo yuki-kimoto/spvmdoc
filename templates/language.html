@@ -3862,67 +3862,67 @@ The max of Dimention of Multi-Dimention Array is 255.
 
 <h4 id="language-expression-array-init">Array Initialization</h4>
 <p>
-  SPVMには,Create Arrayを簡単にするためのArray Initializationのsyntax があります。Expressionはなくてもかまいません。
+  SPVM has a syntax for Array Initialization to simplify Create Array. Expression is not required.
 </p>
 <pre>
 []
 [Expression1, Expression2, Expression3]
 </pre>
 <p>
-  Array Initializationは,Expressionの要素数の長さを持ったArrayを返します。
+  Array Initialization returns an Array that has the length of the number of elements of Expression.
 </p>
 <p>
-  ArrayのTypeは,Expression1のTypeをArray Typeにしたものです。要素が指定されない場合は,<a href="#language-type-any-object">Any Object Type</a>をArray Typeにしたものになります。
+  The type of Array is the type of Expression1 converted to Array Type. If no element is specified, it will be an Array Type of <a href="#language-type-any-object"> Any Object Type </a>.
 </p>
 <p>
-  Expression2以降が,<a href="#language-type-compatible">Type Compatibility</a>を満たさない場合は,コンパイルエラーになります。
+  If Expression2 or later does not satisfy <a href="#language-type-compatible"> Type Compatibility </a>, a compile error will occur.
 </p>
 
 <h4 id="language-expression-callsub">Subroutine Call</h4>
 <p>
-  <a href="#language-sub-definition">Subroutine Definition</a>によってDefinitionされたSubroutine は呼び出すことができます。呼び出しには,2種類あって,<b>関数の呼び出し</b>と<b>Method Call </b>があります。
+  Subroutines defined by <a href="#language-sub-definition"> Subroutine Definition </a> can be called. There are two types of calls, <b> function call </ b> and <b> Method Call </ b>.
 </p>
 
-<h4 id="language-expression-callsub-func">関数の呼び出し</h4>
+<h4 id="language-expression-callsub-func">Function call</h4>
 <p>
-  関数の呼び出しとは,<a href="#language-sub-method">Method</a>ではないSubroutine を呼び出す方法のことをいいます。Methodかどうかの判断は,<a href="#language-sub-definition">Subroutine Definition</a>において,第一引数に<a href="#language-type-self">self Type</a>の引数が指定されていた場合が,Methodになります。
+  Calling a function is a method of calling a Subroutine that is not <a href="#language-sub-method"> Method </a>. In <a href="#language-sub-definition"> Subroutine Definition </a>, the first argument is <a href="#language-type-self"> self Type </a> If the argument of> is specified, it becomes Method.
 </p>
 <p>
-  関数の呼び出しはthe following 方法で行うことができます。引数は,なくても構いません。最大で255個の引数を指定できます。
-</p>
-<pre>
-Package Name->Subroutine Name(引数1, 引数2, 引数3, ..., 引数n);
-</pre>
-<p>
-  PerlにおいてClassMethod Call と呼ばれているものが,SPVMでは,関数の呼び出しと呼ばれていることに注意してください。
-</p>
-<p>
-  関数の呼び出しでは,Package Nameを省略することもできます。
+  You can call the function in the following way. The argument is optional. You can specify up to 255 arguments.
 </p>
 <pre>
-Subroutine Name(引数1, 引数2, 引数3, ..., 引数n);
+Package Name->Subroutine Name(ARGS1, ARGS2, ARGS3, ..., ARGSn);
 </pre>
 <p>
-  どのPackage Subroutine が呼び出されるかは,the following 順番によって決まります。
+  Note that what is called Class Method Call in Perl is called a function call in SPVM.
 </p>
 <p>
-  Current Package でDefinitionされているSubroutine ,またはCurrent Package にインポートされたSubroutine 
+  The Package Name can be omitted in the function call.
+</p>
+<pre>
+Subroutine Name(ARGS1, ARGS2, ARGS3, ..., ARGSn);
+</pre>
+<p>
+  Which Package Subroutine is called depends on the following order.
+</p>
+<p>
+  Subroutine defined in Current Package, or Subroutine imported in Current Package
 </p>
 
 <p>
-  関数の呼び出しは,引数を受け取ります。引数の個数が,Subroutine DefinitionでDefinitionされている引数の個数と一致しない場合は,a compile-time error occursそれぞれの引数のTypeが,Subroutine DefinitionでDefinitionされている引数のTypeと<a href="#language-type-compatible">Type Compatibility</a>がない場合は,a compile-time error occurs
+  The function call receives the arguments. If the number of arguments does not match the number of arguments defined in the Subroutine Definition, a compile-time error occurs The Type of each argument and the type of the argument defined in Subroutine Definition and <a href = " If there is no # language-type-compatible "> Type Compatibility </a>, a compile-time error occurs
 </p>
 <p>
-  関数の呼び出しは,Return Valueが<a href="#language-type-void">void Type</a>以外の場合は,Return Valueを返します。
+  Calling the function returns Return Value if Return Value is other than <a href="#language-type-void"> void Type </a>.
 </p>
 <p>
-  関数の呼び出しは,<a href="#language-expression">Expression</a>です。
+  The function call is <a href="#language-expression"> Expression </a>.
 <p>
 <p>
   <b>Subroutine 呼び出しのExample</b>
 </p>
 <p>
-  Subroutine 呼び出しのExampleです。
+  Subroutine call example
 </p>
 <pre>
 my $ret = Foo->bar(1, 2, 3);
@@ -3931,45 +3931,42 @@ my $ret = bar(1, 2, 3);
 
 <h4 id="language-expression-callsub-method">Method Call</h4>
 <p>
-  Method Call とは,<a href="#language-sub-method">Method</a>であるSubroutine を呼び出す方法のことをいいます。Methodかどうかの判断は,<a href="#language-sub-definition">Subroutine Definition</a>において,第一引数に<a href="#language-type-self">self Type</a>の引数が指定されていた場合が,Methodになります。
+  Method Call is a method to call Subroutine which is <a href="#language-sub-method"> Method </a>. In <a href="#language-sub-definition"> Subroutine Definition </a>, the first argument is <a href="#language-type-self"> self Type </a> If the argument of> is specified, it becomes Method.
 </p>
 <p>
-  Method Call は,<a href="#language-expression-new">Create Object</a>によって生成されたオブジェクトを使ってthe following syntax で行うことができます。
+  Method Call can be done with the following syntax using the object created by <a href="#language-expression-new"> Create Object </a>.
 </p>
 <pre>
-オブジェクト->Subroutine Name(引数1, 引数2, 引数3, ..., 引数n);
+OBJECT_EXPRESSION->SUB_NAME(ARGS1, ARGS2, ARGS3, ..., ARGSn);
 </pre>
 <p>
-  Method Call は,引数を受け取ります。引数の個数が,Subroutine DefinitionでDefinitionされている引数の個数と一致しない場合は,a compile-time error occursそれぞれの引数のTypeが,Subroutine DefinitionでDefinitionされている引数のTypeと<a href="#language-type-compatible">Type Compatibility</a>がない場合は,a compile-time error occurs
+  Method Call takes arguments. If the number of arguments does not match the number of arguments defined in the Subroutine Definition, a compile-time error occurs The Type of each argument and the type of the argument defined in Subroutine Definition and <a href = " If there is no # language-type-compatible "> Type Compatibility </a>, a compile-time error occurs
 </p>
 <p>
-  Method Call は,Return Valueが<a href="#language-type-void">void Type</a>以外の場合は,Return Valueを返します。
+  Method Call returns Return Value if Return Value is other than <a href="#language-type-void"> void Type </a>.
 </p>
 <p>
-  Method Call は,<a href="#language-expression">Expression</a>です。
+  Method Call is <a href="#language-expression"> Expression </a>.
 <p>
 <p>
-  <b>Method Call のExample</b>
-</p>
-<p>
-  Method Call のExampleです。
+  <b>Method Call Example</b>
 </p>
 <pre>
 my $point = new Point;
 $point->set_x(3);
 </pre>
 <p>
-  <a href="#language-sub-new-callback-object">Create Callback Object</a>で作成されたオブジェクトは,通常のオブジェクトなのでMethodを呼び出すことができます。
+  Since the object created by <a href="#language-sub-new-callback-object"> Create Callback Object </a> is a normal object, you can call Method.
 </p>
 <pre>
-オブジェクト->(引数1, 引数2, 引数3, ..., 引数n);
+OBJECT_EXPRESSION->(ARGS1, ARGS2, ARGS3, ..., ARGSn);
 </pre>
 
 <p>
-  <b>Create Callback Objectで生成されたオブジェクトからMethodを呼び出すExample</b>
+  <b> Example that calls Method from the object created with Create Callback Object </ b>
 </p>
 <p>
-  Create Callback Objectで生成されたオブジェクトからMethodを呼び出すExampleです。
+  An Example that calls a Method from the object created by Create Callback Object.
 </p>
 <pre>
 my $cb_obj = sub : int ($self: self, $num1 : int, $num2 : int) {
@@ -3979,21 +3976,21 @@ my $cb_obj = sub : int ($self: self, $num1 : int, $num2 : int) {
 my $ret = $cb_obj->(1, 2);
 </pre>
 
-<h4 id="language-operator-deref-get">Dereference による値の取得</h4>
+<h4 id="language-operator-deref-get">Get value by Dereference</h4>
 <p>
-  Dereference による値の取得とは,Referenceから実際の値を取得するための操作のことです。C言語の関節Operator "*"を実現するために設計されました。
+  Obtaining a value by Dereference is an operation to obtain the actual value from Reference. It was designed to realize the C joint operator "*".
 </p>
 <pre>
-$変数
+$VARIABLE
 </pre>
 <p>
-  変数のTypeは,Reference Type でなければなりません。otherwise a compile-time error occurs.
+  The variable Type must be Reference Type. otherwise a compile-time error occurs.
 </p>
 <p>
-  Dereference による値の取得は,<a href="#language-expression">Expression</a>を返します。
+  The value obtained by Dereference returns <a href="#language-expression"> Expression </a>.
 </p>
 <pre>
-  <b>Dereference による値の取得のExample</b>
+  <b>Example of getting value by Dereference</b>
 </pre>
 <pre>
 my $num : int;
@@ -4005,24 +4002,24 @@ my $z_ref : SPVM::Complex_2d& = \$z;
 my $z_deref : SPVM::Complex_2d = $$z_ref;
 </pre>
 
-<h4 id="language-operator-deref-set">Dereference による値の設定</h4>
+<h4 id="language-operator-deref-set">Setting the value with Dereference</h4>
 <p>
-  Dereference による値の設定とは,Referenceから実際の値を設定するための操作のことです。C言語の関節Operator "*"を実現するために設計されました。
+  Setting a value with Dereference is an operation to set the actual value from Reference. It was designed to realize the C joint operator "*".
 </p>
 <pre>
-$変数 = Expression
+$VARIABLE = Expression
 </pre>
 <p>
-  変数のTypeは,Reference Type でなければなりません。otherwise a compile-time error occurs.
+  The variable Type must be Reference Type. otherwise a compile-time error occurs.
 </p>
 <p>
-  ExpressionのTypeは,Dereference された場合の変数のTypeに一致していなければなりません。otherwise a compile-time error occurs.
+  The Type of Expression must match the Type of the variable when dereferenced. otherwise a compile-time error occurs.
 </p>
 <p>
-  Dereference による値の設定は,設定された値を返します。これは<a href="#language-expression">Expression</a>です。
+  Setting a value with Dereference returns the set value. This is <a href="#language-expression"> Expression </a>.
 </p>
 <pre>
-  <b>Dereference による値の設定のExample</b>
+  <b>Example of setting values ​​with Dereference</b>
 </pre>
 <pre>
 my $num : int;
@@ -4379,17 +4376,17 @@ Remainder Operator throw <a href="#language-exception">Exception</a> if Right Ex
 
 <h4 id="language-operator-inc">Increment Operator</h4>
 <p>
-  Increment Operator は,値を1加算するOperator です。Increment Operator が前置されるか,後置されるかで,意味が変わります。
+  Increment Operator is an Operator that adds 1 to the value. The meaning changes depending on whether the Increment Operator is placed before or after.
 </p>
 <pre>
-# 前置のインクリメント
+# Pre Increment
 ++Lexical Variable 
 ++Package Variable 
 ++Field Access
 ++Array Access
 ++Dereference 
 
-# 後置のインクリメント
+# Post Increment
 Lexical Variable ++
 Package Variable ++
 Field Access++
@@ -4397,44 +4394,44 @@ Array Access++
 Dereference ++
 </pre>
 <p>
-  Increment Operator の対象は,<a href="#language-lex-var">Lexical Variable</a>,<a href="#language-package-var">Package Variable</a>,<a href="#language-field-access">Field Access</a>,<a href="#language-array-access">Array Access</a>,<a href="#language-deref">Dereference</a>でなければなりません。otherwise a compile-time error occurs.
+  The target of Increment Operator is <a href="#language-lex-var"> Lexical Variable </a>, <a href="#language-package-var"> Package Variable </a>, <a href = "# language-field-access"> Field Access </a>, <a href="#language-array-access"> Array Access </a>, <a href="#language-deref"> Dereference </ must be a>. otherwise a compile-time error occurs.
 </p>
 <p>
-  Increment Operator の対象のTypeは,<a href="#language-type-numeric">Numeric Type</a>でなければなりません。otherwise コンパイルエラーが発生します。
+  Increment Operator target Type must be <a href="#language-type-numeric"> Numeric Type </a>. Otherwise a compilation error will occur.
 </p>
 <p>
-  <b>前置のIncrement Operator </b>
+  <b>Pre Increment Operator</b>
 </p>
 <p>
-  前置のIncrement Operator は,インクリメントを行った後に,インクリメントされた値を返します。
+  The prefix Increment Operator returns the incremented value after performing the increment.
 </p>
 <p>
-  前置のIncrement Operator は,次のExpressionと等価です。対象に1が加算された後に,元のTypeでType Castが行われ,対象に代入されます。
+  The prefix Increment Operator is equivalent to the following Expression. After 1 is added to the target, Type Cast is performed with the original Type and the target is substituted.
 </p>
 <pre>
-(対象 = (Type Cast)(対象 + 1))
+(Target = (Type Cast)(Target + 1))
 </pre>
 <p>
-  たとえば,<a href="#language-type-byte">byte Type</a>の値の前置のインクリメントは,次のExpressionと等価です。
+  For example, the prefix increment of the <a href="#language-type-byte"> byte Type </a> value is equivalent to the following Expression:
 </p>
 
 <pre>
 ($num = (byte)($num + 1))
 </pre>
 <p>
-  <b>後置のIncrement Operator </b>
+  <b>Post Increment operator</b>
 </p>
 <p>
-  後置のIncrement Operator は,インクリメントを行った後に,インクリメントする前の値を返します。
+  Post Increment Operator returns the value after Increment and before Increment.
 </p>
 <p>
-  後置のIncrement Operator は,Sequential Operator を使った,次のExpressionと等価です。対象が一時変数に保存され,対象に1が足された後に,元のTypeでType Castが行われ,対象に代入されます。その後,一時変数が返されます。
+  Post Increment Operator is equivalent to the following Expression using Sequential Operator. The target is saved in a temporary variable, 1 is added to the target, Type Cast is performed with the original Type, and the target is substituted. Then the temporary variable is returned.
 </p>
 <pre>
-(my 一時変数 = 対象, 対象 = (Type Cast)(対象 + 1), 一時変数)
+(my TMP_VAR = TARGET, TARGET = (Type Cast)(TARGET + 1), TMP_VAR)
 </pre>
 <p>
-  たとえば,<a href="#language-type-byte">byte Type</a>の値の後置のインクリメントは,次のExpressionと等価です。
+  For example, a Post Increment with a value of <a href="#language-type-byte"> byte Type </a> is equivalent to the following Expression.
 </p>
 
 <pre>
@@ -4443,17 +4440,17 @@ Dereference ++
 
 <h4 id="language-operator-dec">Decrement Operator</h4>
 <p>
-  Decrement Operator は,値を1減算するOperator です。Decrement Operator が前置されるか,後置されるかで,意味が変わります。
+  Decrement Operator is an Operator that decrements the value by 1. The meaning changes depending on whether the Decrement Operator is placed before or after.
 </p>
 <pre>
-# 前置のデクリメント
+# Pre Decrement
 --Lexical Variable 
 --Package Variable 
 --Field Access
 --Array Access
 --Dereference 
 
-# 後置のデクリメント
+# Post Decrement
 Lexical Variable --
 Package Variable --
 Field Access--
@@ -4461,25 +4458,25 @@ Array Access--
 Dereference --
 </pre>
 <p>
-  Decrement Operator の対象は,<a href="#language-lex-var">Lexical Variable</a>,<a href="#language-package-var">Package Variable</a>,<a href="#language-field-access">Field Access</a>,<a href="#language-array-access">Array Access</a>,<a href="#language-deref">Dereference</a>でなければなりません。otherwise a compile-time error occurs.
+  Decrement Operator targets <a href="#language-lex-var"> Lexical Variable </a>, <a href="#language-package-var"> Package Variable </a>, <a href = "# language-field-access"> Field Access </a>, <a href="#language-array-access"> Array Access </a>, <a href="#language-deref"> Dereference </ must be a>. otherwise a compile-time error occurs.
 </p>
 <p>
-  Decrement Operator の対象のTypeは,<a href="#language-type-numeric">Numeric Type</a>でなければなりません。otherwise コンパイルエラーが発生します。
+  The target type of Decrement Operator must be <a href="#language-type-numeric"> Numeric Type </a>. Otherwise a compilation error will occur.
 </p>
 <p>
   <b>Pre Decrement Operator </b>
 </p>
 <p>
-  Pre Decrement Operator は,デクリメントを行った後に,デクリメントされた値を返します。
+  Pre Decrement Operator returns the decremented value after decrementing.
 </p>
 <p>
-  Pre Decrement Operator は,次のExpressionと等価です。対象に1が減算された後に,元のTypeでType Castが行われ,対象に代入されます。
+  Pre Decrement Operator is equivalent to the following Expression. After 1 is subtracted from the target, Type Cast is performed with the original Type and is substituted into the target.
 </p>
 <pre>
-(対象 = (Type Cast)(対象 - 1))
+(TARGET = (Type Cast)(TARGET - 1))
 </pre>
 <p>
-  たとえば,<a href="#language-type-byte">byte Type</a>の値の前置のデクリメントは,次のExpressionと等価です。
+  For example, the Pre Decrement of the value of <a href="#language-type-byte"> byte Type </a> is equivalent to the following Expression.
 </p>
 
 <pre>
@@ -4489,16 +4486,16 @@ Dereference --
   <b>Post Decrement Operator </b>
 </p>
 <p>
-  Post Decrement Operator は,デクリメントを行った後に,デクリメントする前の値を返します。
+  Post Decrement Operator returns the value after decrementing and before decrementing.
 </p>
 <p>
-  Post Decrement Operator は,Sequential Operator を使った,次のExpressionと等価です。対象が一時変数に保存され,対象に1が足された後に,元のTypeでType Castが行われ,対象に代入されます。その後,一時変数が返されます。
+  Post Decrement Operator is equivalent to the following Expression using Sequential Operator. The target is saved in a temporary variable, 1 is added to the target, Type Cast is performed with the original Type, and the target is substituted. Then the temporary variable is returned.
 </p>
 <pre>
-(my 一時変数 = 対象, 対象 = (Type Cast)(対象 - 1), 一時変数)
+(my TMP_VAR = TARGET, TARGET = (Type Cast)(TARGET - 1), TMP_VAR)
 </pre>
 <p>
-  たとえば,<a href="#language-type-byte">byte Type</a>の値の後置のデクリメントは,次のExpressionと等価です。
+  For example, the Post Decrement of the <a href="#language-type-byte"> byte Type </a> value is equivalent to the following Expression.
 </p>
 
 <pre>
@@ -4507,97 +4504,97 @@ Dereference --
 
 <h4 id="language-operator-bit">Bit Operator</h4>
 <p>
-  Bit Operator は,Bit 演算を行うOperator のことで,><a href="#language-operator-bit-and">Bit AND Operator</a>,<a href="#language-operator-bit-or">Bit OR Operator</a>,<a href="#language-operator-bit-not">Bit NOT Operator</a>からなります。
+  Bit Operator is an Operator that performs Bit operation.> <a href="#language-operator-bit-and"> Bit AND Operator </a>, <a href = "# language-operator-bit-or It consists of "> Bit OR Operator </a>, <a href="#language-operator-bit-not"> Bit NOT Operator </a>.
 </p>
 
 <h4 id="language-operator-bit-and">Bit AND Operator</h4>
 <p>
-  Bit ANDは"&"で表現される<a href="#language-operator-binary">Binary Operator</a>です。
+  Bit AND is <a href="#language-operator-binary"> Binary Operator </a> expressed by "&".
 </p>
 <pre>
-Left Expression & Right Expression
+LEFT_EXPRESSION & RIGHT_EXPRESSION
 </pre>
 <p>
-  Left ExpressionとRight Expressionは,<a href="#language-type-integral">Integral Type</a>でなければなりません。otherwise a compile-time error occurs.
+  Left Expression and Right Expression must be <a href="#language-type-integral"> Integral Type </a>. otherwise a compile-time error occurs.
 <p>
 <p>
-  Left ExpressionとRight Expressionに対して,<a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</a>が行われます。
+  <a href="#language-type-convertion-binary-numeric-widening"> Binary Numeric Widening Type Convertion </a> is performed on Left Expression and Right Expression.
 </p>
 <p>
-  その後,Bit AND Operator の演算結果は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,<a href="#language-type-int">int Type</a> ,<a href="#language-type-long">long Type</a>における演算がDefinitionされます。
+  After that, the operation result of Bit AND Operator performs the operation that exactly matches the following operation in C99. <a href="#language-c99-type"> <a href="#language-type-int"> int Type </a>, <a href according to the correspondence of Type with C99</a> Definition in = "# language-type-long"> long Type </a> is defined.
 </p>
 <pre>
 x & y;
 </pre>
 <p>
-  Bit AND Operator は<a href="#language-expression">Expression</a>を返します。
+  Bit AND Operator returns <a href="#language-expression"> Expression </a>.
 </p>
 <p>
-  Bit AND Operator のReturn ValueのTypeは,<a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</a>されたTypeです。
+  The Type of Return Value of Bit AND Operator is the type <a href="#language-type-convertion-binary-numeric-widening"> Binary Numeric Widening Type Converted </a>.
 </p>
 <p>
-  Bit AND Operator は,例外を発生させません。
+  Bit AND Operator does not raise an exception.
 </p>
 
 <h4 id="language-operator-bit-or">Bit OR Operator</h4>
 <p>
-  Bit ORは"|"で表現される<a href="#language-operator-binary">Binary Operator</a>です。
+  Bit OR is <a href="#language-operator-binary"> Binary Operator </a> expressed by "|".
 </p>
 <pre>
-Left Expression | Right Expression
+LEFT_EXPRESSION | RIGHT_EXPRESSION
 </pre>
 <p>
-  Left ExpressionとRight Expressionは,<a href="#language-type-integral">Integral Type</a>でなければなりません。otherwise a compile-time error occurs.
+  Left Expression and Right Expression must be <a href="#language-type-integral"> Integral Type </a>. otherwise a compile-time error occurs.
 <p>
 <p>
-  Left ExpressionとRight Expressionに対して,<a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</a>が行われます。
+  <a href="#language-type-convertion-binary-numeric-widening"> Binary Numeric Widening Type Convertion </a> is performed on Left Expression and Right Expression.
 </p>
 <p>
-  その後,Bit OR Operator の演算結果は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,<a href="#language-type-int">int Type</a> ,<a href="#language-type-long">long Type</a>における演算がDefinitionされます。
+  After that, the operation result of Bit OR Operator performs the operation that exactly matches the following operation in C99. <a href="#language-c99-type"> <a href="#language-type-int"> int Type </a>, <a href according to the correspondence of Type with C99</a> Definition in = "# language-type-long"> long Type </a> is defined.
 </p>
 <pre>
 x | y;
 </pre>
 <p>
-  Bit OR Operator は<a href="#language-expression">Expression</a>を返します。
+  Bit OR Operator returns <a href="#language-expression"> Expression </a>.
 </p>
 <p>
-  Bit OR Operator のReturn ValueのTypeは,<a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</a>されたTypeです。
+  The Type of Return Value of Bit OR Operator is the type that is <a href="#language-type-convertion-binary-numeric-widening"> Binary Numeric Widening Type Converted </a>.
 </p>
 <p>
-  Bit OR Operator は,例外を発生させません。
+  Bit OR Operator does not raise an exception.
 </p>
 
 <h4 id="language-operator-bit-not">Bit NOT Operator</h4>
 <p>
-  Bit NOT Operator は"~"で表現される<a href="#language-operator-unary">Unary Operator</a>です。
+  Bit NOT Operator is <a href="#language-operator-unary"> Unary Operator </a> represented by "~".
 </p>
 <pre>
-~Expression
+~EXPRESSION
 </pre>
 <p>
-  Expressionは<a href="#language-type-integral">Integral Type</a>でなければなりません。otherwise a compile-time error occurs.
+  Expression must be <a href="#language-type-integral"> Integral Type </a>. otherwise a compile-time error occurs.
 </p>
 <p>
-  <a href="#language-expression">Expression</a>に対して,<a href="#language-type-convertion-unary-numeric-widening">Unary Numeric Widening Type Convertion</a>が行われます。
+  For <a href="#language-expression"> Expression </a>, <a href="#language-type-convertion-unary-numeric-widening"> Unary Numeric Widening Type Convertion </a> Will be opened.
 </p>
 <p>
-  その後,Bit NOT Operator の演算結果は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,<a href="#language-type-int">int Type</a> ,<a href="#language-type-long">long Type</a>における演算がDefinitionされます。
+  After that, the operation result of Bit NOT Operator performs the operation that exactly matches the following operation in C99. <a href="#language-c99-type"> <a href="#language-type-int"> int Type </a>, <a href according to the correspondence of Type with C99</a> Definition in = "# language-type-long"> long Type </a> is defined.
 </p>
 <pre>
 ~x
 </pre>
 <p>
-  Bit NOT Operator は<a href="#language-expression">Expression</a>を返します。
+  Bit NOT Operator returns <a href="#language-expression"> Expression </a>.
 </p>
 <p>
-  Bit NOT Operator のReturn ValueのTypeは,<a href="#language-type-convertion-unary-numeric-widening">Unary Numeric Widening Type Convertion</a>されたTypeです。
+  The Type of Return Value of Bit NOT Operator is the type <a href="#language-type-convertion-unary-numeric-widening"> Unary Numeric Widening Type Converted </a>.
 </p>
 <p>
-  Bit NOT Operator は例外を発生させません。
+  Bit NOT Operator does not raise an exception.
 </p>
 <p>
-  <b>Bit NOT Operator のExample</b>
+  <b>Bit NOT Operator Example</b>
 </p>
 <pre>
 my $num = ~0xFF0A;
@@ -4605,280 +4602,280 @@ my $num = ~0xFF0A;
 
 <h4 id="language-operator-shift">Shift Operator</h4>
 <p>
-  Shift Operator は,Bit シフトを行うOperator で,<a href="#language-operator-left-shift">Left Shift Operator</a>,<a href="#language-operator-arithmetic-right-shift">Arithmetic Right Shift Operator</a>,<a href="#language-operator-logical-right-shift">Logical Right Shift Operator</a>からなります。
+  Shift Operator is an operator that performs Bit shift. <a href="#language-operator-left-shift"> Left Shift Operator </a>, <a href = "# language-operator-arithmetic-right-shift" > Arithmetic Right Shift Operator </a>, <a href="#language-operator-logical-right-shift"> Logical Right Shift Operator </a>.
 </p>
 <h4 id="language-operator-left-shift">Left Shift Operator</h4>
 <p>
-  左シフトは"<<"で表現される<a href="#language-operator-binary">Binary Operator</a>です。
+  The left shift is <a href="#language-operator-binary"> Binary Operator </a> represented by "<<".
 </p>
 <pre>
-Left Expression << Right Expression
+LEFT_EXPRESSION << RIGHT_EXPRESSION
 </pre>
 <p>
   Left Expressionは,<a href="#language-type-integral">Integral Type</a>でなければなりません。otherwise a compile-time error occurs.
 <p>
 <p>
-  最初に<a href="#language-expression">Left Expression</a>に対して,<a href="#language-type-convertion-unary-numeric-widening">Unary Numeric Widening Type Convertion</a>が行われます。
+  Left Expression must be <a href="#language-type-integral"> Integral Type </a>. otherwise a compile-time error occurs.
 </p>
 <p>
-  Right Expressionは,<a href="#language-type-int">int Type</a> でなければなりません。otherwise a compile-time error occurs.
+  Right Expression must be <a href="#language-type-int"> int Type </a>. otherwise a compile-time error occurs.
 <p>
 <p>
-  Left Shift Operator の演算結果は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,<a href="#language-type-int">int Type</a> ,<a href="#language-type-long">long Type</a>における演算がDefinitionされます。
+  The calculation result of Left Shift Operator is the same as the following calculation in C99. <a href="#language-c99-type"> <a href="#language-type-int"> int Type </a>, <a href according to the correspondence of Type with C99</a> Definition in = "# language-type-long"> long Type </a> is defined.
 </p>
 <pre>
 x << y;
 </pre>
 <p>
-  Left Shift Operator は<a href="#language-expression">Expression</a>を返します。
+  Left Shift Operator returns <a href="#language-expression"> Expression </a>.
 </p>
 <p>
-  Left Shift Operator は,例外を発生させません。
+  Left Shift Operator does not raise an exception.
 </p>
 
 <h4 id="language-operator-arithmetic-right-shift">Arithmetic Right Shift Operator</h4>
 <p>
-  算術右シフトは">>"で表現される<a href="#language-operator-binary">Binary Operator</a>です。
+  Arithmetic shift right is <a href="#language-operator-binary"> Binary Operator </a> represented by ">>".
 </p>
 <pre>
-Left Expression >> Right Expression
+LEFT_EXPRESSION >> RIGHT_EXPRESSION
 </pre>
 <p>
-  Left Expressionは,<a href="#language-type-integral">Integral Type</a>でなければなりません。otherwise a compile-time error occurs.
+  Left Expression must be <a href="#language-type-integral"> Integral Type </a>. otherwise a compile-time error occurs.
 <p>
 <p>
-  最初に<a href="#language-expression">Left Expression</a>に対して,<a href="#language-type-convertion-unary-numeric-widening">Unary Numeric Widening Type Convertion</a>が行われます。
+  First, for <a href="#language-expression"> Left Expression </a>, <a href="#language-type-convertion-unary-numeric-widening"> Unary Numeric Widening Type Convertion </ a > Is done.
 </p>
 <p>
-  Right Expressionは,<a href="#language-type-int">int Type</a> でなければなりません。otherwise a compile-time error occurs.
+  Right Expression must be <a href="#language-type-int"> int Type </a>. otherwise a compile-time error occurs.
 <p>
 <p>
-  Arithmetic Right Shift Operator の演算結果は,C99におけるthe following 演算と完全に一致する演算を行います。xに対して,<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,<a href="#language-type-int">int Type</a> ,<a href="#language-type-long">long Type</a>における演算がDefinitionされます。
+  The operation result of Arithmetic Right Shift Operator is the operation that exactly matches the following operation in C99. <a href="#language-type-int"> int Type </ a according to <a href = "# language-c99-type"> Type correspondence with C99 </a> for x >, <a href="#language-type-long"> long Type </a> is defined.
 </p>
 <pre>
 x >> y;
 </pre>
 <p>
-  Arithmetic Right Shift Operator は<a href="#language-expression">Expression</a>を返します。
+  Arithmetic Right Shift Operator returns <a href="#language-expression"> Expression </a>.
 </p>
 <p>
-  Arithmetic Right Shift Operator は,例外を発生させません。
+  Arithmetic Right Shift Operator does not raise an exception.
 </p>
 
 <h4 id="language-operator-logical-right-shift">Logical Right Shift Operator</h4>
 <p>
-  論理右シフトは">>>"で表現される<a href="#language-operator-binary">Binary Operator</a>です。
+  The logical right shift is <a href="#language-operator-binary"> Binary Operator </a> represented by ">>>".
 </p>
 <pre>
-Left Expression >>> Right Expression
+LEFT_EXPRESSION >>> RIGHT_EXPRESSION
 </pre>
 <p>
   Left Expressionは,<a href="#language-type-integral">Integral Type</a>でなければなりません。otherwise a compile-time error occurs.
 <p>
 <p>
-  最初に<a href="#language-expression">Left Expression</a>に対して,<a href="#language-type-convertion-unary-numeric-widening">Unary Numeric Widening Type Convertion</a>が行われます。
+  Left Expression must be <a href="#language-type-integral"> Integral Type </a>. otherwise a compile-time error occurs.
 </p>
 <p>
-  Right Expressionは,<a href="#language-type-int">int Type</a> でなければなりません。otherwise a compile-time error occurs.
+  Right Expression must be <a href="#language-type-int"> int Type </a>. otherwise a compile-time error occurs.
 <p>
 <p>
-  Logical Right Shift Operator の演算結果は,C99におけるthe following 演算と完全に一致する演算を行います。xに対して,<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,<a href="#language-type-int">int Type</a> ,<a href="#language-type-long">long Type</a>における演算がDefinitionされます。
+  The calculation result of Logical Right Shift Operator is the same as the following calculation in C99. <a href="#language-type-int"> int Type </ a according to <a href = "# language-c99-type"> Type correspondence with C99 </a> for x >, <a href="#language-type-long"> long Type </a> is defined.
 </p>
 <pre>
-(符号付Integral Type Cast)((符号なしIntegral Type Cast)x >> y);
+(Signed Integral Type Cast)((Unsinged Integral Type Cast)x >> y);
 </pre>
 <p>
-  Logical Right Shift Operator は<a href="#language-expression">Expression</a>を返します。
+  Logical Right Shift Operator returns <a href="#language-expression"> Expression </a>.
 </p>
 <p>
-  Logical Right Shift Operator は,例外を発生させません。
+  Logical Right Shift Operator does not raise an exception.
 </p>
 
 <h4 id="language-operator-comparison">Comparison Operator</h4>
 <p>
-  Comparison Operator とは,Left ExpressionとRight Expressionの間に置かれるOperator で,<a href="#language-expression">Expression</a>を返すOperator のことをいいます。
+  Comparison Operator is an Operator that is placed between Left Expression and Right Expression and returns <a href="#language-expression"> Expression </a>.
 </p>
 <pre>
-Left Expression Comparison Operator  Right Expression
+LEFT_EXPRESSION COMPARISON_OPERATOR RIGHT_EXPRESSION
 </pre>
 <p>
-  Comparison Operator には,<a href="#language-operator-comparison-numeric">Numeric Comparison Operator</a>,<a href="#language-operator-comparison-string">String Comparison Operator</a>,isa Operator があります。
+  Comparison Operator includes <a href="#language-operator-comparison-numeric"> Numeric Comparison Operator </a>, <a href="#language-operator-comparison-string"> String Comparison Operator </a> There is, isa Operator.
 </p>
 
 <h4 id="language-operator-comparison-numeric">Numeric Comparison Operator</h4>
 <p>
-  Numeric Comparison Operator とは,数値あるいはオブジェクトのアドレスを比較するために,Left ExpressionとRight Expressionの間に置かれるOperator で,<a href="#language-expression">Expression</a>を返すOperator のことをいいます。
+  Numeric Comparison Operator is an Operator that is placed between Left Expression and Right Expression to compare the addresses of numbers or objects. I say that.
 </p>
 <pre>
-Left Expression Numeric Comparison Operator  Right Expression
+LEFT_EXPRESSION NUMERIC COMPARISON_OPERATOR RIGHT_EXPRESSION
 </pre>
 <p>
-  Numeric Comparison Operator の一覧です。
+  A list of Numeric Comparison Operators.
 </p>
 <table>
   <tr>
     <th>Operator </th>
-    <th>比較可能なType</th>
-    <th>解説</th>
+    <th>Comparable Type</th>
+    <th>Explanation</th>
   </tr>
   <tr>
     <td>
-      Left Expression == RIGHT_EXPRESSION
+      LEFT_EXPRESSION == RIGHT_EXPRESSION
     </td>
     <td>
-      Left ExpressionとRight ExpressionがNumeric Type,Left ExpressionとRight ExpressionがObject Type (Undefined Valueを含む)
+      Left Expression and Right Expression are Numeric Type, Left Expression and Right Expression are Object Type (including Undefined Value)
     </td>
     <td>
-      Left ExpressionとRight Expressionが等しい
-    </td>
-  </tr>
-  <tr>
-    <td>
-      Left Expression != RIGHT_EXPRESSION
-    </td>
-    <td>
-      Left ExpressionとRight ExpressionがNumeric Type,Left ExpressionとRight ExpressionがObject Type (Undefined Valueを含む)
-    </td>
-    <td>
-      Left ExpressionとRight Expressionが等しくない
+      Left Expression and Right Expression are equal
     </td>
   </tr>
   <tr>
     <td>
-      Left Expression > Right Expression
+      LEFT_EXPRESSION != RIGHT_EXPRESSION
     </td>
     <td>
-      Left ExpressionとRight ExpressionがNumeric Type
+      Left Expression and Right Expression are Numeric Type, Left Expression and Right Expression are Object Type (including Undefined Value)
     </td>
     <td>
-      Left ExpressionはRight Expressionより大きい
-    </td>
-  </tr>
-  <tr>
-    <td>
-      Left Expression >= RIGHT_EXPRESSION
-    </td>
-    <td>
-      Left ExpressionとRight ExpressionがNumeric Type
-    </td>
-    <td>
-      Left ExpressionはRight Expressionより大きいまたは等しい
+      Left Expression and Right Expression are not equal
     </td>
   </tr>
   <tr>
     <td>
-      Left Expression < Right Expression
+      LEFT_EXPRESSION > RIGHT_EXPRESSION
     </td>
     <td>
-      Left ExpressionとRight ExpressionがNumeric Type
+      Left Expression and Right Expression are Numeric Type
     </td>
     <td>
-      Left ExpressionはRight Expressionより小さい
+      Left Expression is greater than Right Expression
     </td>
   </tr>
   <tr>
     <td>
-      Left Expression <= RIGHT_EXPRESSION
+      LEFT_EXPRESSION >= RIGHT_EXPRESSION
     </td>
     <td>
-      Left ExpressionとRight ExpressionがNumeric Type
+      Left Expression and Right Expression are Numeric Type
     </td>
     <td>
-      Left ExpressionはRight Expressionより小さいまたは等しい
+      Left Expression is greater than or equal to Right Expression
+    </td>
+  </tr>
+  <tr>
+    <td>
+      LEFT_EXPRESSION < RIGHT_EXPRESSION
+    </td>
+    <td>
+      Left Expression and Right Expression are Numeric Type
+    </td>
+    <td>
+      Left Expression is less than Right Expression
+    </td>
+  </tr>
+  <tr>
+    <td>
+      LEFT_EXPRESSION <= RIGHT_EXPRESSION
+    </td>
+    <td>
+      Left Expression and Right Expression are Numeric Type
+    </td>
+    <td>
+      Left Expression is less than or equal to Right Expression
     </td>
   </tr>
 </table>
 <p>
-  左辺と右辺のTypeは,比較可能なTypeでなければなりません。otherwise a compile-time error occurs.
+  The types on the left and right sides must be comparable types. otherwise a compile-time error occurs.
 </p>
 <p>
-  Numeric Typeの比較の場合は,Left ExpressionとRight Expressionに対して,<a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</a>が行われます。
+  In case of Numeric Type comparison, <a href="#language-type-convertion-binary-numeric-widening"> Binary Numeric Widening Type Conversion </a> is performed for Left Expression and Right Expression.
 </p>
 <p>
-  その後,Numeric Comparison Operator は,C99におけるthe following 演算と完全に一致する演算を行います。<a href="#language-c99-type">C99とのTypeの対応</a>に応じた,<a href="#language-type-int">int Type</a> ,<a href="#language-type-long">long Type</a>,<a href="#language-type-float">float Type</a>,<a href="#language-type-double">double Type</a>,Object Type における演算がDefinitionされます。
+  After that, the Numeric Comparison Operator performs an operation that exactly matches the following operation in C99. <a href="#language-c99-type"> <a href="#language-type-int"> int Type </a>, <a href according to the correspondence of Type with C99</a> = "# language-type-long"> long Type </a>, <a href="#language-type-float"> float Type </a>, <a href="#language-type-double"> Definition in double Type </a>, Object Type is defined.
 </p>
 <pre>
-# Numeric Typeの比較,Object Type の比較
+# Numeric Type Comparison, Object Type Comparison
 (int32_t)(x == y);
 (int32_t)(x != y);
 
-# Numeric Typeの比較
+# Numeric Type Comparison
 (int32_t)(x > y);
 (int32_t)(x >= y);
 (int32_t)(x < y);
 (int32_t)(x <= y);
 </pre>
 <p>
-  Numeric Comparison Operator のReturn ValueのTypeは,<a href="#language-type-int">int Type</a> です。
+  The Return Value Type of Numeric Comparison Operator is <a href="#language-type-int"> int Type </a>.
 </p>
 <p>
-  Numeric Comparison Operator は,例外を発生させません。
+  Numeric Comparison Operator does not raise an exception.
 </p>
 
 <h4 id="language-operator-comparison-string">String Comparison Operator</h4>
 <p>
-  String Comparison Operator とは,Stringを比較するために,Left ExpressionとRight Expressionの間に置かれるOperator で,<a href="#language-expression">Expression</a>を返すOperator のことをいいます。
+  String Comparison Operator is an Operator that is placed between Left Expression and Right Expression to compare Strings and returns <a href="#language-expression"> Expression </a>. ..
 </p>
 <pre>
-Left Expression String Comparison Operator  Right Expression
+LEFT_EXPRESSION STRING COMPARISON_OPERATOR RIGHT_EXPRESSION
 </pre>
 <p>
-  Left ExpressionとRight Expressionは,<a href="#language-type-string-compatible">String Compatible Type</a>でなければなりません。
+  Left Expression and Right Expression must be <a href="#language-type-string-compatible"> String Compatible Type </a>.
 </p>
 <p>
-  String Comparison Operator の一覧です。
+  A list of String Comparison Operators.
 </p>
 <table>
   <tr>
     <th>Operator </th>
-    <th>解説</th>
+    <th>Explanation</th>
   </tr>
   <tr>
     <td>
-      Left Expression eq Right Expression
+      LEFT_EXPRESSION eq RIGHT_EXPRESSION
     </td>
     <td>
-      Left ExpressionとRight Expressionが等しい
-    </td>
-  </tr>
-  <tr>
-    <td>
-      Left Expression ne Right Expression
-    </td>
-    <td>
-      Left ExpressionとRight Expressionが等しくない
+      Left Expression and Right Expression are equal
     </td>
   </tr>
   <tr>
     <td>
-      Left Expression gt Right Expression
+      LEFT_EXPRESSION ne RIGHT_EXPRESSION
     </td>
     <td>
-      Left ExpressionはRight Expressionより辞書Expression順序で比較して大きい
-    </td>
-  </tr>
-  <tr>
-    <td>
-      Left Expression ge Right Expression
-    </td>
-    <td>
-      Left ExpressionはRight Expressionより辞書Expression順序で比較して大きいまたは等しい
+      Left Expression and Right Expression are not equal
     </td>
   </tr>
   <tr>
     <td>
-      Left Expression lt Right Expression
+      LEFT_EXPRESSION gt RIGHT_EXPRESSION
     </td>
     <td>
-      Left ExpressionはRight Expressionより辞書Expression順序で比較して小さい
+      Left Expression is larger than Right Expression in dictionary Expression order.
     </td>
   </tr>
   <tr>
     <td>
-      Left Expression le Right Expression
+      LEFT_EXPRESSION ge RIGHT_EXPRESSION
     </td>
     <td>
-      Left ExpressionはRight Expressionより辞書Expression順序で比較して小さいまたは等しい
+      Left Expression is greater than or equal to Right Expression compared in dictionary Expression order
+    </td>
+  </tr>
+  <tr>
+    <td>
+      LEFT_EXPRESSION lt RIGHT_EXPRESSION
+    </td>
+    <td>
+      Left Expression is smaller than Right Expression when compared in dictionary Expression order
+    </td>
+  </tr>
+  <tr>
+    <td>
+      LEFT_EXPRESSION le RIGHT_EXPRESSION
+    </td>
+    <td>
+      Left Expression is less than or equal to Right Expression compared in dictionary Expression order
     </td>
   </tr>
 </table>
@@ -5818,7 +5815,7 @@ my $num = 5;
   for Statementは,繰り返しを行うためのStatementです。
 </p>
 <pre>
-for (初期化Expression; 条件Expression; インクリメントExpression) {
+for (初期化Expression; 条件Expression; IncrementExpression) {
 
 }
 </pre>
@@ -5829,10 +5826,10 @@ for (初期化Expression; 条件Expression; インクリメントExpression) {
   条件Expression,<a href="#language-expresssion">Expression</a>を記述できます。条件Expressionに<a href="#language-type-convertion-bool">Bool Type Convertion</a>が実行され,値が0以外の場合に,Block が実行されます。otherwise Block を抜けます。
 </p>
 <p>
-  インクリメントExpressionには,<a href="#language-expression">Expression</a>を記述できます。一般的には,ループ変数のインクリメントのExpressionを記述します。インクリメントExpressionは省略することが可能です。
+  IncrementExpressionには,<a href="#language-expression">Expression</a>を記述できます。一般的には,ループ変数のIncrementのExpressionを記述します。IncrementExpressionは省略することが可能です。
 </p>
 <p>
-  for Statementはthe following while Statementと同じ意味を持ちます。インクリメントExpressionは,Block の最後に実行されます。初期化Expressionは,<a href="#language-scope-block-statement-simple">Simple Block</a>に囲まれています。
+  for Statementはthe following while Statementと同じ意味を持ちます。IncrementExpressionは,Block の最後に実行されます。初期化Expressionは,<a href="#language-scope-block-statement-simple">Simple Block</a>に囲まれています。
 </p>
 <pre>
 {
@@ -5841,7 +5838,7 @@ for (初期化Expression; 条件Expression; インクリメントExpression) {
 
 
 
-    インクリメントExpression;
+    IncrementExpression;
   }
 }
 </pre>
@@ -5862,13 +5859,13 @@ for (my $i = 0; $i < 5; $i++) {
 </p>
 
 <pre>
-for (初期化Expression; 条件Expression; インクリメントExpression) {
+for (初期化Expression; 条件Expression; IncrementExpression) {
 
 }
 </pre>
 
 <p>
-  for Blockの内部では,<a href="#language-statement-next">next Statement</a>を使って,次に実行されるインクリメントExpressionの直前に移動することができます。
+  for Blockの内部では,<a href="#language-statement-next">next Statement</a>を使って,次に実行されるIncrementExpressionの直前に移動することができます。
 </p>
 <pre>
 for (my $i = 0; $i < 5; $i++) {
