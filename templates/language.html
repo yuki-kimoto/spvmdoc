@@ -4322,7 +4322,7 @@ x * y;
 
 Return Type of Multiplication Operator is the Type after <a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</a> is applied.
 
-Addition Operator does not throw <a href="#language-exception">Exception</a>.
+Multiplication Operator does not throw <a href="#language-exception">Exception</a>.
 
 <h4 id="language-operator-divide">Division Operator</h4>
 
@@ -4635,7 +4635,7 @@ x << y;
 
 <h4 id="language-operator-arithmetic-right-shift">Arithmetic Right Shift Operator</h4>
 <p>
-  Arithmetic shift right is <a href="#language-operator-binary"> Binary Operator </a> represented by ">>".
+  Arithmetic Right Shift Operator is <a href="#language-operator-binary"> Binary Operator </a> represented by ">>".
 </p>
 <pre>
 LEFT_EXPRESSION >> RIGHT_EXPRESSION
@@ -4664,7 +4664,7 @@ x >> y;
 
 <h4 id="language-operator-logical-right-shift">Logical Right Shift Operator</h4>
 <p>
-  The logical right shift is <a href="#language-operator-binary"> Binary Operator </a> represented by ">>>".
+  Logical Right Shift Operator is <a href="#language-operator-binary"> Binary Operator </a> represented by ">>>".
 </p>
 <pre>
 LEFT_EXPRESSION >>> RIGHT_EXPRESSION
@@ -4880,144 +4880,145 @@ LEFT_EXPRESSION STRING COMPARISON_OPERATOR RIGHT_EXPRESSION
   </tr>
 </table>
 <p>
-  String Comparison Operator のReturn ValueのTypeは,<a href="#language-type-int">int Type</a> です。条件が満たされた場合は1を,そうでない場合は0を返します。
+  The Type of Return Value of the String Comparison Operator is <a href="#language-type-int">int Type</a> Returns 1 if the condition is met, or 0 if not.
 </p>
 <h4 id="language-operator-isa">isa Operator</h4>
 <p>
-  Numeric Comparison Operator とは,数値あるいはオブジェクトのアドレスを比較するために,Left ExpressionとRight Expressionの間に置かれるOperator で,<a href="#language-expression">Expression</a>を返すOperator のことをいいます。
+  Numeric Comparison Operator is an Operator placed between Left Expression and Right Expression to compare the address of a number or object, and an Operator that returns a <a href="#language-expression">Expression</a>.
 </p>
 <p>
-  isa Operator とはは,Typeの適合性をチェックするためのOperator で,<a href="#language-expression">Expression</a>を返します。
+  isa Operator is an Operator for checking the suitability of type and returns a <a href="#language-expression">Expression</a>.
 </p>
 <pre>
-Left Expression isa 右Type
+LEFT_EXPRESSION ISA RIGHT_TYPE
 </pre>
 <p>
-  isa Operator は,右Typeに応じて,3種類の動作をします。
+  The isa Operator has three types of behavior, depending on the right Type.
 </p>
 <p>
-  1. 右Typeが,<a href="#language-type-numeric">Numeric Type</a>,<a href="#language-type-multi-numeric">Multi Numeric Type</a>,<a href="#language-type-any-object">Any Object Type</a>,<a href="#language-type-ref">Reference Type</a>の場合は,コンパイル時にLeft ExpressionのTypeが右Typeと同一のものであるかをチェックします。同一であった場合は<a href="#language-type-int">int Type</a> で1を,そうでない場合は0を返します。
+  1. If the right type is <a href="#language-type-numeric">Numeric Type</a>,<a href="#language-type-multi-numeric"</a><a href="#language-type-any-object"<a href="#language-type-any-object</a>"<a href="#language-type-ref=Reference Type</a> checks whether left Expression Type is the same as the right Type at compile time. If they were identical, <a href="#language-type-int">int Type</a> returns 1, otherwise 0.
 </p>
 <p>
-  2. 右Typeが,<a href="#language-type-class">Class Type</a>であった場合は,実行時にLeft ExpressionのTypeが,Class Typeと一致するかをチェックします。一致した場合は<a href="#language-type-int">int Type</a> で1を,そうでない場合は0を返します。Left ExpressionのTypeは,Object Type でなければなりません。otherwise a compile-time error occurs.
+  2. If the right Type is </a> <a href="#language-type-class">Class Type, check whether the Type of Left Expression matches Class Type at run time. If matched, <a href="#language-type-int">int Type</a> returns 1, otherwise 0. The Type of Left Expression must be An Object Type. otherwise a compile-time error occurs.
 </p>
 <p>
-  3. 右Typeが,<a href="#language-type-callback">Callback Type</a>であった場合は,実行時にLeft ExpressionのTypeがClass Typeであり,そのClassがCallback Typeを満たすかどうかをチェックします。満たした場合は<a href="#language-type-int">int Type</a> の1を,そうでない場合は0を返します。Left ExpressionのTypeは,Object Type でなければなりません。otherwise a compile-time error occurs.
+  3. If the right Type is </a><a href="#language-type-callback">Callback Type,the Type of Left Expression is Class Type at run time and the Class is checked to satisfy the Callback Type. If it is satisfied, returns <a href="#language-type-int">int Type</a>1,if not 0. The Type of Left Expression must be An Object Type. otherwise a compile-time error occurs.
 </p>
 
 <h4 id="language-operator-logical">Logical Operator</h4>
 <p>
-  Logical Operator は,論理演算を行うOperator のことで,><a href="#language-operator-logical-and">Logical AND Operator</a>,<a href="#language-operator-logical-or">Logical OR Operator</a>,<a href="#language-operator-logical-not">Logical NOT Operator</a>からなります。
+  Logical Operator is an Operator that performs logical operations,<a href="#language-operator-logical-and">Logical AND Operator</a><a href="#language-operator-logical-or"_or Logical Operator</a><a href="#language-operator-logical-not">Logical NOT Operator</a>
 </p>
 <p>
-  Logical Operator は,<a href="#language-expression">Expression</a>を返します。
+  Logical Operator returns <a href="#language-expression">Expression</a>
 </p>
 
 <h4 id="language-operator-logical-and">Logical AND Operator</h4>
 <p>
-  Logical AND Operator とは,Logical AND演算を行うために,"&&"で表現される,<a href="#language-expresssion">Expression</a>をオペランドとする<a href="#language-operator-binary">Binary Operator</a>です。
+  Logical AND Operator is a <a href="#language-expresssion"=Expression</a><a href="#language-operator-binary">Binary Operator</a>
 </p>
 <pre>
-Left Expression && Right Expression
+LEFT_EXPRESSION && RIGHT_EXPRESSION
 </pre>
 <p>
-  Logical AND Operator のReturn ValueのTypeは,<a href="#language-type-int">int Type</a> です。
+  Logical AND Operator のReturn ValueのTypeは,<a href="#language-type-int">int Type</a>.
 </p>
 <p>
-  Logical AND Operator は次のように動作します。
+  Logical AND Operator behaves as follows:
 </p>
 <p>
-  1. Left Expressionに<a href="#language-type-convertion-bool">Bool Type Convertion</a>を実行します。
+  1. Run the <a href="#language-type-convertion-bool">Bool Type Convertion</a> to Left Expression.
 </p>
 <p>
-  2. Left Expressionの値が0以外であれば,Right Expressionに対して,<a href="#language-type-convertion-bool">Bool Type Convertion</a>を実行し,その値を返します。
+  2. If the value of Left Expression is non-zero, execute the <a href="#language-type-convertion-bool" <#language-type-convertion-bool" for the Right Expression, execute the </a> and return that value.
 </p>
 <p>
-  3. Left Expressionの値が0であれば,その値を返します。
+  3. If the value of left Expression is 0, it returns that value.
 </p>
 <p>
-  Logical AND Operator は<a href="#language-expression">Expression</a>を返します。
+  Logical AND Operator returns <a href="#language-expression">Expression</a>
 </p>
 <p>
-  Logical AND Operator は,例外を発生させません。
+  Logical AND Operator does not raise an exception.
 </p>
 
 <h4 id="language-operator-logical-or">Logical OR Operator</h4>
 <p>
-  Logical OR Operator とは,Logical OR演算を行うために,"||"で表現される,<a href="#language-expresssion">Expression</a>をオペランドとする<a href="#language-operator-binary">Binary Operator</a>です。
+  Logical OR Operator is a logical OR operation that is "<a href="#language-expresssion">Expression</a> is an operand of <a href="#language-operator-binary">Binary Operator</a>
 </p>
 <pre>
-Left Expression || Right Expression
+LEFT_EXPRESSION || RIGHT_EXPRESSION
 </pre>
 <p>
-  Logical OR Operator は次のように動作します。
+  Logical OR Operator behaves as follows:
 </p>
 <p>
-  Logical OR Operator のReturn ValueのTypeは,<a href="#language-type-int">int Type</a> です。
+  Logical OR Operator のReturn ValueのTypeは,<a href="#language-type-int">int Type</a>.
 </p>
 <p>
-  1. Left Expressionに<a href="#language-type-convertion-bool">Bool Type Convertion</a>を実行します。
+  1. Run the <a href="#language-type-convertion-bool">Bool Type Convertion</a> to Left Expression.
 </p>
 <p>
-  2. Left Expressionの値が0あれば,Right Expressionに対して,<a href="#language-type-convertion-bool">Bool Type Convertion</a>を実行し,その値を返します。
+  2. If the value of Left Expression is 0, the <a href="#language-type-convertion-bool" </a> and returns that value for Right Expression.
 </p>
 <p>
-  3. Left Expressionの値が0以外であれば,その値を返します。
+  3. If the value of left Expression is non-zero, it returns that value.
 </p>
 <p>
   Logical OR Operator は<a href="#language-expression">Expression</a>を返します。
 </p>
 <p>
-  Logical OR Operator は,例外を発生させません。
+  Logical OR Operator returns <a href="#language-expression">Expression</a>
 </p>
 
 <h4 id="language-operator-logical-not">Logical NOT Operator</h4>
 <p>
-  Logical NOT Operator とは,論理NOT演算を行うために,Expressionの左に置かれるOperator で,"!"で表現される<a href="#language-expression">Expression</a>を返す<a href="#language-operator-binary">Unary Operator</a>です。Expressionについては,<a href="#language-expresssion">Expression</a>を参考にしてください。
+  Logical NOT Operator is an operator to the left of expression to perform logical NOT operations,<a href="#language-expression"_Expression</a> returning <a href="#language-operator-binary">Unary Operator</a> For more information about Expression, see <a href="#language-expresssion">Expression</a>.
 </p>
 <pre>
-!Expression
+!EXPRESSION
 </pre>
 <p>
-  Logical NOT Operator のReturn ValueのTypeは,<a href="#language-type-int">int Type</a> です。
+  Logical NOT Operator のReturn ValueのTypeは,<a href="#language-type-int">int Type</a>.
 </p>
 <p>
-  Logical NOT Operator は,Expressionに<a href="#language-type-convertion-bool">Bool Type Convertion</a>を実行し,その値が0の場合は1を,0以外の値の場合は,0を返します。
+  Logical NOT Operator executes <a href="#language-type-convertion-bool" </a>=$Bool Type Convertion for Expression, returns 1 if its value is 0, and 0 if it is not 0.
 </p>
 <p>
-  Logical NOT Operator は<a href="#language-expression">Expression</a>を返します。
+  Logical NOT Operator returns <a href="#language-expression">Expression</a>
 </p>
 <p>
-  Logical NOT Operator は,例外を発生させません。
+  Logical NOT Operator does not raise an exception.
 </p>
 
 <h4 id="language-operator-concat">String Concatenation Operator</h4>
 <p>
-  String Concatenation Operator は"."で表現される<a href="#language-operator-binary">Binary Operator</a>です。
+  String StringOn Operator is a <a href="#language-operator-binary">Binary Operator</a>.
 </p>
 <pre>
-Left Expression . Right Expression
+LEFT_EXPRESSION . RIGHT_EXPRESSION
 </pre>
 <p>
-  Left ExpressionあるいはRight Expressionが,<a href="#language-type-numeric">Numeric Type</a>であった場合は,<a href="#language-type-convertion-numeric-to-string">Numeric-to-<a href="#language-type-string">string Type</a> Convertion</a>によってStringに変換されます。
+  If the Left Expression or Right Expression was </a><a href="#language-type-numeric">Numeric Type=<a href="#language-type-convertion-numeric-to-string=numeric>to-string</a> href="#language-string type-</a>=>stringtype</a> convertion </a> converts it to a String.
+</p>
 </p>
 <p>
-  Left ExpressionとRight Expressionはどちらも<a href="#language-type-string-compatible">String Compatible Type</a>でなければなりません。otherwise コンパイルエラーになります。
+  Both Left Expression and Right Expression must be <a href="#language-type-string-compatible">String Compatible Type</a> There is an otherwise compilation error. </p>
 </p>
 <p>
-  String Concatenation Operator は,Left ExpressionとRight Expressionで表現される<a href="#language-string">String</a>を連結し,新しいStringを返します。
+  String Concatenation Operator concatenates the <a href="#language-string">String</a> represented by Left Expression and Right Expression and returns a new String.
 </p>
 <p>
-  String Concatenation Operator は<a href="#language-expression">Expression</a>を返し,Typeは<a href="#language-type-string">string Type</a>です。
+  String Concatenation Operator retruns <a href="#language-expression">Expression</a>, The Type is <a href="#language-type-string">string Type</a>.
 </p>
 <p>
-  Left ExpressionとRight Expressionの両方が,<a href="#language-literal-string">String Literal</a>であった場合は,コンパイル時に連結されたString Literal が生成されます。パフォーマンスのコストを意識せずに,String Concatenation Operator で,String Literal を連結できます。
+  If both Left Expression and Right Expression were <a href="#language-literal-string">String Literal</a>, a string Literal concatenated at compile time is generated. You can concatenate String Literal with string Concatenation Operator without being aware of the cost of performance.
 </p>
 <p>
-  実行時に,Left ExpressionあるいはRight Expressionが<a href="#language-undef">Undefined Value</a>だった場合は,例外が発生します。
+  If left expression or Right Expression is <a href="#language-undef">Undefined Value</a> an exception occurs at run time.
 </p>
 <p>
-  <b>String Concatenation Operator のExample</b>
+  <b>String Concatenation Operator Example</b>
 </p>
 <pre>
 my $str = "abc" . "def";
@@ -5026,16 +5027,16 @@ my $str = 123 . 456;
 </pre>
 <h4 id="language-operator-assign">Assignment Operator</h4>
 <p>
-  Assignment Operator は"="で表現される,代入を行うための<a href="#language-operator-binary">Binary Operator</a>です。
+  Assignment Operator is a <a href="#language-operator-binary">Binary Operator</a> for assignment, expressed in "=".
 </p>
 <pre>
 LEFT_EXPRESSION = RIGHTH_EXPRESSION
 </pre>
 <p>
-  Assignment Operator は,右辺と左辺によって,複数の意味を持ちます。各項目を参考にしてください。
+  Assignment Operator has multiple meanings depending on the right and left sides. Please refer to each item.
 </p>
 <p>
-  Assignment Operator においては,Right Expressionが評価された後に,Left Expressionが評価されます。これは,原則として,Expressionは左から右へ実行されるということの例外です。
+  In Assignment Operator, the Left Expression is evaluated after the Right Expression is evaluated. This is with the exception of expression being executed from left to right as a rule.
 </p>
 
 <ul>
@@ -5044,87 +5045,87 @@ LEFT_EXPRESSION = RIGHTH_EXPRESSION
 
 <h4 id="language-operator-assign-special">Special Assignment Operator</h4>
 <p>
-  Special Assignment Operator とは,<a href="#language-operator-binary">Binary Operator</a>と<a href="#language-operator-assign">Assignment Operator</a>の組み合わせで表現される特殊な代入を行う<a href="#language-operator-binary">Binary Operator</a>のことです。
+  Special Assignment Operator is a <a href="#language-operator-binary"_binary operator</a> and <a href="#language-operator-assign">Assignment Operator</a><a href="#language-operator-binary</a> </a>.
 </p>
 <pre>
-Left Expression Special Assignment Operator  Right Expression
+LEFT_EXPRESSION SPECIAL_ASSIGNMENT_OPERATOR  RIGHT_EXPRESSION
 </pre>
 <p>
   Left ExpressionとRight Expressionが<a href="#language-type-compatible">Type Compatibility</a>を満たさない場合は,a compile-time error occurs
 </p>
 <p>
-  <b>Special Assignment Operator の一覧</b>
+  <b>List of Special Assignment Operators</b>
 </p>
 <p>
-  Special Assignment Operator の一覧です。
+  List of Special Assignment Operators
 </p>
 <table>
   <tr>
-    <td>加算Assignment Operator </td>
+    <td>Addition Assignment Operator </td>
     <td>+=</td>
   </tr>
   <tr>
-    <td>減算Assignment Operator </td>
+    <td>Subtraction Assignment Operator </td>
     <td>-=</td>
   </tr>
   <tr>
-    <td>乗算Assignment Operator </td>
+    <td>Multiplication Assignment Operator </td>
     <td>*=</td>
   </tr>
   <tr>
-    <td>除算Assignment Operator </td>
+    <td>Division Assignment Operator </td>
     <td>/=</td>
   </tr>
   <tr>
-    <td>剰余Assignment Operator </td>
+    <td>Remainder Assignment Operator </td>
     <td>%=</td>
   </tr>
   <tr>
-    <td>Bit ANDAssignment Operator </td>
+    <td>Bit AND Assignment Operator </td>
     <td>&=</td>
   </tr>
   <tr>
-    <td>Bit ORAssignment Operator </td>
+    <td>Bit OR Assignment Operator </td>
     <td>|=</td>
   </tr>
   <tr>
-    <td>左シフトAssignment Operator </td>
+    <td>Left Shift Assignment Operator </td>
     <td><<=</td>
   </tr>
   <tr>
-    <td>算術右シフトAssignment Operator </td>
+    <td>Arithmetic Right Shift Assignment Operator </td>
     <td>>>=</td>
   </tr>
   <tr>
-    <td>論理右シフトAssignment Operator </td>
+    <td>Logical Right Shift Operator</td>
     <td>>>>=</td>
   </tr>
 </table>
 <p>
-  Special Assignment Operator は,次のように展開されます。
+  The Special Assignment Operator is deployed as follows:
 </p>
 <pre>
-# 展開前
-Left Expression Special Assignment Operator  Right Expression
+# Before unexpanding
+LEFT_EXPRESSION SPECIAL_ASSIGNMENT_OPERATOR RIGHT_EXPRESSION
 
-# 展開後
-Left Expression Assignment Operator  (Left ExpressionのTypeによるキャスト)(Left Expression 指定されたOperator  Right Expression)
+# After unwinding
+LEFT_EXPRESSION ASSIGNMENT_OPERATOR (LEFT EXPRESSION TYPE CAST)(LEFT_EXPRESSION SPECIFIC_OPERATOR RIGHT_EXPRESSION)
 </pre>
 <p>
-  たとえば,加算Assignment Operator の場合は,次のように展開されます。
+  For example, for add assignment Operator, it is expanded as follows:
 </p>
 <pre>
-# 展開前 xは<a href="#language-type-byte">byte Type</a>
+# Before unexpanding x is <a href="#language-type-byte">byte Type</a>
 $x += 1;
 
-# 展開後
+# After unwinding
 $x = (byte)($x + 1)
 </pre>
 <p>
-  <b>Special Assignment Operator のExample</b>
+  <b>Special Assignment Operator Example</b>
 </p>
 <p>
-  Special Assignment Operator のExampleです。
+  Special Assignment Operator Example
 </p>
 <pre>
 $x += 1;
@@ -5139,21 +5140,22 @@ $x <<= 1;
 $x >>= 1;
 $x >>>= 1;
 </pre>
+
 <h4 id="language-operator-ref">Reference Operator </h4>
 <p>
-  Reference Operator  は,<a href="#language-type-numeric">Numeric Type</a>または<a href="#language-type-multi-numeric">Multi Numeric Type</a>の変数のアドレスを取得するOperator です。C言語のアドレスOperator "&"を実現するために設計されました。
+  The Reference Operator is an Operator that retrieves the address of a variable for <a href="#language-type-numeric">Numeric Type</a> or <a href="#language-type-multi-numeric">Multi Numeric Type </a>. Designed to achieve c address Operator "&".
 </p>
 <pre>
-\変数
+\VARIABLE
 </pre>
 <p>
-  変数がNumeric TypeまたはMulti Numeric Typeでなかった場合は,a compile-time error occurs
+  If the variable is not numeric type or Multi Numeric Type, a compile-time error occurs
 </p>
 <p>
-  Reference Operator  はExpressionを返します。返されるTypeは,<a href="#language-type-ref">Reference Type</a>です。
+  Reference Operator returns expression. The type returned is <a href="#language-type-ref">Reference Type</a>.
 </p>
 <pre>
-  <b>Reference Operator  のExample</b>
+  <b>Reference Operator Example</b>
 </pre>
 <pre>
 my $num : int;
@@ -5163,60 +5165,60 @@ my $z : SPVM::Complex_2d;
 my $z_ref : SPVM::Complex_2d& = \$z;
 </pre>
 <p>
-  Referenceの詳しい解説については,<a href="#language-ref">Reference</a>を見てください。
+  For a detailed description of Reference, see <a href="#language-ref">Reference</a>.
 </p>
 
 <h4 id="language-operator-array-length">Array Length Operator</h4>
 <p>
-  Array Length Operator は,<a href="#language-array">Array</a>の長さを取得するための"@"で表現される<a href="#language-operator-binary">Unary Operator</a>です。
+  Array Length Operator is a <a href="#language-array">Array</a></a><a href="#language-operator-binary">Unary Operator</a>
 </p>
 <pre>
-@Right Expression
+@RIGHT EXPRESSION
 </pre>
 <p>
-  Right Expressionは,Array Typeでなければなりません。otherwise a compile-time error occurs.
+  Right Expression must be an Array Type. otherwise a compile-time error occurs.
 </p>
 <p>
-  Array Length Operator は,Array Lengthを<a href="#language-type-int">int Type</a> の値で返します。
+  Array Length Operator returns array length for <a href="#language-type-int">int Type</a> value.
 </p>
 <p>
-  Array Length Operator は,<a href="#language-expression">Expression</a>を返します。
+  Array Length Operator returns <a href="#language-expression">Expression</a>
 </p>
 <p>
-  <b>Array Length Operator のExample</b>
+  <b>Array Length Operator Example</b>
 </p>
 <p>
-  Array Length Operator のExampleです。
+  Array Length Operator Example
 </p>
 <pre>
 my $nums = new byte[10];
 my $length = @$nums;
 </pre>
 <p>
-  SPVMにはPerlにおけるコンテキストという考え方はなく,Array Length Operator は,常にArray Lengthを返すことに注意してください。
+  Note that SPVM does not have the idea of a context in Perl, and array length operators always return Array Length.
 </p>
 
 <h4 id="language-operator-string-length">String Length Operator</h4>
 <p>
-  String Length Operator は,<a href="#language-string">String</a>の長さを取得するための"length"で表現される<a href="#language-operator-binary">Unary Operator</a>です。
+  String Length Operator is a <a href="#language-string">String</a></a> <a href="#language-operator-binary">Unary Operator</a>
 </p>
 <pre>
-length Right Expression
+length RIGHT_EXPRESSION
 </pre>
 <p>
-  Right Expressionは,<a href="#language-type-string-compatible">String Compatible Type</a>でなければなりません。otherwise a compile-time error occurs.
+  Right Expression must be <a href="#language-type-string-compatible"> String Compatible Type </a>. otherwise a compile-time error occurs.
 </p>
 <p>
-  String Length Operator は,Stringの長さを<a href="#language-type-int">int Type</a> の値で返します。String Length Operator が返すStringの長さは,バイト列としてみたときの長さでです。
+  The String Length Operator returns the length of the String as a <a href="#language-type-int"> int Type </a> value. String Length The length of the String returned by the Operator is the length when viewed as a byte string.
 </p>
 <p>
-  String Length Operator は,<a href="#language-expression">Expression</a>を返します。
+  String Length Operator returns the <a href="#language-expression">Expression</a>
 </p>
 <p>
-  <b>String Length Operator のExample</b>
+  <b>String Length Operator Example</b>
 </p>
 <p>
-  String Length Operator のExampleです。
+  String Length Operator Exampleです。
 </p>
 <pre>
 my $nums = "abcde";
@@ -5225,22 +5227,22 @@ my $length = length $nums;
 
 <h4 id="language-operator-scalar">Scalar Operator</h4>
 <p>
-  Scalar Operator は,何もしないで,与えられた値そのものを返すOperator です。<a href="#language-operator-array-length">Array Length Operator</a>の意味を分かりやすくするためだけに用意されています。
+  Scalar Operator is an Operator that returns the given value itself without doing anything. It is provided only to clarify the meaning of <a href="#language-operator-array-length">Array Length Operator operator</a>
 </p>
 <pre>
-scalar Right Expression
+scalar RIGHT_EXPRESSION
 </pre>
 <p>
-  Right Expressionは<a href="#language-operator-array-length">Array Length Operator</a>でなければなりません。otherwise a compile-time error occurs.
+  Right Expressionは<a href="#language-operator-array-length">Array Length Operator</a>でなければなりません。 otherwise a compile-time error occurs.
 </p>
 <p>
   Scalar Operator returns Expression.
 </p>
 <p>
-  <b>Scalar Operator のExample</b>
+  <b>Scalar Operator Example</b>
 </p>
 <p>
-  Scalar Operator のExampleです。
+  Scalar Operator Example
 </p>
 <pre>
 my $nums = new int[3];
@@ -5249,25 +5251,25 @@ foo(scalar @$nums);
 
 <h4 id="language-operator-isweak">isweak Operator</h4>
 <p>
-  isweak Operator は,Fieldが,<a href="#language-weak-ref">Weaken Reference</a>かを確認するOperator です。
+  Isweak Operator is an Operator that checks whether Field is </a><a href="#language-weak-ref">Weaken Reference.</a>
 </p>
 <pre>
-isweak 変数->{FIELD_NAME};
+isweak VARIABLE->{FIELD_NAME};
 </pre>
 <p>
-  オブジェクトExpressionのTypeは,<a href="#language-type-class">Class Type</a>でなければなりません。otherwise a compile-time error occurs.
+  The Type of object Expression must be </a><a href="#language-type-class">Class Type.< otherwise a compile-time error occurs.
 </p>
 <p>
-  Field Nameは,存在するField Nameでなければなりません。otherwise a compile-time error occurs.
+  Field Name must be a existed Field Name. otherwise a compile-time error occurs.
 </p>
 <p>
-  Fieldに保存される値のTypeは,<a href="#language-type-object">Object Type</a>でなければなりません。otherwise a compile-time error occurs.
+  The Type of the value stored in field must be <a href="#language-type-object">Object Type</a>. otherwise a compile-time error occurs.
 </p>
 <p>
-  実行時にFieldに保存されている値が,<a href="#language-undef">Undefined Value</a>だった場合は,偽を返します。これは,<a href="#language-expression">Expression</a>です。
+  If the value stored in field at run time is </a> <a href="#language-undef">Undefined Value, it returns false. This is <a href="#language-expression">Expression</a>
 </p>
 <p>
-  isweak Operator は,FieldがWeaken Referenceの場合は,<a href="#language-type-int">int Type</a> の1を,そうでない場合は0を返します。これは,<a href="#language-expression">Expression</a>です。
+  Isweak Operator returns <a href="#language-type-int" <</a></a> if Field is weaken reference, or 0. This is <a href="#language-expression">Expression</a>
 </p>
 
 <h4 id="language-operator-precedence">Operator Precidence</h4>
