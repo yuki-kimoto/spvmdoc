@@ -1,293 +1,289 @@
     <div class="container">
-      <div>
-        <a href="/">SPVMドキュメント</a> &gt SPVMエクスチェンジAPI仕様
-      </div>
-      
-      <h2 id="exchange-api-summary">SPVMエクスチェンジAPI仕様</a></h2>
+<h2 id="exchange-api-summary">SPVM exchange API specification</a></h2>
       <p>
-        <b>SPVMエクスチェンジAPI仕様</b>がこのドキュメントには記述されています。SPVMは、1.0のリリースに向けて、ベータテスト中です。SPVMエクスチェンジAPI仕様は、警告なく変更されることがあります。
+        <b> SPVM Exchange API specification </b> is described in this document. SPVM is in beta testing for the release of 1.0. The SPVM Exchange API specification is subject to change without warning.
       </p>
       <p>
-        最終更新日 2019年5月27日
+        Last updated: 2020-05-15
       </p>
       
-      <h2 id="exchange-api-toc">目次</h2>
+<h2 id="exchange-api-toc">Table of Contents</h2>
       <ul class="toc">
-        <li><a href="#exchange-api-summary">SPVMエクスチェンジAPIとは</a></li>
-        <li><a href="#exchange-api-perl-data-to-spvm-data">Perlのデータ構造をSPVMのデータ構造に変換する</a></li>
-        <li><a href="#exchange-api-call-spvm-sub">SPVMのサブルーチンの呼び出し</a></li>
-        <li><a href="#exchange-api-spvm-data-to-perl-data">SPVMのデータ構造をPerlのデータ構造に変換する</a></li>
-        <li><a href="#exchange-api-utility">ユーティリティ</a></li>
-        <li><a href="#exchange-api-rule-perl-scalar-to-spvm-numeric">Perlのスカラ値をSPVMの数値型に変換する規則</a></li>
-        <li><a href="#exchange-api-rule-spvm-numeric-to-perl-scalar">SPVMの数値型をPerlのスカラ値に変換する規則</a></li>
+        <li><a href="#exchange-api-summary">What is the SPVM Exchange API</a></li>
+        <li><a href="#exchange-api-perl-data-to-spvm-data">Convert perl data structures into SPVM data structures</a></li>
+        <li><a href="#exchange-api-call-spvm-sub">Calls to spvm subroutines</a></li>
+        <li><a href="#exchange-api-spvm-data-to-perl-data">Converting sPVM data structures into Perl data structures</a></li>
+        <li><a href="#exchange-api-utility"> utility</a></li>
+        <li><a href="#exchange-api-perl-scalar-to-spvm-numeric">Rules for converting Perl scalar values to SPVM numeric types</a></li>
+        <li><a href="#exchange-api-rule-spvm-numeric-to-perl-scalar">Rules for converting spvm numeric types to Perl scalar values</a></li>
       </ul>
       
-      <h2 id="exchange-api-summary">SPVMエクスチェンジAPIとは</h2>
+What is the <h2 id="exchange-api-summary">SPVM exchange API?</h2>
       <p>
-        SPVMエクスチェンジAPIとは、PerlとSPVMのデータ構造を変換、PerlからSPVMのサブルーチンを呼び出すためのAPIのことです。
+        The SPVM Exchange API is an API for converting Perl and SPVM data structures and calling SPVM subroutines from Perl.
       </p>
       <ul class="list">
-        <li>Perlの数値や文字列や配列などのデータ構造をSPVMのデータ構造に変換</li>
-        <li>SPVMのデータ構造をPerlの数値や文字列や配列などのデータ構造に変換</li>
-        <li>SPVMのサブルーチンを呼び出す</li>
+        <li> convert edits such as Perl numbers, strings and arrays into SPVM data structures</li>
+        <li> convert spvm data structures into Perl numbers, strings, arrays, and other data structures</li>
+        <li> call the SPVM subroutine</li>
       </ul>
       <p>
-        SPVMで作成されたモジュールは、コンパイル終了後に、Perlのモジュールとして、そのまま実行できるようになります。
+        Modules created in SPVM can be executed as Perl modules after compilation.
       </p>
 
-      <h2 id="exchange-api-perl-data-to-spvm-data">Perlのデータ構造をSPVMのデータ構造に変換する</h2>
+<h2 id="exchange-api-perl-data-to-spvm-data">Convert perl data structures to SPVM data structures</h2>
       <ul class="toc">
-        <li><a href="#exchange-api-perl-scalar-to-SPVM-Byte">Perlのスカラ値をSPVMのSPVM::Byte型に変換 - SPVM::Byte-&gt;new</a></li>
-        <li><a href="#exchange-api-perl-scalar-to-SPVM-Short">Perlのスカラ値をSPVMのSPVM::Short型に変換 - SPVM::Short-&gt;new</a></li>
-        <li><a href="#exchange-api-perl-scalar-to-SPVM-Int">Perlのスカラ値をSPVMのSPVM::Int型に変換 - SPVM::Int-&gt;new</a></li>
-        <li><a href="#exchange-api-perl-scalar-to-SPVM-Long">Perlのスカラ値をSPVMのSPVM::Long型に変換 - SPVM::Long-&gt;new</a></li>
-        <li><a href="#exchange-api-perl-scalar-to-SPVM-Float">Perlのスカラ値をSPVMのSPVM::Float型に変換 - SPVM::Float-&gt;new</a></li>
-        <li><a href="#exchange-api-perl-scalar-to-SPVM-Double">Perlのスカラ値をSPVMのSPVM::Double型に変換 - SPVM::Double-&gt;new</a></li>
-        <li><a href="#exchange-api-perl-array-ref-to-spvm-byte-array">Perlの配列リファレンスをSPVMのbyte[]型に変換 - SPVM::new_byte_array</a></li>
-        <li><a href="#exchange-api-perl-array-ref-to-spvm-short-array">Perlの配列リファレンスをSPVMのshort[]型に変換 - SPVM::new_short_array</a></li>
-        <li><a href="#exchange-api-perl-array-ref-to-spvm-int-array">Perlの配列リファレンスをSPVMのint[]型に変換 - SPVM::new_int_array</a></li>
-        <li><a href="#exchange-api-perl-array-ref-to-spvm-long-array">Perlの配列リファレンスをSPVMのlong[]型に変換 - SPVM::new_long_array</a></li>
-        <li><a href="#exchange-api-perl-array-ref-to-spvm-float-array">Perlの配列リファレンスをSPVMのfloat[]型に変換 - SPVM::new_float_array</a></li>
-        <li><a href="#exchange-api-perl-array-ref-to-spvm-double-array">Perlの配列リファレンスをSPVMのdouble[]型に変換 - SPVM::new_double_array</a></li>
-        <li><a href="#exchange-api-perl-array-ref-to-spvm-object-array">Perlの配列リファレンスをSPVMのオブジェクトの配列型に変換 - SPVM::new_object_array</a></li>
-        <li><a href="#exchange-api-perl-array-ref-to-spvm-value-array">Perlの配列リファレンスをSPVMの値の配列型に変換 - SPVM::new_mulnum_array</a></li>
-        <li><a href="#exchange-api-perl-binary-to-spvm-byte-array">Perlのバイナリ列をSPVMのbyte[]型に変換 - SPVM::new_byte_array_from_bin</a></li>
-        <li><a href="#exchange-api-perl-binary-to-spvm-string">Perlのバイナリ列をSPVMのstring型に変換 - SPVM::new_string_from_bin</a></li>
-        <li><a href="#exchange-api-perl-binary-to-spvm-short-array">Perlのバイナリ列をSPVMのshort[]型に変換 - SPVM::new_short_array_from_bin</a></li>
-        <li><a href="#exchange-api-perl-binary-to-spvm-int-array">Perlのバイナリ列をSPVMのint[]型に変換 - SPVM::new_int_array_from_bin</a></li>
-        <li><a href="#exchange-api-perl-binary-to-spvm-long-array">Perlのバイナリ列をSPVMのlong[]型に変換 - SPVM::new_long_array_from_bin</a></li>
-        <li><a href="#exchange-api-perl-binary-to-spvm-float-array">Perlのバイナリ列をSPVMのfloat[]型に変換 - SPVM::new_byte_array_from_string</a></li>
-        <li><a href="#exchange-api-perl-binary-to-spvm-double-array">Perlのバイナリ列をSPVMのdouble[]型に変換 - SPVM::new_double_array_from_bin</a></li>
-        <li><a href="#exchange-api-perl-binary-to-spvm-value-array">Perlのバイナリ列をSPVMの値の配列型に変換 - SPVM::new_mulnum_array_from_bin</a></li>
-        <li><a href="#exchange-api-perl-string-to-spvm-byte-array">Perlの文字列をSPVMのbyte[]型に変換 - SPVM::new_byte_array_from_string</a></li>
-        <li><a href="#exchange-api-perl-string-to-spvm-string">Perlの文字列をSPVMのstring型に変換 - SPVM::new_string</a></li>
+        <li><a href="#exchange-api-perl-to-SPVM-Byte">Perl scalar values are converted to SPVM::Byte - SPVM::Byte-</a></li>
+        <li><a href="#exchange-api-perl-perl-to-SPVM-Short">Convert Perl scalar values to SPVM::Short- SPVM::Short-</a></li>
+        <li><a href="#exchange-api-perl-to-SPVM-Int">Perl scalar value is converted to SPVM::Int type - SPVM::Int-&gt;new</a></li>
+        <li><a href="#exchange-api-perl-to-SPVM-Long">Perl scalar values are converted to SPVM::Long - SPVM::Long-&gt;new</a></li>
+        <li><a href="#exchange-api-api-perl-to-SPVM-Float">Perl scalar values are converted to SPVM:Float- SPVM::Float-</a></li>
+        <li><a href="#exchange-api-perl-to-SPVM-Double">Convert Perl scalar values to SPVM::Double type - SPVM::Double-&gt;new</a></li>
+        <li><a href="#exchange-api-perl-array-ref-to-spvm-byte-array">Convert Perl array reference to SPVM byte[] type - SPVM::new_byte_array</a></li>
+        <li><a href="#exchange-api-perl-array-ref-to-spvm-short-array">Convert perl array reference to Short[] type Of SPVM - SPVM::new_short_array</a></li>
+        <li><a href="#exchange-api-perl-array-ref-to-spvm-int-array">Convert Perl array reference to SPVM int[] type - SPVM::new_int_array</a></li>
+        <li><a href="#exchange-api-perl-array-ref-to-spvm-long-array">Convert Perl array reference to Long[] type of SPVM - SPVM::new_long_array</a></li>
+        <li><a href="#exchange-api-perl-array-ref-to-spvm-float=array">Convert Perl array reference to SPVM float[] type - SPVM::new_float_array</a></li>
+        <li><a href="#exchange-api-perl-array-ref-to-spvm-double-array">Convert perl array reference to spvm double[] type - SPVM::new_double_array</a></li>
+        <li><a href="#exchange-api-perl-array-ref-to-spvm-object-array">Convert perl array reference to array type of SPVM object - SPVM::new_object_array</a></li>
+        <li><a href="#exchange-api-perl-array-ref-to-spvm-value-array">Convert perl array reference to array type of SPVM value - SPVM::new_mulnum_array</a></li>
+        <li><a href="#exchange-api-perl-binary-to-spvm-byte-array">Convert perl binary columns to SPVM byte[] - SPVM::new_byte_array_from_bin</a></li>
+        <li><a href="#exchange-api-perl-binary-to-spvm-string">Convert perl binary columns to SPVM string - SPVM::new_string_from_bin</a></li>
+        <li><a href="#exchange-api-perl-binary-to-spvm-short-array">Convert perl binary columns to short[] type Of SPVM - SPVM::new_short_array_from_bin</a></li>
+        <li><a href="#exchange-api-perl-binary-to-spvm-int-array">Convert perl binary columns to SPVM int[] - SPVM::new_int_array_from_bin</a></li>
+        <li><a href="#exchange-api-perl-binary-to-spvm-long-array">Convert perl binary columns to Long[] type - SPVM::new_long_array_from_bin</a></li>
+        <li><a href="#exchange-api-perl-binary-to-spvm-float-array">Convert perl binary columns to SPVM float[] type - SPVM::new_byte_array_from_string</a></li>
+        <li><a href="#exchange-api-perl-binary-to-spvm-double-array">Convert perl binary columns to spvm double[] - SPVM::new_double_array_from_bin</a></li>
+        <li><a href="#exchange-api-perl-binary-to-spvm-value-array">Convert perl binary columns to spvm value array types - SPVM::new_mulnum_array_from_bin</a></li>
+        <li><a href="#exchange-api-perl-string-to-spvm-byte-array">Convert perl strings to spvm byte[] type - SPVM::new_byte_array_from_string</a></li>
+        <li><a href="#exchange-api-perl-string-to-spvm-string">Convert perl strings to SPVM string - SPVM::new_string</a></li>
       </ul>
 
-      <h3 id="exchange-api-perl-scalar-to-SPVM-Byte">Perlのスカラ値をSPVMのSPVM::Byte型に変換 - SPVM::Byte-&gt;new</h3>
+<h3 id="exchange-api-perl-scalar-to-SPVM-Byte">Convert perl scalar values to SPVM:-Byte type of SPVM - SPVM::Byte-&gt;new</h3>
       <p>
-        Perlのスカラ値をSPVMのSPVM::Byte型に変換するには、SPVM::Byte-&gt;newメソッドを使います。
+        To convert perl scalar values to SPVM::Byte of SPVM, use the SPVM::Byte-&gt;new method.
       </p>
 <pre>
 my $spvm_byte = SPVM::Byte->new(98);
 </pre>
       <p>
-        Perlのスカラ値は、<a href="#exchange-api-rule-perl-scalar-to-spvm-numeric">Perlのスカラ値をSPVMの数値型に変換する規則</a>よって、SPVMのbyte型に変換され、その値が、SPVM::Byteのnewメソッドに渡され、SPVM::Byte型のオブジェクトが返されます。
+        Perl scalar values are converted to SPVMbyte types by the <a href="#exchange-api-rule-perl-scalar-to-spvm-numeric">Perl scalar value to spvm numeric type</a>, and the value is passed to the new method of SPVM::Byte, and an object of type SPVM:Byte is returned.
       </p>
 
-      <h3 id="exchange-api-perl-scalar-to-SPVM-Short">Perlのスカラ値をSPVMのSPVM::Short型に変換 - SPVM::Short-&gt;new</h3>
+<h3 id="exchange-api-perl-scalar-to-SPVM-Short">Convert Perl scalar values to SPVM::Short type of SPVM - SPVM::Short-&gt;new</h3>
       <p>
-        Perlのスカラ値をSPVMのSPVM::Short型に変換するには、SPVM::Short-&gt;newメソッドを使います。
+        To convert Perl scalar values to SPVM::Short in SPVM, use the SPVM::Short-&gt;new method.
       </p>
 <pre>
 my $spvm_short = SPVM::Short->new(9800);
 </pre>
       <p>
-        Perlのスカラ値は、<a href="#exchange-api-rule-perl-scalar-to-spvm-numeric">Perlのスカラ値をSPVMの数値型に変換する規則</a>よって、SPVMのshort型に変換され、その値が、SPVM::Shortのnewメソッドに渡され、SPVM::Short型のオブジェクトが返されます。
+        Perl scalar values are converted to spvm short types by the <a href="#exchange-api-rule-perl-scalar-to-spvm-numeric">Perl scalar value to spvm numeric type</a>, and the value is passed to the new method of SPVM:Short, and an object of type SPVM:Short is returned.
       </p>
 
-      <h3 id="exchange-api-perl-scalar-to-SPVM-Int">Perlのスカラ値をSPVMのSPVM::Int型に変換 - SPVM::Int-&gt;new</h3>
+<h3 id="exchange-api-perl-scalar-to-SPVM-Int">Convert Perl scalar values to SPVM::Int type of SPVM - SPVM::Int-&gt;new</h3>
       <p>
-        Perlのスカラ値をSPVMのSPVM::Int型に変換するには、SPVM::Int-&gt;newメソッドを使います。
+        To convert Perl scalar values to SPVM::Int of SPVM, use the SPVM::Int-&gt;new method.
       </p>
 <pre>
 my $spvm_int = SPVM::Int->new(100000);
 </pre>
       <p>
-        Perlのスカラ値は、<a href="#exchange-api-rule-perl-scalar-to-spvm-numeric">Perlのスカラ値をSPVMの数値型に変換する規則</a>によって、SPVMのint型に変換され、その値が、SPVM::Intのnewメソッドに渡され、SPVM::Int型のオブジェクトが返されます。
+        Perl scalar values are converted to spvm int types by the <a href="#exchange-api-rule-perl-scalar-to-spvm-numeric">Perl scalar values are converted to spvm numeric types</a>, and the value is passed to the new method of SPVM:Int, and the SPVM:Int object is returned.
       </p>
 
-      <h3 id="exchange-api-perl-scalar-to-SPVM-Long">Perlのスカラ値をSPVMのSPVM::Long型に変換 - SPVM::Long-&gt;new</h3>
+<h3 id="exchange-api-perl-scalar-to-SPVM-Long">Convert Perl scalar values to SPVM::Long type - SPVM::Long-&gt;new</h3>
       <p>
-        Perlのスカラ値をSPVMのSPVM::Long型に変換すると、SPVM::Long-&gt;newメソッドを使います。
+        When you convert perl scalar values to SPVM::Long in SPVM, you use the SPVM::Long-&gt;new method.
       </p>
 <pre>
 my $spvm_long = SPVM::Long->new(98);
 </pre>
       <p>
-        Perlのスカラ値は、<a href="#exchange-api-rule-perl-scalar-to-spvm-numeric">Perlのスカラ値をSPVMの数値型に変換する規則</a>によって、SPVMのlong型に変換され、その値が、SPVM::Longのnewメソッドに渡され、SPVM::Long型のオブジェクトが返されます。
+        Perl scalar values are converted to long types of SPVM by the <a href="#exchange-api-rule-perl-scalar-to-spvm-numeric">The rule of converting Perl scalar values to SPVM numeric types</a> converts them to long types of SPVM, and the spvm:Long objects are returned.
       </p>
 
-      <h3 id="exchange-api-perl-scalar-to-SPVM-Float">Perlのスカラ値をSPVMのSPVM::Float型に変換 - SPVM::Float-&gt;new</h3>
+<h3 id="exchange-api-perl-scalar-to-SPVM-Float">Convert Perl scalar values to SPVM:Float type of SPVM - SPVM:Float-&gt;new</h3>
       <p>
-        Perlのスカラ値をSPVMのSPVM::Float型に変換するには、SPVM::Float-&gt;newメソッドを使います。
+        To convert Perl scalar values to SPVM::Float in SPVM, use the SPVM::Float-&gt;new method.
       </p>
 <pre>
 my $spvm_float = SPVM::Float->new(2.5);
 </pre>
       <p>
-        Perlのスカラ値は、<a href="#exchange-api-rule-perl-scalar-to-spvm-numeric">Perlのスカラ値をSPVMの数値型に変換する規則</a>によって、SPVMのfloat型に変換され、その値が、SPVM::Floatのnewメソッドに渡され、SPVM::Float型のオブジェクトが返されます。
+        Perl scalar values are converted to spvm float types by the <a href="#exchange-#exchange-rule-perl-scalar-to-spvm-numeric">Perl scalar values are converted to spvm numeric types</a>, and that value is passed to the new method of SPVM:Float, and objects of SPVM:Float are returned.
       </p>
 
-      <h3 id="exchange-api-perl-scalar-to-SPVM-Double">Perlのスカラ値をSPVMのSPVM::Double型に変換 - SPVM::Double-&gt;new</h3>
+<h3 id="exchange-api-perl-scalar-to-SPVM-Double">Convert perl scalar values to SPVM::Double type - SPVM::Double-&gt;new</h3>
       <p>
-        Perlのスカラ値をSPVMのSPVM::Double型に変換するには、SPVM::Double-&gt;newメソッドを使います。
+        To convert Perl scalar values to SPVM::Double, use the SPVM::Double-&gt;new method.
       </p>
 <pre>
 my $spvm_double = SPVM::Double->new(2.5);
 </pre>
       <p>
-        Perlのスカラ値は、<a href="#exchange-api-rule-perl-scalar-to-spvm-numeric">Perlのスカラ値をSPVMの数値型に変換する規則</a>によって、SPVMのdouble型に変換され、その値が、SPVM::Doubleのnewメソッドに渡され、SPVM::Double型のオブジェクトが返されます。
+        Perl scalar values are converted to spvm double types by the <a href="#exchange-api-rule-perl-scalar-to-spvm-numeric">Perl scalar values are converted to spvm numeric types</a>, and that value is passed to the new method of SPVM :D, and objects of SPVM :Double are returned.
       </p>
 
-      <h3 id="exchange-api-perl-array-ref-to-spvm-byte-array">Perlの配列リファレンスをSPVMのbyte[]型に変換 - SPVM::new_byte_array</h3>
+<h3 id="exchange-api-perl-array-ref-to-spvm-byte-array">Convert perl array reference to spvm byte[] type - SPVM::new_byte_array</h3>
       <p>
-        Perlの配列リファレンスをSPVMのbyte[]型に変換するには、SPVM::new_byte_array関数を使います。
+        To convert perl array references to spvm byte[] types, use the SPVM::new_byte_array function.
       </p>
 <pre>
 my $spvm_nums = SPVM::new_byte_array([1, 2, 3]);
 </pre>
       <p>
-        第一引数に配列リファレンスを受け取ります。
+        Takes an array reference to the first argument.
       </p>
       <p>
-        配列リファレンスのそれぞれの要素の値は、Perlのスカラ値から、<a href="#exchange-api-rule-perl-scalar-to-spvm-numeric">Perlのスカラ値をSPVMの数値型に変換する規則</a>によって、SPVMのbyte型に変換されます。
+        The value of each element in the array reference is converted from the Perl scalar value to the SPVM byte type by the rules for converting the scalar values of <a href="#exchange-#exchange-rule-perl-scalar-to-spvm-numeric">Perl scalar values to numeric types of SPVM</a>.
       </p>
       <p>
-        戻り値は、SPVMの「byte[]」型を表現した「SPVM::Data::Array」オブジェクトです。
+        The return value is the SPVM::Data::Array object that represents the "byte[] type" of SPVM.
       </p>
       <p>
-        第一引数が未定義値だった場合は、未定義値が返ります。
+        If the first argument is an undefined value, an undefined value is returned.
       </p>
 
-      <h3 id="exchange-api-perl-array-ref-to-spvm-short-array">Perlの配列リファレンスをSPVMのshort[]型に変換</h3>
+<h3 id="exchange-api-perl-array-ref-to-spvm-short-array">Convert perl array reference to Short[] type of SPVM</h3>
       <p>
-        Perlの配列リファレンスをSPVMのshort[]型に変換するには、SPVM::new_short_array関数を使います。
+        To convert perl array references to spvm short[] types, use the SPVM::new_short_array function.
       </p>
 <pre>
 my $spvm_nums = SPVM::new_short_array([1, 2, 3]);
 </pre>
       <p>
-        第一引数に配列リファレンスを受け取ります。
+        Takes an array reference to the first argument.
       </p>
       <p>
-        配列リファレンスのそれぞれの要素の値は、Perlのスカラ値から、<a href="#exchange-api-rule-perl-scalar-to-spvm-numeric">Perlのスカラ値をSPVMの数値型に変換する規則</a>によって、SPVMのshort型に変換されます。
+        The value of each element in the array reference is converted from the Perl scalar value to the Short type of SPVM by the <a href="#exchange-api-rule-perl-scalar-to-spvm-numeric">Perl scalar value is converted to a numeric type of SPVM</a>.
       </p>
       <p>
-        戻り値は、SPVMの「short[]」型を表現した「SPVM::Data::Array」オブジェクトです。
+        The return value is the SPVM::Data::Array object that represents the "short[]" type of SPVM.
       </p>
       <p>
-        第一引数が未定義値だった場合は、未定義値が返ります。
+        If the first argument is an undefined value, an undefined value is returned.
       </p>
 
-      <h3 id="exchange-api-perl-array-ref-to-spvm-int-array">Perlの配列リファレンスをSPVMのint[]型に変換</h3>
+<h3 id="exchange-api-perl-array-ref-to-spvm-int-array">Convert perl array reference to SPVM int[] type</h3>
       <p>
-        Perlの配列リファレンスをSPVMのint[]型に変換するには、SPVM::new_int_array関数を使います。
+        To convert perl array references to spvm int[] types, use the SPVM::new_int_array function.
       </p>
 <pre>
 my $spvm_nums = SPVM::new_int_array([1, 2, 3]);
 </pre>
       <p>
-        第一引数に配列リファレンスを受け取ります。
+        Takes an array reference to the first argument.
       </p>
       <p>
-        配列リファレンスのそれぞれの要素の値は、Perlのスカラ値から、<a href="#exchange-api-rule-perl-scalar-to-spvm-numeric">Perlのスカラ値をSPVMの数値型に変換する規則</a>によって、SPVMのint型に変換されます。
+        The value of each element in the array reference is converted from the Perl scalar value to the spvm int type by the rule to convert the <a href="#exchange-api-rule-perl-scalar-to-spvm-numeric">Perl scalar values to spvm numeric types</a>.
       </p>
       <p>
-        戻り値は、SPVMの「int[]」型を表現した「SPVM::Data::Array」オブジェクトです。
+        The return value is the SPVM::Data::Array object that represents the "int[] type" of SPVM.
       </p>
       <p>
-        第一引数が未定義値だった場合は、未定義値が返ります。
-      </p>
-
-      <h3 id="exchange-api-perl-array-ref-to-spvm-long-array">Perlの配列リファレンスをSPVMのlong[]型に変換</h3>
-      <p>
-        Perlの配列リファレンスをSPVMのlong[]型に変換するには、SPVM::new_long_array関数を使います。
-      </p>
-<pre>
-my $spvm_nums = SPVM::new_long_array([1, 2, 3]);
-</pre>
-      <p>
-        第一引数に配列リファレンスを受け取ります。
-      </p>
-      <p>
-        配列リファレンスのそれぞれの要素の値は、Perlのスカラ値から、perlapiとC99の型変換による以下の変換によって、SPVMのlong型に変換されます。
-      </p>
-<pre>
-(int64_t)SvIV(perl_value)
-</pre>
-      <p>
-        戻り値は、SPVMの「long[]」型を表現した「SPVM::Data::Array」オブジェクトです。
-      </p>
-      <p>
-        第一引数が未定義値だった場合は、未定義値が返ります。
+        If the first argument is an undefined value, an undefined value is returned.
       </p>
 
-      <h3 id="exchange-api-perl-array-ref-to-spvm-float-array">Perlの配列リファレンスをSPVMのfloat[]型に変換</h3>
+<h3 id="exchange-api-perl-array-ref-to-spvm-long-array">Convert perl array reference to Long[] type of SPVM</h3>
       <p>
-        Perlの配列リファレンスをSPVMのfloat[]型に変換するには、SPVM::new_float_array関数を使います。
+        To convert perl array references to long[] types of SPVM, use the SPVM::new_long_array function.
+      </p>
+<pre>
+my $spvm_nums = SPVM::new_long_array ([1, 2, 3]);
+</pre>
+      <p>
+        Takes an array reference to the first argument.
+      </p>
+      <p>
+        The value of each element in the array reference is converted from perl scalar values to long types of SPVM by the following conversions from perlapi and C99 type conversions:
+      </p>
+<pre>
+(int64_t) SvIV (perl_value)
+</pre>
+      <p>
+        The return value is the SPVM::Data::Array object that represents the "long[]" type of SPVM.
+      </p>
+      <p>
+        If the first argument is an undefined value, an undefined value is returned.
+      </p>
+
+<h3 id="exchange-api-perl-array-ref-to-spvm-float-array">Convert perl array reference to SPVM float[] type</h3>
+      <p>
+        To convert perl array references to spvm float[] types, use the SPVM::new_float_array function.
       </p>
 <pre>
 my $spvm_nums = SPVM::new_float_array([1, 2, 3]);
 </pre>
       <p>
-        第一引数に配列リファレンスを受け取ります。
+        Takes an array reference to the first argument.
       </p>
       <p>
-        配列リファレンスのそれぞれの要素の値は、Perlのスカラ値から、perlapiとC99の型変換による以下の変換によって、SPVMのfloat型に変換されます。
+        The value of each element in the array reference is converted from perl scalar values to float types of SPVM by the following conversions from perlapi and C99 type conversions:
       </p>
 <pre>
-(float)SvNV(perl_value)
+(float) SvNV(perl_value)
 </pre>
       <p>
       <p>
-        戻り値は、SPVMの「float[]」型を表現した「SPVM::Data::Array」オブジェクトです。
+        The return value is the SPVM::Data::Array object that represents the "float[] type" of SPVM.
       </p>
       <p>
-        第一引数が未定義値だった場合は、未定義値が返ります。
+        If the first argument is an undefined value, an undefined value is returned.
       </p>
 
-      <h3 id="exchange-api-perl-array-ref-to-spvm-double-array">Perlの配列リファレンスをSPVMのdouble[]型に変換</h3>
+<h3 id="exchange-api-perl-array-ref-to-spvm-double-array">Convert perl array reference to SPVM double[]</h3>
       <p>
-        Perlの配列リファレンスをSPVMのdouble[]型に変換するには、SPVM::new_double_array関数を使います。
+        To convert perl array references to spvm double[] types, use the SPVM::new_double_array function.
       </p>
 <pre>
 my $spvm_nums = SPVM::new_double_array([1, 2, 3]);
 </pre>
       <p>
-        第一引数に配列リファレンスを受け取ります。
+        Takes an array reference to the first argument.
       </p>
       <p>
-        配列リファレンスのそれぞれの要素の値は、Perlのスカラ値から、perlapiとC99の型変換による以下の変換によって、SPVMのdouble型に変換されます。
+        The value of each element in the array reference is converted from perl scalar values to double types of SPVM by the following conversions from perlapi and C99 type conversions:
       </p>
 <pre>
-(double)SvNV(perl_value)
+(double) SvNV(perl_value)
 </pre>
       <p>
       <p>
-        戻り値は、SPVMの「double[]」型を表現した「SPVM::Data::Array」オブジェクトです。
+        The return value is the SPVM::Data::Array object that represents the "double[] type" of SPVM.
       </p>
       <p>
-        第一引数が未定義値だった場合は、未定義値が返ります。
+        If the first argument is an undefined value, an undefined value is returned.
       </p>
 
-      <h3 id="exchange-api-perl-array-ref-to-spvm-object-array">Perlの配列リファレンスをSPVMのオブジェクトの配列型に変換 - SPVM::new_object_array</h3>
+<h3 id="exchange-api-perl-array-ref-to-spvm-object-array">Convert perl array reference to array type of SPVM object - SPVM::new_object_array</h3>
       <p>
-        Perlの配列リファレンスをSPVMのオブジェクトの配列型に変換するには、SPVM::new_object_array関数を使います。
+        To convert perl array references to array types of SPVM objects, use the SPVM::new_object_array function.
       </p>
 <pre>
-my $byte_array = SPVM::new_object_array("SPVM::Byte[]", [SPVM::Byte->new(1), SPVM::Byte->new(2), SPVM::Byte->new(3)]);
+my $byte_array = SPVM::new_object_array("SPVM::Byte[]",[SPVM::Byte->new(1), SPVM::Byte>new(2), SPVM::Byte->new(3)]);
 </pre>
       <p>
-        第一引数は、型名を指定します。これは、存在する基本型を要素とする配列型でなければなりません。そうでない場合は、例外が発生します。
+        The first argument specifies the type name. It must be an array type that is an element of the base type that exists. Otherwise, an exception is raised.
       </p>
       <p>
-        第二引数は、Perlの配列リファレンスです。要素は、SPVMのオブジェクト型を表現した「SPVM::Data」を継承しているオブジェクトか、未定義値でなければなりません。そうでない場合は、例外が発生します。
+        The second argument is perl array reference. The element must be an object that inherits "SPVM::Data" representing the object type of the SPVM, or an undefined value. Otherwise, an exception is raised.
       </p>
       <p>
-        戻り値は、SPVMの配列型を表現した「SPVM::Data::Array」オブジェクトです。
+        The return value is an "SPVM::Data::Array" object that represents the array type of the SPVM.
       </p>
       <p>
-        多次元配列を生成することもできます。
+        You can also generate multidimensional arrays.
       </p>
 <pre>
-my $object1 = SPVM::new_int_array([1, 2, 3]);
-my $object2 = SPVM::new_int_array([4, 5, 6]);
-my $oarray = SPVM::new_object_array("int[][]", [$object1, $object2]);
+my $object1 = SPVM::new_int_array ([1, 2, 3]);
+my $object2 = SPVM::new_int_array ([4, 5, 6]);
+my $oarray = SPVM::new_object_array ("int[][]",[$object1, $object2]);
 </pre>
 
-      <h3 id="exchange-api-perl-array-ref-to-spvm-value-array">Perlの配列リファレンスをSPVMの値の配列型に変換 - SPVM::new_mulnum_array</h3>
+<h3 id="exchange-api-perl-array-ref-to-spvm-value-array">Convert perl array reference to array type of SPVM value - SPVM::new_mulnum_array</h3>
       <p>
-        Perlの配列リファレンスをSPVMの値の配列型に変換するには、SPVM::new_mulnum_array関数を使用します。
+        To convert perl array references to array types of SPVM values, use the SPVM::new_mulnum_array function.
       </p>
 <pre>
     my $perl_values = [
@@ -295,22 +291,22 @@ my $oarray = SPVM::new_object_array("int[][]", [$object1, $object2]);
       {x => 3, y => 4, z => 5},
       {x => 6, y => 7, z => 8},
     ];
-    my $spvm_value_array = SPVM::new_mulnum_array("TestCase::Point_3i[]", $values);
+    my $spvm_value_array = SPVM::new_mulnum_array("TestCase::Point_3i[],$values);
 </pre>
       <p>
-        第一引数は、SPVMの値の配列型を指定します。
+        The first argument specifies the array type of the value of the SPVM.
       </p>
       <p>
-        第二引数は、ハッシュリファレンスを要素に持つ、配列リファレンスです。ハッシュのリファレンスのキーには、複数数値型のすべてのフィールドの値が含まれていなければなりません。そうでない場合は、例外が発生します。
+        The second argument is an array reference with a hash reference on the element. The key of the hash reference must contain the values of all fields of multinumeric type. Otherwise, an exception is raised.
       </p>
       <p>
-        戻り値は、SPVMの値の配列型を表現した「SPVM::Data::Array」オブジェクトです。
+        The return value is an "SPVM::Data::Array" object that represents the array type of the Value of SPVM.
       </p>
       <p>
-        ハッシュリファレンスに含まれる値は、<a href="#exchange-api-rule-perl-scalar-to-spvm-numeric">Perlのスカラ値をSPVMの数値型に変換する規則</a>によって、変換されます。
+        The values in the hash reference are converted by the <a href="#exchange-api-rule-perl-scalar-to-spvm-numeric">Perl scalar values by </a> rules that convert scalar values to SPVM numeric types.
       </p>
       <p>
-        いくつかのサンプルです。
+        There are some samples.
       </p>
 <pre>
 # new_mulnum_array - byte
@@ -330,7 +326,7 @@ my $oarray = SPVM::new_object_array("int[][]", [$object1, $object2]);
     {x => 3, y => 4, z => 5},
     {x => 6, y => 7, z => 8},
   ];
-  my $spvm_value_array = SPVM::new_mulnum_array("TestCase::Point_3s[]", $values);
+  my $spvm_value_array = SPVM::new_mulnum_array("TestCase::Point_3s[]",$values);
 }
 
 # new_mulnum_array - int
@@ -340,7 +336,7 @@ my $oarray = SPVM::new_object_array("int[][]", [$object1, $object2]);
     {x => 3, y => 4, z => 5},
     {x => 6, y => 7, z => 8},
   ];
-  my $spvm_value_array = SPVM::new_mulnum_array("TestCase::Point_3i[]", $values);
+  my $spvm_value_array = SPVM::new_mulnum_array("TestCase::Point_3i[],$values);
 }
 
 # new_mulnum_array - long
@@ -360,7 +356,7 @@ my $oarray = SPVM::new_object_array("int[][]", [$object1, $object2]);
     {x => 3, y => 4, z => 5},
     {x => 6, y => 7, z => 8},
   ];
-  my $spvm_value_array = SPVM::new_mulnum_array("TestCase::Point_3f[]", $values);
+  my $spvm_value_array = SPVM::new_mulnum_array("TestCase::Point_3f[]",$values);
 }
 
 # new_mulnum_array - double
@@ -370,199 +366,199 @@ my $oarray = SPVM::new_object_array("int[][]", [$object1, $object2]);
     {x => 3, y => 4, z => 5},
     {x => 6, y => 7, z => 8},
   ];
-  my $spvm_value_array = SPVM::new_mulnum_array("TestCase::Point_3d[]", $values);
-  ok(TestCase::ExchangeAPI->spvm_new_mulnum_array_double($spvm_value_array));
+  my $spvm_value_array = SPVM::new_mulnum_array("TestCase::Point_3d[],"$values);
+  ok (TestCase:: ExchangeAPI-spvm_new_mulnum_array_double ($spvm_value_array));
   my $out_values = $spvm_value_array->to_elems;
-  is_deeply($out_values, $values);
+  is_deeply ($out_values, $values);
 }
 
 </pre>
 
-      <h3 id="exchange-api-perl-binary-to-spvm-byte-array">Perlのバイナリ列をSPVMのbyte[]型に変換 - SPVM::new_byte_array_from_bin</h3>
+<h3 id="exchange-api-perl-binary-to-spvm-byte-array">Convert perl binary columns to spvm byte[] type - SPVM:new_byte_array_from_bin</h3>
       <p>
-        Perlのバイナリ列をSPVMのbyte[]型に変換するには、SPVM::new_byte_array_from_bin関数を使います。
+        To convert perl binary columns to the byte[] type of SPVM, use the SPVM::new_byte_array_from_bin function.
       </p>
 <pre>
 my $perl_binary = pack('c3', 97, 98, 99);
-my $spvm_byte_array = SPVM::new_byte_array_from_bin($perl_binary);
+my $spvm_byte_array = SPVM::new_byte_array_from_bin ($perl_binary);
 </pre>
       <p>
-        第一引数にPerlのバイナリ列を受け取ります。
+        The first argument takes perl binary columns.
       </p>
       <p>
-        バイナリ列は、実行環境のバイトオーダーで並んだ8bit符号付整数の並びと解釈されます。長さは、8bit符号付整数として解釈された場合の長さになります。
+        Binary columns are interpreted as 8-bit signed integers arranged in byte order in the execution environment. The length is the length when interpreted as an 8-bit signed integer.
       </p>
       <p>
-        戻り値は、SPVMの「byte[]」型を表現した「SPVM::Data::Array」オブジェクトです。
+        The return value is the SPVM::Data::Array object that represents the "byte[] type" of SPVM.
       </p>
       <p>
-        第一引数が未定義値だった場合は、未定義値が返ります。
+        If the first argument is an undefined value, an undefined value is returned.
       </p>
       <p>
-        上記のサンプルは、次と同じ意味でもあります。バイナリ列は、8bit符号付整数の並びである場合は、packを使っても、Perlのdecodeされていない文字列でもかまいません。
+        The sample above also has the same meaning as: Binary columns can be a sequence of 8-bit signed integers, using a pack or a string that is not perl decode.
       </p>
 <pre>
-my $binary = "abc";
-my $spvm_byte_array = SPVM::new_byte_array_from_bin($perl_binary);
+my $binary ="abc";
+my $spvm_byte_array = SPVM::new_byte_array_from_bin ($perl_binary);
 </pre>
 
-      <h3 id="exchange-api-perl-binary-to-spvm-string">Perlのバイナリ列をSPVMのstring型に変換 - SPVM::new_string_from_bin</h3>
+<h3 id="exchange-api-perl-binary-to-spvm-string">Convert perl binary columns to SPVM string - SPVM::new_string_from_bin</h3>
 
-      <p>
-        Perlのバイナリ列をSPVMのstring型に変換するには、SPVM::new_string_from_bin関数を使います。
+<p>
+        To convert perl binary columns to SPVM string types, use the SPVM::new_string_from_bin function.
       </p>
 <pre>
 my $perl_binary = pack('c3', 97, 98, 99);
 my $spvm_byte_array = SPVM::new_string_from_bin($perl_binary);
 </pre>
       <p>
-        第一引数にPerlのバイナリ列を受け取ります。
+        The first argument takes perl binary columns.
       </p>
       <p>
-        バイナリ列は、実行環境のバイトオーダーで並んだ8bit符号付整数の並びと解釈されます。長さは、8bit符号付整数として解釈された場合の長さになります。
+        Binary columns are interpreted as 8-bit signed integers arranged in byte order in the execution environment. The length is the length when interpreted as an 8-bit signed integer.
       </p>
       <p>
-        戻り値は、SPVMの「byte[]」型を表現した「SPVM::Data::Array」オブジェクトです。SPVMのstring型は実行時にはbyte[]型として扱われます。
+        The return value is the SPVM::Data::Array object that represents the "byte[] type" of SPVM. The string type of SPVM is treated as a byte[] type at run time.
       </p>
       <p>
-        第一引数が未定義値だった場合は、未定義値が返ります。
+        If the first argument is an undefined value, an undefined value is returned.
       </p>
       <p>
-        上記のサンプルは、次と同じ意味でもあります。バイナリ列は、8bit符号付整数の並びである場合は、packを使っても、Perlのdecodeされていない文字列でもかまいません。
+        The sample above also has the same meaning as: Binary columns can be a sequence of 8-bit signed integers, using a pack or a string that is not perl decode.
       </p>
 <pre>
-my $binary = "abc";
-my $spvm_byte_array = SPVM::new_byte_array_from_bin($perl_binary);
+my $binary ="abc";
+my $spvm_byte_array = SPVM::new_byte_array_from_bin ($perl_binary);
 </pre>
 
-      <p>
-        この関数は実際には、<a href="#exchange-api-perl-binary-to-spvm-byte-array">SPVM::new_byte_array_from_bin</a>のエイリアスです。
+<p>
+        This function is actually an alias for <a href="#exchange-api-perl-binary-to-spvm-byte-array">SPVM::new_byte_array_from_bin</a>.
       </p>
       
-      <h3 id="exchange-api-perl-binary-to-spvm-short-array">Perlのバイナリ列をSPVMのshort[]型に変換 - SPVM::new_short_array_from_bin</h3>
+<h3 id="exchange-api-perl-binary-to-spvm-short-array">Convert perl binary columns to short[] type Of SPVM - SPVM:new_short_array_from_bin</h3>
       <p>
-        Perlのバイナリ列をSPVMのshort[]型に変換するには、SPVM::new_short_array_from_bin関数を使います。
+        To convert perl binary columns to the short[] type of SPVM, use the SPVM::new_short_array_from_bin function.
       </p>
 <pre>
 my $perl_binary = pack('s3', 97, 98, 99);
-my $spvm_short_array = SPVM::new_short_array_from_bin($perl_binary);
+my $spvm_short_array = SPVM::new_short_array_from_bin ($perl_binary);
 </pre>
       <p>
-        第一引数にPerlのバイナリ列を受け取ります。
+        The first argument takes perl binary columns.
       </p>
       <p>
-        バイナリ列は、実行環境のバイトオーダーで並んだ16bit符号付整数の並びと解釈されます。長さは、16bit符号付整数として解釈された場合の長さになります。
+        Binary columns are interpreted as a 16-bit signed integer sequence arranged in byte order in the execution environment. The length is the length when interpreted as a 16-bit signed integer.
       </p>
       <p>
-        戻り値は、SPVMの「short[]」型を表現した「SPVM::Data::Array」オブジェクトです。
+        The return value is the SPVM::Data::Array object that represents the "short[]" type of SPVM.
       </p>
       <p>
-        第一引数が未定義値だった場合は、未定義値が返ります。
+        If the first argument is an undefined value, an undefined value is returned.
       </p>
 
-      <h3 id="exchange-api-perl-binary-to-spvm-int-array">Perlのバイナリ列をSPVMのint[]型に変換 - SPVM::new_int_array_from_bin</h3>
+<h3 id="exchange-api-perl-binary-to-spvm-int-array">Convert perl binary columns to spvm int[] - SPVM::new_int_array_from_bin</h3>
       <p>
-        Perlのバイナリ列をSPVMのint[]型に変換するには、SPVM::new_int_array_from_bin関数を使います。
+        To convert perl binary columns to the SPVM int[] type, use the SPVM::new_int_array_from_bin function.
       </p>
 <pre>
 my $perl_binary = pack('l3', 97, 98, 99);
-my $spvm_int_array = SPVM::new_int_array_from_bin($perl_binary);
+my $spvm_int_array = SPVM::new_int_array_from_bin ($perl_binary);
 </pre>
       <p>
-        第一引数にPerlのバイナリ列を受け取ります。
+        The first argument takes perl binary columns.
       </p>
       <p>
-        バイナリ列は、実行環境のバイトオーダーで並んだ32bit符号付整数の並びと解釈されます。長さは、32bit符号付整数として解釈された場合の長さになります。
+        Binary columns are interpreted as a 32-bit signed integer sequence arranged in byte order in the execution environment. The length is the length when interpreted as a 32-bit signed integer.
       </p>
       <p>
-        戻り値は、SPVMの「int[]」型を表現した「SPVM::Data::Array」オブジェクトです。
+        The return value is the SPVM::Data::Array object that represents the "int[] type" of SPVM.
       </p>
       <p>
-        第一引数が未定義値だった場合は、未定義値が返ります。
+        If the first argument is an undefined value, an undefined value is returned.
       </p>
 
-      <h3 id="exchange-api-perl-binary-to-spvm-long-array">Perlのバイナリ列をSPVMのlong[]型に変換 - SPVM::new_long_array_from_bin</h3>
+<h3 id="exchange-api-perl-binary-to-spvm-long-array">Convert perl binary columns to long[] type Of SPVM - SPVM::new_long_array_from_bin</h3>
       <p>
-        Perlのバイナリ列をSPVMのlong[]型に変換するには、SPVM::new_long_array_from_bin関数を使います。
+        To convert perl binary columns to the Long[] type of SPVM, use the SPVM::new_long_array_from_bin function.
       </p>
 <pre>
 my $perl_binary = pack('q3', 97, 98, 99);
-my $spvm_long_array = SPVM::new_long_array_from_bin($perl_binary);
+my $spvm_long_array = SPVM::new_long_array_from_bin ($perl_binary);
 </pre>
       <p>
-        第一引数にPerlのバイナリ列を受け取ります。
+        The first argument takes perl binary columns.
       </p>
       <p>
-        バイナリ列は、実行環境のバイトオーダーで並んだ64bit符号付整数の並びと解釈されます。長さは、64bit符号付整数として解釈された場合の長さになります。
+        Binary columns are interpreted as a 64-bit signed integer sequence arranged in byte order in the execution environment. The length is the length when interpreted as a 64-bit signed integer.
       </p>
       <p>
-        戻り値は、SPVMの「long[]」型を表現した「SPVM::Data::Array」オブジェクトです。
+        The return value is the SPVM::Data::Array object that represents the "long[]" type of SPVM.
       </p>
       <p>
-        第一引数が未定義値だった場合は、未定義値が返ります。
+        If the first argument is an undefined value, an undefined value is returned.
       </p>
 
-      <h3 id="exchange-api-perl-binary-to-spvm-float-array">Perlのバイナリ列をSPVMのfloat[]型に変換 - SPVM::new_float_array_from_bin</h3>
+<h3 id="exchange-api-perl-binary-to-spvm-float-array">Convert perl binary columns to float[] type of SPVM - SPVM::new_float_array_from_bin</h3>
       <p>
-        Perlのバイナリ列をSPVMのfloat[]型に変換するには、SPVM::new_float_array_from_bin関数を使います。
+        To convert perl binary columns to the float [] type of SPVM, use the SPVM::new_float_array_from_bin function.
       </p>
 <pre>
 my $perl_binary = pack('f3', 0.5, 1.5, 2.5);
-my $spvm_float_array = SPVM::new_float_array_from_bin($perl_binary);
+my $spvm_float_array = SPVM::new_float_array_from_bin ($perl_binary);
 </pre>
       <p>
-        第一引数にPerlのバイナリ列を受け取ります。
+        The first argument takes perl binary columns.
       </p>
       <p>
-        バイナリ列は、実行環境のバイトオーダーで並んだ32bit浮動小数点の並びと解釈されます。長さは、32bit浮動小数点として解釈された場合の長さになります。
+        Binary columns are interpreted as 32-bit floating-point sequences arranged in byte order in the execution environment. The length is the length when interpreted as a 32-bit floating point.
       </p>
       <p>
-        戻り値は、SPVMの「float[]」型を表現した「SPVM::Data::Array」オブジェクトです。
+        The return value is the SPVM::Data::Array object that represents the "float[] type" of SPVM.
       </p>
       <p>
-        第一引数が未定義値だった場合は、未定義値が返ります。
+        If the first argument is an undefined value, an undefined value is returned.
       </p>
 
-      <h3 id="exchange-api-perl-binary-to-spvm-double-array">Perlのバイナリ列をSPVMのdouble[]型に変換 - SPVM::new_double_array_from_bin</h3>
+<h3 id="exchange-api-perl-binary-to-spvm-double-array">Convert perl binary columns to spvm double[] - SPVM:new_double_array_from_bin</h3>
       <p>
-        Perlのバイナリ列をSPVMのdouble[]型に変換するには、SPVM::new_double_array_from_bin関数を使います。
+        To convert perl binary columns to the double[] type of SPVM, use the SPVM::new_double_array_from_bin function.
       </p>
 <pre>
 my $perl_binary = pack('f3', 0.5, 1.5, 2.5);
-my $spvm_double_array = SPVM::new_double_array_from_bin($perl_binary);
+my $spvm_double_array = SPVM::new_double_array_from_bin ($perl_binary);
 </pre>
       <p>
-        第一引数にPerlのバイナリ列を受け取ります。
+        The first argument takes perl binary columns.
       </p>
       <p>
-        バイナリ列は、実行環境のバイトオーダーで並んだ32bit浮動小数点の並びと解釈されます。長さは、32bit浮動小数点として解釈された場合の長さになります。
+        Binary columns are interpreted as 32-bit floating-point sequences arranged in byte order in the execution environment. The length is the length when interpreted as a 32-bit floating point.
       </p>
       <p>
-        戻り値は、SPVMの「double[]」型を表現した「SPVM::Data::Array」オブジェクトです。
+        The return value is the SPVM::Data::Array object that represents the "double[] type" of SPVM.
       </p>
       <p>
-        第一引数が未定義値だった場合は、未定義値が返ります。
+        If the first argument is an undefined value, an undefined value is returned.
       </p>
 
-      <h3 id="exchange-api-perl-binary-to-spvm-value-array">Perlのバイナリ列をSPVMの値の配列型に変換 - SPVM::new_mulnum_array_from_bin</h3>
+<h3 id="exchange-api-perl-binary-to-spvm-value-array">Convert perl binary columns to array types of SPVM values - SPVM::new_mulnum_array_from_bin</h3>
       <p>
-        Perlのパックされたバイナリを、SPVMの値の配列型に変換するには、SPVM::new_mulnum_array_from_bin関数を使用します。
+        To convert perl-packed binaries to array types of SPVM values, use the SPVM::new_mulnum_array_from_bin function.
       </p>
 <pre>
     my $binary = pack('l9', ($INT_MIN, 1, 2), (3, 4, 5), (6, 7, 8));
-    my $spvm_value_array = SPVM::new_mulnum_array_from_bin("TestCase::Point_3i[]", $binary);
+    my $spvm_value_array = SPVM::new_mulnum_array_from_bin("TestCase::Point_3i[],"$binary);
 </pre>
       <p>
-        第一引数は、Perlのパックされたバイナリを指定します。バイナリの長さは、複数数値型のフィールドの個数とフィールド幅をかけたもので、割り切れる必要があります。そうでない場合は、例外が発生します。
+        The first argument specifies the Perl packed binaries. The length of the binary is multiplied by the number of multinumeric fields and the field width, which must be disdivided. Otherwise, an exception is raised.
       </p>
       <p>
-        第二引数は、SPVMの値の配列型を指定します。
+        The second argument specifies the array type of the value of the SPVM.
       </p>
       <p>
-        戻り値は、SPVMの値の配列型を表現した「SPVM::Data::Array」オブジェクトです。返される配列の長さは、バイナリの長さを、複数数値型のフィールドの個数とフィールド幅をかけたもので、割った長さになります。
+        The return value is an "SPVM::Data::Array" object that represents the array type of the Value of SPVM. The length of the returned array is the length of the binary, multiplied by the number of multinumeric fields and the field width, divided.
       </p>
       <p>
-        いくつかのサンプルです。
+        There are some samples.
       </p>
 <pre>
 # new_mulnum_array_from_bin - byte
@@ -573,131 +569,131 @@ my $spvm_double_array = SPVM::new_double_array_from_bin($perl_binary);
 
 # new_mulnum_array_from_bin - short
 {
-  my $binary = pack('s9', (0, 1, 2), (3, 4, 5), (6, 7, 8));
-  my $spvm_value_array = SPVM::new_mulnum_array_from_bin("TestCase::Point_3s[]", $binary);
+  my $binary = pack('s9', (0, 1, 2), (3, 4, 5), (6, 7, 8);;
+  my $spvm_value_array = SPVM::new_mulnum_array_from_bin("TestCase::Point_3s[]",$binary);
 }
 
 # new_mulnum_array_from_bin - int
 {
   my $binary = pack('l9', (0, 1, 2), (3, 4, 5), (6, 7, 8));
-  my $spvm_value_array = SPVM::new_mulnum_array_from_bin("TestCase::Point_3i[]", $binary);
+  my $spvm_value_array = SPVM::new_mulnum_array_from_bin("TestCase::Point_3i[],"$binary);
 }
 
 # new_mulnum_array_from_bin - long
 {
-  my $binary = pack('q9', (0, 1, 2), (3, 4, 5), (6, 7, 8));
+  my $binary = pack ('q9', (0, 1, 2), (3, 4, 5), (6, 7, 8));
   my $spvm_value_array = SPVM::new_mulnum_array_from_bin("TestCase::Point_3l[]", $binary);
 }
 
 # new_mulnum_array_from_bin - float
 {
   my $binary = pack('f9', (0, 1, 2), (3, 4, 5), (6, 7, 8));
-  my $spvm_value_array = SPVM::new_mulnum_array_from_bin("TestCase::Point_3f[]", $binary);
+  my $spvm_value_array = SPVM::new_mulnum_array_from_bin("TestCase::Point_3f[],"$binary);
 }
 
 # new_mulnum_array_from_bin - double
 {
   my $binary = pack('d9', (0, 1, 2), (3, 4, 5), (6, 7, 8));
-  my $spvm_value_array = SPVM::new_mulnum_array_from_bin("TestCase::Point_3d[]", $binary);
+  my $spvm_value_array = SPVM::new_mulnum_array_from_bin("TestCase::Point_3d[],"$binary);
 }
 </pre>
       
-      <p>
-        第一引数は、SPVMの値の配列型を指定します。
+<p>
+        The first argument specifies the array type of the value of the SPVM.
       </p>
       <p>
-        第二引数は、ハッシュリファレンスを要素に持つ、配列リファレンスです。ハッシュのリファレンスのキーには、複数数値型のすべてのフィールドの値が含まれていなければなりません。そうでない場合は、例外が発生します。
+        The second argument is an array reference with a hash reference on the element. The key of the hash reference must contain the values of all fields of multinumeric type. Otherwise, an exception is raised.
       </p>
 
-      <h2 id="exchange-api-spvm-data-to-perl-data">SPVMのデータ構造をPerlのデータ構造に変換する</h2>
+<h2 id="exchange-api-spvm-data-to-perl-data">Convert ing SPVM data structures into Perl data structures</h2>
       <ul class="toc">
-        <li><a href="#exchange-api-spvm-array-to-perl-array-ref">SPVMの配列をPerlの配列リファレンスに変換 - to_elems</a></li>
-        <li><a href="#exchange-api-spvm-array-to-perl-binary">SPVMの配列をPerlのバイナリ列に変換 - to_bin</a></li>
-        <li><a href="#exchange-api-spvm-string-to-perl-string">SPVMの文字列をPerlの文字列に変換 - to_string</a></li>
-        <li><a href="#exchange-api-spvm-string-array-to-perl-string-array-ref">SPVMの文字列の配列をPerlの文字列の配列リファレンスに変換 - to_strings</a></li>
+        <li><a href="#exchange-api-spvm-array-to-perl-array-ref">Convert spvm array to Perl array reference - to_elems</a></li>
+        <li><a href="#exchange-api-spvm-array-to-perl-binary">Convert ing an array of SPVM to perl binary columns - to_bin</a></li>
+        <li><a href="#exchange-api-spvm-string-to-perl-string">Convert spvm strings to Perl strings - to_string</a></li>
+        <li><a href="#exchange-api-spvm-string-array-to-perl-string-string-array-ref">Convert ing an array of SPVM strings into perl string array reference - to_strings</a></li>
       </ul>
       
-      <h3 id="exchange-api-spvm-array-to-perl-array-ref">SPVMの配列をPerlの配列リファレンスに変換 - to_elems</h3>
+<h3 id="exchange-api-spvm-array-to-perl-array-ref">Convert sPVM array to Perl array reference - to_elems</h3>
       <p>
-        SPVMの配列をPerlの配列リファレンスに変換するにはSPVM::Data::Arrayのto_elemsメソッドを使用します。
+        To convert an array of SPVM to perl array reference, use the SPVM::Data::Array to_elems method.
       </p>
 <pre>
 my $perl_array_ref = $spvm_array->to_elems;
 </pre>
       <p>
-        SPVMの配列の要素が、数値型である場合は、<a href="#exchange-api-rule-spvm-numeric-to-perl-scalar">SPVMの数値型をPerlのスカラ値に変換する規則</a>によって変換されます。
+        If the elements of the SPVM array are numeric types, the <a href="#exchange-api-rule-spvm-numeric-to-perl-scalar">SPVM numeric types are converted by the</a> rules that convert numeric types of Perl to perl scalar values.
       </p>
       <p>
-        SPVMの配列の要素が、オブジェクト型である場合は、対応するSPVM::Dataあるいは、そのサブクラスが作成されます。
+        If the element of the SPVM array is an object type, the corresponding SPVM::Data or its subclass is created.
       </p>
       <p>
-        SPVMの配列の要素が、複数数値型である場合は、フィールドのキーと値を持つ、ハッシュリファレンスが作成されます。値は、<a href="#exchange-api-rule-spvm-numeric-to-perl-scalar">SPVMの数値型をPerlのスカラ値に変換する規則</a>によって変換されます。
+        If the elements of the SPVM array are multinumeric types, a hash reference is created with the key and value of the field. The value is converted by a rule that converts the numeric type of <a href="#exchange-api-rule-spvm-numeric-to-perl-scalar">SPVM to perl scalar values</a>.
       </p>
       <p>
-        SPVMの配列の要素が、未定義値である場合は、Perlの未定義値に変換されます。
+        If the elements of the SPVM array are undefined values, they are converted to undefined Perl values.
       </p>
 
-      <h3 id="exchange-api-spvm-array-to-perl-binary">SPVMの配列をPerlのバイナリ列に変換 - to_bin</h3>
+<h3 id="exchange-api-spvm-array-to-perl-binary">Convert ing an array of SPVM to perl binary columns - to_bin</h3>
       <p>
-        SPVMの配列をPerlのバイナリ列に変換るにはSPVM::Data::Arrayのto_binメソッドを使用します。
+        To convert an array of SPVM to perl binary columns, use the SPVM::Data::Array to_bin method.
       </p>
 <pre>
-my $perl_binary = $spvm_array->to_bin;
+my $perl_binary = $spvm_array-to_bin;
 </pre>
       <p>
-        SPVMの配列が、数値の配列型、あるいは、値の配列型である場合は、SPVMにおけるバイナリ表現が、そのままスカラ変数にコピーされます。
+        If the array of SPVM is a numeric array type or a value array type, the binary representation in SPVM is copied directly into the scalar variable.
       </p>
       <p>
-        SPVMの配列がそれ以外の型である場合は、例外が発生します。
+        If the Array of SPVM is of any other type, an exception is raised.
       </p>
 
-      <h3 id="exchange-api-spvm-string-to-perl-string">SPVMの文字列をPerlの文字列に変換 - to_string</h3>
+<h3 id="exchange-api-spvm-string-to-perl-string">Convert sPVM strings to Perl strings - to_string</h3>
       <p>
-        SPVMの文字列をPerlの文字列に変換するにはSPVM::Data::Arrayのto_stringメソッドを使用します。
+        To convert an SPVM string to a Perl string, use the SPVM::Data::Array to_string method.
       </p>
 <pre>
 my $perl_array_ref = $spvm_array->to_string;
 </pre>
       <p>
-        SPVMの型がbyte[]型あるいはstring型である場合は、PerlのUTF-8でデコードされた文字列に変換されます。
+        If the SPVM type is of byte[] or string type, it is converted to a string decoded by Perl UTF-8.
       </p>
       <p>
-        SPVMのデータが未定義値である場合は、Perlの未定義値に変換されます。
+        If the Data in SPVM is an undefined value, it is converted to an undefined value in Perl.
       </p>
       <p>
-        SPVMのデータが、上記以外の型である場合は、例外が発生します。
+        If the Data in SPVM is of a type other than the above, an exception is raised.
       </p>
 
-      <h3 id="exchange-api-spvm-string-array-to-perl-string-array-ref">SPVMの文字列の配列をPerlの文字列の配列リファレンスに変換 - to_strings</h3>
+<h3 id="exchange-api-spvm-string-array-to-perl-string-string-string-array-ref">Convert an array of SPVM strings to an array reference of Perl strings - to_strings</h3>
       <p>
-        SPVMの文字列の配列をPerlの文字列の配列リファレンスに変換するにはSPVM::Data::Arrayのto_stringsメソッドを使用します。
+        To convert an array of SPVM strings to an array reference of Perl strings, use the SPVM::Data::Array to_strings method.
       </p>
 <pre>
 my $perl_array_ref = $spvm_array->to_strings;
 </pre>
       <p>
-        SPVMの型がbyte[][]型あるいはstring[]型である場合は、PerlのUTF-8でデコードされた文字列の配列のリファレンスに変換されます。
+        If the SPVM type is of byte[]], or string[], it is converted to a reference for an array of perl UTF-8 decoded strings.
       </p>
       <p>
-        SPVMの配列型の要素が未定義値であった場合は、Perlの未定義値に変換されます。
+        If an element of the SPVM array type is an undefined value, it is converted to an undefined value in Perl.
       </p>
       <p>
-        SPVMのデータが、上記以外の型である場合は、例外が発生します。
+        If the Data in SPVM is of a type other than the above, an exception is raised.
       </p>
 
-      <h2 id="exchange-api-call-spvm-sub">SPVMのサブルーチンの呼び出し</h2>
+<h2 id="exchange-api-call-spvm-sub">Calling subroutines for SPVM</h2>
       
-      <ul class="toc">
-        <li><a href="#exchange-api-call-spvm-sub-use-module">SPVMモジュールの読み込み</a></li>
-        <li><a href="#exchange-api-call-spvm-sub-sub-call">サブルーチン呼び出し</a></li>
-        <li><a href="#exchange-api-call-spvm-sub-method-call">メソッド呼び出し</a></li>
-        <li><a href="#exchange-api-call-spvm-sub-convert-argument">引数における変換</a></li>
-        <li><a href="#exchange-api-call-spvm-sub-convert-return-value">戻り値における変換</a></li>
+<ul class="toc">
+        <li><a href="#exchange-api-call-spvm-sub-use-module">Loading SPVM module</a></li>
+        <li><a href="#exchange-api-call-spvm-sub-sub-call">Subroutine call</a></li>
+        <li><a href="#exchange-api-call-spvm-sub-method-call">Method call</a></li>
+        <li><a href="#exchange-api-call-spvm-sub-convert-argument"> conversion in argument</a></li>
+        <li><a href="#exchange-api-call-sub-convert-return-value"> conversion </a></li> in return value
       </ul>
       
-      <h3 id="exchange-api-call-spvm-sub-use-module">SPVMモジュールの読み込み</h3>
+<h3 id="exchange-api-call-spvm-sub-use-module">Loading SPVM modules</h3>
       <p>
-        SPVMモジュールは、次のようにしてPerlから読み込むことができます。モジュール名と検索のルールは、拡張子が「spvm」であることを除いて、Perlと同じです。
+        The SPVM module can be loaded from Perl as follows: The module name and search rules are the same as Perl, except that the extension is "spvm".
       </p>
 
 <pre>
