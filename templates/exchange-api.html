@@ -13,33 +13,32 @@
         <li><a href="#exchange-api-call-spvm-sub">Calls to spvm subroutines</a></li>
         <li><a href="#exchange-api-spvm-data-to-perl-data">Converting sPVM data structures into Perl data structures</a></li>
         <li><a href="#exchange-api-utility"> utility</a></li>
-        <li><a href="#exchange-api-perl-scalar-to-spvm-numeric">Rules for converting Perl scalar values to SPVM numeric types</a></li>
-        <li><a href="#exchange-api-rule-spvm-numeric-to-perl-scalar">Rules for converting spvm numeric types to Perl scalar values</a></li>
+        <li><a href="#exchange-api-perl-scalar-to-spvm-numeric">Rules for converting Perl Scalar Value to SPVM Numeric Value</a></li>
+        <li><a href="#exchange-api-rule-spvm-numeric-to-perl-scalar">Rules for converting SPVM Numeric Value to Perl Scalar Value</a></li>
       </ul>
       
 <h3 id="exchange-api-summary">What is SPVM Exchange API?</h3>
       <p>
-        <b>SPVM Exchange API</b> is an API for converting Perl and SPVM data structures and calling SPVM subroutines from Perl.
+        <b>SPVM Exchange API</b> is API for converting Perl data structure to/from SPVM data structure, and calling SPVM subroutine from Perl.
       </p>
       <ul class="list">
-        <li> convert edits such as Perl numbers, strings and arrays into SPVM data structures</li>
-        <li> convert spvm data structures into Perl numbers, strings, arrays, and other data structures</li>
-        <li> call the SPVM subroutine</li>
+        <li>Convert Perl data structure such as Perl numbers, strings, arrays to/from SPVM data structure</li>
+        <li>Call SPVM subroutine from Perl</li>
       </ul>
       <p>
-        Modules created in SPVM can be executed as Perl modules after compilation.
+        SPVM Module can be used as Perl module.
       </p>
 
-<h3 id="exchange-api-perl-data-to-spvm-data">Convert perl data structures to SPVM data structures</h3>
+<h3 id="exchange-api-perl-data-to-spvm-data">Convert Perl Data Structure to SPVM Data Structure</h3>
       <ul class="toc">
-        <li><a href="#exchange-api-perl-to-SPVM-Byte">Perl scalar values are converted to SPVM::Byte - SPVM::Byte-</a></li>
-        <li><a href="#exchange-api-perl-perl-to-SPVM-Short">Convert Perl scalar values to SPVM::Short- SPVM::Short-</a></li>
-        <li><a href="#exchange-api-perl-to-SPVM-Int">Perl scalar value is converted to SPVM::Int type - SPVM::Int-&gt;new</a></li>
-        <li><a href="#exchange-api-perl-to-SPVM-Long">Perl scalar values are converted to SPVM::Long - SPVM::Long-&gt;new</a></li>
-        <li><a href="#exchange-api-api-perl-to-SPVM-Float">Perl scalar values are converted to SPVM:Float- SPVM::Float-</a></li>
-        <li><a href="#exchange-api-perl-to-SPVM-Double">Convert Perl scalar values to SPVM::Double type - SPVM::Double-&gt;new</a></li>
+        <li><a href="#exchange-api-perl-scalar-to-SPVM-Byte">Perl Scalar Value is converted to SPVM::Byte - SPVM::Byte-</a></li>
+        <li><a href="#exchange-api-perl-scalar-to-SPVM-Short">Convert Perl Scalar Value to SPVM::Short- SPVM::Short-</a></li>
+        <li><a href="#exchange-api-perl-scalar-to-SPVM-Int">Perl Scalar Value is converted to SPVM::Int type - SPVM::Int-&gt;new</a></li>
+        <li><a href="#exchange-api-perl-scalar-to-SPVM-Long">Perl Scalar Value is converted to SPVM::Long - SPVM::Long-&gt;new</a></li>
+        <li><a href="#exchange-api-perl-to-SPVM-Float">Perl Scalar Value is converted to SPVM::Float- SPVM::Float-</a></li>
+        <li><a href="#exchange-api-perl-scalar-to-SPVM-Double">Convert Perl Scalar Value to SPVM::Double type - SPVM::Double-&gt;new</a></li>
         <li><a href="#exchange-api-perl-array-ref-to-spvm-byte-array">Convert Perl array reference to SPVM byte[] type - SPVM::new_byte_array</a></li>
-        <li><a href="#exchange-api-perl-array-ref-to-spvm-short-array">Convert perl array reference to Short[] type Of SPVM - SPVM::new_short_array</a></li>
+        <li><a href="#exchange-api-perl-array-ref-to-spvm-short-array">Convert perl array reference to short[] type Of SPVM - SPVM::new_short_array</a></li>
         <li><a href="#exchange-api-perl-array-ref-to-spvm-int-array">Convert Perl array reference to SPVM int[] type - SPVM::new_int_array</a></li>
         <li><a href="#exchange-api-perl-array-ref-to-spvm-long-array">Convert Perl array reference to Long[] type of SPVM - SPVM::new_long_array</a></li>
         <li><a href="#exchange-api-perl-array-ref-to-spvm-float=array">Convert Perl array reference to SPVM float[] type - SPVM::new_float_array</a></li>
@@ -58,70 +57,70 @@
         <li><a href="#exchange-api-perl-string-to-spvm-string">Convert perl strings to SPVM string - SPVM::new_string</a></li>
       </ul>
 
-<h4 id="exchange-api-perl-scalar-to-SPVM-Byte">Convert perl scalar values to SPVM:-Byte type of SPVM - SPVM::Byte-&gt;new</h4>
+<h4 id="exchange-api-perl-scalar-to-SPVM-Byte">Convert Perl Scalar Value to SPVM::Byte Value - SPVM::Byte-&gt;new</h4>
       <p>
-        To convert perl scalar values to SPVM::Byte of SPVM, use the SPVM::Byte-&gt;new method.
+        To Convert Perl Scalar Value to SPVM::Byte Value, use the SPVM::Byte-&gt;new method.
       </p>
 <pre>
 my $spvm_byte = SPVM::Byte->new(98);
 </pre>
       <p>
-        Perl scalar values are converted to SPVMbyte types by the <a href="#exchange-api-rule-perl-scalar-to-spvm-numeric">Perl scalar value to spvm numeric type</a>, and the value is passed to the new method of SPVM::Byte, and an object of type SPVM:Byte is returned.
+        Perl Scalar Value is converted to numeric byte value of SPVM by the <a href="#exchange-api-rule-perl-scalar-to-spvm-numeric">Rules for Converting Perl Scalar Value to SPVM Numeric Value</a>, and the value is passed to the new method of SPVM::Byte, and SPVM:Byte object is returned.
       </p>
 
-<h4 id="exchange-api-perl-scalar-to-SPVM-Short">Convert Perl scalar values to SPVM::Short type of SPVM - SPVM::Short-&gt;new</h4>
+<h4 id="exchange-api-perl-scalar-to-SPVM-Short">Convert Perl Scalar Value to SPVM::Short - SPVM::Short-&gt;new</h4>
       <p>
-        To convert Perl scalar values to SPVM::Short in SPVM, use the SPVM::Short-&gt;new method.
+        To Convert Perl Scalar Value to SPVM::Short, use the SPVM::Short-&gt;new method.
       </p>
 <pre>
 my $spvm_short = SPVM::Short->new(9800);
 </pre>
       <p>
-        Perl scalar values are converted to spvm short types by the <a href="#exchange-api-rule-perl-scalar-to-spvm-numeric">Perl scalar value to spvm numeric type</a>, and the value is passed to the new method of SPVM:Short, and an object of type SPVM:Short is returned.
+        Perl Scalar Value is converted to spvm short types by the <a href="#exchange-api-rule-perl-scalar-to-spvm-numeric">Rules for Converting Perl Scalar Value to SPVM Numeric Value</a>, and the value is passed to the new method of SPVM:Short, and SPVM:Short object is returned.
       </p>
 
-<h4 id="exchange-api-perl-scalar-to-SPVM-Int">Convert Perl scalar values to SPVM::Int type of SPVM - SPVM::Int-&gt;new</h4>
+<h4 id="exchange-api-perl-scalar-to-SPVM-Int">Convert Perl Scalar Value to SPVM::Int - SPVM::Int-&gt;new</h4>
       <p>
-        To convert Perl scalar values to SPVM::Int of SPVM, use the SPVM::Int-&gt;new method.
+        To Convert Perl Scalar Value to SPVM::Int, use the SPVM::Int-&gt;new method.
       </p>
 <pre>
 my $spvm_int = SPVM::Int->new(100000);
 </pre>
       <p>
-        Perl scalar values are converted to spvm int types by the <a href="#exchange-api-rule-perl-scalar-to-spvm-numeric">Perl scalar values are converted to spvm numeric types</a>, and the value is passed to the new method of SPVM:Int, and the SPVM:Int object is returned.
+        Perl Scalar Value is converted to numeric int value of SPVM by the <a href="#exchange-api-rule-perl-scalar-to-spvm-numeric">Rules for Converting Perl Scalar Value is converted to SPVM Numeric Value</a>, and the value is passed to the new method of SPVM::Int, and the SPVM::Int object is returned.
       </p>
 
-<h4 id="exchange-api-perl-scalar-to-SPVM-Long">Convert Perl scalar values to SPVM::Long type - SPVM::Long-&gt;new</h4>
+<h4 id="exchange-api-perl-scalar-to-SPVM-Long">Convert Perl Scalar Value to SPVM::Long type - SPVM::Long-&gt;new</h4>
       <p>
-        When you convert perl scalar values to SPVM::Long in SPVM, you use the SPVM::Long-&gt;new method.
+        To Convert Perl Scalar Value to SPVM::Long, use the SPVM::Long-&gt;new method.
       </p>
 <pre>
 my $spvm_long = SPVM::Long->new(98);
 </pre>
       <p>
-        Perl scalar values are converted to long types of SPVM by the <a href="#exchange-api-rule-perl-scalar-to-spvm-numeric">The rule of converting Perl scalar values to SPVM numeric types</a> converts them to long types of SPVM, and the spvm:Long objects are returned.
+        Perl Scalar Value is converted to numeric long value of SPVM by the <a href="#exchange-api-rule-perl-scalar-to-spvm-numeric">Rules for Converting Perl Scalar Value is converted to SPVM Numeric Value</a>, and the value is passed to the new method of SPVM::Long, and the SPVM::Long object is returned.
       </p>
 
-<h4 id="exchange-api-perl-scalar-to-SPVM-Float">Convert Perl scalar values to SPVM:Float type of SPVM - SPVM:Float-&gt;new</h4>
+<h4 id="exchange-api-perl-scalar-to-SPVM-Float">Convert Perl Scalar Value to SPVM::Float - SPVM::Float-&gt;new</h4>
       <p>
-        To convert Perl scalar values to SPVM::Float in SPVM, use the SPVM::Float-&gt;new method.
+        To Convert Perl Scalar Value to SPVM::Float, use the SPVM::Float-&gt;new method.
       </p>
 <pre>
-my $spvm_float = SPVM::Float->new(2.5);
+my $spvm_float = SPVM::Float->new(2.5);Rules for Converting 
 </pre>
       <p>
-        Perl scalar values are converted to spvm float types by the <a href="#exchange-#exchange-rule-perl-scalar-to-spvm-numeric">Perl scalar values are converted to spvm numeric types</a>, and that value is passed to the new method of SPVM:Float, and objects of SPVM:Float are returned.
+        Perl Scalar Value is converted to numric float value of SPVM by the <a href="#exchange-#exchange-rule-perl-scalar-to-spvm-numeric">Rules for Converting Perl Scalar Value to SPVM Numeric Value</a>, and that value is passed to the new method of SPVM::Float, and SPVM::Float object is returned.
       </p>
 
-<h4 id="exchange-api-perl-scalar-to-SPVM-Double">Convert perl scalar values to SPVM::Double type - SPVM::Double-&gt;new</h4>
+<h4 id="exchange-api-perl-scalar-to-SPVM-Double">Convert Perl Scalar Value to SPVM::Double type - SPVM::Double-&gt;new</h4>
       <p>
-        To convert Perl scalar values to SPVM::Double, use the SPVM::Double-&gt;new method.
+        To Convert Perl Scalar Value to SPVM::Double, use the SPVM::Double-&gt;new method.
       </p>
 <pre>
 my $spvm_double = SPVM::Double->new(2.5);
 </pre>
       <p>
-        Perl scalar values are converted to spvm double types by the <a href="#exchange-api-rule-perl-scalar-to-spvm-numeric">Perl scalar values are converted to spvm numeric types</a>, and that value is passed to the new method of SPVM :D, and objects of SPVM :Double are returned.
+        Perl Scalar Value is converted to numric double value of SPVM by the <a href="#exchange-api-rule-perl-scalar-to-spvm-numeric">Rules for Converting Perl Scalar Value is converted to SPVM Numeric Value</a>, and that value is passed to the new method of SPVM::Double, and SPVM::Double object is  returned.
       </p>
 
 <h4 id="exchange-api-perl-array-ref-to-spvm-byte-array">Convert perl array reference to spvm byte[] type - SPVM::new_byte_array</h4>
@@ -135,7 +134,7 @@ my $spvm_nums = SPVM::new_byte_array([1, 2, 3]);
         Takes an array reference to the first argument.
       </p>
       <p>
-        The value of each element in the array reference is converted from the Perl scalar value to the SPVM byte type by the rules for converting the scalar values of <a href="#exchange-#exchange-rule-perl-scalar-to-spvm-numeric">Perl scalar values to numeric types of SPVM</a>.
+        The value of each element in the array reference is converted from the Perl Scalar Value to the SPVM byte type by the rules for converting the scalar values of <a href="#exchange-#exchange-rule-perl-scalar-to-spvm-numeric">Perl Scalar Value to numeric types of SPVM</a>.
       </p>
       <p>
         The return value is the SPVM::Data::Array object that represents the "byte[] type" of SPVM.
@@ -144,7 +143,7 @@ my $spvm_nums = SPVM::new_byte_array([1, 2, 3]);
         If the first argument is an undefined value, an undefined value is returned.
       </p>
 
-<h4 id="exchange-api-perl-array-ref-to-spvm-short-array">Convert perl array reference to Short[] type of SPVM</h4>
+<h4 id="exchange-api-perl-array-ref-to-spvm-short-array">Convert perl array reference to short[] type of SPVM</h4>
       <p>
         To convert perl array references to spvm short[] types, use the SPVM::new_short_array function.
       </p>
@@ -155,7 +154,7 @@ my $spvm_nums = SPVM::new_short_array([1, 2, 3]);
         Takes an array reference to the first argument.
       </p>
       <p>
-        The value of each element in the array reference is converted from the Perl scalar value to the Short type of SPVM by the <a href="#exchange-api-rule-perl-scalar-to-spvm-numeric">Perl scalar value is converted to a numeric type of SPVM</a>.
+        The value of each element in the array reference is converted from the Perl Scalar Value to the Short type of SPVM by the <a href="#exchange-api-rule-perl-scalar-to-spvm-numeric">Rules for Converting Perl Scalar Value is converted to a numeric type of SPVM</a>.
       </p>
       <p>
         The return value is the SPVM::Data::Array object that represents the "short[]" type of SPVM.
@@ -175,7 +174,7 @@ my $spvm_nums = SPVM::new_int_array([1, 2, 3]);
         Takes an array reference to the first argument.
       </p>
       <p>
-        The value of each element in the array reference is converted from the Perl scalar value to the spvm int type by the rule to convert the <a href="#exchange-api-rule-perl-scalar-to-spvm-numeric">Perl scalar values to spvm numeric types</a>.
+        The value of each element in the array reference is converted from the Perl Scalar Value to the spvm int type by the rule to convert the <a href="#exchange-api-rule-perl-scalar-to-spvm-numeric">Rules for Converting Perl Scalar Value to SPVM Numeric Value</a>.
       </p>
       <p>
         The return value is the SPVM::Data::Array object that represents the "int[] type" of SPVM.
@@ -195,7 +194,7 @@ my $spvm_nums = SPVM::new_long_array ([1, 2, 3]);
         Takes an array reference to the first argument.
       </p>
       <p>
-        The value of each element in the array reference is converted from perl scalar values to long types of SPVM by the following conversions from perlapi and C99 type conversions:
+        The value of each element in the array reference is converted from Perl Scalar Values to long types of SPVM by the following conversions from perlapi and C99 type conversions:
       </p>
 <pre>
 (int64_t) SvIV (perl_value)
@@ -218,7 +217,7 @@ my $spvm_nums = SPVM::new_float_array([1, 2, 3]);
         Takes an array reference to the first argument.
       </p>
       <p>
-        The value of each element in the array reference is converted from perl scalar values to float types of SPVM by the following conversions from perlapi and C99 type conversions:
+        The value of each element in the array reference is converted from Perl Scalar Values to float types of SPVM by the following conversions from perlapi and C99 type conversions:
       </p>
 <pre>
 (float) SvNV(perl_value)
@@ -242,7 +241,7 @@ my $spvm_nums = SPVM::new_double_array([1, 2, 3]);
         Takes an array reference to the first argument.
       </p>
       <p>
-        The value of each element in the array reference is converted from perl scalar values to double types of SPVM by the following conversions from perlapi and C99 type conversions:
+        The value of each element in the array reference is converted from Perl Scalar Values to double types of SPVM by the following conversions from perlapi and C99 type conversions:
       </p>
 <pre>
 (double) SvNV(perl_value)
@@ -302,7 +301,7 @@ my $oarray = SPVM::new_object_array ("int[][]",[$object1, $object2]);
         The return value is an "SPVM::Data::Array" object that represents the array type of the Value of SPVM.
       </p>
       <p>
-        The values in the hash reference are converted by the <a href="#exchange-api-rule-perl-scalar-to-spvm-numeric">Perl scalar values by </a> rules that convert scalar values to SPVM numeric types.
+        The values in the hash reference is converted by the <a href="#exchange-api-rule-perl-scalar-to-spvm-numeric">Rules for Converting Perl Scalar Value by </a> rules that convert scalar values to SPVM Numeric Value.
       </p>
       <p>
         There are some samples.
@@ -620,16 +619,16 @@ my $spvm_double_array = SPVM::new_double_array_from_bin ($perl_binary);
 my $perl_array_ref = $spvm_array->to_elems;
 </pre>
       <p>
-        If the elements of the SPVM array are numeric types, the <a href="#exchange-api-rule-spvm-numeric-to-perl-scalar">SPVM numeric types are converted by the</a> rules that convert numeric types of Perl to perl scalar values.
+        If the elements of the SPVM array are numeric types, the <a href="#exchange-api-rule-spvm-numeric-to-perl-scalar">SPVM Numeric Value is converted by the</a> rules that convert numeric types of Perl to Perl Scalar Values.
       </p>
       <p>
         If the element of the SPVM array is an object type, the corresponding SPVM::Data or its subclass is created.
       </p>
       <p>
-        If the elements of the SPVM array are multinumeric types, a hash reference is created with the key and value of the field. The value is converted by a rule that converts the numeric type of <a href="#exchange-api-rule-spvm-numeric-to-perl-scalar">SPVM to perl scalar values</a>.
+        If the elements of the SPVM array are multinumeric types, a hash reference is created with the key and value of the field. The value is converted by a rule that converts the numeric type of <a href="#exchange-api-rule-spvm-numeric-to-perl-scalar">SPVM to Perl Scalar Values</a>.
       </p>
       <p>
-        If the elements of the SPVM array are undefined values, they are converted to undefined Perl values.
+        If the elements of the SPVM array are undefined values, they is converted to undefined Perl values.
       </p>
 
 <h4 id="exchange-api-spvm-array-to-perl-binary">Convert ing an array of SPVM to perl binary columns - to_bin</h4>
@@ -761,7 +760,7 @@ my $total = Foo->sum(1, 2);
         The return value is transformed by the conversion on the return value.
       </p>
       <p>
-        SPVM exceptions are converted to Perl exceptions.
+        SPVM exceptions is converted to Perl exceptions.
       </p>
 
       <h4 id = "exchange-api-call-spvm-sub-method-call"> method call </h4>
@@ -818,14 +817,14 @@ my $ total = $ foo-> sum (1, 2);
         The return value is transformed by the conversion on the return value.
       </p>
       <p>
-        SPVM exceptions are converted to Perl exceptions.
+        SPVM exceptions is converted to Perl exceptions.
       </p>
 
       <h4 id = "exchange-api-call-spvm-sub-convert-argument"> Conversion in argument </h4>
 
       <h5> Numeric type </h5>
       <p>
-        If the argument type of the SPVM subroutine definition is a numeric type, the argument value is <a href="#exchange-api-rule-perl-scalar-to-spvm-numeric"> Perl scalar value. It is converted</a> to an SPVM number by the rules for converting to SPVM number types.
+        If the argument type of the SPVM subroutine definition is a numeric type, the argument value is <a href="#exchange-api-rule-perl-scalar-to-spvm-numeric"> Perl Scalar Value. It is converted</a> to an SPVM number by the rules for converting to SPVM number types.
       </p>
 <pre>
 # SPVM subroutine definition
@@ -916,22 +915,22 @@ Foo-> call_double_ref (\ $ num_double);
         If the argument type of the SPVM subroutine definition is a string compatible array type and the value passed to the argument is an array reference and the first element is a scalar value that is not a reference, SPVM byte[] Converted to a Perl SPVM::Data::Array object representing[]. If the element has an undefined value, it is converted to an SPVM undefined value, otherwise it is encoded to UTF-8 and converted to SPVM byte[] type.
       </p>
       <p>
-        If the argument type of the SPVM subroutine definition is a byte[] type and the value passed to the argument is an array reference, convert it to a Perl SPVM::Data::Array object that represents byte[]. Will be done. The element value is converted by the <a href="#exchange-api-rule-perl-scalar-to-spvm-numeric"> rule for converting Perl scalar values ​​to SPVM numeric types </a>.
+        If the argument type of the SPVM subroutine definition is a byte[] type and the value passed to the argument is an array reference, convert it to a Perl SPVM::Data::Array object that represents byte[]. Will be done. The element value is converted by the <a href="#exchange-api-rule-perl-scalar-to-spvm-numeric"> rule for converting Perl Scalar Value ​​to SPVM Numeric Value </a>.
       </p>
       <p>
-        If the argument type of the SPVM subroutine definition is a short[] type and the value passed to the argument is an array reference, convert it to a Perl SPVM::Data::Array object that represents a short[]. Will be done. The element value is converted by the <a href="#exchange-api-rule-perl-scalar-to-spvm-numeric"> rule for converting Perl scalar values ​​to SPVM numeric types </a>.
+        If the argument type of the SPVM subroutine definition is a short[] type and the value passed to the argument is an array reference, convert it to a Perl SPVM::Data::Array object that represents a short[]. Will be done. The element value is converted by the <a href="#exchange-api-rule-perl-scalar-to-spvm-numeric"> rule for converting Perl Scalar Value ​​to SPVM Numeric Value </a>.
       </p>
       <p>
-        If the argument type of the SPVM subroutine definition is int[] type and the value passed to the argument is an array reference, convert it to a Perl SPVM::Data::Array object that represents int[] Will be done. The element value is converted by the <a href="#exchange-api-rule-perl-scalar-to-spvm-numeric"> rule for converting Perl scalar values ​​to SPVM numeric types </a>.
+        If the argument type of the SPVM subroutine definition is int[] type and the value passed to the argument is an array reference, convert it to a Perl SPVM::Data::Array object that represents int[] Will be done. The element value is converted by the <a href="#exchange-api-rule-perl-scalar-to-spvm-numeric"> rule for converting Perl Scalar Value ​​to SPVM Numeric Value </a>.
       </p>
       <p>
-        If the argument type of the SPVM subroutine definition is a long[] type and the value passed to the argument is an array reference, convert it to a Perl SPVM::Data::Array object representing long[]. Will be done. The element value is converted by the <a href="#exchange-api-rule-perl-scalar-to-spvm-numeric"> rule for converting Perl scalar values ​​to SPVM numeric types </a>.
+        If the argument type of the SPVM subroutine definition is a long[] type and the value passed to the argument is an array reference, convert it to a Perl SPVM::Data::Array object representing long[]. Will be done. The element value is converted by the <a href="#exchange-api-rule-perl-scalar-to-spvm-numeric"> rule for converting Perl Scalar Value ​​to SPVM Numeric Value </a>.
       </p>
       <p>
-        If the argument type of the SPVM subroutine definition is float[] type and the value passed to the argument is an array reference, convert it to a Perl SPVM::Data::Array object that represents float[]. Will be done. The element value is converted by the <a href="#exchange-api-rule-perl-scalar-to-spvm-numeric"> rule for converting Perl scalar values ​​to SPVM numeric types </a>.
+        If the argument type of the SPVM subroutine definition is float[] type and the value passed to the argument is an array reference, convert it to a Perl SPVM::Data::Array object that represents float[]. Will be done. The element value is converted by the <a href="#exchange-api-rule-perl-scalar-to-spvm-numeric"> rule for converting Perl Scalar Value ​​to SPVM Numeric Value </a>.
       </p>
       <p>
-        If the argument type of the SPVM subroutine definition is double[] type and the value passed to the argument is an array reference, convert it to a Perl SPVM::Data::Array object that represents double[]. Will be done. The element value is converted by the <a href="#exchange-api-rule-perl-scalar-to-spvm-numeric"> rule for converting Perl scalar values ​​to SPVM numeric types </a>.
+        If the argument type of the SPVM subroutine definition is double[] type and the value passed to the argument is an array reference, convert it to a Perl SPVM::Data::Array object that represents double[]. Will be done. The element value is converted by the <a href="#exchange-api-rule-perl-scalar-to-spvm-numeric"> rule for converting Perl Scalar Value ​​to SPVM Numeric Value </a>.
       </p>
       <p>
         If the argument type of the SPVM subroutine definition is an object[] type and the value passed to the argument is an array reference, convert it to a Perl SPVM::Data::Array object that represents object[]. Will be done. If the element value is an undefined value, it is converted to SPVM undefined, and if it is a non-reference scalar value, it is encoded to UTF-8 and converted to SPVM byte[] type. If it is an SPVM::Data object, it will not be converted. Otherwise, an exception will be raised.
@@ -939,10 +938,10 @@ Foo-> call_double_ref (\ $ num_double);
       
       <h4 id = "exchange-api-call-spvm-sub-convert-return-value"> Conversion in return value </h4>
       <p>
-        If the return value is a numeric type of SPVM, <a href="#exchange-api-rule-spvm-numeric-to-perl-scalar"> Rule to convert the numeric type of SPVM to a scalar value of Perl It is converted to a Perl scalar value by </a>.
+        If the return value is a numeric type of SPVM, <a href="#exchange-api-rule-spvm-numeric-to-perl-scalar"> Rule to convert the numeric type of SPVM to a scalar value of Perl It is converted to a Perl Scalar Value by </a>.
       </p>
       <p>
-        If the return value is a SPVM multi-numeric type, it will be converted to a hash reference. The key is the SPVM multi-numeric field name and the value is <a href="#exchange-api-rule-spvm-numeric-to-perl-scalar"> SPVM numeric type is converted to Perl scalar value. The value is converted to a Perl scalar value by the rule </a>.
+        If the return value is a SPVM multi-numeric type, it will be converted to a hash reference. The key is the SPVM multi-numeric field name and the value is <a href="#exchange-api-rule-spvm-numeric-to-perl-scalar"> SPVM Numeric Value is converted to Perl Scalar Value. The value is converted to a Perl Scalar Value by the rule </a>.
       </p>
       <p>
         If the return value is an undefined value for the SPVM object type, it will be converted to a Perl undefined value.
@@ -956,9 +955,9 @@ Foo-> call_double_ref (\ $ num_double);
       
       <h3 id = "exchange-api-utility"> Utility </h3>
       <ul class = "toc">
-        <li> <a href="#exchange-api-utility-exception"> Get SPVM exception-exception </a> </ li>
-        <li> <a href="#exchange-api-utility-set_exception"> SPVM exception settings-set_exception </a> </ li>
-        <li> <a href="#exchange-api-utility-memory_blocks_count"> Get number of allocated memory blocks-memory_blocks_count </a> </ li>
+        <li><a href="#exchange-api-utility-exception"> Get SPVM exception-exception </a> </ li>
+        <li><a href="#exchange-api-utility-set_exception"> SPVM exception settings-set_exception </a> </ li>
+        <li><a href="#exchange-api-utility-memory_blocks_count"> Get number of allocated memory blocks-memory_blocks_count </a> </ li>
       </ ul>
       
       <p>
@@ -1055,17 +1054,17 @@ $end_memory_blocks_count == $start_memory_blocks_count) {
 }
 </pre>
 
-<h3 id="exchange-api-rule-perl-scalar-to-spvm-numeric">Rules for converting Perl scalar values to SPVM numeric types</h3>
+<h3 id="exchange-api-rule-perl-scalar-to-spvm-numeric">Rules for Converting Perl Scalar Value to SPVM Numeric Value</h3>
 
 <p>
-        The rules for converting Perl scalar values to SPVM numeric types are defined below.
+        The rules for converting Perl Scalar Value to SPVM Numeric Value are defined below.
       </p>
       <p>
         Conversion rules are written in C. SvIV and SvNV are functions defined in perlapi. int8_t, int16_t, int32_t, int64_t, float, double are the types defined in C99.
       </p>
 
 <p>
-        <b></b> to convert Perl scalar values to SPVM byte
+        <b></b> to Convert Perl Scalar Value to SPVM byte
       </p>
       
 <pre>
@@ -1073,44 +1072,44 @@ $end_memory_blocks_count == $start_memory_blocks_count) {
 </pre>
 
 <p>
-        <b>convert perl scalar values to SPVM short</b>
+        <b>Convert Perl Scalar Value to SPVM short</b>
       </p>
 <pre>
 (int16_t) SvIV (perl_value)
 </pre>
 
 <p>
-        <b>converts Perl scalar values to SPVM int</b>
+        <b>converts Perl Scalar Value to SPVM int</b>
       </p>
 <pre>
 (int32_t) SvIV (perl_value)
 </pre>
 
 <p>
-        <b>convert perl scalar values to SPVM long</b>
+        <b>Convert Perl Scalar Value to SPVM long</b>
       </p>
 <pre>
 (int64_t) SvIV (perl_value)
 </pre>
 
 <p>
-        <b>converts Perl scalar values to SPVM float</b>
+        <b>converts Perl Scalar Value to SPVM float</b>
       </p>
 <pre>
 (float)SvNV(perl_value)
 </pre>
 
 <p>
-        <b>converts Perl scalar values to SPVM double</b>
+        <b>converts Perl Scalar Value to SPVM double</b>
       </p>
 <pre>
 (double) SvNV(perl_value)
 </pre>
 
-<h3 id="exchange-api-rule-spvm-numeric-to-perl-scalar">Rules for converting sPVM numeric types to Perl scalar values</h3>
+<h3 id="exchange-api-rule-spvm-numeric-to-perl-scalar">Rules for converting SPVM Numeric Value to Perl Scalar Value</h3>
 
 <p>
-        The rules for converting Perl scalar values to SPVM numeric types are defined below.
+        The rules for converting Perl Scalar Value to SPVM Numeric Value are defined below.
       </p>
       <p>
         Conversion rules are written in C. newSViv and newSVnv are functions defined in perlapi. int8_t, int16_t, int32_t, int64_t, float, double are the types defined in C99.      
@@ -1120,7 +1119,7 @@ $end_memory_blocks_count == $start_memory_blocks_count) {
       <p>
 
 <p>
-        <b></b> to convert Perl scalar values to SPVM byte
+        <b></b> to Convert Perl Scalar Value to SPVM byte
       </p>
       
 <pre>
@@ -1129,7 +1128,7 @@ newSViv(spvm_value)
 </pre>
 
 <p>
-        <b>convert perl scalar values to SPVM short</b>
+        <b>Convert Perl Scalar Value to SPVM short</b>
       </p>
 <pre>
 int16_t spvm_value;
@@ -1137,7 +1136,7 @@ newSViv(spvm_value)
 </pre>
 
 <p>
-        <b>converts Perl scalar values to SPVM int</b>
+        <b>converts Perl Scalar Value to SPVM int</b>
       </p>
 <pre>
 int32_t spvm_value;
@@ -1145,7 +1144,7 @@ newSViv(spvm_value)
 </pre>
 
 <p>
-        <b>convert perl scalar values to SPVM long</b>
+        <b>Convert Perl Scalar Value to SPVM long</b>
       </p>
 <pre>
 int64_t spvm_value;
@@ -1153,7 +1152,7 @@ newSViv(spvm_value)
 </pre>
 
 <p>
-        <b>converts Perl scalar values to SPVM float</b>
+        <b>converts Perl Scalar Value to SPVM float</b>
       </p>
 <pre>
 float spvm_value;
@@ -1161,7 +1160,7 @@ newSVnv (spvm_value)
 </pre>
 
 <p>
-        <b>converts Perl scalar values to SPVM double</b>
+        <b>converts Perl Scalar Value to SPVM double</b>
       </p>
 <pre>
 double spvm_value;
