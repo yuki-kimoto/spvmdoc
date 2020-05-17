@@ -1,17 +1,13 @@
 <div class="container">
-  <div>
-    <a href="/">SPVMドキュメント</a> &gt SPVMネイティブAPI仕様
-  </div>
-  
-  <h2 id="native-api-summary">SPVMネイティブAPI仕様</a></h2>
+  <h3 id="native-api-summary">SPVMネイティブAPI</a></h3>
   <p>
-    <b>SPVMネイティブAPI仕様</b>がこのドキュメントには記述されています。SPVMは、1.0のリリースに向けて、ベータテスト中です。SPVMネイティブAPI仕様は、警告なく変更されることがあります。
+    <b>SPVMネイティブAPI</b>がこのドキュメントには記述されています。SPVMは、1.0のリリースに向けて、ベータテスト中です。SPVMネイティブAPI仕様は、警告なく変更されることがあります。
   </p>
   <p>
-    最終更新日 2019年7月16日
+    最終更新日 2020年5月18日
   </p>
   
-  <h2 id="native-api-toc">目次</h2>
+  <h3 id="native-api-toc">目次</h3>
   <ul class="toc">
     <li><a href="#native-api-summary">SPVMネイティブAPIとは</a></li>
     <li><a href="#native-api-native-sub-declaration">ネイティブサブルーチンの宣言</a></li>
@@ -26,7 +22,7 @@
     <li><a href="#native-api-list">ネイティブAPIの一覧</a></li>
   </ul>
   
-  <h2 id="native-api-summary">SPVMネイティブAPIとは</h2>
+  <h3 id="native-api-summary">SPVMネイティブAPIとは</h3>
   <p>
     SPVMネイティブAPIとは、SPVMのネイティブサブルーチンの中で呼び出すことのできるC言語のAPIのことです。SPVMのネイティブサブルーチンの仕様についてもここに記述されます。
   </p>
@@ -40,7 +36,7 @@
     作成したネイティブサブルーチンは、SPVMから呼び出すことができます。
   </p>
 
-  <h2 id="native-api-native-sub-declaration">SPVMネイティブサブルーチンの宣言</h2>
+  <h3 id="native-api-native-sub-declaration">SPVMネイティブサブルーチンの宣言</h3>
   <p>
     SPVMネイティブサブルーチンの宣言は、サブルーチンのディスクリプタ「native」を使うことによって行います。サブルーチンのブロックを書かずに、セミコロンで終わります。以下は、Foo::Barというモジュールの中で宣言する場合の例です。
   </p>
@@ -51,7 +47,7 @@ package Foo::Bar {
 }
 </pre>
 
-  <h2 id="native-api-native-sub-definition">ネイティブサブルーチンの定義</h2>
+  <h3 id="native-api-native-sub-definition">ネイティブサブルーチンの定義</h3>
   <p>
     ネイティブサブルーチンの定義は、ネイティブソースファイルの中で行います。ネイティブソースファイルは、SPVMのモジュールの拡張子を、対象の言語の拡張子に変えたものになります。たとえばC言語であれば「.c」に変えたものです。C++であれば、「.cpp」に変えたものです。これは、ネイティブサブルーチンの設定において、変更することができます。
   </p>
@@ -125,7 +121,7 @@ int32_t SPNATIVE__Foo__Bar__sum(SPVM_ENV* env, SPVM_VALUE* stack) {
     上記のサンプルでは、SPVMのint型の引数を二つ受け取り、合計を計算し、戻り値を返すということを行っています。
   </p>
   
-  <h2 id="native-api-native-sub-compile">ネイティブサブルーチンのコンパイル</h2>
+  <h3 id="native-api-native-sub-compile">ネイティブサブルーチンのコンパイル</h3>
   <p>
     ネイティブサブルーチンは、Perlをコンパイルしたコンパイラで、コンパイルされて、OSに応じた、動的に読み可能な共有ライブラリにコンパイルされます。Unix/Linuxにおいては、共有ライブラリ(.so)、Windowsにおいてはダイナミックリンクライブラリ(.dll)などです。
   </p>
@@ -158,7 +154,7 @@ spvm_build/work/object/Foo/Bar.so
 # Windows
 spvm_build/work/object/Foo/Bar.dll
 </pre>
-  <h2 id="native-api-native-sub-get-arg">引数の取得</h2>
+  <h3 id="native-api-native-sub-get-arg">引数の取得</h3>
   <ul class="list">
     <li><a href="#native-api-native-sub-get-arg-stack">引数とスタック</a></li>
     <li><a href="#native-api-native-sub-get-arg-byte">byte型の引数の取得</a></li>
@@ -178,7 +174,7 @@ spvm_build/work/object/Foo/Bar.dll
     <li><a href="#native-api-native-sub-get-arg-mulnum">複数数値型の引数の取得</a></li>
   </ul>
   
-  <h3 href="#native-api-native-sub-get-arg-stack">引数とスタック</h3>
+  <h4 href="#native-api-native-sub-get-arg-stack">引数とスタック</h4>
   <p>
     スタックとは、ネイティブサブルーチンの定義における第二引数で渡される「SPVM_VALUE* stack」のことで、この中に引数が格納されています。
   </p>
@@ -206,7 +202,7 @@ int32_t args1 = stack[0].ival;
 int64_t args2 = stack[0].lval;
 </pre>
 
-  <h3 id="native-api-native-sub-get-arg-byte">byte型の引数の取得</h3>
+  <h4 id="native-api-native-sub-get-arg-byte">byte型の引数の取得</h4>
   <p>
     SPVMのbyte型の引数を取得するには、bvalフィールドにアクセスします。C言語のint8_t型に代入します。
   </p>
@@ -214,7 +210,7 @@ int64_t args2 = stack[0].lval;
 int8_t args1 = stack[0].bval;
 </pre>
 
-  <h3 id="native-api-native-sub-get-arg-short">short型の引数の取得</h3>
+  <h4 id="native-api-native-sub-get-arg-short">short型の引数の取得</h4>
   <p>
     SPVMのshort型の引数を取得するには、svalフィールドにアクセスします。C言語のint16_t型に代入します。
   </p>
@@ -222,7 +218,7 @@ int8_t args1 = stack[0].bval;
 int16_t args1 = stack[0].sval;
 </pre>
 
-  <h3 id="native-api-native-sub-get-arg-int">int型の引数の取得</h3>
+  <h4 id="native-api-native-sub-get-arg-int">int型の引数の取得</h4>
   <p>
     SPVMのint型の引数を取得するには、ivalフィールドにアクセスします。C言語のint32_t型に代入します。
   </p>
@@ -230,7 +226,7 @@ int16_t args1 = stack[0].sval;
 int32_t args1 = stack[0].ival;
 </pre>
 
-  <h3 id="native-api-native-sub-get-arg-long">long型の引数の取得</h3>
+  <h4 id="native-api-native-sub-get-arg-long">long型の引数の取得</h4>
   <p>
     SPVMのlong型の引数を取得するには、lvalフィールドにアクセスします。C言語のint64_t型に代入します。
   </p>
@@ -238,7 +234,7 @@ int32_t args1 = stack[0].ival;
 int64_t args1 = stack[0].lval;
 </pre>
 
-  <h3 id="native-api-native-sub-get-arg-float">float型の引数の取得</h3>
+  <h4 id="native-api-native-sub-get-arg-float">float型の引数の取得</h4>
   <p>
     SPVMのfloat型の引数を取得するには、fvalフィールドにアクセスします。C言語のfloat型に代入します。
   </p>
@@ -246,7 +242,7 @@ int64_t args1 = stack[0].lval;
 float args1 = stack[0].fval;
 </pre>
 
-  <h3 id="native-api-native-sub-get-arg-double">double型の引数の取得</h3>
+  <h4 id="native-api-native-sub-get-arg-double">double型の引数の取得</h4>
   <p>
     SPVMのdouble型の引数を取得するには、dvalフィールドにアクセスします。C言語のdouble型に代入します。
   </p>
@@ -254,7 +250,7 @@ float args1 = stack[0].fval;
 double args1 = stack[0].dval;
 </pre>
 
-  <h3 id="native-api-native-sub-get-arg-object">オブジェクト型の引数の取得</h3>
+  <h4 id="native-api-native-sub-get-arg-object">オブジェクト型の引数の取得</h4>
   <p>
     SPVMのobject型の引数を取得するには、ovalフィールドにアクセスします。C言語のvoid*型に代入します。
   </p>
@@ -262,7 +258,7 @@ double args1 = stack[0].dval;
 void* args1 = stack[0].oval;
 </pre>
 
-  <h3 id="native-api-native-sub-get-arg-byte-ref">byteのリファレンス型の引数の取得</h3>
+  <h4 id="native-api-native-sub-get-arg-byte-ref">byteのリファレンス型の引数の取得</h4>
   <p>
     SPVMのbyteのリファレンス型の引数を取得するには、brefフィールドにアクセスします。C言語のint8_t*型に代入します。
   </p>
@@ -270,7 +266,7 @@ void* args1 = stack[0].oval;
 int8_t* args1 = stack[0].bref;
 </pre>
 
-  <h3 id="native-api-native-sub-get-arg-short">shortのリファレンス型の引数の取得</h3>
+  <h4 id="native-api-native-sub-get-arg-short">shortのリファレンス型の引数の取得</h4>
   <p>
     SPVMのshortのリファレンス型の引数を取得するには、srefフィールドにアクセスします。C言語のint16_t*型に代入します。
   </p>
@@ -278,7 +274,7 @@ int8_t* args1 = stack[0].bref;
 int16_t* args1 = stack[0].sref;
 </pre>
 
-  <h3 id="native-api-native-sub-get-arg-int">intのリファレンス型の引数の取得</h3>
+  <h4 id="native-api-native-sub-get-arg-int">intのリファレンス型の引数の取得</h4>
   <p>
     SPVMのintのリファレンス型の引数を取得するには、irefフィールドにアクセスします。C言語のint32_t*型に代入します。
   </p>
@@ -286,7 +282,7 @@ int16_t* args1 = stack[0].sref;
 int32_t* args1 = stack[0].iref;
 </pre>
 
-  <h3 id="native-api-native-sub-get-arg-long">longのリファレンス型の引数の取得</h3>
+  <h4 id="native-api-native-sub-get-arg-long">longのリファレンス型の引数の取得</h4>
   <p>
     SPVMのlongのリファレンス型の引数を取得するには、lrefフィールドにアクセスします。C言語のint64_t*型に代入します。
   </p>
@@ -294,7 +290,7 @@ int32_t* args1 = stack[0].iref;
 int64_t* args1 = stack[0].lref;
 </pre>
 
-  <h3 id="native-api-native-sub-get-arg-float">floatのリファレンス型の引数の取得</h3>
+  <h4 id="native-api-native-sub-get-arg-float">floatのリファレンス型の引数の取得</h4>
   <p>
     SPVMのfloatのリファレンス型の引数を取得するには、frefフィールドにアクセスします。C言語のfloat*型に代入します。
   </p>
@@ -302,7 +298,7 @@ int64_t* args1 = stack[0].lref;
 float* args1 = stack[0].fref;
 </pre>
 
-  <h3 id="native-api-native-sub-get-arg-double">doubleのリファレンス型の引数の取得</h3>
+  <h4 id="native-api-native-sub-get-arg-double">doubleのリファレンス型の引数の取得</h4>
   <p>
     SPVMのdoubleのリファレンス型の引数を取得するには、drefフィールドにアクセスします。C言語のdouble*型に代入します。
   </p>
@@ -310,7 +306,7 @@ float* args1 = stack[0].fref;
 double* args1 = stack[0].dref;
 </pre>
 
-  <h3 id="native-api-native-sub-get-arg-mulnum">複数数値型の引数の取得</h3>
+  <h4 id="native-api-native-sub-get-arg-mulnum">複数数値型の引数の取得</h4>
   <p>
     ネイティブサブルーチンにおいては、複数数値型の引数は、複数の引数に代入されます。
   </p>
@@ -322,7 +318,7 @@ double args_re = stack[0].dval;
 double args_im = stack[1].dval;
 </pre>
 
-  <h2 id="native-api-native-sub-set-retval">戻り値の設定</h2>
+  <h3 id="native-api-native-sub-set-retval">戻り値の設定</h3>
   <ul class="list">
     <li><a href="#native-api-native-sub-set-retval-stack">戻り値とスタック</a></li>
     <li><a href="#native-api-native-sub-set-retval-byte">byte型の戻り値の設定</a></li>
@@ -335,7 +331,7 @@ double args_im = stack[1].dval;
     <li><a href="#native-api-native-sub-set-retval-mulnum">複数数値型の戻り値の設定</a></li>
   </ul>
   
-  <h3 id="native-api-native-sub-set-retval-stack">戻り値とスタック</h3>
+  <h4 id="native-api-native-sub-set-retval-stack">戻り値とスタック</h4>
   <p>
     ネイティブサブルーチンは、C言語のreturn文によって戻り値を返すのではなく、スタックを使って戻り値を設定します。
   </p>
@@ -352,7 +348,7 @@ stack[0].ival = 3;
 stack[0].lval = 56;
 </pre>
 
-  <h3 id="native-api-native-sub-set-retval-byte">byte型の戻り値の設定</h3>
+  <h4 id="native-api-native-sub-set-retval-byte">byte型の戻り値の設定</h4>
   <p>
     SPVMのbyte型の戻り値を設定するには、bvalフィールドに代入します。C言語のint8_t型の値を代入します。
   </p>
@@ -361,7 +357,7 @@ int8_t retval;
 stack[0].bval = retval;
 </pre>
 
-  <h3 id="native-api-native-sub-set-retval-short">short型の戻り値の設定</h3>
+  <h4 id="native-api-native-sub-set-retval-short">short型の戻り値の設定</h4>
   <p>
     SPVMのshort型の戻り値を設定するには、svalフィールドに代入します。C言語のint16_t型の値を代入します。
   </p>
@@ -370,7 +366,7 @@ int16_t retval;
 stack[0].sval = retval;
 </pre>
 
-  <h3 id="native-api-native-sub-set-retval-int">int型の戻り値の設定</h3>
+  <h4 id="native-api-native-sub-set-retval-int">int型の戻り値の設定</h4>
   <p>
     SPVMのint型の戻り値を設定するには、ivalフィールドに代入します。C言語のint32_t型の値を代入します。
   </p>
@@ -379,7 +375,7 @@ int32_t retval;
 stack[0].ival = retval;
 </pre>
 
-  <h3 id="native-api-native-sub-set-retval-long">long型の戻り値の設定</h3>
+  <h4 id="native-api-native-sub-set-retval-long">long型の戻り値の設定</h4>
   <p>
     SPVMのlong型の戻り値を設定するには、lvalフィールドに代入します。C言語のint64_t型の値を代入します。
   </p>
@@ -388,7 +384,7 @@ int64_t retval;
 stack[0].lval = retval;
 </pre>
 
-  <h3 id="native-api-native-sub-set-retval-float">float型の戻り値の設定</h3>
+  <h4 id="native-api-native-sub-set-retval-float">float型の戻り値の設定</h4>
   <p>
     SPVMのfloat型の戻り値を設定するには、fvalフィールドに代入します。C言語のfloat型の値を代入します。
   </p>
@@ -397,7 +393,7 @@ float retval;
 stack[0].fval = retval;
 </pre>
 
-  <h3 id="native-api-native-sub-set-retval-double">double型の戻り値の設定</h3>
+  <h4 id="native-api-native-sub-set-retval-double">double型の戻り値の設定</h4>
   <p>
     SPVMのdouble型の戻り値を設定するには、dvalフィールドに代入します。C言語のdouble型の値を代入します。
   </p>
@@ -406,7 +402,7 @@ double retval;
 stack[0].dval = retval;
 </pre>
 
-  <h3 id="native-api-native-sub-set-retval-object">オブジェクト型の戻り値の設定</h3>
+  <h4 id="native-api-native-sub-set-retval-object">オブジェクト型の戻り値の設定</h4>
   <p>
     SPVMのobject型の戻り値を設定するには、ovalフィールドに代入します。C言語のvoid*型の値を代入します。
   </p>
@@ -415,7 +411,7 @@ void* retval;
 stack[0].oval = retval;
 </pre>
 
-  <h3 id="native-api-native-sub-set-retval-mulnum">複数数値型の戻り値の設定</h3>
+  <h4 id="native-api-native-sub-set-retval-mulnum">複数数値型の戻り値の設定</h4>
   <p>
     ネイティブサブルーチンにおいては、複数数値型の戻り値は、複数の戻り値に代入します。
   </p>
@@ -429,7 +425,7 @@ stack[0].dval = retval_re;
 stack[1].dval = retval_im;
 </pre>
 
-  <h2 id="native-api-native-call-sub">サブルーチンの呼び出し</h2>
+  <h3 id="native-api-native-call-sub">サブルーチンの呼び出し</h3>
   <p>
     SPVMのサブルーチンを呼び出すには、最初に、<a href="#native-api-native-sub-api-sub_id">sub_id</a>関数か、<a href="#native-api-native-sub-api-method_sub_id">method_sub_id</a>関数を使ってサブルーチンのIDを取得します
   </p>
@@ -471,7 +467,7 @@ int32_t exception_flag = env->call_sub(env, sub_id, stack);
 int32_t total = stack[0].ival;
 </pre>
 
-  <h2 id="native-api-native-sub-scope">ネイティブサブルーチンのスコープ</h2>
+  <h3 id="native-api-native-sub-scope">ネイティブサブルーチンのスコープ</h3>
   <p>
     ネイティブサブルーチンは、全体がスコープに囲まれています。
   </p>
@@ -510,7 +506,7 @@ env->remove_mortal(env, scope_id, object);
     モータルスタックに関する情報は、envに保存されているので、スレッドローカルなデータです。
   </p>
 
-  <h2 id="native-api-native-sub-exception">ネイティブサブルーチンにおける例外</h2>
+  <h3 id="native-api-native-sub-exception">ネイティブサブルーチンにおける例外</h3>
   <p>
     ネイティブサブルーチンにおいて、例外が発生したかどうかを示すのは、戻り値です。
   </p>
@@ -548,7 +544,7 @@ SPVM_DIE("Error. Values must be %d and %d", 3, 5, "Foo/Bar.c", __LINE__);
     例外はenvに保存されているので、スレッドローカルなデータです。
   </p>
 
-  <h2 id="native-api-use-pointer-type">ポインタ型の利用</h2>
+  <h3 id="native-api-use-pointer-type">ポインタ型の利用</h3>
   <p>
     SPVMには、ポインタ型という型が存在しますが、利用方法について解説します。
   </p>
@@ -663,7 +659,7 @@ return SPVM_SUCCESS;
     free_memory_block関数を実行してメモリを開放します。alloc_memory_block_zeroで確保したメモリは、必ずfree_memory_block関数で解放しましょう。メモリを開放し、メモリブロック数のカウントを一つ減らします。
   </p>
 
-  <h2 id="native-api-index">ネイティブAPIのインデックス</h2>
+  <h3 id="native-api-index">ネイティブAPIのインデックス</h3>
   <p>
     ネイティブAPIは、名前に対応するインデックスを持っています。この番号は、ネイティブサブルーチンののバイナリ互換性を保つために、永続的に維持されます。新しいAPIの追加の場合は、末尾に追加されます。
   </p>
@@ -790,7 +786,7 @@ return SPVM_SUCCESS;
 118   free_env
 </pre>
 
-  <h2 id="native-api-call">ネイティブAPIの呼び出し</h2>
+  <h3 id="native-api-call">ネイティブAPIの呼び出し</h3>
   <p>
     ネイティブAPIは、引数に渡された「SPVM_ENV* env」から呼び出すことができます。第一引数に、envを渡さなければならないことに注意してください。
   </p>
@@ -798,7 +794,7 @@ return SPVM_SUCCESS;
 int32_t basic_type_id = env->get_basic_type_id(env, "SPVM::Int");
 </pre>
   
-  <h2 id="native-api-list">ネイティブAPIの一覧</h2>
+  <h3 id="native-api-list">ネイティブAPIの一覧</h3>
   <ul class="list">
     <li><a href="#native-api-native-sub-api-runtime_package_vars_heap_offset">runtime_package_vars_heap_offset</a></li>
     <li><a href="#native-api-native-sub-api-object_header_byte_size">object_header_byte_size</a></li>
@@ -921,107 +917,107 @@ int32_t basic_type_id = env->get_basic_type_id(env, "SPVM::Int");
     <li><a href="#native-api-native-sub-api-free_env">free_env</a></li>
   </ul>
 
-  <h3 id="native-api-native-sub-api-runtime_package_vars_heap_offset">runtime_package_vars_heap_offset</h3>
+  <h4 id="native-api-native-sub-api-runtime_package_vars_heap_offset">runtime_package_vars_heap_offset</h4>
   <p>
     ランタイム構造体におけるパッケージ変数の保存領域のポインタへのオフセット。内部的に利用されます。
   </p>
   
-  <h3 id="native-api-native-sub-api-object_header_byte_size">object_header_byte_size</h3>
+  <h4 id="native-api-native-sub-api-object_header_byte_size">object_header_byte_size</h4>
   <p>
     オブジェクトのヘッダーのバイトサイズ。内部的に利用されます。
   </p>
   
-  <h3 id="native-api-native-sub-api-object_weaken_backref_head_offset">object_weaken_backref_head_offset</h3>
+  <h4 id="native-api-native-sub-api-object_weaken_backref_head_offset">object_weaken_backref_head_offset</h4>
   <p>
     オブジェクト構造体におけるウィークリファレンスのバックリファレンスへのポインタへのオフセット。内部的に利用されます。
   </p>
   
-  <h3 id="native-api-native-sub-api-object_ref_count_offset">object_ref_count_offset</h3>
+  <h4 id="native-api-native-sub-api-object_ref_count_offset">object_ref_count_offset</h4>
   <p>
     オブジェクト構造体におけるリファレンスカウントのオフセット。内部的に利用されます。
   </p>
   
-  <h3 id="native-api-native-sub-api-object_basic_type_id_offset">object_basic_type_id_offset</h3>
+  <h4 id="native-api-native-sub-api-object_basic_type_id_offset">object_basic_type_id_offset</h4>
   <p>
     オブジェクト構造体における基本型IDのオフセット。内部的に利用されます。
   </p>
   
-  <h3 id="native-api-native-sub-api-object_type_dimension_offset">object_type_dimension_offset</h3>
+  <h4 id="native-api-native-sub-api-object_type_dimension_offset">object_type_dimension_offset</h4>
   <p>
     オブジェクト構造体における型の次元のオフセット。内部的に利用されます。
   </p>
   
-  <h3 id="native-api-native-sub-api-object_runtime_type_category_offset">object_runtime_type_category_offset</h3>
+  <h4 id="native-api-native-sub-api-object_runtime_type_category_offset">object_runtime_type_category_offset</h4>
   <p>
     オブジェクト構造体におけるランタイムタイプのカテゴリーのオフセット。内部的に利用されます。
   </p>
   
-  <h3 id="native-api-native-sub-api-object_flag_offset">object_flag_offset</h3>
+  <h4 id="native-api-native-sub-api-object_flag_offset">object_flag_offset</h4>
   <p>
     オブジェクト構造体におけるフラグのオフセット。内部的に利用されます。
   </p>
   
-  <h3 id="native-api-native-sub-api-object_length_offset">object_length_offset</h3>
+  <h4 id="native-api-native-sub-api-object_length_offset">object_length_offset</h4>
   <p>
     オブジェクト構造体における長さのオフセット。内部的に利用されます。
   </p>
   
-  <h3 id="native-api-native-sub-api-byte_object_basic_type_id">byte_object_basic_type_id</h3>
+  <h4 id="native-api-native-sub-api-byte_object_basic_type_id">byte_object_basic_type_id</h4>
   <p>
     SPVM::Byte型の基本型のID。内部的に利用されます。
   </p>
   
-  <h3 id="native-api-native-sub-api-short_object_basic_type_id">short_object_basic_type_id</h3>
+  <h4 id="native-api-native-sub-api-short_object_basic_type_id">short_object_basic_type_id</h4>
   <p>
     SPVM::Short型の基本型のID。内部的に利用されます。
   </p>
   
-  <h3 id="native-api-native-sub-api-int_object_basic_type_id">int_object_basic_type_id</h3>
+  <h4 id="native-api-native-sub-api-int_object_basic_type_id">int_object_basic_type_id</h4>
   <p>
     SPVM::Int型の基本型のID。内部的に利用されます。
   </p>
   
-  <h3 id="native-api-native-sub-api-long_object_basic_type_id">long_object_basic_type_id</h3>
+  <h4 id="native-api-native-sub-api-long_object_basic_type_id">long_object_basic_type_id</h4>
   <p>
     SPVM::Long型の基本型のID。内部的に利用されます。
   </p>
   
-  <h3 id="native-api-native-sub-api-float_object_basic_type_id">float_object_basic_type_id</h3>
+  <h4 id="native-api-native-sub-api-float_object_basic_type_id">float_object_basic_type_id</h4>
   <p>
     SPVM::Float型の基本型のID。内部的に利用されます。
   </p>
   
-  <h3 id="native-api-native-sub-api-double_object_basic_type_id">double_object_basic_type_id</h3>
+  <h4 id="native-api-native-sub-api-double_object_basic_type_id">double_object_basic_type_id</h4>
   <p>
     SPVM::Double型の基本型のID。内部的に利用されます。
   </p>
   
-  <h3 id="native-api-native-sub-api-runtime">runtime</h3>
+  <h4 id="native-api-native-sub-api-runtime">runtime</h4>
   <p>
     SPVMのランタイムへのポインタ。内部的に利用されます。
   </p>
   
-  <h3 id="native-api-native-sub-api-exception_object">exception_object</h3>
+  <h4 id="native-api-native-sub-api-exception_object">exception_object</h4>
   <p>
     例外オブジェクト。内部的に利用されます。
   </p>
   
-  <h3 id="native-api-native-sub-api-native_mortal_stack">native_mortal_stack</h3>
+  <h4 id="native-api-native-sub-api-native_mortal_stack">native_mortal_stack</h4>
   <p>
     ネイティブ呼び出しで利用されるモータルスタック。内部的に利用されます。
   </p>
   
-  <h3 id="native-api-native-sub-api-native_mortal_stack_top">native_mortal_stack_top</h3>
+  <h4 id="native-api-native-sub-api-native_mortal_stack_top">native_mortal_stack_top</h4>
   <p>
     ネイティブ呼び出しで利用されるモータルスタックのトップ位置。内部的に利用されます。
   </p>
   
-  <h3 id="native-api-native-sub-api-native_mortal_stack_capacity">native_mortal_stack_capacity</h3>
+  <h4 id="native-api-native-sub-api-native_mortal_stack_capacity">native_mortal_stack_capacity</h4>
   <p>
     ネイティブ呼び出しで利用されるモータルスタックの容量。内部的に利用されます。
   </p>
   
-  <h3 id="native-api-native-sub-api-get_basic_type_id">basic_type_id</h3>
+  <h4 id="native-api-native-sub-api-get_basic_type_id">basic_type_id</h4>
   <p>
     基本型の名前を指定して、基本型のIDを取得します。存在しない場合は、0より小さい値が返されます。
   </p>
@@ -1035,7 +1031,7 @@ int32_t (*get_basic_type_id)(SPVM_ENV* env, const char* basic_type_name);
 int32_t basic_type_id = env->get_basic_type_id(env, "SPVM::Int");
 </pre>
 
-  <h3 id="native-api-native-sub-api-get_field_id">field_id</h3>
+  <h4 id="native-api-native-sub-api-get_field_id">field_id</h4>
   <p>
     パッケージ名と、フィールド名と、シグネチャを指定して、フィールドのIDを取得します。フィールドが存在しない場合は、0より小さい値が返されます。
   </p>
@@ -1052,7 +1048,7 @@ int32_t (*get_field_id)(SPVM_ENV* env, const char* package_name, const char* fie
 int32_t field_id = env->get_field_id(env, "Foo", "x", "int");
 </pre>
   
-  <h3 id="native-api-native-sub-api-get_field_offset">field_offset</h3>
+  <h4 id="native-api-native-sub-api-get_field_offset">field_offset</h4>
   <p>
     フィールドIDを指定して、フィールドのオフセットを取得します。フィールドIDはfield_id関数で取得した有効なフィールドIDである必要があります。
   </p>
@@ -1060,7 +1056,7 @@ int32_t field_id = env->get_field_id(env, "Foo", "x", "int");
 int32_t (*get_field_offset)(SPVM_ENV* env, int32_t field_id);
 </pre>
 
-  <h3 id="native-api-native-sub-api-get_package_var_id">get_package_var_id</h3>
+  <h4 id="native-api-native-sub-api-get_package_var_id">get_package_var_id</h4>
   <p>
     パッケージ名とパッケージ変数名とシグネチャを指定して、パッケージ変数IDを取得します。パッケージ変数が存在しない場合は、0より小さい値が返されます。
   </p>
@@ -1077,7 +1073,7 @@ int32_t (*get_package_var_id)(SPVM_ENV* env, const char* package_name, const cha
 int32_t pkgvar_id = env->get_package_var_id(env, "Foo", "$VAR", "int");
 </pre>
 
-  <h3 id="native-api-native-sub-api-get_sub_id">get_sub_id</h3>
+  <h4 id="native-api-native-sub-api-get_sub_id">get_sub_id</h4>
   <p>
     パッケージ名とサブルーチン名とシグネチャを指定して、サブルーチンIDを取得します。サブルーチンが存在しない場合は、0より小さい値が返されます。
   </p>
@@ -1097,7 +1093,7 @@ int32_t (*get_sub_id)(SPVM_ENV* env, const char* package_name, const char* sub_n
 int32_t sub_id = env->get_sub_id(env, "Foo", "func", "int(long,string)");
 </pre>
 
-  <h3 id="native-api-native-sub-api-get_method_sub_id">get_method_sub_id</h3>
+  <h4 id="native-api-native-sub-api-get_method_sub_id">get_method_sub_id</h4>
 <pre>
 int32_t (*get_method_sub_id)(SPVM_ENV* env, void* object, const char* method_name, const char* signature);
 </pre>
@@ -1114,7 +1110,7 @@ int32_t (*get_method_sub_id)(SPVM_ENV* env, void* object, const char* method_nam
 int32_t sub_id = env->get_method_sub_id(env, object, "method", "int(self,long,string)");
 </pre>
 
-  <h3 id="native-api-native-sub-api-new_object_raw">new_object_raw</h3>
+  <h4 id="native-api-native-sub-api-new_object_raw">new_object_raw</h4>
   <p>
     基本型IDを指定して、新しいオブジェクトを生成します。基本型IDは「basic_type_id関数」で取得した、正しい基本型IDでなければなりません。
   </p>
@@ -1125,7 +1121,7 @@ void* (*new_object_raw)(SPVM_ENV* env, int32_t basic_type_id);
     この関数は、モータルスタックにオブジェクトを追加しないので、通常の利用はメモリリークを避けるために、new_objectを使用してください。
   </p>
 
-  <h3 id="native-api-native-sub-api-new_object">new_object</h3>
+  <h4 id="native-api-native-sub-api-new_object">new_object</h4>
   <p>
     基本型IDを指定して、新しいオブジェクトを生成し、返却します。基本型IDは、basic_type_idで取得した、正しい基本型IDでなければなりません。モータルスタックに新しく生成されたオブジェクトを追加します。
   </p>
@@ -1140,7 +1136,7 @@ int32_t basic_type_id = env->get_basic_type_id(env, "SPVM::Int");
 void* object = env->new_object(env, basic_type_id);
 </pre>
 
-  <h3 id="native-api-native-sub-api-new_byte_array_raw">new_byte_array_raw</h3>
+  <h4 id="native-api-native-sub-api-new_byte_array_raw">new_byte_array_raw</h4>
   <p>
     配列の長さを指定して新しい「byte[]型」のオブジェクトを生成します。すべての要素の初期値は0です。
   </p>
@@ -1151,7 +1147,7 @@ void* (*new_byte_array_raw)(SPVM_ENV* env, int32_t length);
     この関数は、モータルスタックにオブジェクトを追加しないので、通常の利用はメモリリークを避けるために、new_byte_arrayを使用してください。
   </p>
 
-  <h3 id="native-api-native-sub-api-new_byte_array">new_byte_array</h3>
+  <h4 id="native-api-native-sub-api-new_byte_array">new_byte_array</h4>
   <p>
     配列の長さを指定して新しい「byte[]型」のオブジェクトを生成し、返却します。すべての要素の初期値は0です。モータルスタックに新しく生成されたオブジェクトを追加します。
   </p>
@@ -1165,7 +1161,7 @@ void* (*new_byte_array)(SPVM_ENV* env, int32_t length);
 void* byte_array_obj = env->new_byte_array(env, 100);
 </pre>
   
-  <h3 id="native-api-native-sub-api-new_short_array_raw">new_short_array_raw</h3>
+  <h4 id="native-api-native-sub-api-new_short_array_raw">new_short_array_raw</h4>
   <p>
     配列の長さを指定して新しい「short[]型」のオブジェクトを生成します。すべての要素の初期値は0です。
   </p>
@@ -1176,7 +1172,7 @@ void* (*new_short_array_raw)(SPVM_ENV* env, int32_t length);
     この関数は、モータルスタックにオブジェクトを追加しないので、通常の利用はメモリリークを避けるために、new_short_arrayを使用してください。
   </p>
   
-  <h3 id="native-api-native-sub-api-new_short_array">new_short_array</h3>
+  <h4 id="native-api-native-sub-api-new_short_array">new_short_array</h4>
   <p>
     配列の長さを指定して新しい「short[]型」のオブジェクトを生成し、返却します。すべての要素の初期値は0です。モータルスタックに新しく生成されたオブジェクトを追加します。
   </p>
@@ -1190,7 +1186,7 @@ void* (*new_short_array)(SPVM_ENV* env, int32_t length);
 void* short_array_obj = env->new_short_array(env, 100);
 </pre>
   
-  <h3 id="native-api-native-sub-api-new_int_array_raw">new_int_array_raw</h3>
+  <h4 id="native-api-native-sub-api-new_int_array_raw">new_int_array_raw</h4>
   <p>
     配列の長さを指定して新しい「int[]型」のオブジェクトを生成します。すべての要素の初期値は0です。
   </p>
@@ -1201,7 +1197,7 @@ void* (*new_int_array_raw)(SPVM_ENV* env, int32_t length);
     この関数は、モータルスタックにオブジェクトを追加しないので、通常の利用はメモリリークを避けるために、new_int_arrayを使用してください。
   </p>
   
-  <h3 id="native-api-native-sub-api-new_int_array">new_int_array</h3>
+  <h4 id="native-api-native-sub-api-new_int_array">new_int_array</h4>
   <p>
     配列の長さを指定して新しい「int[]型」のオブジェクトを生成し、返却します。すべての要素の初期値は0です。モータルスタックに新しく生成されたオブジェクトを追加します。
   </p>
@@ -1215,7 +1211,7 @@ void* (*new_int_array)(SPVM_ENV* env, int32_t length);
 void* int_array_obj = env->new_int_array(env, 100);
 </pre>
   
-  <h3 id="native-api-native-sub-api-new_long_array_raw">new_long_array_raw</h3>
+  <h4 id="native-api-native-sub-api-new_long_array_raw">new_long_array_raw</h4>
   <p>
     配列の長さを指定して新しい「long[]型」のオブジェクトを生成します。すべての要素の初期値は0です。
   </p>
@@ -1226,7 +1222,7 @@ void* (*new_long_array_raw)(SPVM_ENV* env, int32_t length);
     この関数は、モータルスタックにオブジェクトを追加しないので、通常の利用はメモリリークを避けるために、new_long_arrayを使用してください。
   </p>
   
-  <h3 id="native-api-native-sub-api-new_long_array">new_long_array</h3>
+  <h4 id="native-api-native-sub-api-new_long_array">new_long_array</h4>
   <p>
     配列の長さを指定して新しい「long[]型」のオブジェクトを生成し、返却します。すべての要素の初期値は0です。モータルスタックに新しく生成されたオブジェクトを追加します。
   </p>
@@ -1240,7 +1236,7 @@ void* (*new_long_array)(SPVM_ENV* env, int32_t length);
 void* long_array_obj = env->new_long_array(env, 100);
 </pre>
   
-  <h3 id="native-api-native-sub-api-new_float_array_raw">new_float_array_raw</h3>
+  <h4 id="native-api-native-sub-api-new_float_array_raw">new_float_array_raw</h4>
   <p>
     配列の長さを指定して新しい「float[]型」のオブジェクトを生成します。すべての要素の初期値は0です。
   </p>
@@ -1251,7 +1247,7 @@ void* (*new_float_array_raw)(SPVM_ENV* env, int32_t length);
     この関数は、モータルスタックにオブジェクトを追加しないので、通常の利用はメモリリークを避けるために、new_float_arrayを使用してください。
   </p>
   
-  <h3 id="native-api-native-sub-api-new_float_array">new_float_array</h3>
+  <h4 id="native-api-native-sub-api-new_float_array">new_float_array</h4>
   <p>
     配列の長さを指定して新しい「float[]型」のオブジェクトを生成し、返却します。すべての要素の初期値は0です。モータルスタックに新しく生成されたオブジェクトを追加します。
   </p>
@@ -1265,7 +1261,7 @@ void* (*new_float_array)(SPVM_ENV* env, int32_t length);
 void* float_array_obj = env->new_float_array(env, 100);
 </pre>
   
-  <h3 id="native-api-native-sub-api-new_double_array_raw">new_double_array_raw</h3>
+  <h4 id="native-api-native-sub-api-new_double_array_raw">new_double_array_raw</h4>
   <p>
     配列の長さを指定して新しい「double[]型」のオブジェクトを生成します。すべての要素の初期値は0です。
   </p>
@@ -1276,7 +1272,7 @@ void* (*new_double_array_raw)(SPVM_ENV* env, int32_t length);
     この関数は、モータルスタックにオブジェクトを追加しないので、通常の利用はメモリリークを避けるために、new_double_arrayを使用してください。
   </p>
   
-  <h3 id="native-api-native-sub-api-new_double_array">new_double_array</h3>
+  <h4 id="native-api-native-sub-api-new_double_array">new_double_array</h4>
   <p>
     配列の長さを指定して新しい「double[]型」のオブジェクトを生成し、返却します。すべての要素の初期値は0です。モータルスタックに新しく生成されたオブジェクトを追加します。
   </p>
@@ -1290,7 +1286,7 @@ void* (*new_double_array)(SPVM_ENV* env, int32_t length);
 void* double_array_obj = env->new_double_array(env, 100);
 </pre>
   
-  <h3 id="native-api-native-sub-api-new_object_array_raw">new_object_array_raw</h3>
+  <h4 id="native-api-native-sub-api-new_object_array_raw">new_object_array_raw</h4>
   <p>
     基本型IDと配列の長さを指定して新しいオブジェクト型の配列を生成し、返却します。基本型IDは「basic_type_id関数」で取得した、正しい基本型IDでなければなりません。すべての要素の初期値はNULLです。
   </p>
@@ -1302,7 +1298,7 @@ void* (*new_object_array_raw)(SPVM_ENV* env, int32_t basic_type_id, int32_t leng
     この関数は、モータルスタックにオブジェクトを追加しないので、通常の利用はメモリリークを避けるために、new_object_arrayを使用してください。
   </p>
 
-  <h3 id="native-api-native-sub-api-new_object_array">new_object_array</h3>
+  <h4 id="native-api-native-sub-api-new_object_array">new_object_array</h4>
   <p>
     基本型IDと配列の長さを指定して新しいオブジェクト型の配列を生成し、返却します。基本型IDは「basic_type_id関数」で取得した、正しい基本型IDでなければなりません。すべての要素の初期値はNULLです。モータルスタックに新しく生成されたオブジェクトを追加します。
   </p>
@@ -1318,7 +1314,7 @@ int32_t basic_type_id = env->get_basic_type_id(env, "SPVM::Int");
 void* object_array_obj = env->new_object_array(env, basic_type_id, 100);
 </pre>
   
-  <h3 id="native-api-native-sub-api-new_muldim_array_raw">new_muldim_array_raw</h3>
+  <h4 id="native-api-native-sub-api-new_muldim_array_raw">new_muldim_array_raw</h4>
   <p>
     基本型IDと要素の型の次元と配列の長さを指定して新しい多次元のオブジェクト型の配列を生成し、返却します。基本型IDは「basic_type_id関数」で取得した、正しい基本型IDでなければなりません。すべての要素の初期値はNULLです。
   </p>
@@ -1329,7 +1325,7 @@ void* (*new_muldim_array_raw)(SPVM_ENV* env, int32_t basic_type_id, int32_t elem
     この関数は、モータルスタックにオブジェクトを追加しないので、通常の利用はメモリリークを避けるために、new_muldim_arrayを使用してください。
   </p>
   
-  <h3 id="native-api-native-sub-api-new_muldim_array">new_muldim_array</h3>
+  <h4 id="native-api-native-sub-api-new_muldim_array">new_muldim_array</h4>
   <p>
     基本型IDと要素の型の次元と配列の長さを指定して新しい多次元のオブジェクト型の配列を生成し、返却します。基本型IDは「basic_type_id関数」で取得した、正しい基本型IDでなければなりません。すべての要素の初期値はNULLです。モータルスタックに新しく生成されたオブジェクトを追加します。
   </p>
@@ -1348,7 +1344,7 @@ int32_t basic_type_id = env->get_basic_type_id(env, "SPVM::Int");
 void* multi_array_obj = env->new_muldim_array(env, basic_type_id, 2, 100);
 </pre>
   
-  <h3 id="native-api-native-sub-api-new_mulnum_array_raw">new_mulnum_array_raw</h3>
+  <h4 id="native-api-native-sub-api-new_mulnum_array_raw">new_mulnum_array_raw</h4>
   <p>
     基本型IDと配列の長さを指定して新しい複数数値型の配列を生成し、返却します。基本型IDは「basic_type_id関数」で取得した、正しい基本型IDでかつ、複合数値型として有効でなければなりません。すべての要素のすべてのフィールどの初期値は0です。
   </p>
@@ -1359,7 +1355,7 @@ void* (*new_mulnum_array_raw)(SPVM_ENV* env, int32_t basic_type_id, int32_t leng
     この関数は、モータルスタックにオブジェクトを追加しないので、通常の利用はメモリリークを避けるために、new_mulnum_arrayを使用してください。
   </p>
   
-  <h3 id="native-api-native-sub-api-new_mulnum_array">new_mulnum_array</h3>
+  <h4 id="native-api-native-sub-api-new_mulnum_array">new_mulnum_array</h4>
   <p>
     基本型IDと配列の長さを指定して新しい複数数値型の配列を生成し、返却します。基本型IDは「basic_type_id関数」で取得した、正しい基本型IDでかつ、複合数値型として有効でなければなりません。すべての要素のすべてのフィールどの初期値は0です。
   </p>
@@ -1374,7 +1370,7 @@ int32_t basic_type_id = env->get_basic_type_id(env, "SPVM::Complex_2d");
 void* value_array_obj = env->new_mulnum_array(env, basic_type_id, 100);
 </pre>
   
-  <h3 id="native-api-native-sub-api-new_string_raw">new_string_raw</h3>
+  <h4 id="native-api-native-sub-api-new_string_raw">new_string_raw</h4>
   <p>
     C言語の文字列を指定して、文字列型のオブジェクトを生成し、返却します。文字列は「\0」で終端していなければなりません。
   </p>
@@ -1385,7 +1381,7 @@ void* (*new_string_raw)(SPVM_ENV* env, const char* bytes);
     この関数は、モータルスタックにオブジェクトを追加しないので、通常の利用はメモリリークを避けるために、new_stringを使用してください。
   </p>
 
-  <h3 id="native-api-native-sub-api-new_string">new_string</h3>
+  <h4 id="native-api-native-sub-api-new_string">new_string</h4>
   <p>
     C言語の文字列を指定して、文字列型のオブジェクトを生成し、返却します。文字列は「\0」で終端していなければなりません。モータルスタックに新しく生成されたオブジェクトを追加します。
   </p>
@@ -1399,7 +1395,7 @@ void* (*new_string)(SPVM_ENV* env, const char* bytes);
 void* str_obj = env->new_string(env, "Hello World");
 </pre>
   
-  <h3 id="native-api-native-sub-api-new_string_len_raw">new_string_len_raw</h3>
+  <h4 id="native-api-native-sub-api-new_string_len_raw">new_string_len_raw</h4>
   <p>
     C言語の文字列と長さを指定して、文字列型のオブジェクトを生成し、返却します。
   </p>
@@ -1410,7 +1406,7 @@ void* (*new_string_len_raw)(SPVM_ENV* env, const char* bytes, int32_t length);
     この関数は、モータルスタックにオブジェクトを追加しないので、通常の利用はメモリリークを避けるために、new_string_lenを使用してください。
   </p>
   
-  <h3 id="native-api-native-sub-api-new_string_len">new_string_len</h3>
+  <h4 id="native-api-native-sub-api-new_string_len">new_string_len</h4>
   <p>
     C言語の文字列と長さを指定して、文字列型のオブジェクトを生成し、返却します。モータルスタックに新しく生成されたオブジェクトを追加します。
   </p>
@@ -1424,7 +1420,7 @@ void* (*new_string_len)(SPVM_ENV* env, const char* bytes, int32_t length);
 void* str_obj = env->new_string_len(env, "Hello\0World", 11);
 </pre>
   
-  <h3 id="native-api-native-sub-api-new_pointer_raw">new_pointer_raw</h3>
+  <h4 id="native-api-native-sub-api-new_pointer_raw">new_pointer_raw</h4>
   <p>
     基本型IDとC言語のポインタを指定して、ポインタ型のオブジェクトを生成し、返却します。基本型IDは「basic_type_id関数」で取得した、正しい基本型IDでかつ、ポインタ型として有効でなければなりません。
   </p>
@@ -1437,7 +1433,7 @@ void* (*new_pointer_raw)(SPVM_ENV* env, int32_t basic_type_id, void* pointer);
     この関数は、モータルスタックにオブジェクトを追加しないので、通常の利用はメモリリークを避けるために、new_pointerを使用してください。
   </p>
   
-  <h3 id="native-api-native-sub-api-new_pointer">new_pointer</h3>
+  <h4 id="native-api-native-sub-api-new_pointer">new_pointer</h4>
   <p>
     基本型IDとC言語のポインタを指定して、ポインタ型のオブジェクトを生成し、返却します。基本型IDは「basic_type_id関数」で取得した、正しい基本型IDでかつ、ポインタ型として有効でなければなりません。モータルスタックに新しく生成されたオブジェクトを追加します。
   </p>
@@ -1456,7 +1452,7 @@ void* pointer_obj = env->new_pointer(env, "MyTimeInfo", pointer);
     詳しいサンプルについては<a href="#native-api-use-pointer-type">ポインタ型の利用</a>を見てください。
   </p>
   
-  <h3 id="native-api-native-sub-api-concat_raw">concat_raw</h3>
+  <h4 id="native-api-native-sub-api-concat_raw">concat_raw</h4>
   <p>
     ふたつのbyte[]型の文字列を結合した新しいbyte[]型のオブジェクトを返却します。
   </p>
@@ -1468,7 +1464,7 @@ void* (*concat_raw)(SPVM_ENV* env, void* string1, void* string2);
     この関数は、モータルスタックにオブジェクトを追加しないので、通常の利用はメモリリークを避けるために、concatを使用してください。
   </p>
   
-  <h3 id="native-api-native-sub-api-concat">concat</h3>
+  <h4 id="native-api-native-sub-api-concat">concat</h4>
   <p>
     ふたつのbyte[]型の文字列を結合した新しいbyte[]型のオブジェクトを返却します。モータルスタックに新しく生成されたオブジェクトを追加します。
   </p>
@@ -1476,7 +1472,7 @@ void* (*concat_raw)(SPVM_ENV* env, void* string1, void* string2);
 void* (*concat)(SPVM_ENV* env, void* string1, void* string2);
 </pre>
   
-  <h3 id="native-api-native-sub-api-new_stack_trace_raw">new_stack_trace_raw</h3>
+  <h4 id="native-api-native-sub-api-new_stack_trace_raw">new_stack_trace_raw</h4>
   <p>
     byte[]型の例外メッセージと、パッケージ名、サブルーチン名、ファイル名と行番号を指定すると、byte[]型の例外メッセージの末尾に、パッケージ名、サブルーチン名、ファイル名と行番号の文字列を追加した文字列を返却します。
   </p>
@@ -1487,7 +1483,7 @@ void* (*new_stack_trace_raw)(SPVM_ENV* env, void* exception, const char* package
     この関数は、モータルスタックにオブジェクトを追加しないので、通常の利用はメモリリークを避けるために、new_stack_traceを使用してください。
   </p>
   
-  <h3 id="native-api-native-sub-api-new_stack_trace">new_stack_trace</h3>
+  <h4 id="native-api-native-sub-api-new_stack_trace">new_stack_trace</h4>
   <p>
     byte[]型の例外メッセージと、パッケージ名、サブルーチン名、ファイル名と行番号を指定すると、string型の例外メッセージの末尾に、パッケージ名、サブルーチン名、ファイル名と行番号の文字列を追加した新しいstring型のオブジェクトを返却します。モータルスタックに新しく生成されたオブジェクトを追加します。
   </p>
@@ -1495,7 +1491,7 @@ void* (*new_stack_trace_raw)(SPVM_ENV* env, void* exception, const char* package
 void* (*new_stack_trace)(SPVM_ENV* env, void* exception, const char* package_name, const char* sub_name, const char* file, int32_t line);
 </pre>
   
-  <h3 id="native-api-native-sub-api-len">len</h3>
+  <h4 id="native-api-native-sub-api-len">len</h4>
   <p>
     配列を指定すると、配列の長さを返却します。
   </p>
@@ -1509,7 +1505,7 @@ int32_t (*len)(SPVM_ENV*, void* array);
 int32_t length = env->length(env, array);
 </pre>
 
-  <h3 id="native-api-native-sub-api-get_elems_byte">get_elems_byte</h3>
+  <h4 id="native-api-native-sub-api-get_elems_byte">get_elems_byte</h4>
   <p>
     byte[]型の配列を指定すると、内部的に保有しているC言語のint8_t[]型の配列の先頭のポインタを返却します。
   </p>
@@ -1524,7 +1520,7 @@ int8_t* values = env->get_elems_byte(env, array);
 values[3] = 5;
 </pre>
 
-  <h3 id="native-api-native-sub-api-get_elems_short">get_elems_short</h3>
+  <h4 id="native-api-native-sub-api-get_elems_short">get_elems_short</h4>
   <p>
     short[]型の配列を指定すると、内部的に保有しているC言語のint16_t[]型の配列の先頭のポインタを返却します。
   </p>
@@ -1539,7 +1535,7 @@ int16_t* values = env->get_elems_short(env, array);
 values[3] = 5;
 </pre>
 
-  <h3 id="native-api-native-sub-api-get_elems_int">get_elems_int</h3>
+  <h4 id="native-api-native-sub-api-get_elems_int">get_elems_int</h4>
   <p>
     int[]型の配列を指定すると、内部的に保有しているC言語のint32_t[]型の配列の先頭のポインタを返却します。
   </p>
@@ -1554,7 +1550,7 @@ int32_t* values = env->get_elems_int(env, array);
 values[3] = 5;
 </pre>
 
-  <h3 id="native-api-native-sub-api-get_elems_long">get_elems_long</h3>
+  <h4 id="native-api-native-sub-api-get_elems_long">get_elems_long</h4>
   <p>
     long[]型の配列を指定すると、内部的に保有しているC言語のint64_t[]型の配列の先頭のポインタを返却します。
   </p>
@@ -1569,7 +1565,7 @@ int64_t* values = env->get_elems_long(env, array);
 values[3] = 5;
 </pre>
 
-  <h3 id="native-api-native-sub-api-get_elems_float">get_elems_float</h3>
+  <h4 id="native-api-native-sub-api-get_elems_float">get_elems_float</h4>
   <p>
     float[]型の配列を指定すると、内部的に保有しているC言語のfloat[]型の配列の先頭のポインタを返却します。
   </p>
@@ -1584,7 +1580,7 @@ float* values = env->get_elems_float(env, array);
 values[3] = 1.5f;
 </pre>
 
-  <h3 id="native-api-native-sub-api-get_elems_double">get_elems_double</h3>
+  <h4 id="native-api-native-sub-api-get_elems_double">get_elems_double</h4>
   <p>
     double[]型の配列を指定すると、内部的に保有しているC言語のdouble[]型の配列の先頭のポインタを返却します。
   </p>
@@ -1599,7 +1595,7 @@ double* values = env->get_elems_double(env, array);
 values[3] = 1.5;
 </pre>
 
-  <h3 id="native-api-native-sub-api-get_elem_object">get_elem_object</h3>
+  <h4 id="native-api-native-sub-api-get_elem_object">get_elem_object</h4>
   <p>
     オブジェクト型の配列と添え字を指定して、要素のオブジェクトを取得します。もし要素が弱参照になっていた場合は、弱参照が取り除かれます。
   </p>
@@ -1613,7 +1609,7 @@ void* (*get_elem_object)(SPVM_ENV* env, void* array, int32_t index);
 void* object = env->get_elem_object(env, array, 3);
 </pre>
 
-  <h3 id="native-api-native-sub-api-set_elem_object">set_elem_object</h3>
+  <h4 id="native-api-native-sub-api-set_elem_object">set_elem_object</h4>
   <p>
     オブジェクト型の配列と添え字と要素のオブジェクトを指定すると、対応する添え字の位置に要素のオブジェクトが代入されます。要素のオブジェクトが弱参照になっていた場合は、弱参照が取り除かれます。もともと代入されていたオブジェクトのリファレンスカウントは、1減らされます。
   </p>
@@ -1626,7 +1622,7 @@ void (*set_elem_object)(SPVM_ENV* env, void* array, int32_t index, void* value);
 <pre>
 env->get_elem_object(env, array, 3, object);
 </pre>
-  <h3 id="native-api-native-sub-api-get_field_byte">get_field_byte</h3>
+  <h4 id="native-api-native-sub-api-get_field_byte">get_field_byte</h4>
   <p>
     オブジェクトとフィールドIDを指定すると、byte型のフィールドの値をC言語のint8_t型の値として返却します。フィールドIDはfield_id関数で取得した有効なフィールドIDである必要があります。
   </p>
@@ -1641,7 +1637,7 @@ int32_t field_id = env->get_field_id(env, "Foo", "x", "byte");
 int8_t field_value = env->get_field_byte(env, object, field_id);
 </pre>
 
-  <h3 id="native-api-native-sub-api-get_field_short">get_field_short</h3>
+  <h4 id="native-api-native-sub-api-get_field_short">get_field_short</h4>
   <p>
     オブジェクトとフィールドIDを指定すると、short型のフィールドの値をC言語のint16_t型の値として返却します。フィールドIDはfield_id関数で取得した有効なフィールドIDである必要があります。
   </p>
@@ -1656,7 +1652,7 @@ int32_t field_id = env->get_field_id(env, "Foo", "x", "short");
 int16_t field_value = env->get_field_short(env, object, field_id);
 </pre>
 
-  <h3 id="native-api-native-sub-api-get_field_int">get_field_int</h3>
+  <h4 id="native-api-native-sub-api-get_field_int">get_field_int</h4>
   <p>
     オブジェクトとフィールドIDを指定すると、int型のフィールドの値をC言語のint32_t型の値として返却します。フィールドIDはfield_id関数で取得した有効なフィールドIDである必要があります。
   </p>
@@ -1671,7 +1667,7 @@ int32_t field_id = env->get_field_id(env, "Foo", "x", "int");
 int32_t field_value = env->get_field_int(env, object, field_id);
 </pre>
 
-  <h3 id="native-api-native-sub-api-get_field_long">get_field_long</h3>
+  <h4 id="native-api-native-sub-api-get_field_long">get_field_long</h4>
   <p>
     オブジェクトとフィールドIDを指定すると、long型のフィールドの値をC言語のint64_t型の値として返却します。フィールドIDはfield_id関数で取得した有効なフィールドIDである必要があります。
   </p>
@@ -1686,7 +1682,7 @@ int32_t field_id = env->get_field_id(env, "Foo", "x", "long");
 int64_t field_value = env->get_field_long(env, object, field_id);
 </pre>
 
-  <h3 id="native-api-native-sub-api-get_field_float">get_field_float</h3>
+  <h4 id="native-api-native-sub-api-get_field_float">get_field_float</h4>
   <p>
     オブジェクトとフィールドIDを指定すると、float型のフィールドの値をC言語のfloat型の値として返却します。フィールドIDはfield_id関数で取得した有効なフィールドIDである必要があります。
   </p>
@@ -1701,7 +1697,7 @@ int32_t field_id = env->get_field_id(env, "Foo", "x", "float");
 float field_value = env->get_field_float(env, object, field_id);
 </pre>
 
-  <h3 id="native-api-native-sub-api-get_field_double">get_field_double</h3>
+  <h4 id="native-api-native-sub-api-get_field_double">get_field_double</h4>
   <p>
     オブジェクトとフィールドIDを指定すると、double型のフィールドの値をC言語のdouble型の値として返却します。フィールドIDはfield_id関数で取得した有効なフィールドIDである必要があります。
   </p>
@@ -1716,7 +1712,7 @@ int32_t field_id = env->get_field_id(env, "Foo", "x", "double");
 double field_value = env->get_field_double(env, object, field_id);
 </pre>
 
-  <h3 id="native-api-native-sub-api-get_field_object">get_field_object</h3>
+  <h4 id="native-api-native-sub-api-get_field_object">get_field_object</h4>
   <p>
     オブジェクトとフィールドIDを指定すると、オブジェクト型のフィールドの値をC言語のvoid*型の値として返却します。フィールドIDはfield_id関数で取得した有効なフィールドIDである必要があります。フィールドが弱参照である場合は、取り除かれます。
   </p>
@@ -1728,7 +1724,7 @@ int32_t field_id = env->get_field_id(env, "Foo", "x", "SPVM::Int");
 void* field_value = env->get_field_object(env, object, field_id);
 </pre>
 
-  <h3 id="native-api-native-sub-api-set_field_byte">set_field_byte</h3>
+  <h4 id="native-api-native-sub-api-set_field_byte">set_field_byte</h4>
   <p>
     オブジェクトとフィールドIDとフィールドの値を指定すると、byte型のフィールドに値を設定します。フィールドIDはfield_id関数で取得した有効なフィールドIDである必要があります。
   </p>
@@ -1744,7 +1740,7 @@ int8_t field_value = 5;
 env->set_field_byte(env, object, field_id, field_value);
 </pre>
 
-  <h3 id="native-api-native-sub-api-set_field_short">set_field_short</h3>
+  <h4 id="native-api-native-sub-api-set_field_short">set_field_short</h4>
   <p>
     オブジェクトとフィールドIDとフィールドの値を指定すると、short型のフィールドに値を設定します。フィールドIDはfield_id関数で取得した有効なフィールドIDである必要があります。
   </p>
@@ -1760,7 +1756,7 @@ int16_t field_value = 5;
 env->set_field_short(env, object, field_id, field_value);
 </pre>
 
-  <h3 id="native-api-native-sub-api-set_field_int">set_field_int</h3>
+  <h4 id="native-api-native-sub-api-set_field_int">set_field_int</h4>
   <p>
     オブジェクトとフィールドIDとフィールドの値を指定すると、int型のフィールドに値を設定します。フィールドIDはfield_id関数で取得した有効なフィールドIDである必要があります。
   </p>
@@ -1776,7 +1772,7 @@ int32_t field_value = 5;
 env->set_field_int(env, object, field_id, field_value);
 </pre>
 
-  <h3 id="native-api-native-sub-api-set_field_long">set_field_long</h3>
+  <h4 id="native-api-native-sub-api-set_field_long">set_field_long</h4>
   <p>
     オブジェクトとフィールドIDとフィールドの値を指定すると、long型のフィールドに値を設定します。フィールドIDはfield_id関数で取得した有効なフィールドIDである必要があります。
   </p>
@@ -1792,7 +1788,7 @@ int64_t field_value = 5;
 env->set_field_long(env, object, field_id, field_value);
 </pre>
 
-  <h3 id="native-api-native-sub-api-set_field_float">set_field_float</h3>
+  <h4 id="native-api-native-sub-api-set_field_float">set_field_float</h4>
   <p>
     オブジェクトとフィールドIDとフィールドの値を指定すると、float型のフィールドに値を設定します。フィールドIDはfield_id関数で取得した有効なフィールドIDである必要があります。
   </p>
@@ -1808,7 +1804,7 @@ float field_value = 1.5f;
 env->set_field_float(env, object, field_id, field_value);
 </pre>
 
-  <h3 id="native-api-native-sub-api-set_field_double">set_field_double</h3>
+  <h4 id="native-api-native-sub-api-set_field_double">set_field_double</h4>
   <p>
     オブジェクトとフィールドIDとフィールドの値を指定すると、double型のフィールドに値を設定します。フィールドIDはfield_id関数で取得した有効なフィールドIDである必要があります。
   </p>
@@ -1824,7 +1820,7 @@ double field_value = 1.55;
 env->set_field_double(env, object, field_id, field_value);
 </pre>
 
-  <h3 id="native-api-native-sub-api-set_field_object">set_field_object</h3>
+  <h4 id="native-api-native-sub-api-set_field_object">set_field_object</h4>
   <p>
     オブジェクトとフィールドIDとフィールドの値を指定すると、オブジェクト型のフィールドに値を設定します。フィールドIDはfield_id関数で取得した有効なフィールドIDである必要があります。設定後の値は、リファレンスカウントが1増やされます。元の値は、リファレンスカウントが1減らされます。
   </p>
@@ -1841,7 +1837,7 @@ void* object = env->new_object(env, basic_type_id);
 env->set_field_object(env, object, field_id, object);
 </pre>
 
-  <h3 id="native-api-native-sub-api-get_package_var_byte">get_package_var_byte</h3>
+  <h4 id="native-api-native-sub-api-get_package_var_byte">get_package_var_byte</h4>
   <p>
     オブジェクトとパッケージ変数IDを指定すると、byte型のパッケージ変数の値をC言語のint8_t型の値として返却します。パッケージ変数IDはfield_id関数で取得した有効なパッケージ変数IDである必要があります。
   </p>
@@ -1856,7 +1852,7 @@ int32_t pkgvar_id = env->get_package_var_id(env, "Foo", "$VAR", "byte");
 int8_t pkgvar_value = env->get_package_var_byte(env, object, pkgvar_id);
 </pre>
 
-  <h3 id="native-api-native-sub-api-get_package_var_short">get_package_var_short</h3>
+  <h4 id="native-api-native-sub-api-get_package_var_short">get_package_var_short</h4>
   <p>
     オブジェクトとパッケージ変数IDを指定すると、short型のパッケージ変数の値をC言語のint16_t型の値として返却します。パッケージ変数IDはfield_id関数で取得した有効なパッケージ変数IDである必要があります。
   </p>
@@ -1871,7 +1867,7 @@ int32_t pkgvar_id = env->get_package_var_id(env, "Foo", "$VAR", "short");
 int16_t pkgvar_value = env->get_package_var_short(env, object, pkgvar_id);
 </pre>
 
-  <h3 id="native-api-native-sub-api-get_package_var_int">get_package_var_int</h3>
+  <h4 id="native-api-native-sub-api-get_package_var_int">get_package_var_int</h4>
   <p>
     オブジェクトとパッケージ変数IDを指定すると、int型のパッケージ変数の値をC言語のint32_t型の値として返却します。パッケージ変数IDはfield_id関数で取得した有効なパッケージ変数IDである必要があります。
   </p>
@@ -1886,7 +1882,7 @@ int32_t pkgvar_id = env->get_package_var_id(env, "Foo", "$VAR", "int");
 int32_t pkgvar_value = env->get_package_var_int(env, object, pkgvar_id);
 </pre>
 
-  <h3 id="native-api-native-sub-api-get_package_var_long">get_package_var_long</h3>
+  <h4 id="native-api-native-sub-api-get_package_var_long">get_package_var_long</h4>
   <p>
     オブジェクトとパッケージ変数IDを指定すると、long型のパッケージ変数の値をC言語のint64_t型の値として返却します。パッケージ変数IDはfield_id関数で取得した有効なパッケージ変数IDである必要があります。
   </p>
@@ -1901,7 +1897,7 @@ int32_t pkgvar_id = env->get_package_var_id(env, "Foo", "$VAR", "long");
 int64_t pkgvar_value = env->get_package_var_long(env, object, pkgvar_id);
 </pre>
 
-  <h3 id="native-api-native-sub-api-get_package_var_float">get_package_var_float</h3>
+  <h4 id="native-api-native-sub-api-get_package_var_float">get_package_var_float</h4>
   <p>
     オブジェクトとパッケージ変数IDを指定すると、float型のパッケージ変数の値をC言語のfloat型の値として返却します。パッケージ変数IDはfield_id関数で取得した有効なパッケージ変数IDである必要があります。
   </p>
@@ -1916,7 +1912,7 @@ int32_t pkgvar_id = env->get_package_var_id(env, "Foo", "$VAR", "float");
 float pkgvar_value = env->get_package_var_float(env, object, pkgvar_id);
 </pre>
 
-  <h3 id="native-api-native-sub-api-get_package_var_double">get_package_var_double</h3>
+  <h4 id="native-api-native-sub-api-get_package_var_double">get_package_var_double</h4>
   <p>
     オブジェクトとパッケージ変数IDを指定すると、double型のパッケージ変数の値をC言語のdouble型の値として返却します。パッケージ変数IDはfield_id関数で取得した有効なパッケージ変数IDである必要があります。
   </p>
@@ -1931,7 +1927,7 @@ int32_t pkgvar_id = env->get_package_var_id(env, "Foo", "$VAR", "double");
 double pkgvar_value = env->get_package_var_double(env, object, pkgvar_id);
 </pre>
 
-  <h3 id="native-api-native-sub-api-get_package_var_object">get_package_var_object</h3>
+  <h4 id="native-api-native-sub-api-get_package_var_object">get_package_var_object</h4>
   <p>
     オブジェクトとパッケージ変数IDを指定すると、オブジェクト型のパッケージ変数の値をC言語のvoid*型の値として返却します。パッケージ変数IDはfield_id関数で取得した有効なパッケージ変数IDである必要があります。
   </p>
@@ -1946,7 +1942,7 @@ int32_t pkgvar_id = env->get_package_var_id(env, "Foo", "$VAR", "SPVM::Int");
 void* pkgvar_value = env->get_package_var_byte(env, object, pkgvar_id);
 </pre>
 
-  <h3 id="native-api-native-sub-api-set_package_var_byte">set_package_var_byte</h3>
+  <h4 id="native-api-native-sub-api-set_package_var_byte">set_package_var_byte</h4>
   <p>
     オブジェクトとフィールドIDとフィールドの値を指定すると、byte型のフィールドに値を設定します。フィールドIDはfield_id関数で取得した有効なフィールドIDである必要があります。
   </p>
@@ -1962,7 +1958,7 @@ int8_t pkgvar_value = 5;
 env->set_package_var_byte(env, pkgvar_id, pkgvar_value);
 </pre>
 
-  <h3 id="native-api-native-sub-api-set_package_var_short">set_package_var_short</h3>
+  <h4 id="native-api-native-sub-api-set_package_var_short">set_package_var_short</h4>
   <p>
     オブジェクトとフィールドIDとフィールドの値を指定すると、short型のフィールドに値を設定します。フィールドIDはfield_id関数で取得した有効なフィールドIDである必要があります。
   </p>
@@ -1978,7 +1974,7 @@ int16_t pkgvar_value = 5;
 env->set_package_var_short(env, pkgvar_id, pkgvar_value);
 </pre>
 
-  <h3 id="native-api-native-sub-api-set_package_var_int">set_package_var_int</h3>
+  <h4 id="native-api-native-sub-api-set_package_var_int">set_package_var_int</h4>
   <p>
     オブジェクトとフィールドIDとフィールドの値を指定すると、int型のフィールドに値を設定します。フィールドIDはfield_id関数で取得した有効なフィールドIDである必要があります。
   </p>
@@ -1994,7 +1990,7 @@ int32_t pkgvar_value = 5;
 env->set_package_var_int(env, pkgvar_id, pkgvar_value);
 </pre>
 
-  <h3 id="native-api-native-sub-api-set_package_var_long">set_package_var_long</h3>
+  <h4 id="native-api-native-sub-api-set_package_var_long">set_package_var_long</h4>
   <p>
     オブジェクトとフィールドIDとフィールドの値を指定すると、long型のフィールドに値を設定します。フィールドIDはfield_id関数で取得した有効なフィールドIDである必要があります。
   </p>
@@ -2010,7 +2006,7 @@ int64_t pkgvar_value = 5;
 env->set_package_var_long(env, pkgvar_id, pkgvar_value);
 </pre>
 
-  <h3 id="native-api-native-sub-api-set_package_var_float">set_package_var_float</h3>
+  <h4 id="native-api-native-sub-api-set_package_var_float">set_package_var_float</h4>
   <p>
     オブジェクトとフィールドIDとフィールドの値を指定すると、float型のフィールドに値を設定します。フィールドIDはfield_id関数で取得した有効なフィールドIDである必要があります。
   </p>
@@ -2026,7 +2022,7 @@ float pkgvar_value = 5;
 env->set_package_var_float(env, pkgvar_id, pkgvar_value);
 </pre>
 
-  <h3 id="native-api-native-sub-api-set_package_var_double">set_package_var_double</h3>
+  <h4 id="native-api-native-sub-api-set_package_var_double">set_package_var_double</h4>
   <p>
     オブジェクトとフィールドIDとフィールドの値を指定すると、double型のフィールドに値を設定します。フィールドIDはfield_id関数で取得した有効なフィールドIDである必要があります。
   </p>
@@ -2042,7 +2038,7 @@ double pkgvar_value = 5;
 env->set_package_var_double(env, pkgvar_id, pkgvar_value);
 </pre>
 
-  <h3 id="native-api-native-sub-api-set_package_var_object">set_package_var_object</h3>
+  <h4 id="native-api-native-sub-api-set_package_var_object">set_package_var_object</h4>
   <p>
     オブジェクトとフィールドIDとフィールドの値を指定すると、オブジェクト型のフィールドに値を設定します。フィールドIDはfield_id関数で取得した有効なフィールドIDである必要があります。設定後の値は、リファレンスカウントが1増やされます。元の値は、リファレンスカウントが1減らされます。
   </p>
@@ -2059,7 +2055,7 @@ void* object = env->new_object(env, basic_type_id);
 env->set_package_var_object(env, pkgvar_id, pkgvar_value);
 </pre>
 
-  <h3 id="native-api-native-sub-api-get_pointer">get_pointer</h3>
+  <h4 id="native-api-native-sub-api-get_pointer">get_pointer</h4>
   <p>
     ポインタ型のオブジェクトを指定して、オブジェクトの内部に保存されているC言語のポインタを返却します。
   </p>
@@ -2077,7 +2073,7 @@ strcut tm* tm_ptr = (struct tm*)env->get_pointer(env, tm_obj);
     詳しいサンプルについては<a href="#native-api-use-pointer-type">ポインタ型の利用</a>を見てください。
   </p>
 
-  <h3 id="native-api-native-sub-api-set_pointer">set_pointer</h3>
+  <h4 id="native-api-native-sub-api-set_pointer">set_pointer</h4>
   <p>
     ポインタ型のオブジェクトと、C言語のポインタを指定すると、ポインタ型のオブジェクトの内部データに、C言語のポインタが保存されます。
   </p>
@@ -2085,7 +2081,7 @@ strcut tm* tm_ptr = (struct tm*)env->get_pointer(env, tm_obj);
 void (*set_pointer)(SPVM_ENV* env, void* pointer_object, void* pointer);
 </pre>
   
-  <h3 id="native-api-native-sub-api-call_sub">call_sub</h3>
+  <h4 id="native-api-native-sub-api-call_sub">call_sub</h4>
   <p>
     サブルーチンIDと引数を指定して、サブルーチンを呼び出します。戻り値は、サブルーチンで例外が発生した場合は0以外を、例外が発生しなかった場合は0を返却します。
   </p>
@@ -2096,7 +2092,7 @@ int32_t (*call_sub)(SPVM_ENV* env, int32_t sub_id, SPVM_VALUE* args);
     サブルーチンの戻り値は「args[0]」に、設定されます。
   </p>
 
-  <h3 id="native-api-native-sub-api-get_exception">get_exception</h3>
+  <h4 id="native-api-native-sub-api-get_exception">get_exception</h4>
   <p>
     例外として保存されているbyte[]型のオブジェクトを返却します。
   </p>
@@ -2104,7 +2100,7 @@ int32_t (*call_sub)(SPVM_ENV* env, int32_t sub_id, SPVM_VALUE* args);
 void* (*get_exception)(SPVM_ENV* env);
 </pre>
   
-  <h3 id="native-api-native-sub-api-set_exception">set_exception</h3>
+  <h4 id="native-api-native-sub-api-set_exception">set_exception</h4>
   <p>
     byte[]型のオブジェクトを指定すると、例外として保存します。
   </p>
@@ -2112,7 +2108,7 @@ void* (*get_exception)(SPVM_ENV* env);
 void (*set_exception)(SPVM_ENV* env, void* exception);
 </pre>
   
-  <h3 id="native-api-native-sub-api-get_ref_count">get_ref_count</h3>
+  <h4 id="native-api-native-sub-api-get_ref_count">get_ref_count</h4>
   <p>
     オブジェクトを指定すると、オブジェクトのリファレンスカウントを返却します。
   </p>
@@ -2120,7 +2116,7 @@ void (*set_exception)(SPVM_ENV* env, void* exception);
 int32_t (*get_ref_count)(SPVM_ENV* env, void* object);
 </pre>
 
-  <h3 id="native-api-native-sub-api-inc_ref_count">inc_ref_count</h3>
+  <h4 id="native-api-native-sub-api-inc_ref_count">inc_ref_count</h4>
   <p>
     オブジェクトを指定すると、オブジェクトのリファレンスカウントを1増やします。
   </p>
@@ -2131,7 +2127,7 @@ void (*inc_ref_count)(SPVM_ENV* env, void* object);
     このメソッドは、使うべき、特別な理由がある場合のみ使用してください。通常は、リファレンスカウントは、自動的に管理されています。
   </p>
   
-  <h3 id="native-api-native-sub-api-dec_ref_count">dec_ref_count</h3>
+  <h4 id="native-api-native-sub-api-dec_ref_count">dec_ref_count</h4>
   <p>
     オブジェクトを指定すると、オブジェクトのリファレンスカウントを1減らします。リファレンスカウントが0になった場合、オブジェクトを解放します。
   </p>
@@ -2142,7 +2138,7 @@ void (*dec_ref_count)(SPVM_ENV* env, void* object);
     このメソッドは、使うべき、特別な理由がある場合のみ使用してください。通常は、リファレンスカウントは、自動的に管理されています。
   </p>
   
-  <h3 id="native-api-native-sub-api-enter_scope">enter_scope</h3>
+  <h4 id="native-api-native-sub-api-enter_scope">enter_scope</h4>
   <p>
     新しいスコープを作成し、スコープIDを返却します。
   </p>
@@ -2150,7 +2146,7 @@ void (*dec_ref_count)(SPVM_ENV* env, void* object);
 int32_t (*enter_scope)(SPVM_ENV* env);
 </pre>
 
-  <h3 id="native-api-native-sub-api-push_mortal">push_mortal</h3>
+  <h4 id="native-api-native-sub-api-push_mortal">push_mortal</h4>
   <p>
     モータルスタックに、オブジェクトを追加します。
   </p>
@@ -2158,7 +2154,7 @@ int32_t (*enter_scope)(SPVM_ENV* env);
 void (*push_mortal)(SPVM_ENV* env, void* object);
 </pre>
 
-  <h3 id="native-api-native-sub-api-leave_scope">leave_scope</h3>
+  <h4 id="native-api-native-sub-api-leave_scope">leave_scope</h4>
   <p>
     スコープIDを指定して、そのスコープを終了し、モータルスタックに格納されている、オブジェクトのリファレンスカウントを1減らします。リファレンスカウントが0になったオブジェクトは解放されます。スコープIDは、enter_scope関数で取得したIDでなければなりません。
   </p>
@@ -2166,7 +2162,7 @@ void (*push_mortal)(SPVM_ENV* env, void* object);
 void (*leave_scope)(SPVM_ENV* env, int32_t scope_id);
 </pre>
 
-  <h3 id="native-api-native-sub-api-remove_mortal">remove_mortal</h3>
+  <h4 id="native-api-native-sub-api-remove_mortal">remove_mortal</h4>
   <p>
     スコープIDと、オブジェクトを指定すると、指定されたオブジェクトをモータルスタックから削除します。
   </p>
@@ -2174,7 +2170,7 @@ void (*leave_scope)(SPVM_ENV* env, int32_t scope_id);
 int32_t (*remove_mortal)(SPVM_ENV* env, int32_t scope_id, void* remove_object);
 </pre>
 
-  <h3 id="native-api-native-sub-api-is_type">is_type</h3>
+  <h4 id="native-api-native-sub-api-is_type">is_type</h4>
   <p>
     オブジェクトと基本型IDと型の次元を指定すると、オブジェクトが、基本型IDと型の次元の両方に一致した場合、0以外の値を、そうでない場合は、0を返します。
   </p>
@@ -2182,7 +2178,7 @@ int32_t (*remove_mortal)(SPVM_ENV* env, int32_t scope_id, void* remove_object);
 int32_t (*is_type)(SPVM_ENV* env, void* object, int32_t basic_type_id, int32_t type_dimension);
 </pre>
 
-  <h3 id="native-api-native-sub-api-has_callback">has_callback</h3>
+  <h4 id="native-api-native-sub-api-has_callback">has_callback</h4>
   <p>
     オブジェクトとコールバック型の基本型IDを指定すると、オブジェクトが、コールバック型に適合した場合は0以外の値を、そうでない場合は、0を返します。
   </p>
@@ -2190,7 +2186,7 @@ int32_t (*is_type)(SPVM_ENV* env, void* object, int32_t basic_type_id, int32_t t
 int32_t (*has_callback)(SPVM_ENV* env, void* object, int32_t callback_basic_type_id);
 </pre>
 
-  <h3 id="native-api-native-sub-api-get_object_basic_type_id">get_object_basic_type_id</h3>
+  <h4 id="native-api-native-sub-api-get_object_basic_type_id">get_object_basic_type_id</h4>
   <p>
     オブジェクトの基本型IDを取得します。
   </p>
@@ -2198,7 +2194,7 @@ int32_t (*has_callback)(SPVM_ENV* env, void* object, int32_t callback_basic_type
 int32_t (*get_object_basic_type_id)(SPVM_ENV* env, void* object);
 </pre>
 
-  <h3 id="native-api-native-sub-api-object_type_dimension">get_object_type_dimension</h3>
+  <h4 id="native-api-native-sub-api-object_type_dimension">get_object_type_dimension</h4>
   <p>
     オブジェクトの型の次元を取得します。
   </p>
@@ -2206,7 +2202,7 @@ int32_t (*get_object_basic_type_id)(SPVM_ENV* env, void* object);
 int32_t (*get_object_type_dimension)(SPVM_ENV* env, void* object);
 </pre>
 
-  <h3 id="native-api-native-sub-api-weaken">weaken</h3>
+  <h4 id="native-api-native-sub-api-weaken">weaken</h4>
   <p>
     オブジェクトのアドレスを指定すると、オブジェクトを弱参照にします。
   </p>
@@ -2214,7 +2210,7 @@ int32_t (*get_object_type_dimension)(SPVM_ENV* env, void* object);
 void (*weaken)(SPVM_ENV* env, void** object_address);
 </pre>
 
-  <h3 id="native-api-native-sub-api-isweak">isweak</h3>
+  <h4 id="native-api-native-sub-api-isweak">isweak</h4>
   <p>
     オブジェクトのアドレスを指定すると、オブジェクトが弱参照の場合は、0以外の値を、そうでない場合は、0を返します。
   </p>
@@ -2222,7 +2218,7 @@ void (*weaken)(SPVM_ENV* env, void** object_address);
 int32_t (*isweak)(SPVM_ENV* env, void** object);
 </pre>
 
-  <h3 id="native-api-native-sub-api-unweaken">unweaken</h3>
+  <h4 id="native-api-native-sub-api-unweaken">unweaken</h4>
   <p>
     オブジェクトのアドレスを指定すると、オブジェクトの弱参照を解除します。
   </p>
@@ -2230,7 +2226,7 @@ int32_t (*isweak)(SPVM_ENV* env, void** object);
 void (*unweaken)(SPVM_ENV* env, void** object_address);
 </pre>
   
-  <h3 id="native-api-native-sub-api-alloc_memory_block_zero">alloc_memory_block_zero</h3>
+  <h4 id="native-api-native-sub-api-alloc_memory_block_zero">alloc_memory_block_zero</h4>
   <p>
     サイズをバイトで指定すると、メモリブロックを割り当て、割り当てられたメモリブロックのポインタを返却します。メモリブロックのビットはすべて0で初期化されます。メモリブロックカウントが1増加します。
   </p>
@@ -2238,7 +2234,7 @@ void (*unweaken)(SPVM_ENV* env, void** object_address);
 void* (*alloc_memory_block_zero)(SPVM_ENV* env, int64_t byte_size);
 </pre>
 
-  <h3 id="native-api-native-sub-api-free_memory_block">free_memory_block</h3>
+  <h4 id="native-api-native-sub-api-free_memory_block">free_memory_block</h4>
   <p>
     メモリブロックを指定すると、解放します。メモリブロックカウントが1減少します。
   </p>
@@ -2246,7 +2242,7 @@ void* (*alloc_memory_block_zero)(SPVM_ENV* env, int64_t byte_size);
 void (*free_memory_block)(SPVM_ENV* env, void* block);
 </pre>
 
-  <h3 id="native-api-native-sub-api-get_memory_blocks_count">get_memory_blocks_count</h3>
+  <h4 id="native-api-native-sub-api-get_memory_blocks_count">get_memory_blocks_count</h4>
   <p>
     現在のメモリブロックの数を返却します。
   </p>
@@ -2257,7 +2253,7 @@ int32_t (*get_memory_blocks_count)(SPVM_ENV* env);
     メモリブロックは、オブジェクトを生成した場合、alloc_memory_block_zero関数を呼び出した場合、weaken関数でバックリファレンスが追加された場合に、1増加します。
   </p>
 
-  <h3 id="native-api-native-sub-api-get_type_name_raw">get_type_name_raw</h3>
+  <h4 id="native-api-native-sub-api-get_type_name_raw">get_type_name_raw</h4>
   <p>
     オブジェクトを指定すると、型名を保存した新しいbyte[]型のオブジェクトを返却します。
   </p>
@@ -2268,14 +2264,14 @@ void* (*get_type_name_raw)(SPVM_ENV* env, void* object);
     この関数は、モータルスタックにオブジェクトを追加しないので、通常の利用はメモリリークを避けるために、type_nameを使用してください。
   </p>
 
-  <h3 id="native-api-native-sub-api-get_type_name">get_type_name</h3>
+  <h4 id="native-api-native-sub-api-get_type_name">get_type_name</h4>
   <p>
     オブジェクトを指定すると、型名を保存した新しいbyte[]型のオブジェクトを返却します。モータルスタックに新しく生成されたオブジェクトを追加します。
   </p>
 <pre>
 void* (*get_type_name)(SPVM_ENV* env, void* object);
 </pre>
-  <h3 id="native-api-native-sub-api-new_env">new_env</h3>
+  <h4 id="native-api-native-sub-api-new_env">new_env</h4>
   <p>
     現在の実行環境を元にした、新しい実行環境を作成します。
   </p>
@@ -2295,7 +2291,7 @@ SPVM_ENV* (*new_env)(SPVM_ENV* env);
     メモリブロックの数は、元の実行環境と共有します。
   </p>
 
-  <h3 id="native-api-native-sub-api-free_env">free_env</h3>
+  <h4 id="native-api-native-sub-api-free_env">free_env</h4>
   <p>
     実行環境を開放します。
   </p>
