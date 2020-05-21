@@ -4427,7 +4427,7 @@ DEREFERENCE++
   Post Increment Operator add 1 to the operand and returns the value before Increment.
 </p>
 <p>
-  Post Increment Operator is equivalent to the following Expression using <a href="#language-operator-sequential">Sequential Operator</a>. The value of operand is saved in a temporary variable, 1 is added to the target, <a href="#language-type-convertion-typecast">Type Cast</a> is performed with the operand Type, and the value is assinged to original operand. Then the temporary variable is returned.
+  Post Increment Operator is equivalent to the following Expression using <a href="#language-operator-sequential">Sequential Operator</a>. The value of operand is saved in a temporary variable, 1 is added to the operand, <a href="#language-type-convertion-typecast">Type Cast</a> is performed with the operand Type, and the value is assinged to original operand. Then the temporary variable is returned.
 </p>
 <pre>
 (my TMP_VARIABLE = OPERAND_EXPRESSION, OPERAND_EXPRESSION = (TYPE)(OPERAND_EXPRESSION + 1), TMP_VARIABLE)
@@ -4441,64 +4441,67 @@ DEREFERENCE++
 (my $tmp = $num, $num = (byte)($num + 1), $tmp)
 </pre>
 
-<h4 id="language-operator-dec">Decrement Operator</h4>
-<p>
-  Decrement Operator is an Operator that decrements the value by 1. The meaning changes depending on whether the Decrement Operator is placed before or after.
-</p>
-<pre>
-# Pre Decrement
---Lexical Variable 
---Package Variable 
---Field Access
---Array Access
---Dereference 
+<h4 id="language-operator-inc">Decrement Operator</h4>
 
-# Post Decrement
-Lexical Variable--
-Package Variable--
-Field Access--
-Array Access--
-Dereference--
-</pre>
 <p>
-  Decrement Operator target <a href="#language-lex-var">Lexical Variable</a>, <a href="#language-package-var">Package Variable</a>, <a href = "# language-field-access">Field Access</a>, <a href="#language-array-access">Array Access</a>, <a href="#language-deref">Dereference </ must be a>. Otherwise a compilation error occurs.
-</p>
-<p>
-  The target type of Decrement Operator must be <a href="#language-type-numeric">Numeric Type</a>. Otherwise a compilation error will occur.
-</p>
-<p>
-  <b>Pre Decrement Operator</b>
-</p>
-<p>
-  Pre Decrement Operator returns the decremented value after decrementing.
-</p>
-<p>
-  Pre Decrement Operator is equivalent to the following Expression. After 1 is subtracted from the target, Type Cast is performed with the original Type and is substituted into the target.
+  <b>Decrement Operator</b> is an Operator that subtracts 1 to the value. the meaning of Decrement Operator is different depending on whether the Decrement Operator is placed Pre or Post.
 </p>
 <pre>
-(OPERAND EXPRESSION = (Type Cast)(OPERAND EXPRESSION - 1))
+# Pre Decrement Operator
+--LEXICAL_VARIABLE
+--PACKAGE_VARIABLE
+--FIELD_ACCESS
+--ARRAY_ACCESS
+--DEREFERENCE
+
+# Post Decrement Operator
+LEXICAL_VARIABLE--
+PACKAGE_VARIABLE--
+FIELD_ACCESS--
+ARRAY_ACCESS--
+DEREFERENCE--
 </pre>
 <p>
-  For example, the Pre Decrement of the value of <a href="#language-type-byte">byte Type</a> is equivalent to the following Expression.
+  The operand of Decrement Operator must <a href="#language-lex-var">Lexical Variable</a>, <a href="#language-package-var">Package Variable</a>, <a href = "# language-field-access">Field Access</a>, <a href="#language-array-access">Array Access</a>, <a href="#language-deref">Dereference</a>. Otherwise a compilation error occurs.
+</p>
+<p>
+  The Type of operand of Decrement Operator must be <a href="#language-type-numeric">Numeric Type</a>. Otherwise a compilation error will occur.
+</p>
+
+<h5>Pre Decrement Operator</h5>
+
+<p>
+  Pre Decrement Operator subtracts 1 to the operand and returns the value after decrement.
+</p>
+<p>
+  Pre Decrement Operator is equivalent to the following Expression. After 1 is subtracted to the operand, <a href="#language-type-convertion-typecast">Type Cast</a> is performed with the operand Type and the value is assinged to original operand.
+</p>
+
+<pre>
+(OPERAND_EXPRESSION = (TYPE)(OPERAND_EXPRESSION - 1))
+</pre>
+<p>
+  For example, Pre Decrement of <a href="#language-type-byte">byte Type</a> value is equivalent to the following Expression:
 </p>
 
 <pre>
 ($num = (byte)($num - 1))
 </pre>
+
+<h5>Post Decrement Operator</h5>
+
 <p>
-  <b>Post Decrement Operator</b>
+  Post Decrement Operator subtract 1 to the operand and returns the value before Decrement.
 </p>
 <p>
-  Post Decrement Operator returns the value after decrementing and before decrementing.
-</p>
-<p>
-  Post Decrement Operator is equivalent to the following Expression using Sequential Operator. The target is saved in a temporary variable, 1 is added to the target, Type Cast is performed with the original Type, and the target is substituted. Then the temporary variable is returned.
+  Post Decrement Operator is equivalent to the following Expression using <a href="#language-operator-sequential">Sequential Operator</a>. The value of operand is saved in a temporary variable, 1 is subtracted to the operand, <a href="#language-type-convertion-typecast">Type Cast</a> is performed with the operand Type, and the value is assinged to original operand. Then the temporary variable is returned.
 </p>
 <pre>
-(my TMP_VAR = OPERAND EXPRESSION, OPERAND EXPRESSION = (Type Cast)(OPERAND EXPRESSION - 1), TMP_VAR)
+(my TMP_VARIABLE = OPERAND_EXPRESSION, OPERAND_EXPRESSION = (TYPE)(OPERAND_EXPRESSION - 1), TMP_VARIABLE)
 </pre>
+
 <p>
-  For example, the Post Decrement of the <a href="#language-type-byte">byte Type</a> value is equivalent to the following Expression.
+  For example, Post Decrement of <a href="#language-type-byte">byte Type</a> value is equivalent to the following Expression.
 </p>
 
 <pre>
