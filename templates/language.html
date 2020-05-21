@@ -34,7 +34,7 @@ Last modified 2020-05-08
   <li><a href="#language-type">Type</a></li>
   <li><a href="#language-type-inference">Type Inference</a></li>
   <li><a href="#language-type-compatible">Type Compatibility</a></li>
-  <li><a href="#language-type-convertion">Type Convertion</a></li>
+  <li><a href="#language-type-convertion">Type Conversion</a></li>
   <li><a href="#language-exception">Exception</a></li>
   <li><a href="#language-garbage-collection">Garbage Collection</a></li>
   <li><a href="#language-callback">Callback</a></li>
@@ -244,7 +244,7 @@ Foo::Bar::
 Foo__Bar
 </pre>
 
-If Package Name is invalid, a compilation error occurs.
+If Package Name is invalid, Compilation Error occurs.
 
 <h4 id="language-lex-identifier-sub-name">Subroutine Name</h4><!-- 2019/2/27 almost ok-->
 
@@ -1230,7 +1230,7 @@ package Foo {
 }
 </pre>
 
-If more than one package with the same name is defined, a compilation error occurs.
+If more than one package with the same name is defined, Compilation Error occurs.
 
 <h4 id="language-package-descriptor">Package Descriptor</h4>
 
@@ -1287,9 +1287,9 @@ The descriptions of Package Descriptors.
   </tr>
 </table>
 
-If both "public" and "private" are specifed, a compilation error occurs.
+If both "public" and "private" are specifed, Compilation Error occurs.
 
-If more than one of "callback_t", "mulnum_t", "pointer_t" are specified, a compilation error occurs.
+If more than one of "callback_t", "mulnum_t", "pointer_t" are specified, Compilation Error occurs.
 
 <h4 id="language-package-destructor">Destructor</h4>
 
@@ -1299,9 +1299,9 @@ Destructor is a special <a href="#language-sub">Subroutine</a> called when the o
 
 Destructor name must be "DESTROY".
 
-Destructor Retrun Value must be <a href="#language-type-void">void Type</a>, otherwise a compilation error occurs.
+Destructor Retrun Value must be <a href="#language-type-void">void Type</a>, otherwise Compilation Error occurs.
 
-Destructor arguments must be one and the type must be <a href="#language-type-self">self Type</a>, otherwise a compilation error occurs.
+Destructor arguments must be one and the type must be <a href="#language-type-self">self Type</a>, otherwise Compilation Error occurs.
 
 <pre>
 sub DESTROY : void ($self : self) {
@@ -1409,7 +1409,7 @@ use Foo::Bar;
 Modules are loaded at compile-time.
 
 
-If the Module does not exist, a compilation error will occur.
+If the Module does not exist, Compilation Error will occur.
 
 
 use Keyword must be defined directly under <a href="#language-package-definition">Package Definition</a>.
@@ -1459,9 +1459,9 @@ else {
 Note that elsif Statement cannot be followed.
 
 
-Let's look at an example. if Foo does not exist, no compilation error occurs and it is assumed that there is no if block
+Let's look at an example. if Foo does not exist, no Compilation Error occurs and it is assumed that there is no if block
 
-Therefore, "$foo = new Foo;" does not result in a compilation error because it is assumed that there is no if block.
+Therefore, "$foo = new Foo;" does not result in Compilation Error because it is assumed that there is no if block.
 
 In the other hand, the else block exists, so a warning is issued.
 
@@ -1497,9 +1497,9 @@ Package Variable must be defined directly under <a href="#language-package-defin
 
 Package Variable Definition must specify <a href="#language-type">Type</a>. The Type must be <a href="#language-type-numeric">Numeric Type</a> or <a href="#language-type-object">Object Type</a>.
 
-Package Variable Name must follows the rule specified in <a href="#language-lex-identifier-package-var-name">Package Variable Name</a>, and must not contain "::". Otherwise a compilation error occurs.
+Package Variable Name must follows the rule specified in <a href="#language-lex-identifier-package-var-name">Package Variable Name</a>, and must not contain "::", otherwise Compilation Error occurs.
 
-If more than one Package Variable with the same name is defined, a compilation error occurs.
+If more than one Package Variable with the same name is defined, Compilation Error occurs.
 
 Package Variable Descriptor can be specified together in Package Variable definition.
 
@@ -1563,9 +1563,9 @@ List of Package Variable Descriptors.
   </tr>
 </table>
 
-If both "public" and "private" Descriptors are specified, a compilation error occurs.
+If both "public" and "private" Descriptors are specified, Compilation Error occurs.
 
-If more than one of "ro", "wo", and "rw" are specified at the same time, a compilation error occurs
+If more than one of "ro", "wo", and "rw" are specified at the same time, Compilation Error occurs
 
 Read Accessor of Package Variable has no arguments and the return type is same as the type of Package Variable.
 
@@ -1639,9 +1639,9 @@ Field Name must follows the rule specified in <a href="#language-lex-identifier-
 
 Field Name is allowed as same as <a href="#language-lex-keyword">Keyword</a>.
 
-Field Type must be <a href="#language-type-numeric">Numeric Type</a> or <a href="#language-type-object">Object Type</a>, otherwise a compilation error occurs.
+Field Type must be <a href="#language-type-numeric">Numeric Type</a> or <a href="#language-type-object">Object Type</a>, otherwise Compilation Error occurs.
 
-If more than one Field Name Variable with the same name is defined, a compilation error occurs.
+If more than one Field Name Variable with the same name is defined, Compilation Error occurs.
 
 Field Descriptor can be specified together in Field Definition.
 
@@ -1705,9 +1705,9 @@ List of Field Descriptors.
   </tr>
 </table>
 
-If both "public" and "private" Descriptors are specified, a compilation error occurs.
+If both "public" and "private" Descriptors are specified, Compilation Error occurs.
 
-If more than one of "ro", "wo", and "rw" are specified at the same time, a compilation error occurs
+If more than one of "ro", "wo", and "rw" are specified at the same time, Compilation Error occurs
 
 Read Accessor of Field has one argument that is <a href="#language-type-self">self Type</a> and the Return Type is same as the type of Field.
 
@@ -1816,13 +1816,13 @@ Subroutine name must be follow the rule of <a href="#language-lex-identifier-sub
 
 Subroutine Name is allowed as same as <a href="#language-lex-keyword">Keyword</a>. 
 
-Type of Return Value must be <a href="#language-type-void">void Type</a>, <a href="#language-type-numeric">Numeric Type</a>, or <a href="#language-type-object">Object Type</a>, otherwise a compilation error occurs.
+Type of Return Value must be <a href="#language-type-void">void Type</a>, <a href="#language-type-numeric">Numeric Type</a>, or <a href="#language-type-object">Object Type</a>, otherwise Compilation Error occurs.
 
 Argument name must be follow the rule of <a href="#language-lex-identifier-lex-var-name">Lexical Variable Name</a>.
 
 Minimal Argument Count is 0. Max Argument Count is 255.
 
-Type of Argument must be <a href="#language-type-numeric">Numeric Type</a>, <a href="#language-type-object">Object Type</a>, or <a href="#language-type-reference">Reference Type</a>, otherwise a compilation error occurs.
+Type of Argument must be <a href="#language-type-numeric">Numeric Type</a>, <a href="#language-type-object">Object Type</a>, or <a href="#language-type-reference">Reference Type</a>, otherwise Compilation Error occurs.
 
 The defined Subroutine can be called. See <a href="#language-expression-callsub">Subroutine Call</a> about calling Subroutine, .
 
@@ -1906,7 +1906,7 @@ List of Subroutine Descriptor.
   </tr>
 </table>
 
-If both "native" and "precompile" Descriptors are specified, a compilation error occurs
+If both "native" and "precompile" Descriptors are specified, Compilation Error occurs
 
 <h4 id="language-sub-native">Native Subroutine</h4>
 
@@ -2073,7 +2073,7 @@ enum {
 
 In the above case, "FLAG1" is "0", "FALG2" is "4", and "FLAG3" is "5".
 
-If Enum Definition is invalid, a compilation error occurs.
+If Enum Definition is invalid, Compilation Error occurs.
 
 <h4 id="language-enum-descriptor">Enumeration Descriptor</h4>
 
@@ -2116,7 +2116,7 @@ List of Enumeration Descriptor
   </tr>
 </table>
 
-If both "public" and "private" Descriptors are specified, a compilation error occurs.
+If both "public" and "private" Descriptors are specified, Compilation Error occurs.
 
 <h4 id="language-enum-call">Enumeration Call</h4>
 
@@ -2497,17 +2497,17 @@ Can be prefixed with "+" or "-".
 
 <a href="#language-type">Type</a> of Integer Literal is <a href="#language-type-int">int Type</a> by default.
 
-If Integer Literal exceeds the range of numbers that can be represented by <a href="#language-type-int">int Type</a>, a compilation error occurs.
+If Integer Literal exceeds the range of numbers that can be represented by <a href="#language-type-int">int Type</a>, Compilation Error occurs.
 
 By suffixing "L" or "l" at the end, that represents <a href="#language-type-long">long Type</a> Integer Literal.
 
-If <a href="#language-type-long">long Type</a> Integer Literal  exceeds the range of numbers that can be represented by <a href="#language-type-long">long Type</a>,  If it exceeds the range, a compilation error occurs.
+If <a href="#language-type-long">long Type</a> Integer Literal  exceeds the range of numbers that can be represented by <a href="#language-type-long">long Type</a>,  If it exceeds the range, Compilation Error occurs.
 
 "_" can be used as a Separator. Separator has no meaning.
 
-If Integer Literal is assigned to a <a href="#language-type-byte">byte Type</a> variable or passed to <a href="#language-type-byte">byte Type</a> Subroutine Argument, and does not exceed the range of numbers that can be represented by <a href="#language-type-byte">byte Type</a>, <a href = "#language-type-convertion-numeric-narrowing">Numeric Narrowing Type Convertion</a> is applied and the value converted to <a href="#language-type-byte">byte Type</a> value. If it exceeds the range, a compilation error will occur.
+If Integer Literal is assigned to a <a href="#language-type-byte">byte Type</a> variable or passed to <a href="#language-type-byte">byte Type</a> Subroutine Argument, and does not exceed the range of numbers that can be represented by <a href="#language-type-byte">byte Type</a>, <a href = "#language-type-convertion-numeric-narrowing">Numeric Narrowing Type Conversion</a> is applied and the value converted to <a href="#language-type-byte">byte Type</a> value. If it exceeds the range, Compilation Error will occur.
 
-If Integer Literal is assigned to a <a href="#language-type-short">short Type</a> variable or passed to <a href="#language-type-short">short Type</a> Subroutine Argument, and does not exceed the range of numbers that can be represented by <a href="#language-type-short">short Type</a>, <a href = "#language-type-convertion-numeric-narrowing">Numeric Narrowing Type Convertion</a> is applied and the value converted to <a href="#language-type-short">short Type</a> value. If it exceeds the range, a compilation error will occur.
+If Integer Literal is assigned to a <a href="#language-type-short">short Type</a> variable or passed to <a href="#language-type-short">short Type</a> Subroutine Argument, and does not exceed the range of numbers that can be represented by <a href="#language-type-short">short Type</a>, <a href = "#language-type-convertion-numeric-narrowing">Numeric Narrowing Type Conversion</a> is applied and the value converted to <a href="#language-type-short">short Type</a> value. If it exceeds the range, Compilation Error will occur.
 
 <b>Integer Literal Example:</b>
 
@@ -2617,9 +2617,9 @@ If Suffix Part is "d" or "D", the <a href="#language-type">Type</a> of Floating 
 
 If Suffix Part is omitted, the <a href="#language-type">Type</a> of Floating Point Literal is <a href="#language-type-double">double Type</a>.
 
-If Floating Point Literal is <a href="#language-type-float">float Type</a>, the Floating Point Literal is converted to float value using C standard "strtof" function. If the conversion fails, a compilation error occurs.
+If Floating Point Literal is <a href="#language-type-float">float Type</a>, the Floating Point Literal is converted to float value using C standard "strtof" function. If the conversion fails, Compilation Error occurs.
 
-If Floating Point Literal is <a href="#language-type-double">double Type</a>, the Floating Point Literal is converted to double value using C standard "strtod" function. If the conversion fails, a compilation error occurs.
+If Floating Point Literal is <a href="#language-type-double">double Type</a>, the Floating Point Literal is converted to double value using C standard "strtod" function. If the conversion fails, Compilation Error occurs.
 
 <b>Floating Point Literal Example:</b>
 
@@ -3002,7 +3002,7 @@ If "->" follows the variable name, it is interpreted as <a href="#language-field
 
 [1] If the following Characters are "a-z" "A-Z" "0-9" "_" "{" "[", proceed with the interpretation.
 
-[2] If the Character following [1] is "}", or "]", then if the next Character is "->", "{", or "[", proceed with the interpretation and return back to [1]. Otherwise stop interpreting.
+[2] If the Character following [1] is "}", or "]", then if the next Character is "->", "{", or "[", proceed with the interpretation and return back to [1], otherwise stop interpreting.
 
 The trailing $is not treated as the start of Variable Expansion. It is treated as "$".
 
@@ -3311,8 +3311,8 @@ Reference is data that indicates the location of <a href="#language-lex-var">Lex
 
 You can get Reference of Lexical Variable using <a href="#language-operator-ref">Reference Operator</a>.
 
-<a href="#language-type-ref">Reference Type</a> is represented by <a href="#language-type-numeric">Numeric Type</a> "&" or <a href="# language-type-multi-numeric ">Multi Numeric Type</a> followed by "&".
-Reference types are represented by appending an & after <a href="#language-type-numeric">Numeric Type</a> or <a href="# language-type-multi-numeric ">Multi Numeric Type</a>.
+<a href="#language-type-ref">Reference Type</a> is represented by <a href="#language-type-numeric">Numeric Type</a> "&" or <a href="#language-type-multi-numeric ">Multi Numeric Type</a> followed by "&".
+Reference types are represented by appending an & after <a href="#language-type-numeric">Numeric Type</a> or <a href="#language-type-multi-numeric ">Multi Numeric Type</a>.
 
 <pre>
 # Numeric Type Reference
@@ -3459,9 +3459,9 @@ $PACKAGE_NAME::PACKAGE_VARIABLE_NAME
 $PACKAGE_VARIABLE_NAME
 </pre>
 
-If you try to get the value of a Package Variable that is not defined, a compilation error occurs.
+If you try to get the value of a Package Variable that is not defined, Compilation Error occurs.
 
-If you try to access a private Package Variable from outside the Package, a compilation error occurs.
+If you try to access a private Package Variable from outside the Package, Compilation Error occurs.
 
 <b>Get Package Variable Value Example:</b>
 
@@ -3491,13 +3491,13 @@ $PACKAGE_NAME::PACKAGE_VARIABLE_NAME = RIGHT_EXPRESSION
 $PACKAGE_VARIABLE_NAME = RIGHT_EXPRESSION
 </pre>
 
-If the assignment does not satisfy <a href="#language-type-compatible">Type Compatibility</a>, a compilation error occurs.
+If the assignment does not satisfy <a href="#language-type-compatible">Type Compatibility</a>, Compilation Error occurs.
 
 Set Package Variable Value Expression returns the value after setting.
 
-If you try to get the value of a Package Variable that is not defined, a compilation error occurs.
+If you try to get the value of a Package Variable that is not defined, Compilation Error occurs.
 
-If you try to access a private Package Variable from outside the Package, a compilation error occurs.
+If you try to access a private Package Variable from outside the Package, Compilation Error occurs.
 
 If Right Expression is <a href="#language-type-object">Object Type</a>, Reference Count of the object is incremented by 1.
 
@@ -3568,9 +3568,9 @@ $@ = "Error";
 INVOCANT_EXPRESSION->{FIELD_NAME}
 </pre>
 
-Invocant Expression is <a href="#language-type-class">Class Type</a>. If Expression is <a href="#language-type-multi-numeric">Multi Numeric Type</a> Value, The Field Access is <a href="#language-expression-get-field-multi-numeric">Get Multi Numeric Field Value</a>. If Expression is <a href="#language-type-ref-multi-numeric">Multi Numeric Reference Type</a> Value, The Field Access is ,<a href="#language-expression-get-field-multi-numeric-deref">. Otherwise a compilation error occurs.
+Invocant Expression is <a href="#language-type-class">Class Type</a>. If Expression is <a href="#language-type-multi-numeric">Multi Numeric Type</a> Value, The Field Access is <a href="#language-expression-get-field-multi-numeric">Get Multi Numeric Field Value</a>. If Expression is <a href="#language-type-ref-multi-numeric">Multi Numeric Reference Type</a> Value, The Field Access is ,<a href="#language-expression-get-field-multi-numeric-deref">, otherwise Compilation Error occurs.
 
-If the Field Name does not found in the <a href="#language-package">Package</a>, a compilation error occurs
+If the Field Name does not found in the <a href="#language-package">Package</a>, Compilation Error occurs
 
 Get Field Value Expression returns the value of the Field stored in the object.
 
@@ -3591,11 +3591,11 @@ my $x = $point->{x};
 INVOCANT_EXPRESSION->{FIELD_NAME} = RIGHT_EXPRESSION
 </pre>
 
-Invocant Expression is <a href="#language-type-class">Class Type</a>. If Invocant Expression is <a href="#language-type-multi-numeric">Multi Numeric Type</a>, the Field Access is ,<a href="#language-expression-get-field-multi-numeric">Set Multi Numeric Field Value</a>. If Invocant Expression is <a href="#language-type-ref-multi-numeric">Multi Numeric Reference Type</a>, the Field Access is <a href="#language-expression-get-field-multi-numeric-deref">Set Multi Numeric Field Value via Dereference</a>. Otherwise a compilation error occurs.
+Invocant Expression is <a href="#language-type-class">Class Type</a>. If Invocant Expression is <a href="#language-type-multi-numeric">Multi Numeric Type</a>, the Field Access is ,<a href="#language-expression-get-field-multi-numeric">Set Multi Numeric Field Value</a>. If Invocant Expression is <a href="#language-type-ref-multi-numeric">Multi Numeric Reference Type</a>, the Field Access is <a href="#language-expression-get-field-multi-numeric-deref">Set Multi Numeric Field Value via Dereference</a>, otherwise Compilation Error occurs.
 
-If the assignment does not satisfy <a href="#language-type-compatible">Type Compatibility</a> of the Type of Field, a compilation error occurs.
+If the assignment does not satisfy <a href="#language-type-compatible">Type Compatibility</a> of the Type of Field, Compilation Error occurs.
 
-If the Field Name does not found in the <a href="#language-package">Package</a>, a compilation error occurs.
+If the Field Name does not found in the <a href="#language-package">Package</a>, Compilation Error occurs.
 
 Set Field Value Expression returns the value of Field after setting. 
 
@@ -3620,9 +3620,9 @@ $point->{x} = 1;
 INVOCANT_EXPRESSION->{FIELD_NAME}
 </pre>
 <p>
-  Invocant Expression is <a href="#language-type-class">Multi Numeric Type</a>. If Invocant Expression is <a href="#language-type-class">Class Type</a>, the Field Access is <a href="#language-expression-get-field">. If Invocant Expression <a href="#language-type-ref-multi-numeric">is Multi Numeric Reference Type</a>, the Field Access is <a href="#language-expression-get-field-multi-numeric-deref">Get Multi Numeric Field Value via Dereference</a>. Otherwise a compilation error occurs.
+  Invocant Expression is <a href="#language-type-class">Multi Numeric Type</a>. If Invocant Expression is <a href="#language-type-class">Class Type</a>, the Field Access is <a href="#language-expression-get-field">. If Invocant Expression <a href="#language-type-ref-multi-numeric">is Multi Numeric Reference Type</a>, the Field Access is <a href="#language-expression-get-field-multi-numeric-deref">Get Multi Numeric Field Value via Dereference</a>, otherwise Compilation Error occurs.
   
-If the Field Name does not found in the <a href="#language-package">Package</a>, a compilation error occurs
+If the Field Name does not found in the <a href="#language-package">Package</a>, Compilation Error occurs
 
 Get Multi Numeric Field Value Expression returns the field value in the Multi Numeric Value.
 
@@ -3644,9 +3644,9 @@ INVOCANT_EXPRESSION->{FIELD_NAME} = RIGHT_EXPRESSION
 </pre>
 <
 
-Invocant Expression is <a href="#language-type-class">Multi Numeric Type</a>. If Invocant Expression is <a href="#language-type-class">Class Type</a>, the Field Access is <a href="#language-expression-set-field">Set Field Value</a>. Invocant Expression is <a href="#language-type-ref-multi-numeric">Multi Numeric Reference Type</a>, <a href="#language-expression-set-field-multi-numeric-deref">Set Multi Numeric Field Value via Dereference</a>. Otherwise a compilation error occurs.
+Invocant Expression is <a href="#language-type-class">Multi Numeric Type</a>. If Invocant Expression is <a href="#language-type-class">Class Type</a>, the Field Access is <a href="#language-expression-set-field">Set Field Value</a>. Invocant Expression is <a href="#language-type-ref-multi-numeric">Multi Numeric Reference Type</a>, <a href="#language-expression-set-field-multi-numeric-deref">Set Multi Numeric Field Value via Dereference</a>, otherwise Compilation Error occurs.
 
-If the Field Name does not found in the <a href="#language-package">Package</a>, a compilation error occurs.
+If the Field Name does not found in the <a href="#language-package">Package</a>, Compilation Error occurs.
 
 Set Multi Numeric Field Value Expression returns the value of Field after setting. 
 
@@ -3669,9 +3669,9 @@ $z->{x} = 2.5;
 INVOCANT_EXPRESSION->{FIELD_NAME}
 </pre>
 
-Invocant Expression is <a href="#language-type-ref-multi-numeric">Multi Numeric Reference Type</a>. If Invocant Expression is <a href="#language-type-class">Class Type</a>, the Field Access is , <a href="#language-expression-get-field">Get Field Value</a>. If Invocant Expression is <a href="#language-type-multi-numeric">Multi Numeric Type</a>, the Field Access is <a href="#language-expression-get-field-multi-numeric">Get Multi Numeric Field Value</a>. Otherwise a compilation error occurs.
+Invocant Expression is <a href="#language-type-ref-multi-numeric">Multi Numeric Reference Type</a>. If Invocant Expression is <a href="#language-type-class">Class Type</a>, the Field Access is , <a href="#language-expression-get-field">Get Field Value</a>. If Invocant Expression is <a href="#language-type-multi-numeric">Multi Numeric Type</a>, the Field Access is <a href="#language-expression-get-field-multi-numeric">Get Multi Numeric Field Value</a>, otherwise Compilation Error occurs.
 
-If the Field Name does not found in the <a href="#language-package">Package</a>, a compilation error occurs
+If the Field Name does not found in the <a href="#language-package">Package</a>, Compilation Error occurs
 
 Get Multi Numeric Field Value via Dereference Expression returns the field value in the Multi Numeric Value.
 
@@ -3693,9 +3693,9 @@ Set Multi Numeric Field Value Expression via Dereference is a Expression to set 
 INVOCANT_EXPRESSION->{FIELD_NAME} = RIGHT_EXPRESSION
 </pre>
 
-Invocant Expression is <a href="#language-type-ref-multi-numeric">Multi Numeric Reference Type</a>. If Invocant Expression is <a href="#language-type-class">Class Type</a>, <a href="#language-expression-set-field">Set Field Value</a>. If Invocant Expression is <a href="#language-type-multi-numeric">Multi Numeric Type</a>, <a href="#language-expression-set-field-multi-numeric">Set Multi Numeric Field Value</a>. Otherwise a compilation error occurs.
+Invocant Expression is <a href="#language-type-ref-multi-numeric">Multi Numeric Reference Type</a>. If Invocant Expression is <a href="#language-type-class">Class Type</a>, <a href="#language-expression-set-field">Set Field Value</a>. If Invocant Expression is <a href="#language-type-multi-numeric">Multi Numeric Type</a>, <a href="#language-expression-set-field-multi-numeric">Set Multi Numeric Field Value</a>, otherwise Compilation Error occurs.
 
-If the Field Name does not found in the <a href="#language-package">Package</a>, a compilation error occurs
+If the Field Name does not found in the <a href="#language-package">Package</a>, Compilation Error occurs
 
 Set Multi Numeric Field Value via Dereference Expression returns the value of Field after setting.
 
@@ -3721,7 +3721,7 @@ ARRAY_EXPRESSION->[INDEX_EXPRESSION]
 
 Array Expression must be <a href="#language-type-array">Array Type</a>.
 
-Index Expression must be <a href="#language-type-int">int Type</a> or the Type that become <a href="#language-type-int">int Type</a> by <a href="#language-type-convertion-unary-numeric-widening">Unary Numeric Widening Type Convertion</a>.
+Index Expression must be <a href="#language-type-int">int Type</a> or the Type that become <a href="#language-type-int">int Type</a> by <a href="#language-type-convertion-unary-numeric-widening">Unary Numeric Widening Type Conversion</a>.
 
 Get Array Element Value Expression returns the Element Value of the Index.
 
@@ -3752,7 +3752,7 @@ ARRAY_EXPRESSION->[INDEX_EXPRESSION] = RIGHT_EXPRESSION
 
 Array Expression must be <a href="#language-type-array">Array Type</a>.
 
-Index Expression must be <a href="#language-type-int">int Type</a> or the Type that become <a href="#language-type-int">int Type</a> by <a href="#language-type-convertion-unary-numeric-widening">Unary Numeric Widening Type Convertion</a>.
+Index Expression must be <a href="#language-type-int">int Type</a> or the Type that become <a href="#language-type-int">int Type</a> by <a href="#language-type-convertion-unary-numeric-widening">Unary Numeric Widening Type Conversion</a>.
 
 The Assignment must satisfy <a href="#language-type-compatible">Type Compatibility</a>.
 
@@ -3818,7 +3818,7 @@ new Type[ELEMENTS_COUNT_EXPRESSION]
 
 Type must be <a href="#language-type-numeric">Numeric Type</a>, <a href="#language-type-object">Object Type</a>, <a href="#language-type-multi-numeric">Multi Numeric Type</a>.
 
-Elements Count Expression must be <a href="#language-type-int">int Type</a> or the Type that become <a href="#language-type-int">int Type</a> by <a href="#language-type-convertion-unary-numeric-widening">Unary Numeric Widening Type Convertion</a>.
+Elements Count Expression must be <a href="#language-type-int">int Type</a> or the Type that become <a href="#language-type-int">int Type</a> by <a href="#language-type-convertion-unary-numeric-widening">Unary Numeric Widening Type Conversion</a>.
 
 If Index Expression is lower than 0, a Runtime Exception occurs.
 
@@ -3910,7 +3910,7 @@ Subroutine Name(ARGS1, ARGS2, ARGS3, ..., ARGSn);
 </p>
 
 <p>
-  The function call receives the arguments. If the number of arguments does not match the number of arguments defined in the Subroutine Definition, a compilation error occurs The Type of each argument and the type of the argument defined in Subroutine Definition and <a href = " If there is no # language-type-compatible ">Type Compatibility</a>, a compilation error occurs
+  The function call receives the arguments. If the number of arguments does not match the number of arguments defined in the Subroutine Definition, Compilation Error occurs The Type of each argument and the type of the argument defined in Subroutine Definition and <a href = " If there is no # language-type-compatible ">Type Compatibility</a>, Compilation Error occurs
 </p>
 <p>
   Calling the function returns Return Value if Return Value is other than <a href="#language-type-void">void Type</a>.
@@ -3940,7 +3940,7 @@ my $ret = bar(1, 2, 3);
 OBJECT_EXPRESSION->SUB_NAME(ARGS1, ARGS2, ARGS3, ..., ARGSn);
 </pre>
 <p>
-  Method Call takes arguments. If the number of arguments does not match the number of arguments defined in the Subroutine Definition, a compilation error occurs The Type of each argument and the type of the argument defined in Subroutine Definition and <a href = " If there is no # language-type-compatible ">Type Compatibility</a>, a compilation error occurs
+  Method Call takes arguments. If the number of arguments does not match the number of arguments defined in the Subroutine Definition, Compilation Error occurs The Type of each argument and the type of the argument defined in Subroutine Definition and <a href = " If there is no # language-type-compatible ">Type Compatibility</a>, Compilation Error occurs
 </p>
 <p>
   Method Call returns Return Value if Return Value is other than <a href="#language-type-void">void Type</a>.
@@ -3984,7 +3984,7 @@ my $ret = $cb_obj->(1, 2);
 $VARIABLE
 </pre>
 <p>
-  The variable Type must be Reference Type. Otherwise a compilation error occurs.
+  The variable Type must be Reference Type, otherwise Compilation Error occurs.
 </p>
 <p>
   The value obtained by Dereference returns <a href="#language-expression">Expression</a>.
@@ -4010,10 +4010,10 @@ my $z_deref : SPVM::Complex_2d = $$z_ref;
 $VARIABLE = Expression
 </pre>
 <p>
-  The variable Type must be Reference Type. Otherwise a compilation error occurs.
+  The variable Type must be Reference Type, otherwise Compilation Error occurs.
 </p>
 <p>
-  The Type of Expression must match the Type of the variable when dereferenced. Otherwise a compilation error occurs.
+  The Type of Expression must match the Type of the variable when dereferenced, otherwise Compilation Error occurs.
 </p>
 <p>
   Setting a value with Dereference returns the set value. This is <a href="#language-expression">Expression</a>.
@@ -4208,13 +4208,13 @@ Unary Plus Operator is a <a href="#language-operator-unary">Unary Operator</a> r
 +Expression
 </pre>
 
-Expression must be <a href="#language-type-numeric">Numeric Type</a>, otherwise a compilation error occurs.
+Expression must be <a href="#language-type-numeric">Numeric Type</a>, otherwise Compilation Error occurs.
 
-<a href="#language-type-convertion-unary-numeric-widening">Unary Numeric Widening Type Convertion</a> applys to Expression.
+<a href="#language-type-convertion-unary-numeric-widening">Unary Numeric Widening Type Conversion</a> applys to Expression.
 
 After that, returns the value copied from the avobe value.
 
-Return Type of Unary Plus Operator is the Type after <a href="#language-type-convertion-unary-numeric-widening">Unary Numeric Widening Type Convertion</a> is applied.
+Return Type of Unary Plus Operator is the Type after <a href="#language-type-convertion-unary-numeric-widening">Unary Numeric Widening Type Conversion</a> is applied.
 
 Unary Plus Operator does not throw <a href="#language-exception">Exception</a>.
 
@@ -4232,9 +4232,9 @@ Unary Minus Operator is a <a href="#language-operator-unary">Unary Operator</a> 
 -Expression
 </pre>
 
-Expression must be <a href="#language-type-numeric">Numeric Type</a>, otherwise a compilation error occurs.
+Expression must be <a href="#language-type-numeric">Numeric Type</a>, otherwise Compilation Error occurs.
 
-<a href="#language-type-convertion-unary-numeric-widening">Unary Numeric Widening Type Convertion</a> applys to Expression.
+<a href="#language-type-convertion-unary-numeric-widening">Unary Numeric Widening Type Conversion</a> applys to Expression.
 
 After that, Unary Minus Operator performs an operation that exactly matches the following operation in C99.
 
@@ -4244,7 +4244,7 @@ After that, Unary Minus Operator performs an operation that exactly matches the 
 
 <a href="#language-type-int">int Type</a> Operation, <a href="#language-type-long">long Type</a> Operation, <a href="#language-type-float">float Type</a> Operation, and <a href="#language-type-double">double Type</a> Operation are defined corresponding to <a href="#language-c99-type">C99 Type</a>
 
-Return Type of Unary Minus Operator is the Type after <a href="#language-type-convertion-unary-numeric-widening">Unary Numeric Widening Type Convertion</a> is applied.
+Return Type of Unary Minus Operator is the Type after <a href="#language-type-convertion-unary-numeric-widening">Unary Numeric Widening Type Conversion</a> is applied.
 
 Unary Minus Operator does not throw <a href="#language-exception">Exception</a>.
 
@@ -4262,9 +4262,9 @@ my $num = -10;
 LEFT_EXPRESSION + RIGHT_EXPRESSION
 </pre>
 
-Left Expression and Right Expression must be <a href="#language-type-numeric">Numeric Type</a>, otherwise a compilation error occurs.
+Left Expression and Right Expression must be <a href="#language-type-numeric">Numeric Type</a>, otherwise Compilation Error occurs.
 
-<a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</a> is applied to Left Expression and Right Expression.
+<a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Conversion</a> is applied to Left Expression and Right Expression.
 
 After that, Addition Operator performs an operation that exactly matches the following operation in C99.
 
@@ -4274,7 +4274,7 @@ x + y;
 
 <a href="#language-type-int">int Type</a> Operation, <a href="#language-type-long">long Type</a> Operation, <a href="#language-type-float">float Type</a> Operation, and <a href="#language-type-double">double Type</a> Operation are defined corresponding to <a href="#language-c99-type">C99 Type</a>
 
-Return Type of Addition Operator is the Type after <a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</a> is applied.
+Return Type of Addition Operator is the Type after <a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Conversion</a> is applied.
 
 Addition Operator does not throw <a href="#language-exception">Exception</a>.
 
@@ -4286,9 +4286,9 @@ Addition Operator does not throw <a href="#language-exception">Exception</a>.
 LEFT_EXPRESSION - RIGHT_EXPRESSION
 </pre>
 
-Left Expression and Right Expression must be <a href="#language-type-numeric">Numeric Type</a>, otherwise a compilation error occurs.
+Left Expression and Right Expression must be <a href="#language-type-numeric">Numeric Type</a>, otherwise Compilation Error occurs.
 
-<a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</a> is applied to Left Expression and Right Expression.
+<a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Conversion</a> is applied to Left Expression and Right Expression.
 
 After that, Subtraction Operator performs an operation that exactly matches the following operation in C99.
 
@@ -4296,7 +4296,7 @@ After that, Subtraction Operator performs an operation that exactly matches the 
 x - y;
 </pre>
 
-Return Type of Subtraction Operator is the Type after <a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</a> is applied.
+Return Type of Subtraction Operator is the Type after <a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Conversion</a> is applied.
 
 Subtraction Operator does not throw <a href="#language-exception">Exception</a>.
 
@@ -4308,9 +4308,9 @@ Subtraction Operator does not throw <a href="#language-exception">Exception</a>.
 LEFT_EXPRESSION * RIGHT_EXPRESSION
 </pre>
 
-Left Expression and Right Expression must be <a href="#language-type-numeric">Numeric Type</a>, otherwise a compilation error occurs.
+Left Expression and Right Expression must be <a href="#language-type-numeric">Numeric Type</a>, otherwise Compilation Error occurs.
 
-<a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</a> is applied to Left Expression and Right Expression.
+<a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Conversion</a> is applied to Left Expression and Right Expression.
 
 After that, Multiplication Operator performs an operation that exactly matches the following operation in C99.
 
@@ -4320,7 +4320,7 @@ x * y;
 
 <a href="#language-type-int">int Type</a> Operation, <a href="#language-type-long">long Type</a> Operation, <a href="#language-type-float">float Type</a> Operation, and <a href="#language-type-double">double Type</a> Operation are defined corresponding to <a href="#language-c99-type">C99 Type</a>
 
-Return Type of Multiplication Operator is the Type after <a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</a> is applied.
+Return Type of Multiplication Operator is the Type after <a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Conversion</a> is applied.
 
 Multiplication Operator does not throw <a href="#language-exception">Exception</a>.
 
@@ -4332,9 +4332,9 @@ Multiplication Operator does not throw <a href="#language-exception">Exception</
 LEFT_EXPRESSION / RIGHT_EXPRESSION
 </pre>
 
-Left Expression and Right Expression must be <a href="#language-type-numeric">Numeric Type</a>, otherwise a compilation error occurs.
+Left Expression and Right Expression must be <a href="#language-type-numeric">Numeric Type</a>, otherwise Compilation Error occurs.
 
-<a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</a> is applied to Left Expression and Right Expression.
+<a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Conversion</a> is applied to Left Expression and Right Expression.
 
 After that, Division Operator performs an operation that exactly matches the following operation in C99.
 
@@ -4344,7 +4344,7 @@ x / y;
 
 <a href="#language-type-int">int Type</a> Operation, <a href="#language-type-long">long Type</a> Operation, <a href="#language-type-float">float Type</a> Operation, and <a href="#language-type-double">double Type</a> Operation are defined corresponding to <a href="#language-c99-type">C99 Type</a>
 
-Return Type of Division Operator is the Type after <a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</a> is applied.
+Return Type of Division Operator is the Type after <a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Conversion</a> is applied.
 
 In the operation to <a href="#language-type-integral">Integral Type</a>, Division Operator throw <a href="#language-exception">Exception</a> if Right Expression is 0.
 
@@ -4358,9 +4358,9 @@ In the operation to <a href="#language-type-floating-point">Floating Point Type<
 LEFT_EXPRESSION % RIGHT_EXPRESSION
 </pre>
 
-Left Expression and Right Expression must be <a href="#language-type-integral">Integral Type</a>, otherwise a compilation error occurs.
+Left Expression and Right Expression must be <a href="#language-type-integral">Integral Type</a>, otherwise Compilation Error occurs.
 
-<a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</a> is applied to Left Expression and Right Expression.
+<a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Conversion</a> is applied to Left Expression and Right Expression.
 
 After that, Remainder Operator performs an operation that exactly matches the following operation in C99.
 
@@ -4370,7 +4370,7 @@ x % y;
 
 <a href="#language-type-int">int Type</a> Operation, and <a href="#language-type-long">long Type</a> Operation are defined corresponding to <a href="#language-c99-type">C99 Type</a>
 
-Return Type of Remainder Operator is the Type after <a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</a> is applied.
+Return Type of Remainder Operator is the Type after <a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Conversion</a> is applied.
 
 Remainder Operator throw <a href="#language-exception">Exception</a> if Right Expression is 0.
 
@@ -4395,10 +4395,10 @@ ARRAY_ACCESS++
 DEREFERENCE++
 </pre>
 <p>
-  The operand of Increment Operator must <a href="#language-lex-var">Lexical Variable</a>, <a href="#language-package-var">Package Variable</a>, <a href = "# language-field-access">Field Access</a>, <a href="#language-array-access">Array Access</a>, <a href="#language-deref">Dereference</a>. Otherwise a compilation error occurs.
+  The operand of Increment Operator must <a href="#language-lex-var">Lexical Variable</a>, <a href="#language-package-var">Package Variable</a>, <a href = "#language-field-access">Field Access</a>, <a href="#language-array-access">Array Access</a>, <a href="#language-deref">Dereference</a>, otherwise Compilation Error occurs.
 </p>
 <p>
-  The Type of operand of Increment Operator must be <a href="#language-type-numeric">Numeric Type</a>. Otherwise a compilation error will occur.
+  The Type of operand of Increment Operator must be <a href="#language-type-numeric">Numeric Type</a>, otherwise Compilation Error will occur.
 </p>
 
 <h5>Pre Increment Operator</h5>
@@ -4462,10 +4462,10 @@ ARRAY_ACCESS--
 DEREFERENCE--
 </pre>
 <p>
-  The operand of Decrement Operator must <a href="#language-lex-var">Lexical Variable</a>, <a href="#language-package-var">Package Variable</a>, <a href = "# language-field-access">Field Access</a>, <a href="#language-array-access">Array Access</a>, <a href="#language-deref">Dereference</a>. Otherwise a compilation error occurs.
+  The operand of Decrement Operator must <a href="#language-lex-var">Lexical Variable</a>, <a href="#language-package-var">Package Variable</a>, <a href = "#language-field-access">Field Access</a>, <a href="#language-array-access">Array Access</a>, <a href="#language-deref">Dereference</a>, otherwise Compilation Error occurs.
 </p>
 <p>
-  The Type of operand of Decrement Operator must be <a href="#language-type-numeric">Numeric Type</a>. Otherwise a compilation error will occur.
+  The Type of operand of Decrement Operator must be <a href="#language-type-numeric">Numeric Type</a>, otherwise Compilation Error will occur.
 </p>
 
 <h5>Pre Decrement Operator</h5>
@@ -4510,65 +4510,67 @@ DEREFERENCE--
 
 <h4 id="language-operator-bit">Bit Operator</h4>
 <p>
-  Bit Operator is an Operator that performs Bit operation.> <a href="#language-operator-bit-and">Bit AND Operator</a>, <a href = "# language-operator-bit-or It consists of ">Bit OR Operator</a>, <a href="#language-operator-bit-not">Bit NOT Operator</a>.
+  Bit Operator is an Operator that performs Bit operation.> <a href="#language-operator-bit-and">Bit AND Operator</a>, <a href = "#language-operator-bit-or It consists of ">Bit OR Operator</a>, <a href="#language-operator-bit-not">Bit NOT Operator</a>.
 </p>
 
 <h4 id="language-operator-bit-and">Bit AND Operator</h4>
 <p>
-  Bit AND is <a href="#language-operator-binary">Binary Operator</a> expressed by "&".
+  Bit AND is <a href="#language-operator-binary">Binary Operator</a> represented by "&".
 </p>
 <pre>
 LEFT_EXPRESSION & RIGHT_EXPRESSION
 </pre>
 <p>
-  Left Expression and Right Expression must be <a href="#language-type-integral">Integral Type</a>. Otherwise a compilation error occurs.
+  Left Expression and Right Expression must be <a href="#language-type-integral">Integral Type</a>, otherwise Compilation Error occurs.
 <p>
 <p>
-  <a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</a> is performed on Left Expression and Right Expression.
+  <a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Conversion</a> is performed on Left Expression and Right Expression.
 </p>
 <p>
-  After that, the operation result of Bit AND Operator performs the operation that exactly matches the following operation in C99. <a href="#language-c99-type"><a href="#language-type-int">int Type</a>, <a href according to the correspondence of Type with C99</a> Definition in = "# language-type-long">long Type</a> is defined.
+  After that, the operation result of Bit AND Operator performs the operation that exactly matches the following operation in C99
+
 </p>
 <pre>
 x & y;
 </pre>
+
+<a href="#language-type-int">int Type</a> Operation and <a href="#language-type-long">long Type</a> Operation are defined corresponding to <a href="#language-c99-type">C99 Type</a>
+
 <p>
-  Bit AND Operator returns <a href="#language-expression">Expression</a>.
+  The Type of Return Value of Bit AND Operator is the type after <a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type</a> is performed.
 </p>
 <p>
-  The Type of Return Value of Bit AND Operator is the type <a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Converted</a>.
-</p>
-<p>
-  Bit AND Operator does not throw an exception.
+  Bit AND Operator does not throw <a href="#language-exception">Exception</a>.
 </p>
 
 <h4 id="language-operator-bit-or">Bit OR Operator</h4>
 <p>
-  Bit OR is <a href="#language-operator-binary">Binary Operator</a> expressed by "|".
+  Bit OR is <a href="#language-operator-binary">Binary Operator</a> represented by "|".
 </p>
 <pre>
 LEFT_EXPRESSION | RIGHT_EXPRESSION
 </pre>
 <p>
-  Left Expression and Right Expression must be <a href="#language-type-integral">Integral Type</a>. Otherwise a compilation error occurs.
+  Left Expression and Right Expression must be <a href="#language-type-integral">Integral Type</a>, otherwise Compilation Error occurs.
 <p>
 <p>
-  <a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</a> is performed on Left Expression and Right Expression.
+  <a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Conversion</a> is performed on Left Expression and Right Expression.
 </p>
 <p>
-  After that, the operation result of Bit OR Operator performs the operation that exactly matches the following operation in C99. <a href="#language-c99-type"><a href="#language-type-int">int Type</a>, <a href according to the correspondence of Type with C99</a> Definition in = "# language-type-long">long Type</a> is defined.
+  After that, the operation result of Bit OR Operator performs the operation that exactly matches the following operation in C99.
 </p>
+
 <pre>
 x | y;
 </pre>
-<p>
-  Bit OR Operator returns <a href="#language-expression">Expression</a>.
-</p>
+
+<a href="#language-type-int">int Type</a> Operation and <a href="#language-type-long">long Type</a> Operation are defined corresponding to <a href="#language-c99-type">C99 Type</a>
+
 <p>
   The Type of Return Value of Bit OR Operator is the type that is <a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Converted</a>.
 </p>
 <p>
-  Bit OR Operator does not throw an exception.
+  Bit OR Operator does not throw <a href="#language-exception">Exception</a>.
 </p>
 
 <h4 id="language-operator-bit-not">Bit NOT Operator</h4>
@@ -4579,25 +4581,25 @@ x | y;
 ~EXPRESSION
 </pre>
 <p>
-  Expression must be <a href="#language-type-integral">Integral Type</a>. Otherwise a compilation error occurs.
+  Expression must be <a href="#language-type-integral">Integral Type</a>, otherwise Compilation Error occurs.
 </p>
 <p>
-  For <a href="#language-expression">Expression</a>, <a href="#language-type-convertion-unary-numeric-widening">Unary Numeric Widening Type Convertion</a> Will be opened.
+  <a href="#language-type-convertion-unary-numeric-widening">Unary Numeric Widening Type Conversion</a> is performed to Expression before Operation.
 </p>
 <p>
-  After that, the operation result of Bit NOT Operator performs the operation that exactly matches the following operation in C99. <a href="#language-c99-type"><a href="#language-type-int">int Type</a>, <a href according to the correspondence of Type with C99</a> Definition in = "# language-type-long">long Type</a> is defined.
+  After that, the operation result of Bit NOT Operator performs the operation that exactly matches the following operation in C99.
 </p>
 <pre>
 ~x
 </pre>
+
+<a href="#language-type-int">int Type</a> Operation and <a href="#language-type-long">long Type</a> Operation are defined corresponding to <a href="#language-c99-type">C99 Type</a>
+
 <p>
-  Bit NOT Operator returns <a href="#language-expression">Expression</a>.
+  The Type of Return Value of Bit NOT Operator is the type after <a href="#language-type-convertion-unary-numeric-widening">Unary Numeric Widening Type Conversion</a>
 </p>
 <p>
-  The Type of Return Value of Bit NOT Operator is the type <a href="#language-type-convertion-unary-numeric-widening">Unary Numeric Widening Type Converted</a>.
-</p>
-<p>
-  Bit NOT Operator does not throw an exception.
+  Bit NOT Operator does not throw <a href="#language-exception">Exception</a>.
 </p>
 <p>
   <b>Bit NOT Operator Example</b>
@@ -4608,7 +4610,7 @@ my $num = ~0xFF0A;
 
 <h4 id="language-operator-shift">Shift Operator</h4>
 <p>
-  Shift Operator is an operator that performs Bit shift. <a href="#language-operator-left-shift">Left Shift Operator</a>, <a href = "# language-operator-arithmetic-right-shift" > Arithmetic Right Shift Operator</a>, <a href="#language-operator-logical-right-shift">Logical Right Shift Operator</a>.
+  Shift Operator is an operator that performs Bit shift. <a href="#language-operator-left-shift">Left Shift Operator</a>, <a href = "#language-operator-arithmetic-right-shift" > Arithmetic Right Shift Operator</a>, <a href="#language-operator-logical-right-shift">Logical Right Shift Operator</a>.
 </p>
 <h4 id="language-operator-left-shift">Left Shift Operator</h4>
 <p>
@@ -4618,25 +4620,22 @@ my $num = ~0xFF0A;
 LEFT_EXPRESSION << RIGHT_EXPRESSION
 </pre>
 <p>
-  Left Expressionは,<a href="#language-type-integral">Integral Type</a>でなければなりません。otherwise a compilation error occurs.
+  Left Expression must be <a href="#language-type-integral">Integral Type</a>, otherwise Compilation Error occurs.
 <p>
 <p>
-  Left Expression must be <a href="#language-type-integral">Integral Type</a>. Otherwise a compilation error occurs.
-</p>
-<p>
-  Right Expression must be <a href="#language-type-int">int Type</a>. Otherwise a compilation error occurs.
+  Right Expression must be <a href="#language-type-int">int Type</a>, otherwise Compilation Error occurs.
 <p>
 <p>
-  The calculation result of Left Shift Operator is the same as the following calculation in C99. <a href="#language-c99-type"><a href="#language-type-int">int Type</a>, <a href according to the correspondence of Type with C99</a> Definition in = "# language-type-long">long Type</a> is defined.
+  The calculation result of Left Shift Operator is the same as the following calculation in C99.
 </p>
 <pre>
 x << y;
 </pre>
+
+<a href="#language-type-int">int Type</a> Operation and <a href="#language-type-long">long Type</a> Operation are defined corresponding to <a href="#language-c99-type">C99 Type</a>
+
 <p>
-  Left Shift Operator returns <a href="#language-expression">Expression</a>.
-</p>
-<p>
-  Left Shift Operator does not throw an exception.
+  Left Shift Operator does not throw <a href="#language-exception">Exception</a>.
 </p>
 
 <h4 id="language-operator-arithmetic-right-shift">Arithmetic Right Shift Operator</h4>
@@ -4647,25 +4646,25 @@ x << y;
 LEFT_EXPRESSION >> RIGHT_EXPRESSION
 </pre>
 <p>
-  Left Expression must be <a href="#language-type-integral">Integral Type</a>. Otherwise a compilation error occurs.
+  Left Expression must be <a href="#language-type-integral">Integral Type</a>, otherwise Compilation Error occurs.
 <p>
 <p>
-  First, for <a href="#language-expression">Left Expression</a>, <a href="#language-type-convertion-unary-numeric-widening">Unary Numeric Widening Type Convertion </ a > Is done.
+  First, for <a href="#language-expression">Left Expression</a>, <a href="#language-type-convertion-unary-numeric-widening">Unary Numeric Widening Type Conversion</a> is performed.
 </p>
 <p>
-  Right Expression must be <a href="#language-type-int">int Type</a>. Otherwise a compilation error occurs.
+  Right Expression must be <a href="#language-type-int">int Type</a>, otherwise Compilation Error occurs.
 <p>
 <p>
-  The operation result of Arithmetic Right Shift Operator is the operation that exactly matches the following operation in C99. <a href="#language-type-int">int Type </ a according to <a href = "# language-c99-type">Type correspondence with C99</a> for x >, <a href="#language-type-long">long Type</a> is defined.
+  The operation result of Arithmetic Right Shift Operator is the operation that exactly matches the following operation in C99.
 </p>
 <pre>
 x >> y;
 </pre>
+
+<a href="#language-type-int">int Type</a> Operation and <a href="#language-type-long">long Type</a> Operation are defined corresponding to <a href="#language-c99-type">C99 Type</a>
+ 
 <p>
-  Arithmetic Right Shift Operator returns <a href="#language-expression">Expression</a>.
-</p>
-<p>
-  Arithmetic Right Shift Operator does not throw an exception.
+  Arithmetic Right Shift Operator does not throw <a href="#language-exception">Exception</a>.
 </p>
 
 <h4 id="language-operator-logical-right-shift">Logical Right Shift Operator</h4>
@@ -4676,25 +4675,22 @@ x >> y;
 LEFT_EXPRESSION >>> RIGHT_EXPRESSION
 </pre>
 <p>
-  Left Expressionは,<a href="#language-type-integral">Integral Type</a>でなければなりません。otherwise a compilation error occurs.
-<p>
-<p>
-  Left Expression must be <a href="#language-type-integral">Integral Type</a>. Otherwise a compilation error occurs.
+  Left Expression must be <a href="#language-type-integral">Integral Type</a>, otherwise Compilation Error occurs.
 </p>
 <p>
-  Right Expression must be <a href="#language-type-int">int Type</a>. Otherwise a compilation error occurs.
+  Right Expression must be <a href="#language-type-int">int Type</a>, otherwise Compilation Error occurs.
 <p>
 <p>
-  The calculation result of Logical Right Shift Operator is the same as the following calculation in C99. <a href="#language-type-int">int Type </ a according to <a href = "# language-c99-type">Type correspondence with C99</a> for x >, <a href="#language-type-long">long Type</a> is defined.
+  The calculation result of Logical Right Shift Operator is the same as the following calculation in C99.
 </p>
 <pre>
-(Signed Integral Type Cast)((Unsinged Integral Type Cast)x >> y);
+(SIGNED_INTEGRAL_TYPE_CAST)((UNSINGED_INTEGRAL_TYPE_CAST)x >> y);
 </pre>
+
+<a href="#language-type-int">int Type</a> Operation and <a href="#language-type-long">long Type</a> Operation are defined corresponding to <a href="#language-c99-type">C99 Type</a>
+ 
 <p>
-  Logical Right Shift Operator returns <a href="#language-expression">Expression</a>.
-</p>
-<p>
-  Logical Right Shift Operator does not throw an exception.
+  Logical Right Shift Operator does not throw <a href="#language-exception">Exception</a>.
 </p>
 
 <h4 id="language-operator-comparison">Comparison Operator</h4>
@@ -4792,13 +4788,13 @@ LEFT_EXPRESSION NUMERIC COMPARISON_OPERATOR RIGHT_EXPRESSION
   </tr>
 </table>
 <p>
-  The types on the left and right sides must be comparable types. Otherwise a compilation error occurs.
+  The types on the left and right sides must be comparable types, otherwise Compilation Error occurs.
 </p>
 <p>
   In case of Numeric Type comparison, <a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Conversion</a> is performed for Left Expression and Right Expression.
 </p>
 <p>
-  After that, the Numeric Comparison Operator performs an operation that exactly matches the following operation in C99. <a href="#language-c99-type"><a href="#language-type-int">int Type</a>, <a href according to the correspondence of Type with C99</a> = "# language-type-long">long Type</a>, <a href="#language-type-float">float Type</a>, <a href="#language-type-double">Definition in double Type</a>, Object Type is defined.
+  After that, the Numeric Comparison Operator performs an operation that exactly matches the following operation in C99. <a href="#language-c99-type"><a href="#language-type-int">int Type</a>, <a href according to the correspondence of Type with C99</a> = "#language-type-long">long Type</a>, <a href="#language-type-float">float Type</a>, <a href="#language-type-double">Definition in double Type</a>, Object Type is defined.
 </p>
 <pre>
 # Numeric Type Comparison, Object Type Comparison
@@ -4815,7 +4811,7 @@ LEFT_EXPRESSION NUMERIC COMPARISON_OPERATOR RIGHT_EXPRESSION
   The Return Value Type of Numeric Comparison Operator is <a href="#language-type-int">int Type</a>.
 </p>
 <p>
-  Numeric Comparison Operator does not throw an exception.
+  Numeric Comparison Operator does not throw <a href="#language-exception">Exception</a>.
 </p>
 
 <h4 id="language-operator-comparison-string">String Comparison Operator</h4>
@@ -4905,10 +4901,10 @@ LEFT_EXPRESSION ISA RIGHT_TYPE
   1. If the right type is <a href="#language-type-numeric">Numeric Type</a>,<a href="#language-type-multi-numeric"</a><a href="#language-type-any-object"<a href="#language-type-any-object</a>"<a href="#language-type-ref=Reference Type</a> checks whether left Expression Type is the same as the right Type at compile time. If they were identical, <a href="#language-type-int">int Type</a> returns 1, otherwise 0.
 </p>
 <p>
-  2. If the right Type is</a> <a href="#language-type-class">Class Type, check whether the Type of Left Expression matches Class Type at run time. If matched, <a href="#language-type-int">int Type</a> returns 1, otherwise 0. The Type of Left Expression must be An Object Type. Otherwise a compilation error occurs.
+  2. If the right Type is</a> <a href="#language-type-class">Class Type, check whether the Type of Left Expression matches Class Type at run time. If matched, <a href="#language-type-int">int Type</a> returns 1, otherwise 0. The Type of Left Expression must be An Object Type, otherwise Compilation Error occurs.
 </p>
 <p>
-  3. If the right Type is</a><a href="#language-type-callback">Callback Type,the Type of Left Expression is Class Type at run time and the Class is checked to satisfy the Callback Type. If it is satisfied, returns <a href="#language-type-int">int Type</a>1,if not 0. The Type of Left Expression must be An Object Type. Otherwise a compilation error occurs.
+  3. If the right Type is</a><a href="#language-type-callback">Callback Type,the Type of Left Expression is Class Type at run time and the Class is checked to satisfy the Callback Type. If it is satisfied, returns <a href="#language-type-int">int Type</a>1,if not 0. The Type of Left Expression must be An Object Type, otherwise Compilation Error occurs.
 </p>
 
 <h4 id="language-operator-logical">Logical Operator</h4>
@@ -4933,7 +4929,7 @@ LEFT_EXPRESSION && RIGHT_EXPRESSION
   Logical AND Operator behaves as follows:
 </p>
 <p>
-  1. Run the <a href="#language-type-convertion-bool">Bool Type Convertion</a> to Left Expression.
+  1. Run the <a href="#language-type-convertion-bool">Bool Type Conversion</a> to Left Expression.
 </p>
 <p>
   2. If the value of Left Expression is non-zero, execute the <a href="#language-type-convertion-bool" <#language-type-convertion-bool" for the Right Expression, execute the</a> and return that value.
@@ -4945,7 +4941,7 @@ LEFT_EXPRESSION && RIGHT_EXPRESSION
   Logical AND Operator returns <a href="#language-expression">Expression</a>
 </p>
 <p>
-  Logical AND Operator does not throw an exception.
+  Logical AND Operator does not throw <a href="#language-exception">Exception</a>.
 </p>
 
 <h4 id="language-operator-logical-or">Logical OR Operator</h4>
@@ -4962,7 +4958,7 @@ LEFT_EXPRESSION || RIGHT_EXPRESSION
   Logical OR Operator のReturn ValueのTypeは,<a href="#language-type-int">int Type</a>.
 </p>
 <p>
-  1. Run the <a href="#language-type-convertion-bool">Bool Type Convertion</a> to Left Expression.
+  1. Run the <a href="#language-type-convertion-bool">Bool Type Conversion</a> to Left Expression.
 </p>
 <p>
   2. If the value of Left Expression is 0, the <a href="#language-type-convertion-bool"</a> and returns that value for Right Expression.
@@ -4988,13 +4984,13 @@ LEFT_EXPRESSION || RIGHT_EXPRESSION
   Logical NOT Operator のReturn ValueのTypeは,<a href="#language-type-int">int Type</a>.
 </p>
 <p>
-  Logical NOT Operator executes <a href="#language-type-convertion-bool"</a>=$Bool Type Convertion for Expression, returns 1 if its value is 0, and 0 if it is not 0.
+  Logical NOT Operator executes <a href="#language-type-convertion-bool"</a>=$Bool Type Conversion for Expression, returns 1 if its value is 0, and 0 if it is not 0.
 </p>
 <p>
   Logical NOT Operator returns <a href="#language-expression">Expression</a>
 </p>
 <p>
-  Logical NOT Operator does not throw an exception.
+  Logical NOT Operator does not throw <a href="#language-exception">Exception</a>.
 </p>
 
 <h4 id="language-operator-concat">String Concatenation Operator</h4>
@@ -5009,7 +5005,7 @@ LEFT_EXPRESSION . RIGHT_EXPRESSION
 </p>
 </p>
 <p>
-  Both Left Expression and Right Expression must be <a href="#language-type-string-compatible">String Compatible Type</a> There is an otherwise compilation error. </p>
+  Both Left Expression and Right Expression must be <a href="#language-type-string-compatible">String Compatible Type</a> There is an otherwise Compilation Error. </p>
 </p>
 <p>
   String Concatenation Operator concatenates the <a href="#language-string">String</a> represented by Left Expression and Right Expression and returns a new String.
@@ -5021,7 +5017,7 @@ LEFT_EXPRESSION . RIGHT_EXPRESSION
   If both Left Expression and Right Expression were <a href="#language-literal-string">String Literal</a>, a string Literal concatenated at compile time is generated. You can concatenate String Literal with string Concatenation Operator without being aware of the cost of performance.
 </p>
 <p>
-  If left expression or Right Expression is <a href="#language-undef">Undefined Value</a> an exception occurs at run time.
+  If left expression or Right Expression is <a href="#language-undef">Undefined Value</a> <a href="#language-exception">Exception</a> occurs at run time.
 </p>
 <p>
   <b>String Concatenation Operator Example</b>
@@ -5057,7 +5053,7 @@ LEFT_EXPRESSION = RIGHTH_EXPRESSION
 LEFT_EXPRESSION SPECIAL_ASSIGNMENT_OPERATOR  RIGHT_EXPRESSION
 </pre>
 <p>
-  Left ExpressionとRight Expressionが<a href="#language-type-compatible">Type Compatibility</a>を満たさない場合は,a compilation error occurs
+  Left ExpressionとRight Expressionが<a href="#language-type-compatible">Type Compatibility</a>を満たさない場合は,Compilation Error occurs
 </p>
 <p>
   <b>List of Special Assignment Operators</b>
@@ -5155,7 +5151,7 @@ $x >>>= 1;
 \VARIABLE
 </pre>
 <p>
-  If the variable is not numeric type or Multi Numeric Type, a compilation error occurs
+  If the variable is not numeric type or Multi Numeric Type, Compilation Error occurs
 </p>
 <p>
   Reference Operator returns expression. The type returned is <a href="#language-type-ref">Reference Type</a>.
@@ -5182,7 +5178,7 @@ my $z_ref : SPVM::Complex_2d& = \$z;
 @RIGHT EXPRESSION
 </pre>
 <p>
-  Right Expression must be an Array Type. Otherwise a compilation error occurs.
+  Right Expression must be an Array Type, otherwise Compilation Error occurs.
 </p>
 <p>
   Array Length Operator returns array length for <a href="#language-type-int">int Type</a> value.
@@ -5212,7 +5208,7 @@ my $length = @$nums;
 length RIGHT_EXPRESSION
 </pre>
 <p>
-  Right Expression must be <a href="#language-type-string-compatible">String Compatible Type</a>. Otherwise a compilation error occurs.
+  Right Expression must be <a href="#language-type-string-compatible">String Compatible Type</a>, otherwise Compilation Error occurs.
 </p>
 <p>
   The String Length Operator returns the length of the String as a <a href="#language-type-int">int Type</a> value. String Length The length of the String returned by the Operator is the length when viewed as a byte string.
@@ -5239,7 +5235,7 @@ my $length = length $nums;
 scalar RIGHT_EXPRESSION
 </pre>
 <p>
-  Right Expressionは<a href="#language-operator-array-length">Array Length Operator</a>でなければなりません。 otherwise a compilation error occurs.
+  Right Expressionは<a href="#language-operator-array-length">Array Length Operator</a>でなければなりません。 otherwise Compilation Error occurs.
 </p>
 <p>
   Scalar Operator returns Expression.
@@ -5263,13 +5259,13 @@ foo(scalar @$nums);
 isweak VARIABLE->{FIELD_NAME};
 </pre>
 <p>
-  The Type of object Expression must be</a><a href="#language-type-class">Class Type.< otherwise a compilation error occurs.
+  The Type of object Expression must be</a><a href="#language-type-class">Class Type.< otherwise Compilation Error occurs.
 </p>
 <p>
-  Field Name must be a existed Field Name. Otherwise a compilation error occurs.
+  Field Name must be a existed Field Name, otherwise Compilation Error occurs.
 </p>
 <p>
-  The Type of the value stored in field must be <a href="#language-type-object">Object Type</a>. Otherwise a compilation error occurs.
+  The Type of the value stored in field must be <a href="#language-type-object">Object Type</a>, otherwise Compilation Error occurs.
 </p>
 <p>
   If the value stored in field at run time is</a> <a href="#language-undef">Undefined Value, it returns false. This is <a href="#language-expression">Expression</a>
@@ -5488,10 +5484,10 @@ if (EXPRESSION) {
 }
 </pre>
 <p>
-  Expression <a href="#language-type-convertion-bool">Bool Type Convertion</a> is executed and Block is executed if the value is non-zero.
+  Expression <a href="#language-type-convertion-bool">Bool Type Conversion</a> is executed and Block is executed if the value is non-zero.
 </p>
 <p>
-  If you want to write more than one condition, you can continue with "elsif Statement". The condition determination is performed from above, and each Expression is <a href="#language-type-convertion-bool">Bool Type Convertion</a> is executed, and a corresponding Block is executed if the value is non-zero.
+  If you want to write more than one condition, you can continue with "elsif Statement". The condition determination is performed from above, and each Expression is <a href="#language-type-convertion-bool">Bool Type Conversion</a> is executed, and a corresponding Block is executed if the value is non-zero.
 </p>
 <pre>
 if (EXPRESSION) {
@@ -5631,13 +5627,13 @@ switch (CONDITION_EXPRESSION) {
 }
 </pre>
 <p>
-  As the condition Expression, <a href="#language-expression">Expression</a> can be specified. <a href="#language-type-convertion-bool">Bool Type Convertion</a> is executed for the condition Expression.
+  As the condition Expression, <a href="#language-expression">Expression</a> can be specified. <a href="#language-type-convertion-bool">Bool Type Conversion</a> is executed for the condition Expression.
 </p>
 <p>
   The constants specified in case Statement are <a href="#language-type-byte">byte Type</a> or <a href="#language-type-int">int Type</a> constants. must be. For a constant of <a href="#language-type-byte">byte Type</a>, type conversion to <a href="#language-type-int">int Type</a> at compile time. Will be done. The value of enumType and Constant Subroutine of <a href="#language-type-int">int Type</a> are constants of <a href="#language-type-int">int Type</a>. As it is expanded at the time of syntax analysis, it can be used.
 </p>
 <p>
-  The constants specified in the case statement must not overlap. If there are duplicates, a compilation error occurs
+  The constants specified in the case statement must not overlap. If there are duplicates, Compilation Error occurs
 </p>
 <p>
   If the value specified in the condition Expression matches the value specified in the case statement, jump to the position of that case statement.
@@ -5646,7 +5642,7 @@ switch (CONDITION_EXPRESSION) {
   If there is no match and a default statement is specified, jump to the default statement position. If no default statement is specified, switch block will not be executed.
 </p>
 <p>
-  A switch statement requires at least one case statement. Otherwise a compilation error will occur.
+  A switch statement requires at least one case statement, otherwise Compilation Error will occur.
 </p>
 <p>
   The default Statement is optional.
@@ -5688,7 +5684,7 @@ switch (CONDITION_EXPRESSION) {
 }
 </pre>
 <p>
-  If a case Block exists, the last Statement must be a break Statement or a returnl Statement. Otherwise a compilation error will occur.
+  If a case Block exists, the last Statement must be a break Statement or a returnl Statement, otherwise Compilation Error will occur.
 </p>
 
 <p>
@@ -5744,7 +5740,7 @@ while (CONDITION_EXPRESSION) {
 }
 </pre>
 <p>
-  <a href="#language-expresssion">Expression</a> can be described in the condition Expression. <a href="#language-type-convertion-bool">Bool Type Convertion</a> is executed for condition Expression, and if the value is not 0, Block is executed. Exit the otherwise Block.
+  <a href="#language-expresssion">Expression</a> can be described in the condition Expression. <a href="#language-type-convertion-bool">Bool Type Conversion</a> is executed for condition Expression, and if the value is not 0, Block is executed. Exit the otherwise Block.
 </p>
 <p>
   <b>While Statement Example</b>
@@ -5819,7 +5815,7 @@ for (INITIALIZATION_EXPRESSION; CONDITIONAL_EXPRESSION; INCREMENT_EXPRESSION) {
   <a href="#language-expression">Expression</a> can be described in the initialization Expression. Generally, write Expression such as initialization of loop variable. Initialization Expression can be omitted.
 </p>
 <p>
-  Condition Expression, <a href="#language-expresssion">Expression</a> can be described. <a href="#language-type-convertion-bool">Bool Type Convertion</a> is executed for condition Expression, and if the value is not 0, Block is executed. Exit the otherwise block.
+  Condition Expression, <a href="#language-expresssion">Expression</a> can be described. <a href="#language-type-convertion-bool">Bool Type Conversion</a> is executed for condition Expression, and if the value is not 0, Block is executed. Exit the otherwise block.
 </p>
 <p>
   <a href="#language-expression">Expression</a> can be described in INCREMENT_EXPRESSION. Generally, Expression of Increment of loop variable is described. INCREMENT_EXPRESSION can be omitted.
@@ -5885,15 +5881,15 @@ return;
 return EXPRESSION;
 </pre>
 <p>
-  If the Return Value Type in <a href="#language-sub-definition">Subroutine Definition</a> is <a href="#language-type-void">void Type</a>, Expression Must not exist. Otherwise a compilation error occurs.
+  If the Return Value Type in <a href="#language-sub-definition">Subroutine Definition</a> is <a href="#language-type-void">void Type</a>, Expression Must not exist, otherwise Compilation Error occurs.
 </p>
 <p>
-  <a href="#language-sub-definition">Subroutine Definition</a>, if the Return Value Type is other than <a href="#language-type-void">void Type</a>, Expression Must match the Type of. Otherwise a compilation error occurs.
+  <a href="#language-sub-definition">Subroutine Definition</a>, if the Return Value Type is other than <a href="#language-type-void">void Type</a>, Expression Must match the Type of, otherwise Compilation Error occurs.
 </p>
 
 <h4 id = "language-statement-die">die Statement</h4>
 <p>
-  die Statement is a Statement for raising an exception.
+  die Statement is a Statement for raising <a href="#language-exception">Exception</a>.
 </p>
 <pre>
 die EXPRESSION;
@@ -5911,13 +5907,13 @@ die EXPRESSION;
 weaken VARIABLE->{FIELD_NAME};
 </pre>
 <p>
-  The Type of the object Expression must be <a href="#language-type-class">Class Type</a>. Otherwise a compilation error occurs.
+  The Type of the object Expression must be <a href="#language-type-class">Class Type</a>, otherwise Compilation Error occurs.
 </p>
 <p>
-  Field Name must be an existing Field Name. Otherwise a compilation error occurs.
+  Field Name must be an existing Field Name, otherwise Compilation Error occurs.
 </p>
 <p>
-  The Type of the value saved in Field must be <a href="#language-type-object">Object Type</a>. Otherwise a compilation error occurs.
+  The Type of the value saved in Field must be <a href="#language-type-object">Object Type</a>, otherwise Compilation Error occurs.
 </p>
 <p>
   If the value stored in the Field at execution time is <a href="#language-undef">Undefined Value</a>, the weak Statement does nothing.
@@ -5973,13 +5969,13 @@ weaken $baz->{foo};
 unweaken VARIABLE->{FIELD_NAME};
 </pre>
 <p>
-  The Type of the object Expression must be <a href="#language-type-class">Class Type</a>. Otherwise a compilation error occurs.
+  The Type of the object Expression must be <a href="#language-type-class">Class Type</a>, otherwise Compilation Error occurs.
 </p>
 <p>
-  Field Name must be an existing Field Name. Otherwise a compilation error occurs.
+  Field Name must be an existing Field Name, otherwise Compilation Error occurs.
 </p>
 <p>
-  The Type of the value saved in Field must be <a href="#language-type-object">Object Type</a>. Otherwise a compilation error occurs.
+  The Type of the value saved in Field must be <a href="#language-type-object">Object Type</a>, otherwise Compilation Error occurs.
 </p>
 <p>
   If the value stored in the Field at execution time is <a href="#language-undef">Undefined Value</a>, the unweaken Statement does nothing.
@@ -6376,7 +6372,7 @@ package Foo {
 }
 </pre>
 <p>
-  Package Type is <a href="#language-type-class">Class Type</a> <a href="#language-type-callback">Callback Type</a> <a href = "# language-type It consists of -multi-numeric ">Multi Numeric Type</a>.
+  Package Type is <a href="#language-type-class">Class Type</a> <a href="#language-type-callback">Callback Type</a> <a href = "#language-type It consists of -multi-numeric ">Multi Numeric Type</a>.
 </p>
 <pre>
 # Class Type
@@ -6405,7 +6401,7 @@ package Foo: pointer_t {
 </pre>
 <h4 id = "language-type-object">Object Type</h4>
 <p>
-What is Object Type <a href="#language-type-class">Class Type</a> <a href="#language-type-callback">Callback Type</a> <a href = "# language- type-array ">Array Type</a> <a href="#language-type-string">string Type</a> <a href="#language-type-any-object">Any Object Type</a> It is a combination of a>. "Multi Numeric Type" and "Reference Type" are not included.
+What is Object Type <a href="#language-type-class">Class Type</a> <a href="#language-type-callback">Callback Type</a> <a href = "#language- type-array ">Array Type</a> <a href="#language-type-string">string Type</a> <a href="#language-type-any-object">Any Object Type</a> It is a combination of a>. "Multi Numeric Type" and "Reference Type" are not included.
 </p>
 <p>
 The Object Type value can be assigned to "Any Object Type".
@@ -6492,7 +6488,7 @@ Undefined Type is the Type that <a href="#language-undef">Undefined Value</a> ha
 The only Undefined Type value is <a href="#language-undef">Undefined Value</a>.
 </p>
 <p>
-The value of Undefined Type can be assigned to Object Type.If you assign to another Type, a compilation error occurs
+The value of Undefined Type can be assigned to Object Type.If you assign to another Type, Compilation Error occurs
 </p>
 
 <h4 id = "language-type-class">Class Type</h4>
@@ -6536,7 +6532,7 @@ package Foo: pointer_t {
   Pointer type data can store C language pointers.
 </p>
 <p>
-  Field cannot be defined for Pointer Type. If it is defined, a compilation error occurs
+  Field cannot be defined for Pointer Type. If it is defined, Compilation Error occurs
 </p>
 
 <h4 id = "language-type-callback">Callback Type</h4>
@@ -6629,7 +6625,7 @@ my $object: object = new Foo [3];
 
 <h4 id = "language-type-basic">Basic Type</h4>
 <p>
-  A Type that does not have dimensions is called a Basic Type. <a href="#language-type-numeric">Numeric Type</a>, <a href="#language-type-package">Package Type </ a>, <a href = "# language-type- any-object ">Any Object Type</a>, <a href="#language-type-string">string Type</a> is a Basic Type.
+  A Type that does not have dimensions is called a Basic Type. <a href="#language-type-numeric">Numeric Type</a>, <a href="#language-type-package">Package Type </ a>, <a href = "#language-type- any-object ">Any Object Type</a>, <a href="#language-type-string">string Type</a> is a Basic Type.
 </p>
 
 <h4 id = "language-type-array">Array Type</h4>
@@ -6771,7 +6767,7 @@ my $array : oarray = new Point[3];
 my $array : oarray = new object[3];
 </pre>
 <p>
-  If a value with a Type other than Object Type is assigned, a compilation error occurs
+  If a value with a Type other than Object Type is assigned, Compilation Error occurs
 </p>
 <p>
   Note that "oarrayType" is a different Type than "object[] Type". While oarrayType is a Type that can be substituted with an arbitrary Array Type value that has an Object Type value as an element, "object[] Type" is a Type that represents an "Array that has an objectType value as an element". Therefore, the value of arbitrary Array Type cannot be assigned.
@@ -6792,7 +6788,7 @@ my $num = (SPVM::Int)$array->[0];
 $array->[0] = SPVM::Int->new(5);
 </pre>
 <p>
-  When setting the value of the element of Any Object Array Type, a check is made at runtime whether the Type of the element is smaller than the Type Dimension of Array by 1. If the check fails, an exception will occur. Any Object Array Type guarantees runtime Type safety.
+  When setting the value of the element of Any Object Array Type, a check is made at runtime whether the Type of the element is smaller than the Type Dimension of Array by 1. If the check fails, <a href="#language-exception">Exception</a> will occur. Any Object Array Type guarantees runtime Type safety.
 </p>
 
 <h4 id="language-type-string"><a href="#language-type-string">string Type</a></h4>
@@ -6816,7 +6812,7 @@ my $str : string = "abc";
 my $ch = $str->[1];
 </pre>
 <p>
-  If you try to change the element, a compilation error occurs
+  If you try to change the element, Compilation Error occurs
 </p>
 <pre>
 # Compile error when changing element
@@ -6891,10 +6887,10 @@ my $point_ref : Point_3i& = \$point;
   Only the address of the Lexical Variable acquired by <a href="#language-operator-ref">Reference Operator</a> can be assigned to the value of Reference Type.
 </p>
 <p>
-  If only Lexical Variable Declaration of Reference Type is performed, a compilation error occurs
+  If only Lexical Variable Declaration of Reference Type is performed, Compilation Error occurs
 </p>
 <p>
-  Reference Type can be used as Type of <a href="#language-lex-var-declaration">Lexical Variable Declaration</a>. The address of the Lexical Variable must be stored by the Reference Operator. In case of only Lexical Variable Declaration, a compilation error occurs
+  Reference Type can be used as Type of <a href="#language-lex-var-declaration">Lexical Variable Declaration</a>. The address of the Lexical Variable must be stored by the Reference Operator. In case of only Lexical Variable Declaration, Compilation Error occurs
 </p>
 <p>
   Reference Type can be used as Type of argument in <a href="#language-sub-definition">Subroutine Definition</a>.
@@ -6909,7 +6905,7 @@ my $point_ref : Point_3i& = \$point;
   Reference Type cannot be used as the Type of Package Variable in <a href="#language-package-definition">Package Definition</a>.
 </p>
 <p>
-  If the Reference Type is used at an Invalid location, a compilation error occurs
+  If the Reference Type is used at an Invalid location, Compilation Error occurs
 </p>
 <p>
   See <a href="#language-ref">Reference</a> for a detailed explanation of Reference.
@@ -6994,28 +6990,28 @@ $objects_dim1_dist = $objects_dim2_src;
 my $objets : object[] = new int[3];
 </pre>
 <p>
-  If the types are not compatible, <a href="#language-type-convertion-implicite">implicit Type Convertion</a> is tried. If the implicit Type Conversion fails, a compilation error occurs
+  If the types are not compatible, <a href="#language-type-convertion-implicite">implicit Type Conversion</a> is tried. If the implicit Type Conversion fails, Compilation Error occurs
 </p>
 
-<h3 id="language-type-convertion">Type Convertion</h3>
+<h3 id="language-type-convertion">Type Conversion</h3>
 <ul class="list">
   <li><a href="#language-type-convertion-typecast">Type Cast</a></li>
-  <li><a href="#language-type-convertion-typecast">Numeric Type Type Convertion</a></li>
-  <li><a href="#language-type-convertion-implicite">Implicit Type Convertion</a></li>
+  <li><a href="#language-type-convertion-typecast">Numeric Type Type Conversion</a></li>
+  <li><a href="#language-type-convertion-implicite">Implicit Type Conversion</a></li>
   <li><a href="#language-type-convertion-numeric-type-order">Numeric Type Order</a></li>
-  <li><a href="#language-type-convertion-unary-numeric-widening">Unary Numeric Widening Type Convertion</a></li>
-  <li><a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</a></li>
-  <li><a href="#language-type-convertion-numeric-narrowing">Numeric Narrowing Type Convertion</a></li>
-  <li><a href="#language-type-convertion-numeric-widening">Numeric Widening Type Convertion</a></li>
-  <li><a href="#language-type-convertion-numeric-to-string">Numeric-to-<a href="#language-type-string">string Type</a> Convertion</a></li>
-  <li><a href="#language-type-convertion-boxing">Boxing Type Convertion</a></li>
-  <li><a href="#language-type-convertion-unboxing">Unboxing Type Convertion</a></li>
-  <li><a href="#language-type-convertion-bool">Bool Type Convertion</a></li>
+  <li><a href="#language-type-convertion-unary-numeric-widening">Unary Numeric Widening Type Conversion</a></li>
+  <li><a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Conversion</a></li>
+  <li><a href="#language-type-convertion-numeric-narrowing">Numeric Narrowing Type Conversion</a></li>
+  <li><a href="#language-type-convertion-numeric-widening">Numeric Widening Type Conversion</a></li>
+  <li><a href="#language-type-convertion-numeric-to-string">Numeric-to-<a href="#language-type-string">string Type</a> Conversion</a></li>
+  <li><a href="#language-type-convertion-boxing">Boxing Type Conversion</a></li>
+  <li><a href="#language-type-convertion-unboxing">Unboxing Type Conversion</a></li>
+  <li><a href="#language-type-convertion-bool">Bool Type Conversion</a></li>
 </ul>
 
 <h4 id="language-type-convertion-typecast">Type Cast</h4>
 <p>
-  Type Cast is Type Convertion that is explicitly described.
+  Type Cast is Type Conversion that is explicitly described.
 </p>
 <pre>
 # Type Cast
@@ -7037,10 +7033,10 @@ my $num = (long)3;
 my $num : int = (int)4;
 </pre>
 <p>
-  <b>List of Type Convertion in Type Cast</b>
+  <b>List of Type Conversion in Type Cast</b>
 </p>
 <p>
-  It is a list of Type Convertion in Type Cast. If a Type Cast not listed in this table is performed, a compilation error occurs.
+  It is a list of Type Conversion in Type Cast. If a Type Cast not listed in this table is performed, Compilation Error occurs.
 </p>
 <table>
   <tr>
@@ -7084,7 +7080,7 @@ my $num : int = (int)4;
       <b>Numeric Type</b>
     </td>
     <td>
-      <a href="#language-type-convertion-numeric-widening">Numeric Type Type Convertion</a> is performed.
+      <a href="#language-type-convertion-numeric-widening">Numeric Type Type Conversion</a> is performed.
     </td>
   </tr>
   <tr>
@@ -7095,7 +7091,7 @@ my $num : int = (int)4;
       <b>Numeric Type</b>
     </td>
     <td>
-      <a href="#language-type-convertion-boxing">Boxing Type Convertion</a> is performed. Numeric Type represented by Numeric Type and Numeric Object Type must be the same. For example, if Numeric Type is int, Numeric Object Type must be SPVM::Int Type.
+      <a href="#language-type-convertion-boxing">Boxing Type Conversion</a> is performed. Numeric Type represented by Numeric Type and Numeric Object Type must be the same. For example, if Numeric Type is int, Numeric Object Type must be SPVM::Int Type.
     </td>
   </tr>
   <tr>
@@ -7106,7 +7102,7 @@ my $num : int = (int)4;
       <b>Numeric Type</b>
     </td>
     <td>
-      <a href="#language-type-convertion-boxing">Boxing Type Convertion</a> is performed.
+      <a href="#language-type-convertion-boxing">Boxing Type Conversion</a> is performed.
     </td>
   </tr>
   <tr>
@@ -7117,7 +7113,7 @@ my $num : int = (int)4;
       <b>Numeric Object Type</b>
     </td>
     <td>
-      <a href="#language-type-convertion-unboxing">Unboxing Type Convertion</a> is performed. Numeric Type represented by Numeric Type and Numeric Object Type must be the same. For example, if Numeric Type is int, Numeric Object Type must be SPVM::Int Type.
+      <a href="#language-type-convertion-unboxing">Unboxing Type Conversion</a> is performed. Numeric Type represented by Numeric Type and Numeric Object Type must be the same. For example, if Numeric Type is int, Numeric Object Type must be SPVM::Int Type.
     </td>
   </tr>
   <tr>
@@ -7128,7 +7124,7 @@ my $num : int = (int)4;
       <b>Any Object Type</b>
     </td>
     <td>
-      <a href="#language-type-convertion-unboxing">Unboxing Type Convertion</a> is performed.
+      <a href="#language-type-convertion-unboxing">Unboxing Type Conversion</a> is performed.
     </td>
   </tr>
   <tr>
@@ -7144,7 +7140,7 @@ my $num : int = (int)4;
   </tr>
 </table>
 
-<h4 id="language-type-convertion-numeric">Numeric Type Type Convertion</h4>
+<h4 id="language-type-convertion-numeric">Numeric Type Type Conversion</h4>
 <p>
   Numeric Type Type Conversion is the conversion from <a href="#language-type-numeric">Numeric Type</a> to <a href="#language-type-numeric">Numeric Type</a>. That is.
 </p>
@@ -7168,7 +7164,7 @@ int64_t dist = (int64_t)src;
   Valid information may not be retained when converting from a large type to a small type or when converting from a floating point to an integral type. In SPVM, since the Type Conversion corresponding to C99 is performed as it is, which value is converted when the Valid information is not retained is the same as the C99 specification.
 </p>
 
-<h4 id="language-type-convertion-implicite">Implicit Type Convertion</h4>
+<h4 id="language-type-convertion-implicite">Implicit Type Conversion</h4>
 <p>
   Implicit type conversion is automatic type conversion performed by SPVM. The following are the places where implicit Type Conversion may occur.
 </p>
@@ -7178,71 +7174,71 @@ int64_t dist = (int64_t)src;
   <li>When returning a Type different from Return Value</li>
 </ul>
 <p>
-  Implicit Type Convertion occurs when:
+  Implicit Type Conversion occurs when:
 </p>
 <p>
-  If both the source and destination Type are Numeric Type and the destination Type is larger than the source Type, <a href="#language-type-convertion-numeric-widening">Numeric Widening Type Convertion</a> is done.
+  If both the source and destination Type are Numeric Type and the destination Type is larger than the source Type, <a href="#language-type-convertion-numeric-widening">Numeric Widening Type Conversion</a> is done.
 </p>
 <pre>
-# Implicit Widening Type Convertion
+# Implicit Widening Type Conversion
 my $num : long = 123;
 my $num : double = 12.5f;
 </pre>
 
 <p>
-  Both the source and destination Type are Numeric Type, and the destination Type is smaller than the source Type, and the source value can be expressed in the range of Integer Literal and destination Type value. <a href="#language-type-convertion-numeric-narrowing">Numeric Narrowing Type Convertion</a> is performed.
+  Both the source and destination Type are Numeric Type, and the destination Type is smaller than the source Type, and the source value can be expressed in the range of Integer Literal and destination Type value. <a href="#language-type-convertion-numeric-narrowing">Numeric Narrowing Type Conversion</a> is performed.
 </p>
 
 <pre>
-# Implicit Narrowing Type Convertion
+# Implicit Narrowing Type Conversion
 my $num : byte = 123;
 my $num : short = 134;
 </pre>
 
 <p>
-  If the source Type is Numeric Type and the destination Type is Any Object Type, <a href="#language-type-convertion-boxing">Boxing Type Convertion</a> to the corresponding Numeric Object Type Is done. In the following case, the converted SPVM::Int Type object is assigned to the generic object.
+  If the source Type is Numeric Type and the destination Type is Any Object Type, <a href="#language-type-convertion-boxing">Boxing Type Conversion</a> to the corresponding Numeric Object Type Is done. In the following case, the converted SPVM::Int Type object is assigned to the generic object.
 </p>
 
 <pre>
-# Implicit Boxing Type Convertion to objectType
+# Implicit Boxing Type Conversion to objectType
 my $num = 123;
 my $object : object = $num;
 </pre>
 <p>
-  When the source Type is Numeric Type and the destination Type is the corresponding Numeric Object Type, <a href="#language-type-convertion-boxing">Boxing Type Convertion</a> to the corresponding Numeric Object Type a> is done.
+  When the source Type is Numeric Type and the destination Type is the corresponding Numeric Object Type, <a href="#language-type-convertion-boxing">Boxing Type Conversion</a> to the corresponding Numeric Object Type a> is done.
 </p>
 <pre>
-# Implicit Boxing Type Convertion to object Type
+# Implicit Boxing Type Conversion to object Type
 my $num = 123;
 my $object : SPVM::Int = $num;
 </pre>
 
 <p>
-  When the source Type is Any Object Type and the destination Type is Numeric Type, <a href="#language-type-convertion-unboxing">Unboxing Type Convertion</a> in the corresponding Numeric Type is displayed. Will be opened. In the following case, an attempt is made to convert the SPVM::Int Type object to <a href="#language-type-int">int Type</a>.
+  When the source Type is Any Object Type and the destination Type is Numeric Type, <a href="#language-type-convertion-unboxing">Unboxing Type Conversion</a> in the corresponding Numeric Type is displayed. Will be opened. In the following case, an attempt is made to convert the SPVM::Int Type object to <a href="#language-type-int">int Type</a>.
 </p>
 
 <pre>
-# Implicit Unboxing Type Convertion from objectType-
+# Implicit Unboxing Type Conversion from objectType-
 my $object : object;
 my $num : int = $object;
 </pre>
 <p>
   
-If the source Type is Numeric Object Type and the destination Type is the corresponding Numeric Type, <a href="#language-type-convertion-unboxing">Unboxing Type Convertion</a> in the corresponding Numeric Type Is done.
+If the source Type is Numeric Object Type and the destination Type is the corresponding Numeric Type, <a href="#language-type-convertion-unboxing">Unboxing Type Conversion</a> in the corresponding Numeric Type Is done.
 </p>
 
 <pre>
-# Implicit Unboxing Type Convertion from Numeric Object Type
+# Implicit Unboxing Type Conversion from Numeric Object Type
 my $num_obj = SPVM::Int->new(3);
 my $num : int = $num_obj;
 </pre>
 
 <p>
-  If the source Type is Numeric Type and the destination Type is <a href="#language-type-string">string Type</a>, <a href = "# language-type-convertion- numeric-to-string ">Numeric-to- <a href="#language-type-string">string Type</a> Convertion</a> is performed. In the following case, the numerical value "123" is converted to String "" 123 "" and assigned.
+  If the source Type is Numeric Type and the destination Type is <a href="#language-type-string">string Type</a>, <a href = "#language-type-convertion- numeric-to-string ">Numeric-to- <a href="#language-type-string">string Type</a> Conversion</a> is performed. In the following case, the numerical value "123" is converted to String "" 123 "" and assigned.
 </p>
 
 <pre>
-# mplicit Boxing Type Convertion to string Type
+# mplicit Boxing Type Conversion to string Type
 my $num = 123;
 my $str : string = $num;
 </pre>
@@ -7251,12 +7247,12 @@ my $str : string = $num;
 <p>
   <a href="#language-type-numeric">Numeric Type</a> has the order of Type. The order of Type is "byte", "short", "int", "long", "float", "double" from the smallest.
 </p>
-<h4 id="language-type-convertion-unary-numeric-widening">Unary Numeric Widening Type Convertion</h4>
+<h4 id="language-type-convertion-unary-numeric-widening">Unary Numeric Widening Type Conversion</h4>
 <p>
-  Unary Numeric Widening Type Convertion means that <a href="#language-expression">Expression</a> is <a href="#language-type-byte">byte Type</a> or short Type. In this case, perform <a href="#language-type-convertion-numeric-widening">Numeric Widening Type Convertion</a> to <a href="#language-type-int">int Type</a> I say that.
+  Unary Numeric Widening Type Conversion means that <a href="#language-expression">Expression</a> is <a href="#language-type-byte">byte Type</a> or short Type. In this case, perform <a href="#language-type-convertion-numeric-widening">Numeric Widening Type Conversion</a> to <a href="#language-type-int">int Type</a> I say that.
 </p>
 <p>
-  Unary Numeric Widening Type Convertion is performed in the following cases.
+  Unary Numeric Widening Type Conversion is performed in the following cases.
 </p>
 <ul class="list">
   <li>Array Index</li>
@@ -7265,9 +7261,9 @@ my $str : string = $num;
   <li>Unary Minus Operator operands</li>
   <li>Left and right operands of Shift Operator "<<" ">>" ">>>"</li>
 </ul>
-<h4 id="language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Convertion</h4>
+<h4 id="language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Conversion</h4>
 <p>
-  Binary Numeric Widening Type Convertion is applied to Left Expression and Right Expression in Binary Operator that takes Numeric Type on the left and right sides. <a href="#language-type-convertion-numeric-widening">Numeric Widening Type Convertion</a>.
+  Binary Numeric Widening Type Conversion is applied to Left Expression and Right Expression in Binary Operator that takes Numeric Type on the left and right sides. <a href="#language-type-convertion-numeric-widening">Numeric Widening Type Conversion</a>.
 </p>
 <p>
   The following rules apply.
@@ -7282,10 +7278,10 @@ my $str : string = $num;
   3. When one Expression is <a href="#language-type-long">long Type</a>, the other Type is <a href="#language-type-long">long Type</a> Is converted to>.
 </p>
 <p>
-  4. Otherwise, it will be converted to <a href="#language-type-int">int Type</a>.
+  4, otherwise, it will be converted to <a href="#language-type-int">int Type</a>.
 </p>
 <p>
-  Binary Numeric Widening Type Convertion is performed in the following cases.
+  Binary Numeric Widening Type Conversion is performed in the following cases.
 </p>
 <ul class="list">
   <li><a href="#language-operator-add">Addition Operator</a></li>
@@ -7298,32 +7294,32 @@ my $str : string = $num;
   <li><a href="#language-operator-comparison-numeric">Numeric Comparison Operator</a></li>
 </ul>
 
-<h4 id="language-type-convertion-numeric-narrowing">Numeric Narrowing Type Convertion</h4>
+<h4 id="language-type-convertion-numeric-narrowing">Numeric Narrowing Type Conversion</h4>
 <p>
   Numeric Narrowing Type Conversion is a conversion rule applied when converting from a large type to a small type in <a href="#language-type-numeric">Numeric Type</a>.
 </p>
 
-<h4 id="language-type-convertion-numeric-widening">Numeric Widening Type Convertion</h4>
+<h4 id="language-type-convertion-numeric-widening">Numeric Widening Type Conversion</h4>
 <p>
   Numeric Widening Type Conversion is a conversion rule applied when converting from a small type to a large type in <a href="#language-type-numeric">Numeric Type</a>.
 </p>
 
-<h4 id="language-type-convertion-boxing">Boxing Type Convertion</h4>
+<h4 id="language-type-convertion-boxing">Boxing Type Conversion</h4>
 <p>
-  Boxing Type Convertion is the operation to convert the value of Numeric Type to Numeric Object Type.
+  Boxing Type Conversion is the operation to convert the value of Numeric Type to Numeric Object Type.
 </p>
 
-<h4 id="language-type-convertion-unboxing">Unboxing Type Convertion</h4>
+<h4 id="language-type-convertion-unboxing">Unboxing Type Conversion</h4>
 <p>
-  Unboxing Type Convertion is an operation to convert the value of Numeric Object Type to the corresponding value of Numeric Type.
+  Unboxing Type Conversion is an operation to convert the value of Numeric Object Type to the corresponding value of Numeric Type.
 </p>
 
-<h4 id="language-type-convertion-bool">Bool Type Convertion</h4>
+<h4 id="language-type-convertion-bool">Bool Type Conversion</h4>
 <p>
   Bool Type Conversion is a conversion applied in the conditional part of if Statement, etc. for true / false value judgment.
 </p>
 <p>
-  <b>Where Bool Type Convertion takes place</b>
+  <b>Where Bool Type Conversion takes place</b>
 </p>
 <p>
   <b>Inside the if statement braces</b>
@@ -7376,22 +7372,22 @@ CONDITION || CONDITION
 !CONDITION
 </pre>
 <p>
-  Expression specified by Bool Type Convertion is <a href="#language-type-numeric">Numeric Type</a> or <a href="#language-type-object">Object Type</a> or It must be <a href="#language-type-undef">Undefined Type</a>. Otherwise a compilation error occurs.
+  Expression specified by Bool Type Conversion is <a href="#language-type-numeric">Numeric Type</a> or <a href="#language-type-object">Object Type</a> or It must be <a href="#language-type-undef">Undefined Type</a>, otherwise Compilation Error occurs.
 </p>
 <p>
-  Return Value of Bool Type Convertion is Expression of <a href="#language-type-int">int Type</a>.
+  Return Value of Bool Type Conversion is Expression of <a href="#language-type-int">int Type</a>.
 </p>
 <p>
   If Expression is <a href="#language-undef">Undefined Value</a>, 0 is returned.
 </p>
 <p>
-  When Expression is <a href="#language-type-numeric">Numeric Type</a>, <a href="#language-type-convertion-unary-numeric-widening">Unary Numeric Widening Type Convertion</a> is done.
+  When Expression is <a href="#language-type-numeric">Numeric Type</a>, <a href="#language-type-convertion-unary-numeric-widening">Unary Numeric Widening Type Conversion</a> is done.
 </p>
 <p>
   If Expression is <a href="#language-type-int">int Type</a>, that value is returned.
 </p>
 <p>
-  Expression is <a href="#language-type-long">long Type</a>, <a href="#language-type-float">float Type</a>, <a href = "# language- If it is type-double ">double Type</a>, Object Type, the operation that exactly matches the following operation in C99 is performed and the result is returned.
+  Expression is <a href="#language-type-long">long Type</a>, <a href="#language-type-float">float Type</a>, <a href = "#language- If it is type-double ">double Type</a>, Object Type, the operation that exactly matches the following operation in C99 is performed and the result is returned.
 </p>
 <pre>
 !!x
@@ -7411,12 +7407,12 @@ CONDITION || CONDITION
 
 <h4 id="language-exception-summary">Exception overview</h4>
 <p>
-  SPVM has a mechanism of Exception. Exception consists of raising an exception and catching the exception.
+  SPVM has a mechanism of Exception. Exception consists of raising <a href="#language-exception">Exception</a> and catching the exception.
 </p>
 
 <h4 id="language-exception-occur">Throw Exception</h4>
 <p>
-  Use die Statement to throw an exception.
+  Use die Statement to throw <a href="#language-exception">Exception</a>.
 </p>
 <pre>
 die EXPRESSION;
@@ -7435,18 +7431,18 @@ from TestCase->main at TestCase.spvm line 1198
 
 <h4 id="language-exception-occur">Catch Exception</h4>
 <p>
-  Exception catching is a function that can stop the program from ending and get an error message when an exception is thrown.
+  Exception catching is a function that can stop the program from ending and get an error message when <a href="#language-exception">Exception</a> is thrown.
 </p>
 <p>
   Exceptions are caught using eval Block Statement. Please note that the eval Block Statement requires a semicolon at the end.
 </p>
 <pre>
 eval {
-  # Processing that may throw an exception
+  # Processing that may throw <a href="#language-exception">Exception</a>
 };
 </pre>
 <p>
-  When an exception is caught by the eval Block, the program termination is stopped and <a href="#language-exception-occur">is added to <a href="#language-exception-var">Exception Variable</a>. The message specified in Exception is thrown</a> is substituted.
+  When <a href="#language-exception">Exception</a> is caught by the eval Block, the program termination is stopped and <a href="#language-exception-occur">is added to <a href="#language-exception-var">Exception Variable</a>. The message specified in Exception is thrown</a> is substituted.
 </p>
 
 <h4 id="language-exception-var">Exception Variable</h4>
@@ -7716,5 +7712,5 @@ Capture is a syntax for writing such a long description short.
 </pre>
 <p>
 
-As a syntax related to Weaken Reference, Weaken Reference can be released <a href="#language-statement-weaken">weaken Statement</a>, and it can be confirmed whether Field is Weaken Reference <a href = "# language- There is an operator-isweak ">isweak Operator</a>.
+As a syntax related to Weaken Reference, Weaken Reference can be released <a href="#language-statement-weaken">weaken Statement</a>, and it can be confirmed whether Field is Weaken Reference <a href = "#language- There is an operator-isweak ">isweak Operator</a>.
 </p>
