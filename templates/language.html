@@ -372,10 +372,10 @@ Fat Comma is an alias for Comma "<b>,</b>". Wherever you can use "<b>,</b>" you 
 </pre>
 
 
-Identifiers other than <a href="#language-lex-identifier-package-var-name">Package Variable Name</a> and <a href="#language-lex-identifier-lex-var-name">Lexical Variable Name</a> placed on the left of Fat Comma are treated as <a href="#language-literal-string">String Literal</a>.
+Identifiers other than <a href="#language-lex-identifier-package-var-name">Package Variable Name</a> and <a href="#language-lex-identifier-lex-var-name">Lexical Variable Name</a> placed on the Left of Fat Comma are treated as <a href="#language-literal-string">String Literal</a>.
 
 <pre>
-# Identifiers placed on the left of Fat Comma are treated as String Literal
+# Identifiers placed on the Left of Fat Comma are treated as String Literal
 # a is "a", c is "c"
 [a => "b", c => "d"]
 </pre>
@@ -1240,10 +1240,10 @@ The descriptions of Package Descriptors.
   <tr>
     <th>
       Descriptor
-    </th>
+   </th>
     <th>
       Meaning
-    </th>
+   </th>
   </tr>
   <tr>
     <td>
@@ -1516,10 +1516,10 @@ List of Package Variable Descriptors.
   <tr>
     <th>
       Descriptor
-    </th>
+   </th>
     <th>
       Description
-    </th>
+   </th>
   </tr>
   <tr>
     <td>
@@ -1658,10 +1658,10 @@ List of Field Descriptors.
   <tr>
     <th>
       Descriptor
-    </th>
+   </th>
     <th>
       Description
-    </th>
+   </th>
   </tr>
   <tr>
     <td>
@@ -1883,10 +1883,10 @@ List of Subroutine Descriptor.
   <tr>
     <th>
       Descriptor
-    </th>
+   </th>
     <th>
       Description
-    </th>
+   </th>
   </tr>
   <tr>
     <td>
@@ -2093,10 +2093,10 @@ List of Enumeration Descriptor
   <tr>
     <th>
       Descriptor
-    </th>
+   </th>
     <th>
       Description
-    </th>
+   </th>
   </tr>
   <tr>
     <td>
@@ -2654,10 +2654,10 @@ Charater Literal のTypeは"<a href="#language-type-byte">byte Type</a>"にな�
   <tr>
     <th>
       Escape Characters of Character Literal
-    </th>
+   </th>
     <th>
       Description
-    </th>
+   </th>
   </tr>
   <tr>
     <td>
@@ -2784,10 +2784,10 @@ The content of String Literal is zero or more ASCII printable Characters or Esca
   <tr>
     <th>
       Escape Character of String Literal
-    </th>
+   </th>
     <th>
       Description
-    </th>
+   </th>
   </tr>
   <tr>
     <td>
@@ -3031,7 +3031,7 @@ my $string_const : string = $string;
 <a href="#language-type-string">string Type</a> is same as <a href="#language-type-array-byte">byte[] Type</a>, but can't set the element value.
 
 <pre>
-# Compile Time Error
+# Compilation Error
 $string_const->[0] = 'd';
 </pre>
 
@@ -3177,10 +3177,10 @@ List of Multi Numeric Type Suffix.
   <tr>
     <th>
       <b>Numeric Type</b>
-    </th>
+   </th>
     <th>
       Multi Numeric Type Suffix
-    </th>
+   </th>
   </tr>
   <tr>
     <td>
@@ -3875,7 +3875,7 @@ The max of Dimention of Multi-Dimention Array is 255.
   The type of Array is the type of Expression1 converted to Array Type. If no element is specified, it will be an Array Type of <a href="#language-type-any-object">Any Object Type</a>.
 </p>
 <p>
-  If Expression2 or later does not satisfy <a href="#language-type-compatible">Type Compatibility</a>, a compile error will occur.
+  If Expression2 or later does not satisfy <a href="#language-type-compatible">Type Compatibility</a>, a Compilation Error will occur.
 </p>
 
 <h4 id="language-expression-callsub">Subroutine Call</h4>
@@ -4180,7 +4180,7 @@ Sequential Operator is an Operator that join "," with multiple <a href="#languag
 (EXPRESSION1, EXPRESSION2, EXPRESSION3)
 </pre>
 
-Expression is executed from left to right and the last Expression is return.
+Expression is executed from Left to Right and the last Expression is return.
 
 <b>Sequential Operator Example:</b>
 
@@ -4441,7 +4441,7 @@ DEREFERENCE++
 (my $tmp = $num, $num = (byte)($num + 1), $tmp)
 </pre>
 
-<h4 id="language-operator-inc">Decrement Operator</h4>
+<h4 id="language-operator-dec">Decrement Operator</h4>
 
 <p>
   <b>Decrement Operator</b> is an Operator that subtracts 1 to the value. the meaning of Decrement Operator is different depending on whether the Decrement Operator is placed Pre or Post.
@@ -4510,7 +4510,7 @@ DEREFERENCE--
 
 <h4 id="language-operator-bit">Bit Operator</h4>
 <p>
-  Bit Operator is an Operator that performs Bit operation.> <a href="#language-operator-bit-and">Bit AND Operator</a>, <a href = "#language-operator-bit-or It consists of ">Bit OR Operator</a>, <a href="#language-operator-bit-not">Bit NOT Operator</a>.
+  Bit Operator is an Operator that performs Bit operation. <a href="#language-operator-bit-and">Bit AND Operator</a>, <a href = "#language-operator-bit-or">Bit OR Operator</a>, <a href="#language-operator-bit-not">Bit NOT Operator</a>.
 </p>
 
 <h4 id="language-operator-bit-and">Bit AND Operator</h4>
@@ -4614,7 +4614,7 @@ my $num = ~0xFF0A;
 </p>
 <h4 id="language-operator-left-shift">Left Shift Operator</h4>
 <p>
-  The left shift is <a href="#language-operator-binary">Binary Operator</a> represented by "<<".
+  The Left shift is <a href="#language-operator-binary">Binary Operator</a> represented by "<<".
 </p>
 <pre>
 LEFT_EXPRESSION << RIGHT_EXPRESSION
@@ -4695,30 +4695,30 @@ LEFT_EXPRESSION >>> RIGHT_EXPRESSION
 
 <h4 id="language-operator-comparison">Comparison Operator</h4>
 <p>
-  Comparison Operator is an Operator that is placed between Left Expression and Right Expression and returns <a href="#language-expression">Expression</a>.
+  Comparison Operator is an Operator that is placed between Left Expression and Right Expression to compare the size, and return True/False Value.
 </p>
 <pre>
 LEFT_EXPRESSION COMPARISON_OPERATOR RIGHT_EXPRESSION
 </pre>
 <p>
-  Comparison Operator includes <a href="#language-operator-comparison-numeric">Numeric Comparison Operator</a>, <a href="#language-operator-comparison-string">String Comparison Operator</a> There is, isa Operator.
+  Comparison Operators are <a href="#language-operator-comparison-numeric">Numeric Comparison Operator</a>, <a href="#language-operator-comparison-string">String Comparison Operator</a>, and <a href="#language-operator-isa">isa Operator</a>.
 </p>
 
 <h4 id="language-operator-comparison-numeric">Numeric Comparison Operator</h4>
 <p>
-  Numeric Comparison Operator is an Operator that is placed between Left Expression and Right Expression to compare the addresses of numbers or objects. I say that.
+  <b>Numeric Comparison Operator</b> is a <a href="#language-operator-comparison">Comparison Operator</a> that is placed between Left Expression and Right Expression to compare the size of number or check the equqlity of objects.
 </p>
 <pre>
-LEFT_EXPRESSION NUMERIC COMPARISON_OPERATOR RIGHT_EXPRESSION
+LEFT_EXPRESSION NUMERIC_COMPARISON_OPERATOR RIGHT_EXPRESSION
 </pre>
 <p>
   A list of Numeric Comparison Operators.
 </p>
 <table>
   <tr>
-    <th>Operator </th>
+    <th>Operator</th>
     <th>Comparable Type</th>
-    <th>Explanation</th>
+    <th>Description</th>
   </tr>
   <tr>
     <td>
@@ -4788,13 +4788,13 @@ LEFT_EXPRESSION NUMERIC COMPARISON_OPERATOR RIGHT_EXPRESSION
   </tr>
 </table>
 <p>
-  The types on the left and right sides must be comparable types, otherwise Compilation Error occurs.
+  The Types of Left Expression and Right Expression Comparable Types, otherwise Compilation Error occurs.
 </p>
 <p>
-  In case of Numeric Type comparison, <a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Conversion</a> is performed for Left Expression and Right Expression.
+  In Numeric Type Comparison, <a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Conversion</a> is performed for Left Expression and Right Expression.
 </p>
 <p>
-  After that, the Numeric Comparison Operator performs an operation that exactly matches the following operation in C99. <a href="#language-c99-type"><a href="#language-type-int">int Type</a>, <a href according to the correspondence of Type with C99</a> = "#language-type-long">long Type</a>, <a href="#language-type-float">float Type</a>, <a href="#language-type-double">Definition in double Type</a>, Object Type is defined.
+  After that, the Numeric Comparison Operation is performed that exactly matches the following operation in C99.
 </p>
 <pre>
 # Numeric Type Comparison, Object Type Comparison
@@ -4807,19 +4807,25 @@ LEFT_EXPRESSION NUMERIC COMPARISON_OPERATOR RIGHT_EXPRESSION
 (int32_t)(x < y);
 (int32_t)(x <= y);
 </pre>
+
+For Numeric Type Operation(==, !=, >, >=, <, <=), <a href="#language-type-int">int Type</a> Operation, <a href="#language-type-long">long Type</a> Operation, <a href="#language-type-float">float Type</a> Operation, <a href="#language-type-double">double Type</a> Operation is defined.
+
+And Object Type Operation(==, !=) is defined.
+
 <p>
-  The Return Value Type of Numeric Comparison Operator is <a href="#language-type-int">int Type</a>.
+  The Type of Return Value of the Numeric Comparison Operator is <a href="#language-type-int">int Type</a>.
 </p>
+
 <p>
   Numeric Comparison Operator does not throw <a href="#language-exception">Exception</a>.
 </p>
 
 <h4 id="language-operator-comparison-string">String Comparison Operator</h4>
 <p>
-  String Comparison Operator is an Operator that is placed between Left Expression and Right Expression to compare Strings and returns <a href="#language-expression">Expression</a>. ..
+  <b>String Comparison Operator</b> is a <a href="#language-operator-comparison">Comparison Operator</a> that is placed between Left Expression and Right Expression to compare String Size in dictionary order.
 </p>
 <pre>
-LEFT_EXPRESSION STRING COMPARISON_OPERATOR RIGHT_EXPRESSION
+LEFT_EXPRESSION STRING_COMPARISON_OPERATOR RIGHT_EXPRESSION
 </pre>
 <p>
   Left Expression and Right Expression must be <a href="#language-type-string-compatible">String Compatible Type</a>.
@@ -4829,8 +4835,8 @@ LEFT_EXPRESSION STRING COMPARISON_OPERATOR RIGHT_EXPRESSION
 </p>
 <table>
   <tr>
-    <th>Operator </th>
-    <th>Explanation</th>
+    <th>Operator</th>
+    <th>Description</th>
   </tr>
   <tr>
     <td>
@@ -4853,7 +4859,7 @@ LEFT_EXPRESSION STRING COMPARISON_OPERATOR RIGHT_EXPRESSION
       LEFT_EXPRESSION gt RIGHT_EXPRESSION
     </td>
     <td>
-      Left Expression is larger than Right Expression in dictionary Expression order.
+      Left Expression is greater than Right Expression in dictionary Expression order.
     </td>
   </tr>
   <tr>
@@ -4882,29 +4888,28 @@ LEFT_EXPRESSION STRING COMPARISON_OPERATOR RIGHT_EXPRESSION
   </tr>
 </table>
 <p>
-  The Type of Return Value of the String Comparison Operator is <a href="#language-type-int">int Type</a> Returns 1 if the condition is met, or 0 if not.
+  The Type of Return Value of the String Comparison Operator is <a href="#language-type-int">int Type</a>. If the condition is met, returns 1, otherwise 0.
 </p>
+
 <h4 id="language-operator-isa">isa Operator</h4>
 <p>
-  Numeric Comparison Operator is an Operator placed between Left Expression and Right Expression to compare the address of a number or object, and an Operator that returns a <a href="#language-expression">Expression</a>.
+  <b>isa Operator</b> is a <a href="#language-operator-comparison">Comparison Operator</a> to check whether Left Expression satisfies Right Type.
 </p>
-<p>
-  isa Operator is an Operator for checking the suitability of type and returns a <a href="#language-expression">Expression</a>.
-</p>
+
 <pre>
-LEFT_EXPRESSION ISA RIGHT_TYPE
+LEFT_EXPRESSION isa RIGHT_TYPE
 </pre>
 <p>
-  The isa Operator has three types of behavior, depending on the right Type.
+  isa Operator has three behaviors, depending on Right Type.
 </p>
 <p>
-  1. If the right type is <a href="#language-type-numeric">Numeric Type</a>,<a href="#language-type-multi-numeric"</a><a href="#language-type-any-object"<a href="#language-type-any-object</a>"<a href="#language-type-ref=Reference Type</a> checks whether left Expression Type is the same as the right Type at compile time. If they were identical, <a href="#language-type-int">int Type</a> returns 1, otherwise 0.
+  1. If Right Type is <a href="#language-type-numeric">Numeric Type</a>, <a href="#language-type-multi-numeric">Multi Numeric Type</a>, <a href="#language-type-any-object">Any Object Type</a>, <a href="#language-type-ref">Reference Type</a>, isa operator checks whether the Type of Left Expression is same as Right Type. This check is done at compile time and isa operator is replaced by <a href="#language-type-int">int Type</a> value. If their types is same, replaced by 1, otherwise by 0.
 </p>
 <p>
-  2. If the right Type is</a> <a href="#language-type-class">Class Type, check whether the Type of Left Expression matches Class Type at run time. If matched, <a href="#language-type-int">int Type</a> returns 1, otherwise 0. The Type of Left Expression must be An Object Type, otherwise Compilation Error occurs.
+  2. If the Right Type is <a href="#language-type-class">Class Type</a>, isa operator checks whether the Type of Left Expression is same as Right Type at Run Time. If their types are same, <a href="#language-type-int">int Type</a> 1 is return, otherwise 0. The Type of Left Expression must be <a href="#language-type-object">Object Type</a>, otherwise Compilation Error occurs.
 </p>
 <p>
-  3. If the right Type is</a><a href="#language-type-callback">Callback Type,the Type of Left Expression is Class Type at run time and the Class is checked to satisfy the Callback Type. If it is satisfied, returns <a href="#language-type-int">int Type</a>1,if not 0. The Type of Left Expression must be An Object Type, otherwise Compilation Error occurs.
+  3. If the Right Type is <a href="#language-type-callback">Callback Type</a>, isa Operator checks whether the Type of Left Expression satisfy the Callback Type at Run Time. If Left Expression satisfies the Callback Type, returns <a href="#language-type-int">int Type</a> 1, otherwise 0. The Type of Left Expression must be <a href="#language-type-object">Object Type</a>, otherwise Compilation Error occurs.
 </p>
 
 <h4 id="language-operator-logical">Logical Operator</h4>
@@ -4935,7 +4940,7 @@ LEFT_EXPRESSION && RIGHT_EXPRESSION
   2. If the value of Left Expression is non-zero, execute the <a href="#language-type-convertion-bool" <#language-type-convertion-bool" for the Right Expression, execute the</a> and return that value.
 </p>
 <p>
-  3. If the value of left Expression is 0, it returns that value.
+  3. If the value of Left Expression is 0, it returns that value.
 </p>
 <p>
   Logical AND Operator returns <a href="#language-expression">Expression</a>
@@ -4964,7 +4969,7 @@ LEFT_EXPRESSION || RIGHT_EXPRESSION
   2. If the value of Left Expression is 0, the <a href="#language-type-convertion-bool"</a> and returns that value for Right Expression.
 </p>
 <p>
-  3. If the value of left Expression is non-zero, it returns that value.
+  3. If the value of Left Expression is non-zero, it returns that value.
 </p>
 <p>
   Logical OR Operator は<a href="#language-expression">Expression</a>を返します。
@@ -4975,7 +4980,7 @@ LEFT_EXPRESSION || RIGHT_EXPRESSION
 
 <h4 id="language-operator-logical-not">Logical NOT Operator</h4>
 <p>
-  Logical NOT Operator is an operator to the left of expression to perform logical NOT operations,<a href="#language-expression"_Expression</a> returning <a href="#language-operator-binary">Unary Operator</a> For more information about Expression, see <a href="#language-expresssion">Expression</a>.
+  Logical NOT Operator is an operator to the Left of expression to perform logical NOT operations,<a href="#language-expression"_Expression</a> returning <a href="#language-operator-binary">Unary Operator</a> For more information about Expression, see <a href="#language-expresssion">Expression</a>.
 </p>
 <pre>
 !EXPRESSION
@@ -5017,7 +5022,7 @@ LEFT_EXPRESSION . RIGHT_EXPRESSION
   If both Left Expression and Right Expression were <a href="#language-literal-string">String Literal</a>, a string Literal concatenated at compile time is generated. You can concatenate String Literal with string Concatenation Operator without being aware of the cost of performance.
 </p>
 <p>
-  If left expression or Right Expression is <a href="#language-undef">Undefined Value</a> <a href="#language-exception">Exception</a> occurs at run time.
+  If Left expression or Right Expression is <a href="#language-undef">Undefined Value</a> <a href="#language-exception">Exception</a> occurs at Run Time.
 </p>
 <p>
   <b>String Concatenation Operator Example</b>
@@ -5035,10 +5040,10 @@ my $str = 123 . 456;
 LEFT_EXPRESSION = RIGHTH_EXPRESSION
 </pre>
 <p>
-  Assignment Operator has multiple meanings depending on the right and left sides. Please refer to each item.
+  Assignment Operator has multiple meanings depending on the Right and Left sides. Please refer to each item.
 </p>
 <p>
-  In Assignment Operator, the Left Expression is evaluated after the Right Expression is evaluated. This is with the exception of expression being executed from left to right as a rule.
+  In Assignment Operator, the Left Expression is evaluated after the Right Expression is evaluated. This is with the exception of expression being executed from Left to Right as a rule.
 </p>
 
 <ul>
@@ -5253,7 +5258,7 @@ foo(scalar @$nums);
 
 <h4 id="language-operator-isweak">isweak Operator</h4>
 <p>
-  Isweak Operator is an Operator that checks whether Field is</a><a href="#language-weak-ref">Weaken Reference.</a>
+  isweak Operator is an Operator that checks whether Field is</a><a href="#language-weak-ref">Weaken Reference.</a>
 </p>
 <pre>
 isweak VARIABLE->{FIELD_NAME};
@@ -5268,10 +5273,10 @@ isweak VARIABLE->{FIELD_NAME};
   The Type of the value stored in field must be <a href="#language-type-object">Object Type</a>, otherwise Compilation Error occurs.
 </p>
 <p>
-  If the value stored in field at run time is</a> <a href="#language-undef">Undefined Value, it returns false. This is <a href="#language-expression">Expression</a>
+  If the value stored in field at Run Time is</a> <a href="#language-undef">Undefined Value, it returns false. This is <a href="#language-expression">Expression</a>
 </p>
 <p>
-  Isweak Operator returns <a href="#language-type-int" <</a></a> if Field is weaken reference, or 0. This is <a href="#language-expression">Expression</a>
+  isweak Operator returns <a href="#language-type-int" <</a></a> if Field is weaken reference, or 0. This is <a href="#language-expression">Expression</a>
 </p>
 
 <h4 id="language-operator-operator-precedence">Precidence</h4>
@@ -6147,10 +6152,10 @@ In <a href="#language-lex-var-declaration">Lexical Variable Declaration</a>, <a 
   <tr>
     <th>
       <b>Type Name</b>
-    </th>
+   </th>
     <th>
       Initial Value
-    </th>
+   </th>
   </tr>
   <tr>
     <td>
@@ -6230,13 +6235,13 @@ Integral Type are the following four types.
   <tr>
     <th>
       <b>Type</b>
-    </th>
+   </th>
     <th>
       Description
-    </th>
+   </th>
     <th>
       Size
-    </th>
+   </th>
   </tr>
   <tr>
     <td>
@@ -6423,10 +6428,10 @@ The size of Object Type must match the value of "sizeof (void *)" in C99.
   <tr>
     <th>
       <b>Type</b>
-    </th>
+   </th>
     <th>
       Description
-    </th>
+   </th>
   </tr>
   <tr>
     <td>
@@ -6815,7 +6820,7 @@ my $ch = $str->[1];
   If you try to change the element, Compilation Error occurs
 </p>
 <pre>
-# Compile error when changing element
+# Compilation Error when changing element
 $str->[1] = 'd';
 </pre>
 <p>
@@ -6925,7 +6930,7 @@ my $point_ref : Point_3i& = \$point;
 
 <h3 id="language-type-inference">Type Inference</h3>
 <p>
-  Omitting <a href="#language-type">Type</a> when <a href="#language-lex-var-declaration">Lexical Variable Declaration</a> by Type Inference can. Type Inference is always performed by the Type on the right side of Assignment Operator.
+  Omitting <a href="#language-type">Type</a> when <a href="#language-lex-var-declaration">Lexical Variable Declaration</a> by Type Inference can. Type Inference is always performed by the Type on the Right side of Assignment Operator.
 </p>
 <pre>
 # int
@@ -7042,13 +7047,13 @@ my $num : int = (int)4;
   <tr>
     <th>
       <b>The specified Type</b>
-    </th>
+   </th>
     <th>
       <b>Source type</b>
-    </th>
+   </th>
     <th>
       Content of conversion
-    </th>
+   </th>
   </tr>
   <tr>
     <td>
@@ -7177,7 +7182,7 @@ int64_t dist = (int64_t)src;
   Implicit Type Conversion occurs when:
 </p>
 <p>
-  If both the source and destination Type are Numeric Type and the destination Type is larger than the source Type, <a href="#language-type-convertion-numeric-widening">Numeric Widening Type Conversion</a> is done.
+  If both the source and destination Type are Numeric Type and the destination Type is greater than the source Type, <a href="#language-type-convertion-numeric-widening">Numeric Widening Type Conversion</a> is done.
 </p>
 <pre>
 # Implicit Widening Type Conversion
@@ -7259,11 +7264,11 @@ my $str : string = $num;
   <li>Dimension when creating Array</li>
   <li>Unary Plus Operator operands</li>
   <li>Unary Minus Operator operands</li>
-  <li>Left and right operands of Shift Operator "<<" ">>" ">>>"</li>
+  <li>Left and Right operands of Shift Operator "<<" ">>" ">>>"</li>
 </ul>
 <h4 id="language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Conversion</h4>
 <p>
-  Binary Numeric Widening Type Conversion is applied to Left Expression and Right Expression in Binary Operator that takes Numeric Type on the left and right sides. <a href="#language-type-convertion-numeric-widening">Numeric Widening Type Conversion</a>.
+  Binary Numeric Widening Type Conversion is applied to Left Expression and Right Expression in Binary Operator that takes Numeric Type on the Left and Right sides. <a href="#language-type-convertion-numeric-widening">Numeric Widening Type Conversion</a>.
 </p>
 <p>
   The following rules apply.
@@ -7316,7 +7321,7 @@ my $str : string = $num;
 
 <h4 id="language-type-convertion-bool">Bool Type Conversion</h4>
 <p>
-  Bool Type Conversion is a conversion applied in the conditional part of if Statement, etc. for true / false value judgment.
+  Bool Type Conversion is a conversion applied in the conditional part of if Statement, etc. for True/False Value judgment.
 </p>
 <p>
   <b>Where Bool Type Conversion takes place</b>
@@ -7354,13 +7359,13 @@ while (CONDITION) {
 }
 </pre>
 <p>
-  <b>Left and right of Logical AND Operator</b>
+  <b>Left and Right of Logical AND Operator</b>
 </p>
 <pre>
 CONDITION && CONDITION
 </pre>
 <p>
-  <b>Left and right of Logical OR Operator</b>
+  <b>Left and Right of Logical OR Operator</b>
 </p>
 <pre>
 CONDITION || CONDITION
