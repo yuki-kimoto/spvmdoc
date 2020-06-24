@@ -1,180 +1,174 @@
-    <div class="container">
-      <h2 id="tutorial">SPVMのチュートリアル</h2>
-      <ul class="toc">
-        <li><a href="#tutorial-install">SPVMのインストール</a></li>
-        <li><a href="#tutorial-sum-array">配列の和を求める</a></li>
-      </ul>
+<div class="container">
+  <h2 id="tutorial">SPVM Tutorial</h2>
+  <ul class="toc">
+    <li><a href="#tutorial-install">Install SPVM</a></li>
+    <li><a href="#tutorial-sum-array">Calculate the sum of arrays</a></li>
+  </ul>
 
-      <h3 id="tutorial-install">SPVMのインストール</h3>
+  <h3 id="tutorial-install">SPVM Installation</h3>
 
-      <p>
-        SPVMはCPANモジュールです。cpanまたはcpanmを使ってインストールできます。
-      </p>
+  <p>
+    SPVM is a CPAN module. It can be installed using cpan or cpanm.
+  </p>
 <pre>
 cpan SPVM
 cpanm SPVM
 </pre>
-
-      <p>
-        SPVMのチュートリアルです。
-      </p>
-      
-      <h3 id="tutorial-sum-array">
-        配列の和を求める
-      </h3>
-      
-      <p>
-        最初の簡単な例として配列の和を求めてみましょう。
-      </p>
-      <h4>SPVMモジュールの作成</h4>
-      <p>
-        「MyMath.spvm」というファイルファイルをlibディレクトリの中に作成してください。<b>SPVMのソースファイルの拡張子は「.spvm」</b>です。以下の内容を記述しましょう。
-      </p>
+  
+  <h3 id="tutorial-sum-array">
+    Calculate the sum of arrays
+  </h3>
+  
+  <p>
+    As a first simple example, let's find the sum of arrays.
+  </p>
+  <h4>Create SPVM module</h4>
+  <p>
+    Create a file called "MyMath.spvm" in the lib directory. <b>SPVM source files have the extension “.spvm”</b>. Describe the following contents.
+  </p>
 <pre>
 # lib/MyMath.spvm
 package MyMath {
-  sub sum : int ($nums : int[]) {
-    
+  sub sum :int ($nums :int[]) {
     my $total = 0;
-    for (my $i = 0; $i < @$nums; $i++) {
+    for (my $i = 0; $i <@$nums; $i++) {
       $total += $nums->[$i];
     }
-    
     return $total;
   }
 }
 </pre>
-      
-      <p>
-        SPVMでは<b>パッケージ構文</b>を使用して、パッケージを作成します。Perlのパッケージブロック構文と同じ文法です。
-      </p>
+  
+  <p>
+    SPVM uses <b>package syntax</b> to create packages. It has the same syntax as Perl's package block syntax.
+  </p>
 <pre>
-# パッケージ構文
+# Package syntax
 package MyMath {
 
 }
 </pre>
-      <p>
-        パッケージのブロックの中では<b>サブルーチンの定義</b>を行うことができます。
-      </p>
+  <p>
+    You can <b>define a subroutine</b> inside a package block.
+  </p>
 <pre>
 package MyMath {
-  sub sum : int ($nums : int[]) {
-    
+  sub sum :int ($nums :int[]) {
+
   }
 }
 </pre>
-      
-      <p>
-        SPVMは静的型言語ですので、<b>サブルーチンの宣言の中で、戻り値の型、引数名と引数の型を記述</b>します。
-      </p>
-      <p>
-        戻り値は「int型」。引数は「int型の配列」です。<b>int型は、32bit符号付整数</b>を表現します。
-      </p>
-      <p>
-        配列の和を計算している部分をみてみましょう。
-      </p>
+  
+  <p>
+    SPVM is a statically typed language, so describe the return type, argument name and argument type in the <b>subroutine declaration</b>.
+  </p>
+  <p>
+    The return value is "int type". The argument is an "int type array". The <b>int type represents a 32-bit signed integer</b>.
+  </p>
+  <p>
+    Let's look at the part where the sum of the arrays is calculated.
+  </p>
 <pre>
-    my $total = 0;
-    for (my $i = 0; $i < @$nums; $i++) {
-      $total += $nums->[$i];
-    }
+my $total = 0;
+for (my $i = 0; $i <@$nums; $i++) {
+  $total += $nums->[$i];
+}
 
-    return $total;
+return $total;
 </pre>
-      <p>
-        和の計算方法の見た目は、Perlでfor文を使って書いたものとまったく同じです。
-      </p>
-      <p>
-        このようにSPVMではM<b>Perlと同じ文法で記述</b>できるのがひとつの特徴です。Perlユーザーが、新しい文法を覚える負担ができるだけ小さくなるように設計されています。
-      </p>
-      <p>
-        変数の宣言では<b>型推論</b>を使って、型を省略することができます。
-      </p>
+  <p>
+    The way the sum is calculated looks exactly like what I wrote with the for statement in Perl.
+  </p>
+  <p>
+    In this way, SPVM has one of the characteristics that it can be described in the same syntax as M<b>Perl</b>. It is designed to minimize the burden of learning the new syntax for Perl users.
+  </p>
+  <p>
+    You can omit the type using <b>type inference</b> in the variable declaration.
+  </p>
 <pre>
-    my $total = 0;
+my $total = 0;
 </pre>
-      <p>
-        SPVMの型推論は、右辺の型が確定しているときに、左辺の型宣言を省略することができます。
-      </p>
-      <p>
-        数値リテラルの「0」は「int型」ですので、「$total」の型も「int型」になります。以下の記述と同じ意味になります。
-      </p>
+  <p>
+    SPVM's type inference can omit the type declaration on the left side when the type on the right side is fixed.
+  </p>
+  <p>
+    Since the numeric literal "0" is "int type", the type of "$total" is also "int type". It has the same meaning as described below.
+  </p>
 <pre>
-    my $total : int = 0;
+my $total : int = 0;
 </pre>
-      <p>
-        <b>配列の長さ</b>は「@」を使うことで取得できます。
-      </p>
+  <p>
+    <b>Array length</b> can be obtained by using "@".
+  </p>
 <pre>
 @$nums
 </pre>
-      <p>
-        SPVMには、コンテキストはなく「@」は常に配列の長さを返します。
-      </p>
-      <p>
-        次にSPVMで書かれたサブルーチンをPerlの側から呼び出してみましょう。
-      <p>
-      <h4>SPVMモジュールの呼び出し</h4>
-      <p>
-        「sum.pl」というファイルを作成して、以下の内容を記述してください。
-      </p>
-      <p>
-        SPVMで書かれた「MyMath」パッケージの「sum」サブルーチンを呼び出して、配列の和を計算します。
-      </p>
+  <p>
+    In SPVM, there is no context and "@" always returns the length of the array.
+  </p>
+  <p>
+    Next, let's call a subroutine written in SPVM from the Perl side.
+  <p>
+  <h4>Call SPVM module</h4>
+  <p>
+    Create a file called "sum.pl" and describe the following contents.
+  </p>
+  <p>
+    Call the "sum" subroutine of the "MyMath" package written in SPVM to calculate the sum of the arrays.
+  </p>
 <pre>
 use FindBin;
 use lib "$FindBin::Bin/lib";
 
-use SPVM 'MyMath';
+use SPVM'MyMath';
 
 my $sp_nums = SPVM::new_int_array([3, 6, 8, 9]);
 
 my $total = MyMath->sum($sp_nums);
 
-print $total . "\n";
+print $total ."\n";
 </pre>
-      <p>
-        まず最初に<b>libディレクトリをモジュールの検索パスに追加</b>します。
-      </p>
+  <p>
+    First, add the <b>lib directory to the module search path</b>.
+  </p>
 <pre>
-# libディレクトリをモジュールの検索パスに追加
+# add lib directory to module search path
 use FindBin;
 use lib "$FindBin::Bin/lib";
 </pre>
-      <p>
-        次に<b>SPVMモジュールを読み込み</b>ます。
-      </p>
+  <p>
+    Then <b>load the SPVM module</b>.
+  </p>
 <pre>
-# SPVMモジュールを読み込み
-use SPVM 'MyMath';
+# Load SPVM module
+use SPVM'MyMath';
 </pre>
-      <p>
-        「use SPVM 'SPVMモジュール名'」という記述で、SPVMモジュールを読み込むことができます。
-      </p>
-      <p>
-        次に<b>SPVMの配列を作成</b>します。
-      </p>
+  <p>
+    You can load the SPVM module with the description "use SPVM'SPVM module name'".
+  </p>
+  <p>
+    Then <b>create an array of SPVMs</b>.
+  </p>
 <pre>
-# int型配列の作成
+# Int type array creation
 my $sp_nums = SPVM::new_int_array([3, 6, 8, 9]);
 </pre>
-      <p>
-        <b>SPVM::new_int_array関数</b>を使うと、配列のリファレンスを渡して、SPVMのint型の配列を作成することができます。
-      </p>
-      <p>
-        <b>MyMathパッケージのsumサブルーチンを呼び出し</b>てみましょう。
-      </p>
+  <p>
+    You can use the <b>SPVM::new_int_array function</b> to create a SPVM int array by passing an array reference.
+  </p>
+  <p>
+    <b>Call the sum subroutine of the MyMath package</b>.
+  </p>
 <pre>
-# MyMathパッケージのsumサブルーチンを呼び出し
+# Call the sum subroutine of the MyMath package
 my $total = MyMath->sum($sp_nums);
 </pre>
-      <p>
-        <b>SPVMのサブルーチン呼び出しは、Perlのクラスメソッドの呼び出しになることに注意してください。</b>「絶対名 MyMath::sub」で呼び出すことはできません。
-      </p>
-      
-      <p>
-        sum関数の戻り値は「int型」ですが、SPVMの整数型は、自動的にPerlのスカラ型に変換されます。
-      </p>
-      
-    </div>
+  <p>
+    Note that <b>SPVM subroutine calls are Perl class method calls. </b>It cannot be called with the absolute name MyMath::sub.
+  </p>
+  
+  <p>
+    The return value of the sum function is "int type", but the SPVM integer type is automatically converted to the Perl scalar type.
+  </p>
+  
+</div>
