@@ -38,8 +38,6 @@
   
   /* main */
   .main {
-    max-width:960px;
-    width:100%;
     margin: 0 auto;
     padding:0 5px;
   }
@@ -52,7 +50,8 @@
   /* content */
   .content {
     float:left;
-    width:calc(100% - 280px - 30px);
+    width:calc(100% - 280px - 15px);
+    padding-left:16px;
   }
   
   /* entry */
@@ -69,13 +68,12 @@
   .side {
     float:left;
     width:280px;
-    margin-left:30px;
+    margin-left:15px;
     padding-top:16px;
   }
   
   /* tags */
   h1 {
-    max-width:1020px;
     width:100%;
     font-size:28px;
     padding:19px 10px 15px 73px;
