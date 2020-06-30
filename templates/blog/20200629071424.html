@@ -38,6 +38,8 @@ package MyMath {
 }
 </pre>
 
+See also <a href="/language.html#language-package">Package - SPVM Language Specification</a> about Package.
+
 <h4>Subroutine Definition by sub keyword</h4>
 
 Write Subroutine Definition by <b>sub</b> keyword. Unlike Perl, SPVM Subroutine Definition have return type and argument types.
@@ -50,13 +52,95 @@ package MyMath {
   }
 }
 </pre>
-  
-  <p>
-    SPVM is a statically typed language, so describe the return type, argument name and argument type in the <b>subroutine declaration</b>.
-  </p>
-  <p>
-    The return value is "int type". The argument is an "int type array". The <b>int type represents a 32-bit signed integer</b>.
-  </p>
+
+See also <a href="/language.html#language-sub">Subroutine - SPVM Language Specification</a> about Subroutine.
+
+<h4>Numeric Types</h4>
+
+<b>int</b> type in sum return value is signed 32bit integer type. This is same as C99 int32_t.
+
+<pre>
+int
+</pre>
+
+SPVM has the following types as other numeric types.
+
+<table>
+  <tr>
+    <th>
+      <b>SPVM numric type</b>
+    </ th>
+    <th>
+      <b>C99 type</b>
+    </ th>
+  </tr>
+  <tr>
+    <td>
+      <b>byte</b>
+    </td>
+    <td>
+      int8_t
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <b>short</b>
+    </td>
+    <td>
+      int16_t
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <b>int</b>
+    </td>
+    <td>
+      int32_t
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <b>long</b>
+    </td>
+    <td>
+      int64_t
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <b>float</b>
+    </td>
+    <td>
+      float
+    </td>
+  <tr>
+    <td>
+      <b>double</b>
+    </td>
+    <td>
+      double
+    </td>
+  </tr>
+</table>
+
+See also <a href="http://59.106.185.196:3000/spvmdoc-public/language.html#language-type">Type - SPVM Language Specification</a> abount Type.
+
+<h4>Array Types</h4>
+
+<b>int[]</b> type in sum arguments is array of int type. 
+
+<pre>
+int[]
+</pre>
+
+The numeric array type guarantees that the values are consecutive in memory.
+
+In this point, unlike Perl where all value are assigned to the dynamic type SV, SPVM has a static type, so it can represent a efficient sequence of numbers.
+
+See also <a href="http://59.106.185.196:3000/spvmdoc-public/language.html#language-type">Type - SPVM Language Specification</a> abount Type.
+
+<h3>Variable Declaration</h3>
+
   <p>
     Let's look at the part where the sum of the arrays is calculated.
   </p>
