@@ -1,45 +1,52 @@
 <h2>SPVM Getting Started and How to improve SPVM Performance</h2>
-  
-  <h3 id="tutorial-sum-array">
-    Calculate the sum of arrays
-  </h3>
-  
-  <p>
-    As a first simple example, let's find the sum of arrays.
-  </p>
-  <h4>Create SPVM module</h4>
-  <p>
-    Create a file called "MyMath.spvm" in the lib directory. <b>SPVM source files have the extension “.spvm”</b>. Describe the following contents.
-  </p>
+
+Let's take SPVM for the first time. Then, let's improve the performance of the SPVM code.
+
+<h3>SPVM Getting Started</h3>
+
+Let's take SPVM for the first time. This is a first simple example. Let's calcurate the sum of numbers.
+
+<h4>Create SPVM module</h4>
+
+Create SPVM module. The extension is "spvm". In this example, the name of SPVM module is "MyMath.spvm".
+
+Create "MyMath.spvm" in the "lib" directory, and you write the following code.
+
 <pre>
 # lib/MyMath.spvm
 package MyMath {
-  sub sum :int ($nums :int[]) {
+  sub sum : int ($nums : int[]) {
+    
     my $total = 0;
-    for (my $i = 0; $i <@$nums; $i++) {
+    for (my $i = 0; $i < @$nums; $i++) {
       $total += $nums->[$i];
     }
+    
     return $total;
   }
 }
 </pre>
-  
-  <p>
-    SPVM uses <b>package syntax</b> to create packages. It has the same syntax as Perl's package block syntax.
-  </p>
+
+<h4>Package Definition by package keyword</h4>
+
+Write Package Definition by <b>package</b> keyword. Unlike Perl, SPVM always need package. The whole SPVM grammar is a set of packages.
+
 <pre>
-# Package syntax
+# Package Definition
 package MyMath {
 
 }
 </pre>
-  <p>
-    You can <b>define a subroutine</b> inside a package block.
-  </p>
+
+<h4>Subroutine Definition by sub keyword</h4>
+
+Write Subroutine Definition by <b>sub</b> keyword. Unlike Perl, SPVM Subroutine Definition have return type and argument types.
+  
 <pre>
 package MyMath {
-  sub sum :int ($nums :int[]) {
-
+  # Subroutine Definition
+  sub sum : int ($nums : int[]) {
+    
   }
 }
 </pre>
