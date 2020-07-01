@@ -1,8 +1,8 @@
-<h2>SPVM Getting Started and How to improve SPVM Performance</h2>
+<h2>SPVM Getting Started</h2>
 
 Let's take SPVM for the first time. Then, let's improve the performance of the SPVM code.
 
-<h3>SPVM Getting Started</h3>
+<h3>First SPVM Program</h3>
 
 Let's take SPVM for the first time. This is a first simple example. Let's calcurate the sum of numbers.
 
@@ -195,53 +195,63 @@ SPVM has the following Literal.
 
 See also <a href="/language.html#language-literal">Literal - SPVM Language Specification</a> about Literal.
 
-<h4>for Statement</h4>
+<h4>Get Array Length</h4>
 
-  <p>
-    Let's look at the part where the sum of the arrays is calculated.
-  </p>
+Let's look at the part where the sum of the arrays is calculated. 
+
 <pre>
-my $total = 0;
-for (my $i = 0; $i <@$nums; $i++) {
+for (my $i = 0; $i < @$nums; $i++) {
   $total += $nums->[$i];
 }
+</pre>
 
-return $total;
-</pre>
-  <p>
-    The way the sum is calculated looks exactly like what I wrote with the for statement in Perl.
-  </p>
-  <p>
-    In this way, SPVM has one of the characteristics that it can be described in the same syntax as M<b>Perl</b>. It is designed to minimize the burden of learning the new syntax for Perl users.
-  </p>
-  <p>
-    You can omit the type using <b>type inference</b> in the variable declaration.
-  </p>
-<pre>
-my $total = 0;
-</pre>
-  <p>
-    SPVM's type inference can omit the type declaration on the left side when the type on the right side is fixed.
-  </p>
-  <p>
-    Since the numeric literal "0" is "int type", the type of "$total" is also "int type". It has the same meaning as described below.
-  </p>
-<pre>
-my $total : int = 0;
-</pre>
-  <p>
-    <b>Array length</b> can be obtained by using "@".
-  </p>
+See @$nums.
+
 <pre>
 @$nums
 </pre>
-  <p>
-    In SPVM, there is no context and "@" always returns the length of the array.
-  </p>
-  <p>
-    Next, let's call a subroutine written in SPVM from the Perl side.
-  <p>
-  <h4>Call SPVM module</h4>
+
+@ is Array Length Operator to get array length.
+
+Unlike Perl, which is context sensitive, Array Length Operator of SPVM always returns the length of the array.
+
+Note that SPVM has no context.
+
+See <a href="/language.html#language-operator-array-length">Array Length Operator - SPVM Language Specification</a> about Array Length Operator
+
+<h4>Increment Operator</h4>
+
+Incremental Operator increment the value.
+
+<pre>
+$i++
+</pre>
+
+See <a href="http://59.106.185.196:3000/spvmdoc-public/language.html#language-operator-inc">Increment Operator - SPVM Language Specification</a> about Incremental Operator.
+
+See <a href="http://59.106.185.196:3000/spvmdoc-public/language.html#language-operator-dec">Decrement Operator - SPVM Language Specification</a> about Decrement Operator.
+
+<h4>Array Access</h4>
+
+Array Access can be done by "->" Arrow Operator.
+
+<pre>
+$nums->[$i]
+</pre>
+
+See <a href="http://59.106.185.196:3000/spvmdoc-public/language.html#language-array">Array - SPVM Language Specification</a> about Array operation.
+
+<h4>for Statement</h4>
+
+Next, see for Statement.
+
+<pre>
+for (my $i = 0; $i < @$nums; $i++) {
+  $total += $nums->[$i];
+}
+</pre>
+
+  <h3>Call SPVM Module from Perl</h3>
   <p>
     Create a file called "sum.pl" and describe the following contents.
   </p>
@@ -249,17 +259,30 @@ my $total : int = 0;
     Call the "sum" subroutine of the "MyMath" package written in SPVM to calculate the sum of the arrays.
   </p>
 <pre>
+# spvm.pl
+use strict;
+use warnings;
 use FindBin;
 use lib "$FindBin::Bin/lib";
 
-use SPVM'MyMath';
+use SPVM 'MyMath';
 
-my $sp_nums = SPVM::new_int_array([3, 6, 8, 9]);
+# Initialize SPVM
+UNITCHECK { SPVM::init() }
 
-my $total = MyMath->sum($sp_nums);
+# Call subroutine
+my $total = MyMath->sum([3, 6, 8, 9]);
 
-print $total ."\n";
+print "Total: $total\n";
+
+# Call subroutine with packed data
+my $nums_packed = pack('l*', 3, 6, 8, 9);
+my $sv_nums = SPVM::new_int_array_from_bin($nums_packed);
+my $total_packed = MyMath->sum($sv_nums);
+
+print "Total Packed: $total_packed\n";
 </pre>
+
   <p>
     First, add the <b>lib directory to the module search path</b>.
   </p>
@@ -303,154 +326,10 @@ my $total = MyMath->sum($sp_nums);
     The return value of the sum function is "int type", but the SPVM integer type is automatically converted to the Perl scalar type.
   </p>
 
+<h3>How to improve SPVM Performance</h2>
 
+See How to improve SPVM Performance for improving SPVM Performance.
 
-=head1 SYNOPSIS
-
-SPVM Module:
-
-<pre>
-# lib/MyMath.spvm
-package MyMath {
-  sub sum : int ($nums : int[]) {
-    
-    my $total = 0;
-    for (my $i = 0; $i < @$nums; $i++) {
-      $total += $nums->[$i];
-    }
-    
-    return $total;
-  }
-}
-</pre>
-
-Use SPVM Module from Perl
-
-<pre>
-# spvm.pl
-use strict;
-use warnings;
-use FindBin;
-use lib "$FindBin::Bin/lib";
-
-use SPVM 'MyMath';
-
-# Initialize SPVM
-UNITCHECK { SPVM::init() }
-
-# Call subroutine
-my $total = MyMath->sum([3, 6, 8, 9]);
-
-print "Total: $total\n";
-
-# Call subroutine with packed data
-my $nums_packed = pack('l*', 3, 6, 8, 9);
-my $sv_nums = SPVM::new_int_array_from_bin($nums_packed);
-my $total_packed = MyMath->sum($sv_nums);
-
-print "Total Packed: $total_packed\n";
-</pre>
-
-Precompiled SPVM Subroutine. This means SPVM code is converted to Machine Code:
-
-<pre>
-# lib/MyMath.spvm
-package MyMath {
-  precompile sub sum_precompile : int ($nums : int[]) {
-    
-    my $total = 0;
-    for (my $i = 0; $i < @$nums; $i++) {
-      $total += $nums->[$i];
-    }
-    
-    return $total;
-  }
-}
-</pre>
-
-Call SPVM Precompile Subroutine from Perl
-
-<pre>
-# spvm.pl
-use strict;
-use warnings;
-use FindBin;
-use lib "$FindBin::Bin/lib";
-
-use SPVM 'MyMath';
-
-# Initialize SPVM
-UNITCHECK { SPVM::init() }
-
-# Call precompile subroutine
-my $total_precompile = MyMath->sum_precompile([3, 6, 8, 9]);
-
-print "Total Precompile: $total_precompile\n";
-</pre>
-
-SPVM Native Subroutine. This means SPVM subroutine call C/C++ native subroutine:
-
-<pre>
-# lib/MyMath.spvm
-package MyMath {
-  native sub sum_native : int ($nums : int[]);
-}
-
-// lib/MyMath.c
-#include "spvm_native.h"
-
-int32_t SPNATIVE__MyMath__sum_native(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  void* sv_nums = stack[0].oval;
-  
-  int32_t length = env->length(env, sv_nums);
-  
-  int32_t* nums = env->get_elems_int(env, sv_nums);
-  
-  int32_t total = 0;
-  for (int32_t i = 0; i < length; i++) {
-    total += nums[i];
-  }
-  
-  stack[0].ival = total;
-  
-  return SPVM_SUCCESS;
-}
-
-# lib/MyMath.config
-
-use strict;
-use warnings;
-
-use SPVM::Builder::Config;
-my $bconf = SPVM::Builder::Config->new_c99;
-
-$bconf;
-</pre>
-
-Use SPVM Native Subroutine from Perl
-
-<pre>
-# spvm.pl
-use strict;
-use warnings;
-use FindBin;
-use lib "$FindBin::Bin/lib";
-
-use SPVM 'MyMath';
-
-# Initialize SPVM
-UNITCHECK { SPVM::init() }
-
-# Call native subroutine
-my $total_native = MyMath->sum_native([3, 6, 8, 9]);
-
-print "Total Native: $total_native\n";
-</pre>
-
-Environment Variable "SPVM_BUILD_DIR" must be set for precompile and native subroutine
-
-<pre>
-# bash example
-export SPVM_BUILD_DIR=~/.spvm_build
-</pre>
+<ul class="toc">
+  <li><a href="/blog/20200702071424.html">How to improve SPVM Performance</a></li>
+</ul>
