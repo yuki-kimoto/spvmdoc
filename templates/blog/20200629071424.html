@@ -27,9 +27,9 @@ package MyMath {
 }
 </pre>
 
-<h4>Package Definition by package keyword</h4>
+<h4>Package Definition</h4>
 
-Write Package Definition by <b>package</b> keyword. Unlike Perl, SPVM always need package. The whole SPVM grammar is a set of packages.
+Write <b>Package Definition</b> by <b>package</b> keyword. Unlike Perl, SPVM always need package. The whole SPVM grammar is a set of packages.
 
 <pre>
 # Package Definition
@@ -40,9 +40,9 @@ package MyMath {
 
 See also <a href="/language.html#language-package">Package - SPVM Language Specification</a> about Package.
 
-<h4>Subroutine Definition by sub keyword</h4>
+<h4>Subroutine Definition</h4>
 
-Write Subroutine Definition by <b>sub</b> keyword. Unlike Perl, SPVM Subroutine Definition have return type and argument types.
+Write <b>Subroutine Definition</b> by <b>sub</b> keyword. Unlike Perl, SPVM Subroutine Definition have return type and argument types.
   
 <pre>
 package MyMath {
@@ -123,7 +123,7 @@ SPVM has the following types as other numeric types.
   </tr>
 </table>
 
-See also <a href="http://59.106.185.196:3000/spvmdoc-public/language.html#language-type">Type - SPVM Language Specification</a> abount Type.
+See also <a href="http://59.106.185.196:3000/spvmdoc-public/language.html#language-type">Type - SPVM Language Specification</a> about Type.
 
 <h4>Array Types</h4>
 
@@ -137,9 +137,65 @@ The numeric array type guarantees that the values are consecutive in memory.
 
 In this point, unlike Perl where all value are assigned to the dynamic type SV, SPVM has a static type, so it can represent a efficient sequence of numbers.
 
-See also <a href="http://59.106.185.196:3000/spvmdoc-public/language.html#language-type">Type - SPVM Language Specification</a> abount Type.
+See also <a href="http://59.106.185.196:3000/spvmdoc-public/language.html#language-type">Type - SPVM Language Specification</a> about Type.
 
-<h3>Variable Declaration</h3>
+<h4>Lexical Variable Declaration</h4>
+
+Write <b>Lexical Variable Declaration</b> by <b>my</b> keyword. You can initialize variables at the same time you declare variables.
+
+<pre>
+my $total = 0;
+</pre>
+
+The above declaration has the same meaning as:
+
+<pre>
+my $total : int = 0;
+</pre>
+
+0 on the right side is a signed 32-bit integer, so the type of the variable is automatically determined by type inference.
+
+See also <a href="/language.html#language-lex-var">Lexical Variabe - SPVM Language Specification</a> about Lexical Variabe Declaration.
+
+See also <a href="/language.html#language-type-inference">Type Inference - SPVM Language Specification</a> about Type Inference.
+
+<h4>Integer Literal</h4>
+
+0 is Integer Literal. 
+
+<pre>
+my $total : int = 0;
+</pre>
+
+SPVM has the following Literal.
+
+<ul>
+  <li>Integer Literal</li>
+  <li>Floating Point Literal</li>
+  <li>Charater Literal</li>
+  <li>String Literal</li>
+</ul>
+
+<pre>
+# Integer Literal
+123
+123_456_789
+
+# Floating Point Literal
+1.32
+1.32f
+
+# Character Literal
+'a'
+'c'
+
+# String Literal
+"Hello World!"
+</pre>
+
+See also <a href="/language.html#language-literal">Literal - SPVM Language Specification</a> about Literal.
+
+<h4>for Statement</h4>
 
   <p>
     Let's look at the part where the sum of the arrays is calculated.
