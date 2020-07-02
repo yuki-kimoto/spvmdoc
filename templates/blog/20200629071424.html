@@ -284,16 +284,11 @@ return $total;
 See <a href="/language.html#language-statement-return">return Statement - SPVM Language Specification</a> about return Statement.
 
 
-<h3>Call SPVM Module from Perl</h3>
+<h3>Call SPVM Subroutine from Perl</h3>
 
-  <p>
-    Create a file called "sum.pl" and describe the following contents.
-  </p>
-  <p>
-    Call the "sum" subroutine of the "MyMath" package written in SPVM to calculate the sum of the arrays.
-  </p>
+Create "sum.pl" file  and write the following code. This is Perl program.
+
 <pre>
-# spvm.pl
 use strict;
 use warnings;
 use FindBin;
@@ -317,52 +312,72 @@ my $total_packed = MyMath->sum($sv_nums);
 print "Total Packed: $total_packed\n";
 </pre>
 
-  <p>
-    First, add the <b>lib directory to the module search path</b>.
-  </p>
+<h4>Add library path</h4>
+
+The followings are the conventions and add current script directry's "lib" directory to library path .
 <pre>
-# add lib directory to module search path
+use strict;
+use warnings;
 use FindBin;
 use lib "$FindBin::Bin/lib";
 </pre>
-  <p>
-    Then <b>load the SPVM module</b>.
-  </p>
+
+<h4>use SPVM module</h4>
+
+use SPVM module.
+
 <pre>
-# Load SPVM module
-use SPVM'MyMath';
+use SPVM 'MyMath';
 </pre>
-  <p>
-    You can load the SPVM module with the description "use SPVM'SPVM module name'".
-  </p>
-  <p>
-    Then <b>create an array of SPVMs</b>.
-  </p>
+
+In this place, compilation is not done. Collect SPVM modules.
+
+<h4>Initialize SPVM</h4>
+
+Initialize SPVM after you use all SPVM modules. UNITCHECK block are executed just after compile time of this script. All used SPVM module is compiled.
+
 <pre>
-# Int type array creation
-my $sp_nums = SPVM::new_int_array([3, 6, 8, 9]);
+# Initialize SPVM
+UNITCHECK { SPVM::init() }
 </pre>
-  <p>
-    You can use the <b>SPVM::new_int_array function</b> to create a SPVM int array by passing an array reference.
-  </p>
-  <p>
-    <b>Call the sum subroutine of the MyMath package</b>.
-  </p>
+
+Note that do not use BEGIN, CHECK, INIT blocks. CHECK, and INIT don't work some environment. BEGIN is executed at the line in the compile time, not after compile time.
+
+<h4>Call SPVM Subroutine</h4>
+
+Call SPVM Subroutine. It's amazing that SPVM subroutine can be called as Perl subroutine.
+
 <pre>
-# Call the sum subroutine of the MyMath package
-my $total = MyMath->sum($sp_nums);
+# Call subroutine
+my $total = MyMath->sum([3, 6, 8, 9]);
 </pre>
-  <p>
-    Note that <b>SPVM subroutine calls are Perl class method calls. </b>It cannot be called with the absolute name MyMath::sub.
-  </p>
-  
-  <p>
-    The return value of the sum function is "int type", but the SPVM integer type is automatically converted to the Perl scalar type.
-  </p>
+
+Perl array reference is converted to SPVM int array.
+
+See <a href="/exchange-api.html#exchange-api-perl-data-to-spvm-value">Convert Perl Data to SPVM Value - SPVM Exchange API</a> about Conversion of Perl Data to SPVM Value.
+
+SPVM int return value is converted to Perl Scalar.
+
+See <a href="/exchange-api.html#exchange-api-spvm-value-to-perl-data">Converting SPVM Value to Perl Data - SPVM Exchange API</a> about Conversion of Perl Data to SPVM Value.
+
+<h4>Call SPVM Subroutine with packed data</h4>
+
+you can pass packed binary data. SPVM::new_int_array_from_bin create SPVM int array from packed binary data. This is efficient.
+
+<pre>
+# Call subroutine with packed data
+my $nums_packed = pack('l*', 3, 6, 8, 9);
+my $sv_nums = SPVM::new_int_array_from_bin($nums_packed);
+my $total_packed = MyMath->sum($sv_nums);
+</pre>
+
+See <a href="/exchange-api.html">SPVM Exchange API</a> about SPVM Exchange API like SPVM::new_int_array_from_bin.
 
 <h3>How to improve SPVM Performance</h2>
 
-See How to improve SPVM Performance for improving SPVM Performance.
+See How to improve SPVM Performance.
+
+If you're searching SPVM for performance reasons, here's what you really want to see.
 
 <ul class="toc">
   <li><a href="/blog/20200702071424.html">How to improve SPVM Performance</a></li>
