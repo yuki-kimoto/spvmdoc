@@ -241,6 +241,24 @@ $nums->[$i]
 
 See <a href="http://59.106.185.196:3000/spvmdoc-public/language.html#language-array">Array - SPVM Language Specification</a> about Array operation.
 
+<h4>Addition Operator</h4>
+
+See the following code.
+
+<pre>
+$total += $nums->[$i];
+</pre>
+
+This is same as the following Additon Operator and Assignment Operator.
+
+<pre>
+$total = $total + $nums->[$i];
+</pre>
+
+SPVM has many operators.
+
+See <a href="/language.html#language-operator">Operator - SPVM Language Specification</a> about Opeartor.
+
 <h4>for Statement</h4>
 
 Next, see for Statement.
@@ -251,7 +269,23 @@ for (my $i = 0; $i < @$nums; $i++) {
 }
 </pre>
 
-  <h3>Call SPVM Module from Perl</h3>
+See <a href="/language.html#language-statement-for">for Statement - SPVM Language Specification</a> about for Statement.
+
+See <a href="/language.html#language-statement">Statement - SPVM Language Specification</a> about Statement like if Statement, while Statement, and switch Statement.
+
+<h4>return Statement</h4>
+
+At last, return Statement.
+
+<pre>
+return $total;
+</pre>
+
+See <a href="/language.html#language-statement-return">return Statement - SPVM Language Specification</a> about return Statement.
+
+
+<h3>Call SPVM Module from Perl</h3>
+
   <p>
     Create a file called "sum.pl" and describe the following contents.
   </p>
