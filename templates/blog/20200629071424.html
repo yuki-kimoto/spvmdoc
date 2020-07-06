@@ -296,9 +296,6 @@ use lib "$FindBin::Bin/lib";
 
 use SPVM 'MyMath';
 
-# Initialize SPVM
-UNITCHECK { SPVM::init() }
-
 # Call subroutine
 my $total = MyMath->sum([3, 6, 8, 9]);
 
@@ -331,17 +328,6 @@ use SPVM 'MyMath';
 </pre>
 
 In this place, compilation is not done. Collect SPVM modules.
-
-<h4>Initialize SPVM</h4>
-
-Initialize SPVM after you use all SPVM modules. UNITCHECK block are executed just after compile time of this script. All used SPVM module is compiled.
-
-<pre>
-# Initialize SPVM
-UNITCHECK { SPVM::init() }
-</pre>
-
-Note that do not use BEGIN, CHECK, INIT blocks. CHECK, and INIT don't work some environment. BEGIN is executed at the line in the compile time, not after compile time.
 
 <h4>Call SPVM Subroutine</h4>
 
