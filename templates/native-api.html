@@ -661,7 +661,7 @@ int32_t SPNATIVE__MyTimeInfo__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
   </ p>
 
 <pre>
-0 runtime_package_vars_heap_offset
+0 package_vars_heap
 1 object_header_byte_size
 2 object_weaken_backref_head_offset
 3 object_ref_count_offset
@@ -676,7 +676,7 @@ int32_t SPNATIVE__MyTimeInfo__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
 12 long_object_basic_type_id
 13 float_object_basic_type_id
 14 double_object_basic_type_id
-15 runtime
+15 compiler
 16 exception_object
 17 native_mortal_stack
 18 native_mortal_stack_top
@@ -779,6 +779,7 @@ int32_t SPNATIVE__MyTimeInfo__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
 116 get_type_name
 117 new_env
 118 free_env
+119 memry_blocks_count
 </pre>
 
   <h3 id = "native-api-call">Call Native API</h3>
@@ -791,7 +792,7 @@ int32_t basic_type_id = env->get_basic_type_id(env, "SPVM::Int");
   
   <h3 id = "native-api-list">List of Native APIs</h3>
   <ul class = "list">
-    <li> <a href="#native-api-native-sub-api-runtime_package_vars_heap_offset">runtime_package_vars_heap_offset</a></li>
+    <li> <a href="#native-api-native-sub-api-runtime_package_vars_heap_offset">package_vars_heap</a></li>
     <li> <a href="#native-api-native-sub-api-object_header_byte_size">object_header_byte_size</a></li>
     <li> <a href="#native-api-native-sub-api-object_weaken_backref_head_offset">object_weaken_backref_head_offset</a></li>
     <li> <a href="#native-api-native-sub-api-object_ref_count_offset">object_ref_count_offset</a></li>
@@ -806,7 +807,7 @@ int32_t basic_type_id = env->get_basic_type_id(env, "SPVM::Int");
     <li><a href="#native-api-native-sub-api-long_object_basic_type_id">long_object_basic_type_id</a></li>
     <li><a href="#native-api-native-sub-api-float_object_basic_type_id">float_object_basic_type_id</a></li>
     <li><a href="#native-api-native-sub-api-double_object_basic_type_id">double_object_basic_type_id</a></li>
-    <li><a href="#native-api-native-sub-api-runtime">runtime</a></li>
+    <li><a href="#native-api-native-sub-api-compiler">compiler</a></li>
     <li><a href="#native-api-native-sub-api-exception_object">exception_object</a></li>
     <li><a href="#native-api-native-sub-api-native_mortal_stack">native_mortal_stack</a></li>
     <li><a href="#native-api-native-sub-api-native_mortal_stack_top">native_mortal_stack_top</a></li>
@@ -910,10 +911,11 @@ int32_t basic_type_id = env->get_basic_type_id(env, "SPVM::Int");
     <li><a href="#native-api-native-sub-api-get_type_name">get_type_name</a></li>
     <li><a href="#native-api-native-sub-api-new_env">new_env</a></li>
     <li><a href="#native-api-native-sub-api-free_env">free_env</a></li>
+    <li><a href="#native-api-native-sub-api-memry_blocks_count">memry_blocks_count</a></li>
   </ul>
-<h4 id = "native-api-native-sub-api-runtime_package_vars_heap_offset">runtime_package_vars_heap_offset</h4>
+<h4 id = "native-api-native-sub-api-package_vars_heap">package_vars_heap</h4>
   <p>
-    Offset to the pointer to the storage area of ​​the package variable in the runtime structure. It is used internally.
+    the pointer to the storage area of the package variables. It is used internally.
   </ p>
   
   <h4 id = "native-api-native-sub-api-object_header_byte_size">object_header_byte_size</h4>
@@ -986,9 +988,9 @@ int32_t basic_type_id = env->get_basic_type_id(env, "SPVM::Int");
     ID of the base type of SPVM::Double type. It is used internally.
   </ p>
   
-  <h4 id = "native-api-native-sub-api-runtime">runtime</h4>
+  <h4 id = "native-api-native-sub-api-compiler">compiler</h4>
   <p>
-    A pointer to the SPVM runtime. It is used internally.
+    A pointer to the SPVM compiler. It is used internally.
   </ p>
   
   <h4 id = "native-api-native-sub-api-exception_object">exception_object</h4>
@@ -2284,4 +2286,13 @@ SPVM_ENV* (*new_env)(SPVM_ENV* env);
 <pre>
 void (*free_env)(SPVM_ENV* env);
 </pre>
+
+  <h4 id = "native-api-native-sub-api-memory_blocks_count">memory_blocks_count</h4>
+  <p>
+    Memory blocks count. It is used internally.
+  </ p>
+<pre>
+void* memory_blocks_count;
+</pre>
+
 </div>

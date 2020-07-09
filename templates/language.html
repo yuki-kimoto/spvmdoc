@@ -16,7 +16,7 @@ Last modified 2020-06-24
   <li><a href="#language-field">Field</a></li>
   <li><a href="#language-sub">Subroutine</a></li>
   <li><a href="#language-enum">Enumeration</a></li>
-  <li><a href="#language-begin-block">BEGIN Block</a></li>
+  <li><a href="#language-begin-block">INIT Block</a></li>
   <li><a href="#language-lex-var">Lexical Variable</a></li>
   <li><a href="#language-scope">Scope</a></li>
   <li><a href="#language-literal">Literal</a></li>
@@ -335,7 +335,7 @@ $3foo
 Keywords in SPVM are the followings.
 
 <pre>
-allow byte BEGIN case die warn print default double elsif else enum eq
+allow byte INIT case die warn print default double elsif else enum eq
 eval for float gt ge has if callback_t isa int last break length
 lt le long my native ne next new our object package private
 public precompile pointer_t return require rw ro self switch
@@ -402,7 +402,7 @@ The following is Syntax Parsing Definition in SPVM, using the syntax in yacc/bis
 %token <opval> IF UNLESS ELSIF ELSE FOR WHILE LAST NEXT SWITCH CASE DEFAULT BREAK EVAL
 %token <opval> NAME VAR_NAME CONSTANT EXCEPTION_VAR
 %token <opval> UNDEF VOID BYTE SHORT INT LONG FLOAT DOUBLE STRING OBJECT
-%token <opval> DOT3 FATCAMMA RW RO WO BEGIN NEW
+%token <opval> DOT3 FATCAMMA RW RO WO INIT NEW
 %token <opval> RETURN WEAKEN DIE WARN CURRENT_PACKAGE UNWEAKEN '[' '{' '('
 
 %type <opval> grammar
@@ -478,7 +478,7 @@ declaration
 | begin_block
 
 begin_block
-: BEGIN block
+: INIT block
 
 use
 : USE basic_type ';'
@@ -973,7 +973,7 @@ The following is a correspondence table between tokens in yacc/bison and keyword
     <td>WO</td><td>wo</td>
   </tr>
   <tr>
-    <td>BEGIN</td><td>BEGIN</td>
+    <td>INIT</td><td>INIT</td>
   </tr>
   <tr>
     <td>NEW</td><td>new</td>
@@ -1593,13 +1593,13 @@ package Foo {
 
 Package Variable is initialized with <a href="#language-type-initial-value">Type Initial Value</a> after compilation and before execution.
 
-This initial value can be changed by using <a href="#language-begin-block">BEGIN Block</a>.
+This initial value can be changed by using <a href="#language-begin-block">INIT Block</a>.
 
 <pre>
 package Foo {
   our $VAR : int;
 
-  BEGIN {
+  INIT {
     $VAR = 3;
   }
 }
@@ -2150,46 +2150,46 @@ switch ($num) {
 }
 </pre>
 
-<h3 id="language-begin-block"><a href="#language-begin-block">BEGIN Block</a></h3>
+<h3 id="language-begin-block"><a href="#language-begin-block">INIT Block</a></h3>
 
-<b>BEGIN Block</b> is a block that is executed immediately after the compilation of program.
+<b>INIT Block</b> is a block that is executed immediately after the compilation of program.
 
-BEGIN Keyword defines BEGIN Block.
+INIT Keyword defines INIT Block.
 
 <pre>
-BEGIN {
+INIT {
 
 }
 </pre>
 
-BEGIN Block must be defined directly under <a href="#language-package-definition">Package Definition</a>.
+INIT Block must be defined directly under <a href="#language-package-definition">Package Definition</a>.
 
 <pre>
 package Foo {
-  BEGIN {
+  INIT {
 
   }
 }
 </pre>
 
-Zero or more <a href="#language-statement">Statements</a> can be written in BEGIN Block.
+Zero or more <a href="#language-statement">Statements</a> can be written in INIT Block.
 
 <pre>
-BEGIN {
+INIT {
   my $foo = 1 + 1;
   my $bar;
 }
 </pre>
 
-<a href="#language-statement-return">return Statement</a> cannot be written in BEGIN Block.
+<a href="#language-statement-return">return Statement</a> cannot be written in INIT Block.
 
-Internally, BEGIN Block is a <a href="#language-sub">Subroutine</a> that Return Type is <a href="#language-type-void">void Type</a> and has no arguments.
+Internally, INIT Block is a <a href="#language-sub">Subroutine</a> that Return Type is <a href="#language-type-void">void Type</a> and has no arguments.
 
-You can define multiple BEGIN Blocks.
+You can define multiple INIT Blocks.
 
-The execution order of BEGIN Block is not guaranteed. If ohter BEGIN Block is defined in ohter Package, do not assume that BEGIN Block of the current package will be executed first.
+The execution order of INIT Block is not guaranteed. If ohter INIT Block is defined in ohter Package, do not assume that INIT Block of the current package will be executed first.
 
-A common use of BEGIN Block is to initialize <a href="#language-package-var">Package Variable</a>.
+A common use of INIT Block is to initialize <a href="#language-package-var">Package Variable</a>.
 
 <pre>
 package Foo {
@@ -2197,7 +2197,7 @@ package Foo {
   
   our $NUM : int;
   our $POINT : Point;
-  BEGIN {
+  INIT {
     $NUM = 3;
     $POINT = Point->new;
   }
