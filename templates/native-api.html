@@ -2139,8 +2139,12 @@ int32_t (*enter_scope)(SPVM_ENV* env);
     Add an object to the mortal stack.
   </p>
 <pre>
-void (*push_mortal)(SPVM_ENV* env, void* object);
+int32_t (*push_mortal)(SPVM_ENV* env, void* object);
 </pre>
+
+If this method succeed, return 0.
+
+If this method don't alloc memory for new mortal information, return 1.
 
   <h4 id = "native-api-native-sub-api-leave_scope">leave_scope</h4>
   <p>
