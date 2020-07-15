@@ -2202,11 +2202,19 @@ int32_t (*weaken)(SPVM_ENV* env, void** object_address);
 
 Create weak reference to the object which is specified by object address.
 
-This method allocate memory internal for the back reference of weaken object.
+The reference count of the object is decrimented by 1 and weaken flag is added to the object address.
+
+If the reference count is 1, "dec_ref_count" is called to the object.
+
+If object_address is NULL, this method do nothing.
+
+If the object is already weaken, this method do nothing.
+
+This method allocate memory internally to add the back reference from the object to the object address.
 
 This method success return 0.
 
-If fail memory allocation of back reference of weaken object, return 1.
+If failing memory allocation of back reference, return 1.
 
 <h4 id = "native-api-native-sub-api-isweak">isweak</h4> <p>
     Given the address of an object, returns non-zero if the object is a weak reference, 0 otherwise.
