@@ -1,0 +1,177 @@
+<h2>Complex Tutorial</h2>
+
+SPVM provides common arithmetic for complex numbers at the same level as C99.
+
+<h3>Complex Type</h3>
+
+Complex Type is SPVM::Complex_2f for complex float and SPVM::Complex_2d for complex double.
+
+SPVM::Complex_2f and SPVM::Complex_2d is <a href="/language.html#language-type-multi-numeric">Multi Numeric Type</a>. This is allocated on Subroutine Call Stack.
+
+This is not Object Type which is allocated on Heap Memory.
+
+<h4>SPVM::Complex_2f</h4>
+
+<pre>
+# Complex float type
+use SPVM::Complex_2f;
+
+my $z : SPVM::Complex_2f;
+$z->{x} = 1.5f;
+$z->{y} = 1.7f;
+</pre>
+
+<h4>SPVM::Complex_2d</h4>
+
+<pre>
+# Complex double type
+use SPVM::Complex_2d;
+
+my $z : SPVM::Complex_2d;
+$z->{x} = 1.5;
+$z->{y} = 1.7;
+</pre>
+
+<h3>New Complex</h3>
+
+New Complex.
+
+<pre>
+# SPVM::Complex_2f
+my $z = complexf(1.5f, 1.7f);
+
+# SPVM::Complex_2d
+my $z = complex(1.5, 1.7);
+</pre>
+
+<h3>Complex Operation</h3>
+
+<h4>float Complex Addition, Subtract, Multiply, Scalar Multiply, Division</h4>
+
+float Complex Addition, Subtract, Multiply, Scalar Multiply, Division.
+
+<pre>
+# float Addition, Subtract, Multiply, Scalar Multiply, Division functions
+use SPVM::Math(caddf, csubf, cmulf, cscamulf, cdivf);
+
+my $z1 = complexf(1.5f, 1.7f);
+my $z2 = complexf(2.5f, 2.7f);
+
+# Addition
+my $z_add = caddf($z1, $z2);
+
+# Subtract
+my $z_sub = csubf($z1, $z2);
+
+# Multiply
+my $z_mul = cmulf($z1, $z2);
+
+# Scalar Multiply
+my $z_scamul = cscamulf($z1, $z2);
+
+# Division
+my $z_div = cdivf($z1, $z2);
+</pre>
+
+<h4>double Complex Addition, Subtract, Multiply, Scalar Multiply, Division</h4>
+
+<pre>
+# double Addition, Subtract, Multiply, Scalar Multiply, Division functions
+use SPVM::Math(cadd, csub, cmul, cscamul, cdiv);
+
+my $z1 = complex(1.5, 1.7);
+my $z2 = complex(2.5, 2.7);
+
+# Addition
+my $z_add = cadd($z1, $z2);
+
+# Subtract
+my $z_sub = csub($z1, $z2);
+
+# Multiply
+my $z_mul = cmul($z1, $z2);
+
+# Scalar Multiply
+my $z_scamul = cscamul($z1, $z2);
+
+# Division
+my $z_div = cdiv($z1, $z2);
+</pre>
+
+<h3>Trigonometric functions</h3>
+
+Trigonometric functions.
+
+<h4>float Trigonometric functions</h4>
+
+float Trigonometric functions.
+
+<pre>
+# float Trigonometric functions
+use SPVM::Math(csinf, ccosf, ctanf);
+
+my $z = complexf(1.5f, 1.7f);
+
+# Addition
+my $z_sin = csinf($z);
+
+# Subtract
+my $z_cos = ccosf($z);
+
+# Multiply
+my $z_tan = ctanf($z);
+</pre>
+
+<h4>double Trigonometric functions</h4>
+
+double Trigonometric functions.
+
+<pre>
+# double Trigonometric functions
+use SPVM::Math(csin, ccos, ctan);
+
+my $z = complex(1.5, 1.7);
+
+# Addition
+my $z_sin = csin($z);
+
+# Subtract
+my $z_cos = ccos($z);
+
+# Multiply
+my $z_tan = ctan($z);
+</pre>
+
+<h3>Complex Array</h3>
+
+SPVM Array of Complex has values arranged in contiguous memory areas.
+
+<h4>SPVM::Complex_2f[]</h4>
+
+<pre>
+# Complex float type
+use SPVM::Complex_2f;
+
+my $zs = SPVM::Complex_2f[100];
+
+for (my $i = 0; $i < @$za; $i++) {
+  my $z = $zs->[$i];
+  $z->{x} = 1.5f;
+  $z->{y} = 1.7f;
+}
+</pre>
+
+<h4>SPVM::Complex_2d</h4>
+
+<pre>
+# Complex double type
+use SPVM::Complex_2d;
+
+my $zs = SPVM::Complex_2d[100];
+
+for (my $i = 0; $i < @$za; $i++) {
+  my $z = $zs->[$i];
+  $z->{x} = 1.5;
+  $z->{y} = 1.7;
+}
+</pre>
