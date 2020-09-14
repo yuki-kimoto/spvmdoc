@@ -19,8 +19,8 @@ See <a href="https://github.com/yuki-kimoto/SPVM/tree/master/examples/matrix">SP
 use SPVM::Complex_2f;
 
 my $z : SPVM::Complex_2f;
-$z->{x} = 1.5f;
-$z->{y} = 1.7f;
+$z->{re} = 1.5f;
+$z->{im} = 1.7f;
 </pre>
 
 <h4>SPVM::Complex_2d</h4>
@@ -30,8 +30,8 @@ $z->{y} = 1.7f;
 use SPVM::Complex_2d;
 
 my $z : SPVM::Complex_2d;
-$z->{x} = 1.5;
-$z->{y} = 1.7;
+$z->{re} = 1.5;
+$z->{im} = 1.7;
 </pre>
 
 <h3>New Complex Functions</h3>
@@ -162,8 +162,8 @@ my $zs = new SPVM::Complex_2f[100];
 
 for (my $i = 0; $i < @$zs; $i++) {
   my $z = $zs->[$i];
-  $z->{x} = 1.5f;
-  $z->{y} = 1.7f;
+  $z->{re} = 1.5f;
+  $z->{im} = 1.7f;
 }
 </pre>
 
@@ -177,8 +177,8 @@ my $zs = new SPVM::Complex_2d[100];
 
 for (my $i = 0; $i < @$zs; $i++) {
   my $z = $zs->[$i];
-  $z->{x} = 1.5;
-  $z->{y} = 1.7;
+  $z->{re} = 1.5;
+  $z->{im} = 1.7;
 }
 </pre>
 
@@ -189,10 +189,10 @@ Call complex function from Perl. Argument is passed and return value is return.
 <pre>
 use SPVM 'MyComplex';
 
-my $z1 = {x => 1.7, y => 2.7};
-my $z2 = {x => 7.5, y => 2.5};
+my $z1 = {re => 1.7, im => 2.7};
+my $z2 = {re => 7.5, im => 2.5};
 
 my $z_ret = MyComplex->complex_call_from_perl($z1, $z2);
 
-print "($z_ret->{x}, $z_ret->{y})\n";
+print "($z_ret->{re}, $z_ret->{im})\n";
 </pre>
