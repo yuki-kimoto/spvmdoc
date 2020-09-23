@@ -1403,12 +1403,9 @@ use Foo;
 use Foo::Bar;
 </pre>
 
-
 Modules are loaded at compile-time.
 
-
 If the Module does not exist, Compilation Error will occur.
-
 
 use Keyword must be defined directly under <a href="#language-package-definition">Package Definition</a>.
 
@@ -1456,7 +1453,6 @@ else {
 
 Note that elsif Statement cannot be followed.
 
-
 Let's look at an example. if Foo does not exist, no Compilation Error occurs and it is assumed that there is no if block
 
 Therefore, "$foo = new Foo;" does not result in Compilation Error because it is assumed that there is no if block.
@@ -1472,6 +1468,16 @@ else {
   warn "Warning: Can't load Foo";
 }
 </pre>
+
+<h4 id="language-module-function-import">Function Import</h4>
+
+Subroutine which is defined as Static Method is imported as Function using <a href="#language-module-use">use Statement</a>.
+
+<pre>
+use Foo(method1, method2);
+</pre>
+
+This function is called by <a href="language-expression-callsub-function-call">Function Call</a>
 
 <h3 id="language-package-var">Package Variable</h3>
 <ul class="list">
@@ -3393,6 +3399,9 @@ $point_ref->{x} = 1;
   <li><a href="#language-expression-new-array">Create Array</a></li>
   <li><a href="#language-expression-array-init">Array Initialization</a></li>
   <li><a href="#language-expression-callsub">Subroutine Call</a></li>
+  <li><a href="#language-expression-callsub-static-method-call">Static Method Call</a></li>
+  <li><a href="#language-expression-callsub-method-call">Method Call</a></li>
+  <li><a href="#language-expression-callsub-function-call">Function Call</a></li>
   <li><a href="#language-expression-current-package">Get Current Package Name</a></li>
   <li><a href="#language-expression-current-file">Get Current File Name</a></li>
   <li><a href="#language-expression-current-line">Get Current Line Number</a></li>
@@ -3877,54 +3886,49 @@ The max of Dimention of Multi-Dimention Array is 255.
 </p>
 
 <h4 id="language-expression-callsub">Subroutine Call</h4>
-<p>
-  Subroutines defined by <a href="#language-sub-definition">Subroutine Definition</a> can be called. There are two types of calls, <b>function call</b> and <b>Method Call</b>.
-</p>
 
-<h4 id="language-expression-callsub-func">Function call</h4>
-<p>
-  Calling a function is a method of calling a Subroutine that is not <a href="#language-sub-method">Method</a>. In <a href="#language-sub-definition">Subroutine Definition</a>, the first argument is <a href="#language-type-self">self Type</a> If the argument of> is specified, it becomes Method.
-</p>
-<p>
-  You can call the function in the following way. The argument is optional. You can specify up to 255 arguments.
-</p>
-<pre>
-Package Name->Subroutine Name(ARGS1, ARGS2, ARGS3, ..., ARGSn);
-</pre>
-<p>
-  Note that what is called Class Method Call in Perl is called a function call in SPVM.
-</p>
-<p>
-  The Package Name can be omitted in the function call.
-</p>
-<pre>
-Subroutine Name(ARGS1, ARGS2, ARGS3, ..., ARGSn);
-</pre>
-<p>
-  Which Package Subroutine is called depends on the following order.
-</p>
-<p>
-  Subroutine defined in Current Package, or Subroutine imported in Current Package
-</p>
+Subroutines defined by <a href="#language-sub-definition">Subroutine Definition</a> can be called from program. There are three types of subroutine calls. <b>Static Method Call</b> and <b>Method Call</b>.
 
-<p>
-  The function call receives the arguments. If the number of arguments does not match the number of arguments defined in the Subroutine Definition, Compilation Error occurs The Type of each argument and the type of the argument defined in Subroutine Definition and <a href = " If there is no # language-type-compatible ">Type Compatibility</a>, Compilation Error occurs
-</p>
-<p>
-  Calling the function returns Return Value if Return Value is other than <a href="#language-type-void">void Type</a>.
-</p>
-<p>
-  The function call is <a href="#language-expression">Expression</a>.
-<p>
-<p>
-  <b>Subroutine 呼び出しのExample</b>
-</p>
-<p>
-  Subroutine call example
-</p>
+Defined subroutine can be called by Static Method Call except a case that the first argument is <a href="#language-type-self">self Type</a>.
+
+<pre>
+PackageName->SubroutineName(ARGS1, ARGS2, ARGS3, ..., ARGSn);
+</pre>
+
+The arguments max count is 255.
+
+If the number of arguments does not match the number of arguments defined in the Subroutine Definition, Compilation Error occurs The Type of each argument and the type of the argument defined in Subroutine Definition and <a href = "#language-type-compatible">Type Compatibility</a>, Compilation Error occurs.
+
+<b>Static Method Call Example</b>
+
 <pre>
 my $ret = Foo->bar(1, 2, 3);
-my $ret = bar(1, 2, 3);
+</pre>
+
+<h4 id="language-expression-callsub-function-call">Function Call</h4>
+
+Subroutine which is defined as Static Method is imported as Function using <a href="#language-module-use">use Statement</a>.
+
+<pre>
+use Foo(SubroutineName);
+</pre>
+
+<pre>
+SubroutineName(ARGS1, ARGS2, ARGS3, ..., ARGSn);
+</pre>
+
+Function Call is <a href="#language-expression">Expression</a>.
+
+<b>Function Call Example</b>
+
+<pre>
+package Foo {
+  use SPVM::Math(sin);
+  
+  sub test : void () {
+    my $ret = sin(3.0);
+  }
+}
 </pre>
 
 <h4 id="language-expression-callsub-method">Method Call</h4>
@@ -3938,7 +3942,7 @@ my $ret = bar(1, 2, 3);
 OBJECT_EXPRESSION->SUB_NAME(ARGS1, ARGS2, ARGS3, ..., ARGSn);
 </pre>
 <p>
-  Method Call takes arguments. If the number of arguments does not match the number of arguments defined in the Subroutine Definition, Compilation Error occurs The Type of each argument and the type of the argument defined in Subroutine Definition and <a href = " If there is no # language-type-compatible ">Type Compatibility</a>, Compilation Error occurs
+  Method Call takes arguments. If the number of arguments does not match the number of arguments defined in the Subroutine Definition, Compilation Error occurs The Type of each argument and the type of the argument defined in Subroutine Definition and <a href = "#language-type-compatible">Type Compatibility</a>, Compilation Error occurs
 </p>
 <p>
   Method Call returns Return Value if Return Value is other than <a href="#language-type-void">void Type</a>.
