@@ -1,12 +1,10 @@
-<h2>Matrix Tutorial</h2>
+<h2>Matrix Tutorial for AI programming</h2>
 
 SPVM has Matrix modules. 
 
-<h3>Numeric Type Matrix</h3>
+<h3>Float Matrix</h3>
 
-Matrix element can be byte, short, int, long, float, double types in numeric types.
-
-Corresponding modules are <a href="https://metacpan.org/pod/SPVM::Matrix::Util">SPVM::Matrix::Util</a>, <a href="https://metacpan.org/pod/SPVM::Matrix::Float">SPVM::Matrix::Float</a>, <a href="https://metacpan.org/pod/SPVM::Matrix::Double">SPVM::Matrix::Double</a>.
+Corresponding modules are <a href="https://metacpan.org/pod/SPVM::AI::Util">SPVM::AI::Util</a>, <a href="https://metacpan.org/pod/SPVM::AI::Util::FloatMatrix">SPVM::AI::Util::FloatMatrix</a>.
 
 These modules have matrix elements, number of rows, and number of columns as fields.
 
@@ -16,7 +14,7 @@ These modules also have methods to do additions, subtractions, multiplications, 
 
 You can find a sample matrix here.
 
-<a href="https://github.com/yuki-kimoto/SPVM/tree/master/examples/matrix">Matrix Examples</a>
+<a href="https://github.com/yuki-kimoto/SPVM-AI-Util/tree/master/examples/matrix">Matrix Examples</a>
 
 <h3>Matrix Tutorial</h3>
 
@@ -56,59 +54,59 @@ Note that the SPVM matrix module is column-major.
 
 <pre>
 package MyMatrix {
-  use SPVM::Matrix::Util;
+  use SPVM::AI::Util;
   
   sub add_float_matrix : void () {
     # 1 3 5
     # 2 4 6
-    my $mat1 = SPVM::Matrix::Util->mat_newf([1f, 2f, 3f, 4f, 5f, 6f], 2, 3);
+    my $mat1 = SPVM::AI::Util->mat_newf([1f, 2f, 3f, 4f, 5f, 6f], 2, 3);
     
     # 2 4 6
     # 3 5 7
-    my $mat2 = SPVM::Matrix::Util->mat_newf([2f, 3f, 4f, 5f, 6f, 7f], 2, 3);
+    my $mat2 = SPVM::AI::Util->mat_newf([2f, 3f, 4f, 5f, 6f, 7f], 2, 3);
     
-    my $mat3 = SPVM::Matrix::Util->mat_addf($mat1, $mat2);
+    my $mat3 = SPVM::AI::Util->mat_addf($mat1, $mat2);
     
-    print SPVM::Matrix::Util->mat_strf($mat3) . "\n";
+    print SPVM::AI::Util->mat_strf($mat3) . "\n";
   }
 
   sub sub_float_matrix : void () {
     # 1 3 5
     # 2 4 6
-    my $mat1 = SPVM::Matrix::Util->mat_newf([1f, 2f, 3f, 4f, 5f, 6f], 2, 3);
+    my $mat1 = SPVM::AI::Util->mat_newf([1f, 2f, 3f, 4f, 5f, 6f], 2, 3);
     
     # 2 4 6
     # 3 5 7
-    my $mat2 = SPVM::Matrix::Util->mat_newf([2f, 3f, 4f, 5f, 6f, 7f], 2, 3);
+    my $mat2 = SPVM::AI::Util->mat_newf([2f, 3f, 4f, 5f, 6f, 7f], 2, 3);
     
-    my $mat3 = SPVM::Matrix::Util->mat_subf($mat1, $mat2);
+    my $mat3 = SPVM::AI::Util->mat_subf($mat1, $mat2);
     
-    print SPVM::Matrix::Util->mat_strf($mat3) . "\n";
+    print SPVM::AI::Util->mat_strf($mat3) . "\n";
   }
 
   sub scamul_float_matrix : void () {
     # 1 3 5
     # 2 4 6
-    my $mat1 = SPVM::Matrix::Util->mat_newf([1f, 2f, 3f, 4f, 5f, 6f], 2, 3);
+    my $mat1 = SPVM::AI::Util->mat_newf([1f, 2f, 3f, 4f, 5f, 6f], 2, 3);
     
-    my $mat3 = SPVM::Matrix::Util->mat_scamulf(3f, $mat1);
+    my $mat3 = SPVM::AI::Util->mat_scamulf(3f, $mat1);
     
-    print SPVM::Matrix::Util->mat_strf($mat3) . "\n";
+    print SPVM::AI::Util->mat_strf($mat3) . "\n";
   }
 
   sub mul_float_matrix : void () {
     # 1 3 5
     # 2 4 6
-    my $mat1 = SPVM::Matrix::Util->mat_newf([1f, 2f, 3f, 4f, 5f, 6f], 2, 3);
+    my $mat1 = SPVM::AI::Util->mat_newf([1f, 2f, 3f, 4f, 5f, 6f], 2, 3);
     
     # 2 5
     # 3 6
     # 4 7
-    my $mat2 = SPVM::Matrix::Util->mat_newf([2f, 3f, 4f, 5f, 6f, 7f], 3, 2);
+    my $mat2 = SPVM::AI::Util->mat_newf([2f, 3f, 4f, 5f, 6f, 7f], 3, 2);
     
-    my $mat3 = SPVM::Matrix::Util->mat_mulf($mat1, $mat2);
+    my $mat3 = SPVM::AI::Util->mat_mulf($mat1, $mat2);
     
-    print SPVM::Matrix::Util->mat_strf($mat3) . "\n";
+    print SPVM::AI::Util->mat_strf($mat3) . "\n";
   }
 }
 </pre>
