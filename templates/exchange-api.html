@@ -653,12 +653,21 @@ my $spvm_string = SPVM::new_string("Aiueo");
 
 <h3 id="exchange-api-spvm-value-to-perl-data">Convert SPVM Value to Perl Data</h3>
   <ul class="toc">
-    <li><a href="#exchange-api-spvm-array-to-perl-array-ref">Convert SPVM Array to Perl Array Reference - to_elems</a></li>
+    <li><a href="#exchange-api-spvm-array-length">Get SPVM Array Length - length</a></li>
     <li><a href="#exchange-api-spvm-array-to-perl-binary">Convert SPVM Array to Perl Binary Data - to_bin</a></li>
     <li><a href="#exchange-api-spvm-string-to-perl-string">Convert SPVM strings to Perl strings - to_string</a></li>
     <li><a href="#exchange-api-spvm-string-array-to-perl-string-string-array-ref">Convert SPVM string Array into perl string Array Reference - to_strings</a></li>
   </ul>
-  
+
+<h4 id="exchange-api-spvm-array-length">Get SPVM Array Length - length</h4>
+  <p>
+    Get SPVM Array Length
+  </p>
+
+<pre>
+my $length = $spvm_array->length;
+</pre>
+
 <h4 id="exchange-api-spvm-array-to-perl-array-ref">Convert SPVM Array to Perl Array Reference - to_elems</h4>
   <p>
     To convert SPVM Array to Perl Array Reference, use the SPVM::Data::Array to_elems method.
