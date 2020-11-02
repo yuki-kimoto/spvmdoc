@@ -2,7 +2,7 @@
 
 <b>SPVM Language Specification</b> is described in this document. Version is 1.0.
 
-Last modified 2020-06-24
+Last modified 2020-11-03
 
 <ul>
   <li><a href="#language-c99">C99 compliant</a></li>
@@ -3024,26 +3024,18 @@ The trailing $is not treated as the start of Variable Expansion. It is treated a
 
 <h3 id="language-string">String</h3>
 
-SPVM String is <a href="#language-type-array-byte">byte[] Type</a>. 
+SPVM has <b>String Type</b>. String is created by <a href="#language-literal-string">String Literal</a> or Type Convertion from byte[] Type.
+
+String is immutable and you can't change the each character. You can only get the each character. 
 
 <pre>
 # String is Array of byte Type
-my $string = new byte[3];
-$string->[0] = 'a';
-$string->[1] = 'b';
-$string->[2] = 'c';
-</pre>
+my $string : string = "Hello";
+my $char0 = $string->[0];
+my $char1 = $string->[1];
+my $char2 = $string->[2];
 
-<a href="#language-type-array-byte">byte[] Type</a> can be assigned to <a href="#language-type-string">string Type</a>. The address of String is copied to the distination Variable.
-
-<pre>
-my $string_const : string = $string;
-</pre>
-
-<a href="#language-type-string">string Type</a> is same as <a href="#language-type-array-byte">byte[] Type</a>, but can't set the element value.
-
-<pre>
-# Compilation Error
+# Compilation Error because String Type is immutable.
 $string_const->[0] = 'd';
 </pre>
 
@@ -3561,7 +3553,7 @@ if (my $message = $@) {
 $@ = RIGHT_EXPRESSION
 </pre>
 
-Right Expression must be <a href="#language-type-string-compatible">String Compatible Type</a>.
+Right Expression must be <a href="#language-type-string">String Type</a>.
 
 Returns the value of Exception Variable after setting. This is <a href="#language-type-string">string Type</a>.
 
@@ -4838,7 +4830,7 @@ And Object Type Operation(==, !=) is defined.
 LEFT_EXPRESSION STRING_COMPARISON_OPERATOR RIGHT_EXPRESSION
 </pre>
 <p>
-  Left Expression and Right Expression must be <a href="#language-type-string-compatible">String Compatible Type</a>.
+  Left Expression and Right Expression must be <a href="#language-type-string">String Type</a>.
 </p>
 <p>
   A list of String Comparison Operators.
@@ -5020,7 +5012,7 @@ LEFT_EXPRESSION . RIGHT_EXPRESSION
 </p>
 </p>
 <p>
-  Both Left Expression and Right Expression must be <a href="#language-type-string-compatible">String Compatible Type</a> There is an otherwise Compilation Error. </p>
+  Both Left Expression and Right Expression must be <a href="#language-type-string">String Type</a> There is an otherwise Compilation Error. </p>
 </p>
 <p>
   String Concatenation Operator concatenates the <a href="#language-string">String</a> represented by Left Expression and Right Expression and returns a new String.
@@ -5223,7 +5215,7 @@ my $length = @$nums;
 length RIGHT_EXPRESSION
 </pre>
 <p>
-  Right Expression must be <a href="#language-type-string-compatible">String Compatible Type</a>, otherwise Compilation Error occurs.
+  Right Expression must be <a href="#language-type-string">String Type</a>, otherwise Compilation Error occurs.
 </p>
 <p>
   The String Length Operator returns the length of the String as a <a href="#language-type-int">int Type</a> value. String Length The length of the String returned by the Operator is the length when viewed as a byte string.
@@ -5910,7 +5902,7 @@ return EXPRESSION;
 die EXPRESSION;
 </pre>
 <p>
-  Expression must be a String Compatible Type.
+  Expression must be a String Type.
 </p>
 <p>
   See <a href="#language-exception">Exception</a> for a detailed explanation of the die statement.</p>
@@ -6050,7 +6042,7 @@ break;
 warn Expression;
 </pre>
 <p>
-  Expression must be <a href="#language-type-string-compatible">String Compatible Type</a>.
+  Expression must be <a href="#language-type-string">String Type</a>.
 </p>
 <p>
   If the end is a line feed Character "\ n", the String specified in Expression is output to the standard error output.
@@ -6073,7 +6065,7 @@ warn Expression;
 print Expression;
 </pre>
 <p>
-  Expression must be <a href="#language-type-string-compatible">String Compatible Type</a>.
+  Expression must be <a href="#language-type-string">String Type</a>.
 </p>
 <p>
   If Expression is Undefined Value, do nothing.
@@ -6134,7 +6126,7 @@ my $num = 1 + 2;
   <li><a href="#language-type-array-mulnum">Multi Numeric Array Type</a></li>
   <li><a href="#language-type-any-object-array">Any Object Array Type</a></li>
   <li><a href="#language-type-string">string Type</a></li>
-  <li><a href="#language-type-string-compatible">String Compatible Type</a></li>
+  <li><a href="#language-type-string">String Type</a></li>
   <li><a href="#language-type-multi-numeric">Multi Numeric Type</a></li>
   <li><a href="#language-type-ref">Reference Type</a></li>
   <li><a href="#language-type-ref-numeric">Numeric Reference Type</a></li>
@@ -6714,7 +6706,7 @@ my $nums = new int[] [3];
 </p>
 <h4 id = "language-type-array-byte">byte[] Type</h4>
 <p>
-  In SPVM, the byte[] Type is a special Type in that it is <a href="#language-type-string-compatible">String Compatible Type</a>.
+  In SPVM, the byte[] Type is a special Type in that it is <a href="#language-type-string">String Type</a>.
 </p>
 <pre>
 byte[]
@@ -6861,12 +6853,12 @@ $bytes->[1] = 'd';
   Treat String as if you can always change it.
 </p>
 
-<h4 id="language-type-string-compatible">String Compatible Type</h4>
+<h4 id="language-type-string">String Type</h4>
 <p>
-  String Compatible Type is a combination of <a href="#language-type-string">string Type</a> and <a href="#language-type-array-byte">byte[] Type</a>. Say that.
+  String Type is a combination of <a href="#language-type-string">string Type</a> and <a href="#language-type-array-byte">byte[] Type</a>. Say that.
 </p>
 <p>
-  When a String Compatible Type value is generated, it is guaranteed that the last one after the last memory area reserved for the value will be "\ 0". (For example, if it is "abc", "c" is followed by "\ 0".) From the SPVM language, this "\ 0" has no meaning, but when using the native API, String Compatible Type is It can be handled as a C language String.
+  When a String Type value is generated, it is guaranteed that the last one after the last memory area reserved for the value will be "\ 0". (For example, if it is "abc", "c" is followed by "\ 0".) From the SPVM language, this "\ 0" has no meaning, but when using the native API, String Type is It can be handled as a C language String.
 </p>
 
 <h4 id="language-type-multi-numeric">Multi Numeric Type</h4>
@@ -7011,8 +7003,8 @@ my $objets : object[] = new int[3];
 <h3 id="language-type-convertion">Type Conversion</h3>
 <ul class="list">
   <li><a href="#language-type-convertion-typecast">Type Cast</a></li>
-  <li><a href="#language-type-convertion-typecast">Numeric Type Type Conversion</a></li>
   <li><a href="#language-type-convertion-implicite">Implicit Type Conversion</a></li>
+  <li><a href="#language-type-convertion-typecast">Numeric Type Conversion</a></li>
   <li><a href="#language-type-convertion-numeric-type-order">Numeric Type Order</a></li>
   <li><a href="#language-type-convertion-unary-numeric-widening">Unary Numeric Widening Type Conversion</a></li>
   <li><a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Conversion</a></li>
@@ -7095,7 +7087,7 @@ my $num : int = (int)4;
       <b>Numeric Type</b>
     </td>
     <td>
-      <a href="#language-type-convertion-numeric-widening">Numeric Type Type Conversion</a> is performed.
+      <a href="#language-type-convertion-numeric-widening">Numeric Type Conversion</a> is performed.
     </td>
   </tr>
   <tr>
@@ -7154,30 +7146,6 @@ my $num : int = (int)4;
     </td>
   </tr>
 </table>
-
-<h4 id="language-type-convertion-numeric">Numeric Type Type Conversion</h4>
-<p>
-  Numeric Type Type Conversion is the conversion from <a href="#language-type-numeric">Numeric Type</a> to <a href="#language-type-numeric">Numeric Type</a>. That is.
-</p>
-<p>
-  Numeric Type Type Conversion performs exactly the same processing as Numeric Type Type Conversion in the corresponding C language. For example, Type Conversion from int to long in SPVM is the same as Type Conversion from int32_tType to int64_tType in C language.
-</p>
-<pre>
-# SPVM conversion
-my $src : int = 5;
-my $dist = (long)$src;
-
-# Correspondence in C language
-int32_t src = 5;
-int64_t dist = (int64_t)src;
-</pre>
-
-<p>
-  For the correspondence of Type, see <a href="#language-c99-type">Correspondence of Type with C99</a>.
-</p>
-<p>
-  Valid information may not be retained when converting from a large type to a small type or when converting from a floating point to an integral type. In SPVM, since the Type Conversion corresponding to C99 is performed as it is, which value is converted when the Valid information is not retained is the same as the C99 specification.
-</p>
 
 <h4 id="language-type-convertion-implicite">Implicit Type Conversion</h4>
 <p>
@@ -7257,6 +7225,44 @@ my $num : int = $num_obj;
 my $num = 123;
 my $str : string = $num;
 </pre>
+
+<h4 id="language-type-convertion-numeric">Numeric Type Conversion</h4>
+
+Numeric Type Conversion is the conversion from <a href="#language-type-numeric">Numeric Type</a> to <a href="#language-type-numeric">Numeric Type</a>.
+
+Numeric Type Conversion performs exactly the same processing as Numeric Type Conversion in the corresponding C language. For example, Type Conversion from int to long in SPVM is the same as the type conversion from int32_t Type to int64_t Type in C language.
+
+<pre>
+# SPVM conversion
+my $src : int = 5;
+my $dist = (long)$src;
+
+# Correspondence in C language
+int32_t src = 5;
+int64_t dist = (int64_t)src;
+</pre>
+
+See also <a href="#language-c99-type">Corresponding Type with C99</a>.
+
+SPVM has two Numeric Type Convertions.
+
+<ul>
+  <li><a href="#language-type-convertion-numeric-narrowing">Numeric Narrowing Type Conversion</a></li>
+  <li><a href="#language-type-convertion-numeric-widening">Numeric Widening Type Conversion</a></li>
+</ul>
+
+There are some rules for automatic type conversion of Numeric Type.
+
+<ul>
+  <li><a href="#language-type-convertion-unary-numeric-widening">Unary Numeric Widening Type Conversion</a></li>
+  <li><a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Conversion</a></li>
+</ul>
+
+Numeric types have an order.
+
+<ul>
+  <li><a href="#language-type-convertion-numeric-type-order">Numeric Type Order</a></li>
+</ul>
 
 <h4 id="language-type-convertion-numeric-type-order">Numeric Type Order</h4>
 <p>
@@ -7433,7 +7439,7 @@ CONDITION || CONDITION
 die EXPRESSION;
 </pre>
 <p>
-  Expression must be <a href="#language-type-string-compatible">String Compatible Type</a>.
+  Expression must be <a href="#language-type-string">String Type</a>.
 </p>
 <p>
   When the die statement is executed, the stack trace and the String specified by Expression are displayed, and the program ends. The stack trace includes Package Name, Subroutine Name, File Name and line number. File Name is a relative File Name from the path where Module is loaded.
