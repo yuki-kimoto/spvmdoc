@@ -3037,19 +3037,14 @@ my $char2 = $string->[2];
 
 # Compilation Error because String Type is immutable.
 $string_const->[0] = 'd';
+
+# Create new String using Type Convertion;
+my $bytes = new byte[3];
+$bytes->[0] = 'a';
+$bytes->[1] = 'b';
+$bytes->[2] = 'c';
+my $string = (string)$bytes;
 </pre>
-
-String can be created by assigning <a href="#language-literal-string">String Literal</a>. a new String that is return  a new String based on String Literal.
-
-A new String is created that copies the value of the String Literal. The Type of the returned string is <a href="#language-type-string">string Type</a>.
-
-<pre>
-my $string_const = "abc";
-</pre>
-
-<a href="#language-type-array-byte">byte[] Type</a> is designed to represent "<b>char *</b>" type in C language.
-
-<a href="#language-type-string">string Type</a> is designed to represent "<b>const char *</b>" type in C language.
 
 <h3 id="language-undef">Undefined Value</h3>
 
@@ -3531,7 +3526,7 @@ package Foo {
 $@
 </pre>
 
-Get Exception Variable Value Expression returns the value of <a href="#language-type-string">string Type</a>.
+Get Exception Variable Value Expression returns the value of <a href="#language-type-string">String Type</a>.
 
 <b>Get Exception Variable Value Example:</b>
 
@@ -3555,7 +3550,7 @@ $@ = RIGHT_EXPRESSION
 
 Right Expression must be <a href="#language-type-string">String Type</a>.
 
-Returns the value of Exception Variable after setting. This is <a href="#language-type-string">string Type</a>.
+Returns the value of Exception Variable after setting. This is <a href="#language-type-string">String Type</a>.
 
 The Reference Count of Right Expression is incremented by 1.
 
@@ -5008,7 +5003,7 @@ LEFT_EXPRESSION || RIGHT_EXPRESSION
 LEFT_EXPRESSION . RIGHT_EXPRESSION
 </pre>
 <p>
-  If the Left Expression or Right Expression was</a><a href="#language-type-numeric">Numeric Type=<a href="#language-type-convertion-numeric-to-string=numeric>to-string</a> href="#language-string type-</a>=>stringtype</a> convertion</a> converts it to a String.
+  If the Left Expression or Right Expression was</a><a href="#language-type-numeric">Numeric Type=<a href="#language-type-convertion-numeric-to-string=numeric>to-string</a> href="#language-String Type-</a>=>stringtype</a> convertion</a> converts it to a String.
 </p>
 </p>
 <p>
@@ -5018,7 +5013,7 @@ LEFT_EXPRESSION . RIGHT_EXPRESSION
   String Concatenation Operator concatenates the <a href="#language-string">String</a> represented by Left Expression and Right Expression and returns a new String.
 </p>
 <p>
-  String Concatenation Operator retruns <a href="#language-expression">Expression</a>, The Type is <a href="#language-type-string">string Type</a>.
+  String Concatenation Operator retruns <a href="#language-expression">Expression</a>, The Type is <a href="#language-type-string">String Type</a>.
 </p>
 <p>
   If both Left Expression and Right Expression were <a href="#language-literal-string">String Literal</a>, a string Literal concatenated at compile time is generated. You can concatenate String Literal with string Concatenation Operator without being aware of the cost of performance.
@@ -6125,7 +6120,7 @@ my $num = 1 + 2;
   <li><a href="#language-type-array-object">Object Array Type</a></li>
   <li><a href="#language-type-array-mulnum">Multi Numeric Array Type</a></li>
   <li><a href="#language-type-any-object-array">Any Object Array Type</a></li>
-  <li><a href="#language-type-string">string Type</a></li>
+  <li><a href="#language-type-string">String Type</a></li>
   <li><a href="#language-type-string">String Type</a></li>
   <li><a href="#language-type-multi-numeric">Multi Numeric Type</a></li>
   <li><a href="#language-type-ref">Reference Type</a></li>
@@ -6408,7 +6403,7 @@ package Foo: pointer_t {
 </pre>
 <h4 id = "language-type-object">Object Type</h4>
 <p>
-What is Object Type <a href="#language-type-class">Class Type</a> <a href="#language-type-callback">Callback Type</a> <a href = "#language- type-array ">Array Type</a> <a href="#language-type-string">string Type</a> <a href="#language-type-any-object">Any Object Type</a> It is a combination of a>. "Multi Numeric Type" and "Reference Type" are not included.
+What is Object Type <a href="#language-type-class">Class Type</a> <a href="#language-type-callback">Callback Type</a> <a href = "#language- type-array ">Array Type</a> <a href="#language-type-string">String Type</a> <a href="#language-type-any-object">Any Object Type</a> It is a combination of a>. "Multi Numeric Type" and "Reference Type" are not included.
 </p>
 <p>
 The Object Type value can be assigned to "Any Object Type".
@@ -6632,7 +6627,7 @@ my $object: object = new Foo [3];
 
 <h4 id = "language-type-basic">Basic Type</h4>
 <p>
-  A Type that does not have dimensions is called a Basic Type. <a href="#language-type-numeric">Numeric Type</a>, <a href="#language-type-package">Package Type </ a>, <a href = "#language-type- any-object ">Any Object Type</a>, <a href="#language-type-string">string Type</a> is a Basic Type.
+  A Type that does not have dimensions is called a Basic Type. <a href="#language-type-numeric">Numeric Type</a>, <a href="#language-type-package">Package Type </ a>, <a href = "#language-type- any-object ">Any Object Type</a>, <a href="#language-type-string">String Type</a> is a Basic Type.
 </p>
 
 <h4 id = "language-type-array">Array Type</h4>
@@ -6712,7 +6707,7 @@ my $nums = new int[] [3];
 byte[]
 </pre>
 <p>
-  <a href="#language-type-string">string Type</a> is treated as <a href="#language-type-string">string Type</a> at compile time, but at runtime It will be byte[] Type.
+  <a href="#language-type-string">String Type</a> is treated as <a href="#language-type-string">String Type</a> at compile time, but at runtime It will be byte[] Type.
 </p>
 
 <h4 id="language-type-array-object">Object Array Type</h4>
@@ -6798,9 +6793,9 @@ $array->[0] = SPVM::Int->new(5);
   When setting the value of the element of Any Object Array Type, a check is made at runtime whether the Type of the element is smaller than the Type Dimension of Array by 1. If the check fails, <a href="#language-exception">Exception</a> will occur. Any Object Array Type guarantees runtime Type safety.
 </p>
 
-<h4 id="language-type-string"><a href="#language-type-string">string Type</a></h4>
+<h4 id="language-type-string"><a href="#language-type-string">String Type</a></h4>
 <p>
-  <a href="#language-type-string">string Type</a> is a Type that represents a String. Expressed by string. Designed to represent C "const char *".
+  <a href="#language-type-string">String Type</a> is a Type that represents a String. Expressed by string. Designed to represent C "const char *".
 </p>
 <pre>
 my $str : string;
@@ -6826,10 +6821,10 @@ my $ch = $str->[1];
 $str->[1] = 'd';
 </pre>
 <p>
-  <a href="#language-type-string">string Type</a> will be exactly the same as the Array of bytes Type after compilation. For example, the first expression is treated as the second expression.
+  <a href="#language-type-string">String Type</a> will be exactly the same as the Array of bytes Type after compilation. For example, the first expression is treated as the second expression.
 </p>
 <pre>
-# isa string Type
+# isa String Type
 if ($str isa string) {
 
 }
@@ -6843,7 +6838,7 @@ if ($str isa byte[]) {
   Note that SPVM Strings are immutable, but this is a compile-time check.
 </p>
 <p>
-  <a href="#language-type-string">string Type</a> can be cast to byte[] Type, and the String can be changed at runtime.
+  <a href="#language-type-string">String Type</a> can be cast to byte[] Type, and the String can be changed at runtime.
 </p>
 <pre>
 my $bytes = (byte[])$str;
@@ -6855,7 +6850,7 @@ $bytes->[1] = 'd';
 
 <h4 id="language-type-string">String Type</h4>
 <p>
-  String Type is a combination of <a href="#language-type-string">string Type</a> and <a href="#language-type-array-byte">byte[] Type</a>. Say that.
+  String Type is a combination of <a href="#language-type-string">String Type</a> and <a href="#language-type-array-byte">byte[] Type</a>. Say that.
 </p>
 <p>
   When a String Type value is generated, it is guaranteed that the last one after the last memory area reserved for the value will be "\ 0". (For example, if it is "abc", "c" is followed by "\ 0".) From the SPVM language, this "\ 0" has no meaning, but when using the native API, String Type is It can be handled as a C language String.
@@ -6963,10 +6958,10 @@ my $num2 : int;
 $num1 = $num2;
 </pre>
 <p>
-  <b>When the source Type is byte[] Type and the destination Type is <a href="#language-type-string">string Type</a></b>
+  <b>When the source Type is byte[] Type and the destination Type is <a href="#language-type-string">String Type</a></b>
 </p>
 <p>
-  If the source Type is byte[] Type and the destination Type is <a href="#language-type-string">string Type</a>, there is Type Compatibility.
+  If the source Type is byte[] Type and the destination Type is <a href="#language-type-string">String Type</a>, there is Type Compatibility.
 </p>
 <pre>
 my $bytes = new byte[3];
@@ -7010,7 +7005,7 @@ my $objets : object[] = new int[3];
   <li><a href="#language-type-convertion-binary-numeric-widening">Binary Numeric Widening Type Conversion</a></li>
   <li><a href="#language-type-convertion-numeric-narrowing">Numeric Narrowing Type Conversion</a></li>
   <li><a href="#language-type-convertion-numeric-widening">Numeric Widening Type Conversion</a></li>
-  <li><a href="#language-type-convertion-numeric-to-string">Numeric-to-string Type Conversion</a></li>
+  <li><a href="#language-type-convertion-numeric-to-string">Numeric-to-String Type Conversion</a></li>
   <li><a href="#language-type-convertion-boxing">Boxing Type Conversion</a></li>
   <li><a href="#language-type-convertion-unboxing">Unboxing Type Conversion</a></li>
   <li><a href="#language-type-convertion-bool">Bool Type Conversion</a></li>
@@ -7136,7 +7131,7 @@ my $num : int = (int)4;
   </tr>
   <tr>
     <td>
-      <b><a href="#language-type-string">string Type</a></b>
+      <b><a href="#language-type-string">String Type</a></b>
     </td>
     <td>
       <b>Numeric Type</b>
@@ -7217,11 +7212,11 @@ my $num : int = $num_obj;
 </pre>
 
 <p>
-  If the source Type is Numeric Type and the destination Type is <a href="#language-type-string">string Type</a>, <a href = "#language-type-convertion-numeric-to-string ">Numeric-to-string Type Conversion</a> is performed. In the following case, the numerical value "123" is converted to String "" 123 "" and assigned.
+  If the source Type is Numeric Type and the destination Type is <a href="#language-type-string">String Type</a>, <a href = "#language-type-convertion-numeric-to-string ">Numeric-to-String Type Conversion</a> is performed. In the following case, the numerical value "123" is converted to String "" 123 "" and assigned.
 </p>
 
 <pre>
-# mplicit Boxing Type Conversion to string Type
+# mplicit Boxing Type Conversion to String Type
 my $num = 123;
 my $str : string = $num;
 </pre>
