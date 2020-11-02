@@ -3024,7 +3024,7 @@ The trailing $is not treated as the start of Variable Expansion. It is treated a
 
 <h3 id="language-string">String</h3>
 
-SPVM has <b>String Type</b>. String is created by <a href="#language-literal-string">String Literal</a> or Type Convertion from byte[] Type.
+SPVM has <b>String Type</b>. String is created by <a href="#language-literal-string">String Literal</a> or Type Convertion from <a href="#language-type-array-byte">byte[] Type</a>.
 
 String is immutable and you can't change the each character. You can only get the each character. 
 
@@ -6699,15 +6699,15 @@ my $nums = new int[] [3];
 <p>
   All elements of Numeric Array Type are initialized by <a href="#language-type-initial-value">Type Initial Value</a> when Create Array is performed.
 </p>
-<h4 id = "language-type-array-byte">byte[] Type</h4>
+<h4 id = "language-type-array-byte"><a href="#language-type-array-byte">byte[] Type</a></h4>
 <p>
-  In SPVM, the byte[] Type is a special Type in that it is <a href="#language-type-string">String Type</a>.
+  In SPVM, the <a href="#language-type-array-byte">byte[] Type</a> is a special Type in that it is <a href="#language-type-string">String Type</a>.
 </p>
 <pre>
 byte[]
 </pre>
 <p>
-  <a href="#language-type-string">String Type</a> is treated as <a href="#language-type-string">String Type</a> at compile time, but at runtime It will be byte[] Type.
+  <a href="#language-type-string">String Type</a> is treated as <a href="#language-type-string">String Type</a> at compile time, but at runtime It will be <a href="#language-type-array-byte">byte[] Type</a>.
 </p>
 
 <h4 id="language-type-array-object">Object Array Type</h4>
@@ -6829,7 +6829,7 @@ if ($str isa string) {
 
 }
 
-# isa byte[] Type
+# isa <a href="#language-type-array-byte">byte[] Type</a>
 if ($str isa byte[]) {
 
 }
@@ -6838,7 +6838,7 @@ if ($str isa byte[]) {
   Note that SPVM Strings are immutable, but this is a compile-time check.
 </p>
 <p>
-  <a href="#language-type-string">String Type</a> can be cast to byte[] Type, and the String can be changed at runtime.
+  <a href="#language-type-string">String Type</a> can be cast to <a href="#language-type-array-byte">byte[] Type</a>, and the String can be changed at runtime.
 </p>
 <pre>
 my $bytes = (byte[])$str;
@@ -6958,10 +6958,10 @@ my $num2 : int;
 $num1 = $num2;
 </pre>
 <p>
-  <b>When the source Type is byte[] Type and the destination Type is <a href="#language-type-string">String Type</a></b>
+  <b>When the source Type is <a href="#language-type-array-byte">byte[] Type</a> and the destination Type is <a href="#language-type-string">String Type</a></b>
 </p>
 <p>
-  If the source Type is byte[] Type and the destination Type is <a href="#language-type-string">String Type</a>, there is Type Compatibility.
+  If the source Type is <a href="#language-type-array-byte">byte[] Type</a> and the destination Type is <a href="#language-type-string">String Type</a>, there is Type Compatibility.
 </p>
 <pre>
 my $bytes = new byte[3];
@@ -7006,6 +7006,8 @@ my $objets : object[] = new int[3];
   <li><a href="#language-type-convertion-numeric-narrowing">Numeric Narrowing Type Conversion</a></li>
   <li><a href="#language-type-convertion-numeric-widening">Numeric Widening Type Conversion</a></li>
   <li><a href="#language-type-convertion-numeric-to-string">Numeric-to-String Type Conversion</a></li>
+  <li><a href="#language-type-convertion-string-to-byte-array">String-to-byte[] Type Conversion</a></li>
+  <li><a href="#language-type-convertion-byte-array-to-string">byte[]-to-String Type Conversion</a></li>
   <li><a href="#language-type-convertion-boxing">Boxing Type Conversion</a></li>
   <li><a href="#language-type-convertion-unboxing">Unboxing Type Conversion</a></li>
   <li><a href="#language-type-convertion-bool">Bool Type Conversion</a></li>
@@ -7316,9 +7318,37 @@ Numeric types have an order.
 </p>
 
 <h4 id="language-type-convertion-numeric-widening">Numeric Widening Type Conversion</h4>
+
 <p>
   Numeric Widening Type Conversion is a conversion rule applied when converting from a small type to a large type in <a href="#language-type-numeric">Numeric Type</a>.
 </p>
+
+<h4 id="language-type-convertion-string-to-byte-array">String-to-byte[] Type Conversion</h4>
+
+<b>String-to-byte[] Type Conversion</b> is the Type Conversion from <a href="#language-type-string">String Type</a> to <a href="#language-type-array-byte">byte[] Type</a>.
+
+<pre>
+# String-to-byte[] Type Conversion
+my $string : string = "Hello";
+my $bytes : byte[] = (byte[])$string;
+</pre>
+
+A new byte[] Type object is created and all characters in string are copied to the elements of byte[] Type.
+
+<h4 id="language-type-convertion-byte-array-to-string">byte[]-to-String Type Conversion</h4>
+
+<b>byte[]-to-String Type Conversion</b> is the Type Conversion from <a href="#language-type-array-byte">byte[] Type</a> to <a href="#language-type-string">String Type</a>.
+
+<pre>
+# byte[]-to-String Type Conversion
+my $bytes : byte[] = new byte[3];
+$bytes->[0] = 'a';
+$bytes->[1] = 'b';
+$bytes->[2] = 'c';
+my $string : string = (string)$bytes;
+</pre>
+
+A new String Type object is created and all elements in byte[] are copied to the characters of String Type.
 
 <h4 id="language-type-convertion-boxing">Boxing Type Conversion</h4>
 <p>
