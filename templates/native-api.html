@@ -519,10 +519,10 @@ return SPVM_EXCEPTION;
     If an exception occurs, "SPVM_EXCEPTION" is returned. It is defined as a value other than "0".
   <p>
   <p>
-    If you want to set the exception message yourself, you can create an exception message with "new_string" and set it with "set_exception".
+    If you want to set the exception message yourself, you can create an exception message with "new_string_nolen" and set it with "set_exception".
   </p>
 <pre>
-env->set_exception(env, env->new_string(env, "Exception occur");
+env->set_exception(env, env->new_string_nolen(env, "Exception occur");
 return SPVM_EXCEPTION;
 </pre>
   <p>
@@ -706,10 +706,10 @@ int32_t SPNATIVE__MyTimeInfo__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
 43 new_muldim_array
 44 new_mulnum_array_raw
 45 new_mulnum_array
-46 new_string_raw
-47 new_string
-48 new_string_len_raw
-49 new_string_len
+46 new_string_nolen_raw
+47 new_string_nolen
+48 new_string_raw
+49 new_string
 50 new_pointer_raw
 51 new_pointer
 52 concat_raw
@@ -780,6 +780,7 @@ int32_t SPNATIVE__MyTimeInfo__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
 117 new_env
 118 free_env
 119 memry_blocks_count
+120 get_chars
 </pre>
 
   <h3 id = "native-api-call">Call Native API</h3>
@@ -838,10 +839,10 @@ int32_t basic_type_id = env->get_basic_type_id(env, "SPVM::Int");
     <li><a href="#native-api-native-sub-api-new_muldim_array">new_muldim_array</a></li>
     <li><a href="#native-api-native-sub-api-new_mulnum_array_raw">new_mulnum_array_raw</a></li>
     <li><a href="#native-api-native-sub-api-new_mulnum_array">new_mulnum_array</a></li>
+    <li><a href="#native-api-native-sub-api-new_string_nolen_raw">new_string_nolen_raw</a></li>
+    <li><a href="#native-api-native-sub-api-new_string_nolen">new_string_nolen</a></li>
     <li><a href="#native-api-native-sub-api-new_string_raw">new_string_raw</a></li>
     <li><a href="#native-api-native-sub-api-new_string">new_string</a></li>
-    <li><a href="#native-api-native-sub-api-new_string_len_raw">new_string_len_raw</a></li>
-    <li><a href="#native-api-native-sub-api-new_string_len">new_string_len</a></li>
     <li><a href="#native-api-native-sub-api-new_pointer_raw">new_pointer_raw</a></li>
     <li><a href="#native-api-native-sub-api-new_pointer">new_pointer</a></li>
     <li><a href="#native-api-native-sub-api-concat_raw">concat_raw</a></li>
@@ -912,6 +913,7 @@ int32_t basic_type_id = env->get_basic_type_id(env, "SPVM::Int");
     <li><a href="#native-api-native-sub-api-new_env">new_env</a></li>
     <li><a href="#native-api-native-sub-api-free_env">free_env</a></li>
     <li><a href="#native-api-native-sub-api-memry_blocks_count">memry_blocks_count</a></li>
+    <li><a href="#native-api-native-sub-api-get_chars">get_chars</a></li>
   </ul>
 <h4 id = "native-api-native-sub-api-package_vars_heap">package_vars_heap</h4>
   <p>
@@ -1362,54 +1364,54 @@ int32_t basic_type_id = env->get_basic_type_id(env, "SPVM::Complex_2d");
 void* value_array_obj = env->new_mulnum_array(env, basic_type_id, 100);
 </pre>
   
-<h4 id = "native-api-native-sub-api-new_string_raw">new_string_raw</h4>
+<h4 id = "native-api-native-sub-api-new_string_nolen_raw">new_string_nolen_raw</h4>
   <p>
     Specify a C language string to generate a string type object and return it. The string must end with "\0".
   </p>
 <pre>
-void* (*new_string_raw)(SPVM_ENV* env, const char* bytes);
+void* (*new_string_nolen_raw)(SPVM_ENV* env, const char* bytes);
 </pre>
   <p>
     This function does not add any objects to the mortal stack, so for normal use use new_string to avoid memory leaks.
   </p>
 
-<h4 id = "native-api-native-sub-api-new_string">new_string</h4>
+<h4 id = "native-api-native-sub-api-new_string_nolen">new_string_nolen</h4>
   <p>
     Specify a C language string to generate a string type object and return it. The string must end with "\0". Add the newly created object to the mortal stack.
   </p>
 <pre>
-void* (*new_string)(SPVM_ENV* env, const char* bytes);
+void* (*new_string_nolen)(SPVM_ENV* env, const char* bytes);
 </pre>
   <p>
     Example:
   </p>
 <pre>
-void* str_obj = env->new_string(env, "Hello World");
+void* str_obj = env->new_string_nolen(env, "Hello World");
 </pre>
   
-<h4 id = "native-api-native-sub-api-new_string_len_raw">new_string_len_raw</h4>
+<h4 id = "native-api-native-sub-api-new_string_raw">new_string_raw</h4>
   <p>
     Specify a C language string and length to generate a string type object and return it.
   </p>
 <pre>
-void* (*new_string_len_raw)(SPVM_ENV* env, const char* bytes, int32_t length);
+void* (*new_string_raw)(SPVM_ENV* env, const char* bytes, int32_t length);
 </pre>
   <p>
-    This function does not add any objects to the mortal stack, so for normal use use new_string_len to avoid memory leaks.
+    This function does not add any objects to the mortal stack, so for normal use use new_string to avoid memory leaks.
   </p>
   
 
-<h4 id = "native-api-native-sub-api-new_string_len">new_string_len</h4>
+<h4 id = "native-api-native-sub-api-new_string">new_string</h4>
 <P> Generates and returns a character string type object by specifying the character string and length in C language. Add the newly created object to the mortal stack.
   </p>
 <pre>
-void* (*new_string_len)(SPVM_ENV* env, const char* bytes, int32_t length);
+void* (*new_string)(SPVM_ENV* env, const char* bytes, int32_t length);
 </pre>
   <p>
     Example:
   </p>
 <pre>
-void* str_obj = env->new_string_len(env, "Hello \0World", 11);
+void* str_obj = env->new_string(env, "Hello \0World", 11);
 </pre>
   
 <h4 id = "native-api-native-sub-api-new_pointer_raw">new_pointer_raw</h4>
@@ -2314,6 +2316,20 @@ void (*free_env)(SPVM_ENV* env);
   </p>
 <pre>
 void* memory_blocks_count;
+</pre>
+
+<h4 id = "native-api-native-sub-api-get_chars">get_chars</h4>
+
+Get characters pointer in the string object.
+
+<pre>
+const char* (*get_chars)(SPVM_ENV* env, void* string_object);
+</pre>
+
+Example:
+
+<pre>
+const char* bytes = env->get_chars(env, string_object);
 </pre>
 
 </div>
