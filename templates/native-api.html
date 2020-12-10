@@ -1,43 +1,40 @@
-  <h2 id="native-api-summary">SPVM Native API</a></h2>
-  <p>
-    <b> SPVM Native API </b> is described in this document.
-  </p>
-  <p>
-    Last Updated: 2020-12-09
-  </p>
-  
-  <ul class="toc">
-    <li><a href="#native-api-summary">What is SPVM Native API</a></li>
-    <li><a href="#native-api-native-sub-declaration">Native Subroutine Declaration</a></li>
-    <li><a href="#native-api-native-sub-definition">Native Subroutine Definition</a></li>
-    <li><a href="#native-api-native-sub-compile">Compile Native Subroutine</a></li>
-    <li><a href="#native-api-native-sub-get-arg">Arguments of Native Subroutine</a></li>
-    <li><a href="#native-api-native-sub-set-retval">Return Value of Native Subroutine</a></li>
-    <li><a href="#native-api-native-call-sub">Call SPVM Subroutine</a></li>
-    <li><a href="#native-api-native-sub-scope">Native Subroutine Scope</a></li>
-    <li><a href="#native-api-native-sub-exception">Exception of Native Subroutine</a></li>
-    <li><a href="#native-api-use-pointer-type">Pointer Type</a></li>
-    <li><a href="#native-api-list">List of Native APIs</a></li>
-  </ul>
+<h2>SPVM Native API</h2>
+
+SPVM Native API is C API which can be used in SPVM Native Subroutine. SPVM Native API is a part of SPVM Specification.
+
+Currently SPVM version is 1.0-beta. some of SPVM Native API will be changed without warnings.
+
+Last Updated: 2020-12-10
+
+<ul class="toc">
+  <li><a href="#native-api-summary">What is SPVM Native API</a></li>
+  <li><a href="#native-api-native-sub-declaration">SPVM Native Subroutine Declaration</a></li>
+  <li><a href="#native-api-native-configuration">SPVM Native Config File</a></li>
+  <li><a href="#native-api-native-sub-definition">SPVM Native Subroutine Definition</a></li>
+  <li><a href="#native-api-native-sub-compile">Compile Native Subroutine</a></li>
+  <li><a href="#native-api-native-sub-get-arg">Arguments of Native Subroutine</a></li>
+  <li><a href="#native-api-native-sub-set-retval">Return Value of Native Subroutine</a></li>
+  <li><a href="#native-api-native-call-sub">Call SPVM Subroutine</a></li>
+  <li><a href="#native-api-native-sub-scope">Native Subroutine Scope</a></li>
+  <li><a href="#native-api-native-sub-exception">Exception of Native Subroutine</a></li>
+  <li><a href="#native-api-use-pointer-type">Pointer Type</a></li>
+  <li><a href="#native-api-list">List of Native APIs</a></li>
+</ul>
   
 <h3 id="native-api-summary">What is the SPVM Native API?</h3>
-  <p>
-    The SPVM Native API is a C API that can be called in a Native Subroutine of SPVM. The specifications for native spvm subroutine are also described here.
-  </p>
-  <ul class="list">
-    <li> how Native Subroutine are defined</li>
-    <li> receives arguments from spvm subroutine in Native Subroutine</li>
-    returns the return value of the <li> Native Subroutine as the return value of the SPVM subroutine</li>
-    <li> gets the elements of the SPVM array as a C array</li>
-  </ul>
-  <p>
-    You can call Native Subroutine from SPVM.
-  </p>
 
-<h3 id="native-api-native-sub-declaration">Native Subroutine Declaration</h3>
-  <p>
-    The declaration of the SPVM Native Subroutine is done by using the descriptor "native" of the subroutine. End with a semicolon without writing a block of subroutine. The following is an example of declaring in a module called Foo::Bar.
-  </p>
+<b>SPVM Native API</b> is C API which can be used in SPVM Native Subroutine.
+
+<ul>
+  <li><a href="#native-api-list">List of SPVM Native APIs</a></li>
+</ul>
+
+In this document, in addition to SPVM Native API, <a href="#native-api-native-sub-declaration">SPVM Native Subroutine Declaration</a>, <a href="#native-api-native-sub-definition">SPVM Native Subroutine Definition</a>, How to receive Arguments, How to return value is described.
+
+<h3 id="native-api-native-sub-declaration">SPVM Native Subroutine Declaration</h3>
+
+<b>SPVM Native Subroutine Declaration</b> is written using Subroutine Descriptor "native" in SPVM module file.
+
 <pre>
 # Foo/Bar.spvm
 package Foo::Bar {
@@ -45,30 +42,42 @@ package Foo::Bar {
 }
 </pre>
 
-<h3 id="native-api-native-sub-definition">Native Subroutine Definition</h3>
-  <p>
-    You define Native Subroutine in a native source file. The native source file changes the extension of the SPVM module to the extension of the target language. For example, if it is C, it is changed to ".c". In C++, it was changed to .cpp. This can be changed in the settings of the Native Subroutine.
-  </p>
+SPVM Native Subroutine Declaration ends with a semicolon without Sobroutine Block.
+
+Multiple Native Subroutines can be declared. Normal Subroutine can be defined with Native Subroutine.
+
 <pre>
-# Module name Foo::Native source file for Bar
-Foo/Bar.c
+# Foo/Bar.spvm
+package Foo::Bar {
+  native sub sum : int ($num1 : int, $num2 : int);
+  
+  natvie sub native_foo : long ($num : long);
+  
+  sub bar : int ($num : int) {
+    return $num * 2;
+  }
+}
 </pre>
-  <p>
-    When you create a native source file, you must create a native configuration file. The native configuration file changes the extension of the SPVM module to .config. If the native configuration file does not exist, an exception is raised.
-  </p>
+
+<h3 id="native-api-native-configuration">SPVM Native Config File</h3>
+
+<b>SPVM Native Config File</b> must be created for SPVM Native Subroutine. The base name of native configuration file is same as SPVM module file. the extesion is ".config".
+
 <pre>
-# Module name Foo::Bar native configuration file
+# Native configuration file for Foo::Bar module
 Foo/Bar.config
 </pre>
 
-<p>
-   The native configuration file is perl source code. The SPVM::Builder:Config object must be written at the end of the source code and returned. Otherwise, an exception is raised.
- </p>
- <p>
-   If you want to write C on the same C99 as SPVM, write:
- </p>
+If native configuration file does not exist, an exception is raised.
+
+Native Config File is Perl source code. Native Config File must return properly <a href="https://metacpan.org/pod/SPVM::Builder::Config">SPVM::Builder:Config</a> object, otherwise an exception occurs.
+
+<b>1. C99 SPVM Native Config File Example</b>
+
+An example native source code written by C (C99 is SPVM default).
  
 <pre>
+# C99 SPVM Native Config File
 use strict;
 use warnings;
 
@@ -77,9 +86,82 @@ my $bconf = SPVM::Builder::Config->new_c99;
 
 $bconf;
 </pre>
-  <p>
-    If you want to compile outside of C99, or if you want to add a library, see the SPVM::Builder:Config documentation sample.
-  </p>
+
+<b>2. C11 SPVM Native Config File Example</b>
+
+<pre>
+# C11 SPVM Native Config File
+use strict;
+use warnings;
+
+use SPVM::Builder::Config;
+my $bconf = SPVM::Builder::Config->new_c;
+
+$bconf->set_std('c11');
+
+$bconf;
+</pre>
+
+<b>3. C++ SPVM Native Config File Example</b>
+
+<pre>
+# C++ SPVM Native Config File
+use strict;
+use warnings;
+
+use SPVM::Builder::Config;
+my $bconf = SPVM::Builder::Config->new_cpp;
+
+$bconf;
+</pre>
+
+<b>4. C++11 SPVM Native Config File Example</b>
+
+<pre>
+# C++11 SPVM Native Config File
+use strict;
+use warnings;
+
+use SPVM::Builder::Config;
+my $bconf = SPVM::Builder::Config->new_cpp;
+
+$bconf->set_std('c++11');
+
+$bconf;
+</pre>
+
+<b>5. CUDA/nvcc SPVM Native Config File Example</b>
+
+<pre>
+use strict;
+use warnings;
+
+my $bconf = SPVM::Builder::Config->new;
+
+# Compiler and Linker common
+$bconf->set_cccdlflags(q(--compiler-options '-fPIC'));
+
+# Compiler
+$bconf->set_cc('nvcc');
+$bconf->set_ccflags('');
+$bconf->set_ext('cu');
+
+# Linker
+$bconf->set_ld('nvcc');
+$bconf->set_lddlflags('-shared');
+
+$bconf;
+</pre>
+
+<h3 id="native-api-native-sub-definition">Native Subroutine Definition</h3>
+
+Native Subroutine Definition is written in native source file. native source file is basically C language source file which extension is ".c". This extension can be changed to ".cpp" for C++ source file, to ".cu" for CUDA source file, etc.
+
+<pre>
+# Native source file for Foo::Bar module
+Foo/Bar.c
+</pre>
+
   <p>
     You define Native Subroutine in a native source file. An example in this case is Foo/Bar.c.
   </p>
@@ -154,22 +236,22 @@ script.pl
 </pre>
   <h3 id="native-api-native-sub-get-arg">Arguments</h3>
   <ul class = "list">
-    <li> <a href="#native-api-native-sub-get-arg-stack">Arguments and Stack</a></li>
-    <li> <a href="#native-api-native-sub-get-arg-byte">Get byte type argument</a></li>
-    <li> <a href="#native-api-native-sub-get-arg-short">Get short type argument</a></li>
-    <li> <a href="#native-api-native-sub-get-arg-int">Get int type argument</a></li>
-    <li> <a href="#native-api-native-sub-get-arg-long">Get long type argument</a></li>
-    <li> <a href="#native-api-native-sub-get-arg-float">Get float type argument</a></li>
-    <li> <a href="#native-api-native-sub-get-arg-double">Get double type argument</a></li>
-    <li> <a href="#native-api-native-sub-get-arg-object">Get object type argument</a></li>
-    <li> <a href="#native-api-native-sub-get-arg-stack">Stack of arguments</a></li>
-    <li> <a href="#native-api-native-sub-get-arg-byte-ref">Get reference type argument of byte</a></li>
-    <li> <a href="#native-api-native-sub-get-arg-short-ref">Get reference type argument of short</a></li>
-    <li> <a href="#native-api-native-sub-get-arg-int-ref">Get int reference type argument</a></li>
-    <li> <a href="#native-api-native-sub-get-arg-long-ref">Get long reference type argument</a></li>
-    <li> <a href="#native-api-native-sub-get-arg-float-ref">Get float reference type argument</a></li>
-    <li> <a href="#native-api-native-sub-get-arg-double-ref">Get double reference type argument</a></li>
-    <li> <a href="#native-api-native-sub-get-arg-mulnum">Get multiple numeric argument</a></li>
+    <li><a href="#native-api-native-sub-get-arg-stack">Arguments and Stack</a></li>
+    <li><a href="#native-api-native-sub-get-arg-byte">Get byte type argument</a></li>
+    <li><a href="#native-api-native-sub-get-arg-short">Get short type argument</a></li>
+    <li><a href="#native-api-native-sub-get-arg-int">Get int type argument</a></li>
+    <li><a href="#native-api-native-sub-get-arg-long">Get long type argument</a></li>
+    <li><a href="#native-api-native-sub-get-arg-float">Get float type argument</a></li>
+    <li><a href="#native-api-native-sub-get-arg-double">Get double type argument</a></li>
+    <li><a href="#native-api-native-sub-get-arg-object">Get object type argument</a></li>
+    <li><a href="#native-api-native-sub-get-arg-stack">Stack of arguments</a></li>
+    <li><a href="#native-api-native-sub-get-arg-byte-ref">Get reference type argument of byte</a></li>
+    <li><a href="#native-api-native-sub-get-arg-short-ref">Get reference type argument of short</a></li>
+    <li><a href="#native-api-native-sub-get-arg-int-ref">Get int reference type argument</a></li>
+    <li><a href="#native-api-native-sub-get-arg-long-ref">Get long reference type argument</a></li>
+    <li><a href="#native-api-native-sub-get-arg-float-ref">Get float reference type argument</a></li>
+    <li><a href="#native-api-native-sub-get-arg-double-ref">Get double reference type argument</a></li>
+    <li><a href="#native-api-native-sub-get-arg-mulnum">Get multiple numeric argument</a></li>
   </ ul>
   
 <h4 href = "# native-api-native-sub-get-arg-stack">Arguments and Stack</h4>
@@ -318,15 +400,15 @@ double args_im = stack[1].dval;
 
   <h3 id="native-api-native-sub-set-retval">Return Value</h3>
   <ul class = "list">
-    <li> <a href="#native-api-native-sub-set-retval-stack">Return value and stack</a></li>
-    <li> <a href="#native-api-native-sub-set-retval-byte">Set return value of byte type</a></li>
-    <li> <a href="#native-api-native-sub-set-retval-short">Set return value of short type</a></li>
-    <li> <a href="#native-api-native-sub-set-retval-int">Set return value of int type</a></li>
-    <li> <a href="#native-api-native-sub-set-retval-long">Set long type return value</a></li>
-    <li> <a href="#native-api-native-sub-set-retval-float">Set return value of float type</a></li>
-    <li> <a href="#native-api-native-sub-set-retval-double">Set return value of double type</a></li>
-    <li> <a href="#native-api-native-sub-set-retval-object">Set return value of object type</a></li>
-    <li> <a href="#native-api-native-sub-set-retval-mulnum">Multiple numeric return value setting</a></li>
+    <li><a href="#native-api-native-sub-set-retval-stack">Return value and stack</a></li>
+    <li><a href="#native-api-native-sub-set-retval-byte">Set return value of byte type</a></li>
+    <li><a href="#native-api-native-sub-set-retval-short">Set return value of short type</a></li>
+    <li><a href="#native-api-native-sub-set-retval-int">Set return value of int type</a></li>
+    <li><a href="#native-api-native-sub-set-retval-long">Set long type return value</a></li>
+    <li><a href="#native-api-native-sub-set-retval-float">Set return value of float type</a></li>
+    <li><a href="#native-api-native-sub-set-retval-double">Set return value of double type</a></li>
+    <li><a href="#native-api-native-sub-set-retval-object">Set return value of object type</a></li>
+    <li><a href="#native-api-native-sub-set-retval-mulnum">Multiple numeric return value setting</a></li>
   </ ul>
   
 <h4 id="native-api-native-sub-set-retval-stack">Return value and stack</h4>
@@ -793,12 +875,12 @@ int32_t basic_type_id = env->get_basic_type_id(env, "SPVM::Int");
   
   <h3 id="native-api-list">List of Native APIs</h3>
   <ul class = "list">
-    <li> <a href="#native-api-native-sub-api-runtime_package_vars_heap_offset">package_vars_heap</a></li>
-    <li> <a href="#native-api-native-sub-api-object_header_byte_size">object_header_byte_size</a></li>
-    <li> <a href="#native-api-native-sub-api-object_weaken_backref_head_offset">object_weaken_backref_head_offset</a></li>
-    <li> <a href="#native-api-native-sub-api-object_ref_count_offset">object_ref_count_offset</a></li>
-    <li> <a href="#native-api-native-sub-api-object_basic_type_id_offset">object_basic_type_id_offset</a></li>
-    <li> <a href="#native-api-native-sub-api-object_type_dimension_offset">object_type_dimension_offset</a></li>
+    <li><a href="#native-api-native-sub-api-runtime_package_vars_heap_offset">package_vars_heap</a></li>
+    <li><a href="#native-api-native-sub-api-object_header_byte_size">object_header_byte_size</a></li>
+    <li><a href="#native-api-native-sub-api-object_weaken_backref_head_offset">object_weaken_backref_head_offset</a></li>
+    <li><a href="#native-api-native-sub-api-object_ref_count_offset">object_ref_count_offset</a></li>
+    <li><a href="#native-api-native-sub-api-object_basic_type_id_offset">object_basic_type_id_offset</a></li>
+    <li><a href="#native-api-native-sub-api-object_type_dimension_offset">object_type_dimension_offset</a></li>
     <li><a href="#native-api-native-sub-api-object_runtime_type_category_offset">object_runtime_type_category_offset</a></li>
     <li><a href="#native-api-native-sub-api-object_flag_offset">object_flag_offset</a></li>
     <li><a href="#native-api-native-sub-api-object_length_offset">object_length_offset</a></li>
