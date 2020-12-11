@@ -4,7 +4,7 @@ SPVM Native API is C API which can be used in SPVM Native Subroutine. SPVM Nativ
 
 Currently SPVM version is 1.0-beta. some of SPVM Native API will be changed without warnings.
 
-Last Updated: 2020-12-10
+Last Updated: 2020-12-11
 
 <ul class="toc">
   <li><a href="#native-api-summary">What is SPVM Native API</a></li>
@@ -162,9 +162,7 @@ Native Subroutine Definition is written in native source file. native source fil
 Foo/Bar.c
 </pre>
 
-  <p>
-    You define Native Subroutine in a native source file. An example in this case is Foo/Bar.c.
-  </p>
+The following is natvie source file example written by C language.
 
 <pre>
 #include "spvm_native.h"
@@ -182,20 +180,50 @@ int32_t SPNATIVE__Foo__Bar__sum(SPVM_ENV* env, SPVM_VALUE* stack) {
 }
 </pre>
 
-  <p>
-    Include "spvm_native.h" at the beginning of the native source file. This header file defines the SPVM Native API and the required structure.
-  </p>
-  <p>
-    A Native Subroutine definition is a simple C language function.
-  </p>
-  <p>
-    The function name in C of the Native Subroutine starts with "SPNATIVE__", followed by the module name "::" converted to "__", followed by "__", and ends with the subroutine name. If the correspondence with the subroutine name in SPVM is incorrect, a compile error will occur.
-  </p>
+<h4>Include spvm_native.h</h4>
+
+Include "spvm_native.h" at the beginning of the native source file. This header file defines SPVM Native APIs and data structures for Native API and useful macro functions.
+
+See <a href="#native-api-list">List of SPVM Native APIs</a> about included SPVM Native APIs by this header.
+
+spvm_native.h include the following data structures.
+
+<pre>
+SPVM_ENV
+SPVM_VALUE
+</pre>
+
+See <a href="#native-api-list">List of SPVM Native APIs</a> about included SPVM Native APIs by this header.
+
+See <a href="#native-api-list">List of SPVM Native APIs</a> about included SPVM Native APIs by this header.
+
+<h4>Return Value</h4>
+
+The return type is "int32_t". If the subroutine raises an exception, "SPVM_EXCEPTION" is returned, otherwise "SPVM_SUCCESS" is returned.
+
+<h4>Function Name</h4>
+
+Native Subroutine Definition is a simple C language function such as
+
+<pre>
+SPNATIVE__Foo__Bar__sum
+</pre>
+
+The function name starts with "SPNATIVE__".
+
+Followed by package name "Foo__Bar", which is replaced "::" in Foo::Bar.
+
+Followed by "__".
+
+Followed by subroutine name "sum".
+
+If Native Subroutine Name is invalid, a compile error will occur.
+
+
   <p>
     There are two arguments, the first argument is "SPVM_ENV* env" which has the information of the execution environment, and the second argument is "SPVM_VALUE* stack" which is used for the argument and return value.
   </p>
   <p>
-    The return type is "int32_t". If the subroutine raises an exception, "SPVM_EXCEPTION" is returned, otherwise "SPVM_SUCCESS" is returned.
   </p>
   <p>
     In the above sample, it takes two int type arguments of SPVM, calculates the sum, and returns the return value.
@@ -235,7 +263,7 @@ script.pl
 ~/.spvm_build/work/object/Foo/Bar.dll
 </pre>
   <h3 id="native-api-native-sub-get-arg">Arguments</h3>
-  <ul class = "list">
+  <ul class="list">
     <li><a href="#native-api-native-sub-get-arg-stack">Arguments and Stack</a></li>
     <li><a href="#native-api-native-sub-get-arg-byte">Get byte type argument</a></li>
     <li><a href="#native-api-native-sub-get-arg-short">Get short type argument</a></li>
@@ -399,7 +427,7 @@ double args_im = stack[1].dval;
 </pre>
 
   <h3 id="native-api-native-sub-set-retval">Return Value</h3>
-  <ul class = "list">
+  <ul class="list">
     <li><a href="#native-api-native-sub-set-retval-stack">Return value and stack</a></li>
     <li><a href="#native-api-native-sub-set-retval-byte">Set return value of byte type</a></li>
     <li><a href="#native-api-native-sub-set-retval-short">Set return value of short type</a></li>
@@ -874,7 +902,7 @@ int32_t basic_type_id = env->get_basic_type_id(env, "SPVM::Int");
 </pre>
   
   <h3 id="native-api-list">List of Native APIs</h3>
-  <ul class = "list">
+  <ul class="list">
     <li><a href="#native-api-native-sub-api-runtime_package_vars_heap_offset">package_vars_heap</a></li>
     <li><a href="#native-api-native-sub-api-object_header_byte_size">object_header_byte_size</a></li>
     <li><a href="#native-api-native-sub-api-object_weaken_backref_head_offset">object_weaken_backref_head_offset</a></li>
@@ -2412,4 +2440,265 @@ Example:
 
 <pre>
 const char* bytes = env->get_chars(env, string_object);
+</pre>
+
+<h3 id="native-api-list">List of Macro Constants</h3>
+
+<ul class="list">
+  <li><a href="#native-api-native-macro-constants-SPVM_SUCCESS">SPVM_SUCCESS</a></li>
+  <li><a href="#native-api-native-macro-constants-SPVM_EXCEPTION">SPVM_EXCEPTION</a></li>
+</ul>
+
+<h4 id="native-api-native-macro-constants-SPVM_SUCCESS">SPVM_SUCCESS</h4>
+
+Indicate this function don't raise any exception. This value is C<0>.
+
+<pre>
+SPVM_SUCCESS
+</pre>
+
+<h4 id="native-api-native-macro-constants-SPVM_EXCEPTION">SPVM_EXCEPTION</h4>
+
+Indicate this function don't raise any exception. This value is C<1>.
+
+<pre>
+SPVM_EXCEPTION
+</pre>
+
+SPVM_DIE is useful macro function which can set exception message and return SPVM_EXCEPTION.
+
+<h3 id="native-api-list">List of Macro Functions</h3>
+
+<ul>
+  <li><a href="#native-api-macro-functions-SPVM_DIE">SPVM_DIE</a></li>
+  <li><a href="#native-api-macro-functions-SPVM_NEW_OBJECT">SPVM_NEW_OBJECT</a></li>
+  <li><a href="#native-api-macro-functions-SPVM_NEW_POINTER">SPVM_NEW_POINTER</a></li>
+  <li><a href="#native-api-macro-functions-SPVM_SET_FIELD_BYTE">SPVM_SET_FIELD_BYTE</a></li>
+  <li><a href="#native-api-macro-functions-SPVM_SET_FIELD_SHORT">SPVM_SET_FIELD_SHORT</a></li>
+  <li><a href="#native-api-macro-functions-SPVM_SET_FIELD_INT">SPVM_SET_FIELD_INT</a></li>
+  <li><a href="#native-api-macro-functions-SPVM_SET_FIELD_LONG">SPVM_SET_FIELD_LONG</a></li>
+  <li><a href="#native-api-macro-functions-SPVM_SET_FIELD_FLOAT">SPVM_SET_FIELD_FLOAT</a></li>
+  <li><a href="#native-api-macro-functions-SPVM_SET_FIELD_DOUBLE">SPVM_SET_FIELD_DOUBLE</a></li>
+  <li><a href="#native-api-macro-functions-SPVM_SET_FIELD_OBJECT">SPVM_SET_FIELD_OBJECT</a></li>
+  <li><a href="#native-api-macro-functions-SPVM_GET_FIELD_BYTE">SPVM_GET_FIELD_BYTE</a></li>
+  <li><a href="#native-api-macro-functions-SPVM_GET_FIELD_SHORT">SPVM_GET_FIELD_SHORT</a></li>
+  <li><a href="#native-api-macro-functions-SPVM_GET_FIELD_INT">SPVM_GET_FIELD_INT</a></li>
+  <li><a href="#native-api-macro-functions-SPVM_GET_FIELD_LONG">SPVM_GET_FIELD_LONG</a></li>
+  <li><a href="#native-api-macro-functions-SPVM_GET_FIELD_FLOAT">SPVM_GET_FIELD_FLOAT</a></li>
+  <li><a href="#native-api-macro-functions-SPVM_GET_FIELD_DOUBLE">SPVM_GET_FIELD_DOUBLE</a></li>
+  <li><a href="#native-api-macro-functions-SPVM_GET_FIELD_OBJECT">SPVM_GET_FIELD_OBJECT</a></li>
+  <li><a href="#native-api-macro-functions-SPVM_SET_PACKAGE_VAR_BYTE">SPVM_SET_PACKAGE_VAR_BYTE</a></li>
+  <li><a href="#native-api-macro-functions-SPVM_SET_PACKAGE_VAR_SHORT">SPVM_SET_PACKAGE_VAR_SHORT</a></li>
+  <li><a href="#native-api-macro-functions-SPVM_SET_PACKAGE_VAR_INT">SPVM_SET_PACKAGE_VAR_INT</a></li>
+  <li><a href="#native-api-macro-functions-SPVM_SET_PACKAGE_VAR_LONG">SPVM_SET_PACKAGE_VAR_LONG</a></li>
+  <li><a href="#native-api-macro-functions-SPVM_SET_PACKAGE_VAR_FLOAT">SPVM_SET_PACKAGE_VAR_FLOAT</a></li>
+  <li><a href="#native-api-macro-functions-SPVM_SET_PACKAGE_VAR_DOUBLE">SPVM_SET_PACKAGE_VAR_DOUBLE</a></li>
+  <li><a href="#native-api-macro-functions-SPVM_SET_PACKAGE_VAR_OBJECT">SPVM_SET_PACKAGE_VAR_OBJECT</a></li>
+  <li><a href="#native-api-macro-functions-SPVM_GET_PACKAGE_VAR_BYTE">SPVM_GET_PACKAGE_VAR_BYTE</a></li>
+  <li><a href="#native-api-macro-functions-SPVM_GET_PACKAGE_VAR_SHORT">SPVM_GET_PACKAGE_VAR_SHORT</a></li>
+  <li><a href="#native-api-macro-functions-SPVM_GET_PACKAGE_VAR_INT">SPVM_GET_PACKAGE_VAR_INT</a></li>
+  <li><a href="#native-api-macro-functions-SPVM_GET_PACKAGE_VAR_LONG">SPVM_GET_PACKAGE_VAR_LONG</a></li>
+  <li><a href="#native-api-macro-functions-SPVM_GET_PACKAGE_VAR_FLOAT">SPVM_GET_PACKAGE_VAR_FLOAT</a></li>
+  <li><a href="#native-api-macro-functions-SPVM_GET_PACKAGE_VAR_DOUBLE">SPVM_GET_PACKAGE_VAR_DOUBLE</a></li>
+  <li><a href="#native-api-macro-functions-SPVM_GET_PACKAGE_VAR_OBJECT">SPVM_GET_PACKAGE_VAR_OBJECT</a></li>
+  <li><a href="#native-api-macro-functions-SPVM_CALL_SUB">SPVM_CALL_SUB</a></li>
+  <li><a href="#native-api-macro-functions-SPVM_CALL_METHOD">SPVM_CALL_METHOD</a></li>
+</ul>
+
+<h4>SPVM_DIE</h4>
+
+<pre>
+SPVM_DIE(message, ...)
+</pre>
+
+<h4>SPVM_NEW_OBJECT</h4>
+
+<pre>
+SPVM_NEW_OBJECT(env, package_name, object_address, file, line)
+</pre>
+
+<h4>SPVM_NEW_POINTER</h4>
+
+<pre>
+SPVM_NEW_POINTER(env, package_name, pointer, object_address, file, line)
+</pre>
+
+<h4>SPVM_SET_FIELD_BYTE</h4>
+
+<pre>
+SPVM_SET_FIELD_BYTE(env, obj, package_name, sub_name, value, file, line)
+</pre>
+
+<h4>SPVM_SET_FIELD_SHORT</h4>
+
+<pre>
+SPVM_SET_FIELD_SHORT(env, obj, package_name, sub_name, value, file, line)
+</pre>
+
+<h4>SPVM_SET_FIELD_INT</h4>
+
+<pre>
+SPVM_SET_FIELD_INT(env, obj, package_name, sub_name, value, file, line)
+</pre>
+
+<h4>SPVM_SET_FIELD_LONG</h4>
+
+<pre>
+SPVM_SET_FIELD_LONG(env, obj, package_name, sub_name, value, file, line)
+</pre>
+
+<h4>SPVM_SET_FIELD_FLOAT</h4>
+
+<pre>
+SPVM_SET_FIELD_FLOAT(env, obj, package_name, sub_name, value, file, line)
+</pre>
+
+<h4>SPVM_SET_FIELD_DOUBLE</h4>
+
+<pre>
+SPVM_SET_FIELD_DOUBLE(env, obj, package_name, sub_name, value, file, line)
+</pre>
+
+<h4>SPVM_SET_FIELD_OBJECT/h4>
+
+<pre>
+SPVM_SET_FIELD_OBJECT(env, obj, package_name, sub_name, signature, value, file, line)
+</pre>
+
+<h4>SPVM_GET_FIELD_BYTE</h4>
+
+<pre>
+SPVM_GET_FIELD_BYTE(env, obj, package_name, sub_name, value_address, file, line)
+</pre>
+
+<h4>SPVM_GET_FIELD_SHORT</h4>
+
+<pre>
+SPVM_GET_FIELD_SHORT(env, obj, package_name, sub_name, value_address, file, line)
+</pre>
+
+<h4>SPVM_GET_FIELD_INT</h4>
+
+<pre>
+SPVM_GET_FIELD_INT(env, obj, package_name, sub_name, value_address, file, line)
+</pre>
+
+<h4>SPVM_GET_FIELD_LONG</h4>
+
+<pre>
+SPVM_GET_FIELD_LONG(env, obj, package_name, sub_name, value_address, file, line)
+</pre>
+
+<h4>SPVM_GET_FIELD_FLOAT</h4>
+
+<pre>
+SPVM_GET_FIELD_FLOAT(env, obj, package_name, sub_name, value_address, file, line)
+</pre>
+
+<h4>SPVM_GET_FIELD_DOUBLE</h4>
+
+<pre>
+SPVM_GET_FIELD_DOUBLE(env, obj, package_name, sub_name, value_address, file, line)
+</pre>
+
+<h4>SPVM_GET_FIELD_OBJECT</h4>
+
+<pre>
+SPVM_GET_FIELD_OBJECT(env, obj, package_name, sub_name, signature, value_address, file, line)
+</pre>
+
+<h4>SPVM_SET_PACKAGE_VAR_BYTE</h4>
+
+<pre>
+SPVM_SET_PACKAGE_VAR_BYTE(env, package_name, package_var_name, value, file, line)
+</pre>
+
+<h4>SPVM_SET_PACKAGE_VAR_SHORT</h4>
+
+<pre>
+SPVM_SET_PACKAGE_VAR_SHORT(env, package_name, package_var_name, value, file, line)
+</pre>
+
+<h4>SPVM_SET_PACKAGE_VAR_INT</h4>
+
+<pre>
+SPVM_SET_PACKAGE_VAR_INT(env, package_name, package_var_name, value, file, line)
+</pre>
+
+<h4>SPVM_SET_PACKAGE_VAR_LONG</h4>
+
+<pre>
+SPVM_SET_PACKAGE_VAR_LONG(env, package_name, package_var_name, value, file, line)
+</pre>
+
+<h4>SPVM_SET_PACKAGE_VAR_FLOAT</h4>
+
+<pre>
+SPVM_SET_PACKAGE_VAR_FLOAT(env, package_name, package_var_name, value, file, line)
+</pre>
+
+<h4>SPVM_SET_PACKAGE_VAR_DOUBLE</h4>
+
+<pre>
+SPVM_SET_PACKAGE_VAR_DOUBLE(env, package_name, package_var_name, value, file, line)
+</pre>
+
+<h4>SPVM_SET_PACKAGE_VAR_OBJECT</h4>
+
+<pre>
+SPVM_SET_PACKAGE_VAR_OBJECT(env, package_name, package_var_name, signature, value, file, line)
+</pre>
+
+<h4>SPVM_GET_PACKAGE_VAR_BYTE</h4>
+
+<pre>
+SPVM_GET_PACKAGE_VAR_BYTE(env, package_name, package_var_name, value_address, file, line)
+</pre>
+
+<h4>SPVM_GET_PACKAGE_VAR_SHORT</h4>
+
+<pre>
+SPVM_GET_PACKAGE_VAR_SHORT(env, package_name, package_var_name, value_address, file, line)
+</pre>
+
+<h4>SPVM_GET_PACKAGE_VAR_INT</h4>
+
+<pre>
+SPVM_GET_PACKAGE_VAR_INT(env, package_name, package_var_name, value_address, file, line)
+</pre>
+
+<h4>SPVM_GET_PACKAGE_VAR_LONG</h4>
+
+<pre>
+SPVM_GET_PACKAGE_VAR_LONG(env, package_name, package_var_name, value_address, file, line)
+</pre>
+
+<h4>SPVM_GET_PACKAGE_VAR_FLOAT</h4>
+
+<pre>
+SPVM_GET_PACKAGE_VAR_FLOAT(env, package_name, package_var_name, value_address, file, line)
+</pre>
+
+<h4>SPVM_GET_PACKAGE_VAR_DOUBLE</h4>
+
+<pre>
+SPVM_GET_PACKAGE_VAR_DOUBLE(env, package_name, package_var_name, value_address, file, line)
+</pre>
+
+<h4>SPVM_GET_PACKAGE_VAR_OBJECT</h4>
+
+<pre>
+SPVM_GET_PACKAGE_VAR_OBJECT(env, package_name, package_var_name, signature, value_address, file, line)
+</pre>
+
+<h4>SPVM_CALL_SUB</h4>
+
+<pre>
+SPVM_CALL_SUB(env, package_name, sub_name, signature, stack, file, line)
+</pre>
+
+<h4>SPVM_CALL_METHOD</h4>
+
+<pre>
+SPVM_CALL_METHOD(env, object, sub_name, signature, stack, file, line)
 </pre>
