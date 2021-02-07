@@ -136,6 +136,8 @@
     color:#111;
     margin:10px 0;
     line-height:1.5;
+    padding-left:15px;
+    padding-right:15px;
   }
   pre {
     font-size:16px;
@@ -146,6 +148,8 @@
     margin:10px 0;
     line-height:1.5;
     white-space:pre-wrap;
+    margin-left:15px;
+    margin-right:15px;
   }
   blockquote {
     font-size:16px;
