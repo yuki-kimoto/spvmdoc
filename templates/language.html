@@ -215,34 +215,39 @@ Space Character has no meaning in the program execution.
 
 Identifiers in SPVM are <a href="#language-lex-identifier-package-name">Package Name</a>, <a href="#language-lex-identifier-sub-name">Subroutine Name</a>, <a href="#language-lex-identifier-field-name">Field Name</a>, <a href="#language-lex-identifier-package-var-name">Package Variable Name</a>, and <a href="#language-lex-identifier-lex-var-name">Lexical Variable Name</a>.
 
-<h4 id="language-lex-identifier-package-name">Package Name</h4><!-- 2019/2/27 almost ok-->
+<h4 id="language-lex-identifier-package-name">Package Name</h4><!-- 2021-02-08 updated -->
 
 Package Name is one or more alphabet(a-zA-Z), number(0-9), underscore(_) or "::" of ASCII Code.
 
-It is not necessary to include "::" in the Package Name.
+Package Name must start a uppercase letter.
 
-Package Name must start a uppercase letter in ASCII Code
+The part name of Package name must start uppercase letter. Part name of Package name means "Foo", "Bar", "Baz" in Package Name "Foo:Bar::Baz".
 
 "::" cannot be continued twice. Last characters cannot end with "::".
 
-Underscore cannot be continued twice.
+Underscore "_" cannot be continued twice.
+
+If Package Name is invalid, Compilation Error occurs.
+
+<b>Valid Package Name Examples</b>
 
 <pre>
-# Valid Package Name
 Foo
 Foo::Bar
 Foo::Bar::Baz3
 Foo::bar
 Foo_Bar::Baz_Baz
+</pre>
 
-# Invalid Package Name
+<b>Invalid Package Name Examples</b>
+
+<pre>
 foo
 _Foo
 Foo::Bar::
 Foo__Bar
+Foo::bar
 </pre>
-
-If Package Name is invalid, Compilation Error occurs.
 
 <h4 id="language-lex-identifier-sub-name">Subroutine Name</h4><!-- 2019/2/27 almost ok-->
 
