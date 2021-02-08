@@ -5,7 +5,7 @@
 Last modified 2021-02-08
 
 <ul>
-  <li><a href="#language-c99">C99 compliant</a></li>
+  <li><a href="#language-c99">C99 Compliant</a></li>
   <li><a href="#language-lex">Lexical Analysis</a></li>
   <li><a href="#language-parsing">Syntax Parsing</a></li>
   <li><a href="#language-comment">Comment</a></li>
@@ -1916,17 +1916,7 @@ List of Subroutine Descriptor.
       This Subroutine is <a href="#language-sub-native">Native Subroutine</a>. 
     </td>
   </tr>
-  <tr>
-    <td>
-      <b>precompile</b>
-    </td>
-    <td>
-      This Subroutine is <a href="#language-sub-precompiled">Precompiled Subroutine</a>. 
-    </td>
-  </tr>
 </table>
-
-If both "native" and "precompile" Descriptors are specified, Compile Error occurs
 
 <h4 id="language-sub-native">Native Subroutine</h4>
 
@@ -1936,7 +1926,11 @@ See <a href="/native-api.html">SPVM Native API</a> Native Subroutine.
 
 <h4 id="language-sub-precompiled">Precompiled Subroutine</h4>
 
-Precompiled Subroutine is a subroutine translated into C language and converted into machine code.
+If the Package has "precompile" descriptor, the subroutines of the package become Precompiled Subroutine.
+
+Precompiled Subroutine is translated into C99 Compliant source code and converted into machine code.
+
+The precompiled subroutines are C code, so you can get performance of C language.
 
 Precompiled Subroutine needs Build Directory described in <a href="/native-api.html">SPVM Native API</a>
 
