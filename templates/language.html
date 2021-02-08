@@ -2,7 +2,7 @@
 
 <b>SPVM Language Specification</b> is described in this document. Version is 1.0.
 
-Last modified 2020-11-03
+Last modified 2021-02-08
 
 <ul>
   <li><a href="#language-c99">C99 compliant</a></li>
@@ -39,31 +39,33 @@ Last modified 2020-11-03
   <li><a href="#language-weak-ref">Weaken Reference</a></li>
 </ul>
 
-<h3 id="language-c99">C99 compliant</h3><!-- 2019/2/27 almost ok-->
+<h3 id="language-c99">C99 Compliant</h3><!-- 2019/2/27 almost ok-->
 <ul class="list">
-  <li><a href="#language-c99-spec">C99 compliant compiler and runtime</a>
-  <li><a href="#language-c99-type">Type correspondence with C99</a>
+  <li><a href="#language-c99-spec">C99 Compliant compiler and runtime</a>
+  <li><a href="#language-c99-type">SPVM types correspondence with C99 Types</a>
 </ul>
 
-<h4 id="language-c99-spec">C99 compliant compiler and runtime</h4><!-- 2019/2/27 almost ok-->
+<h4 id="language-c99-spec">C99 Compliant compiler and runtime</h4><!-- 2021-02-08 updated -->
 
-The source code of the SPVM compiler and SPVM runtime is written in C and conforms to C99.
+The source code of the SPVM compiler and SPVM runtime is written in C99.
 
-Note that this does not mean that users cannot call the functions of C versions other than C99 (C11, GNU extensions, etc.) or call the functions of C++ from SPVM.
+Note that this does not mean that SPVM cannot bind the functions of C specific versions(C11, GUN99, GNU11, etc.) or bind the functions of specific C++ versions.
 
-This means that the SPVM compiler and runtime must be C99 compliant.
+SPVM can bind any functions of C specific versions or C++ specific versions, and even can bind the functions of CUDA/GPGPU nvcc.
 
-<h4 id="language-c99-type">Type correspondence with C99</h4><!-- 2019/2/27 almost ok-->
+This means that SPVM compiler and runtime must be C99 compliant.
 
-SPVM types are exactly the same as the following C99 types:
+<h4 id="language-c99-type">SPVM Types correspondence with C99 Types</h4><!-- 2019/2/27 almost ok-->
+
+the following SPVM Types are exactly same as the following C99 Types:
 
 <table>
   <tr>
     <th>
-      <b>SPVM type</b>
+      <b>SPVM Type</b>
     </ th>
     <th>
-      <b>C99 type</b>
+      <b>C99 Type</b>
     </ th>
     <th>
       <b>Description</b>
@@ -77,7 +79,7 @@ SPVM types are exactly the same as the following C99 types:
       int8_t
     </td>
     <td>
-      SPVM <a href="#language-type-byte">byte type</a> matches C99 int8_t type.
+      SPVM <a href="#language-type-byte">byte Type</a> is same as C99 int8_t Type.
     </td>
   </tr>
   <tr>
@@ -88,7 +90,7 @@ SPVM types are exactly the same as the following C99 types:
       int16_t
     </td>
     <td>
-      SPVM <a href="#language-type-short">short type</a> matches the C99 int16_t type.
+      SPVM <a href="#language-type-short">short Type</a> is same as the C99 int16_t Type.
     </td>
   </tr>
   <tr>
@@ -99,7 +101,7 @@ SPVM types are exactly the same as the following C99 types:
       int32_t
     </td>
     <td>
-      SPVM <a href="#language-type-int">int Type</a> matches the C99 int32_t type.
+      SPVM <a href="#language-type-int">int Type</a> is same as the C99 int32_t Type.
     </td>
   </tr>
   <tr>
@@ -110,11 +112,10 @@ SPVM types are exactly the same as the following C99 types:
       int64_t
     </td>
     <td>
-      SPVM <a href="#language-type-long">long type</a> matches C99 int64_t type.
+      SPVM <a href="#language-type-long">long Type</a> is same as C99 int64_t Type.
     </td>
   </tr>
-
-<tr>
+  <tr>
     <td>
       <b>float</b>
     </td>
@@ -122,8 +123,9 @@ SPVM types are exactly the same as the following C99 types:
       float
     </td>
     <td>
-      SPVM <a href="#language-type-float">float type</a> matches the C99 float type.
+      SPVM <a href="#language-Type-float">float Type</a> is same as the C99 float Type.
     </td>
+  </tr>
   <tr>
     <td>
       <b>double</b>
@@ -132,18 +134,18 @@ SPVM types are exactly the same as the following C99 types:
       double
     </td>
     <td>
-      SPVM <a href="#language-type-double">double type</a> matches C99 double.
+      SPVM <a href="#language-Type-double">double Type</a> is same as C99 double Type.
     </td>
   </tr>
   <tr>
     <td>
-      <b>Object type</b>
+      <b>Object Type</b>
     </td>
     <td>
       void*
     </td>
     <td>
-      SPVM <a href="#language-type-object">Object Type</a> matches the C99 void* type.
+      SPVM <a href="#language-Type-object">Object Type</a> is same as the C99 void* Type.
     </td>
   </tr>        
   <tr>
@@ -151,17 +153,17 @@ SPVM types are exactly the same as the following C99 types:
       <b>Multiple Numeric Type</b>
     </td>
     <td>
-      Numeric Array Type that matches the type and length in SPVM multiple Numeric Type fields
+      Numeric Array Type that is same as the Type and length in SPVM multiple Numeric Type fields
     </td>
     <td>
       <p>
-        For example, if SPVM <a href="#language-type-multi-numeric">multiple Numeric Type</a>
+        For example, if SPVM <a href="#language-Type-multi-numeric">multiple Numeric Type</a>
       </p>
       <p>
         <b>package Point_2i: mulnum_t {has x: int; has y: int;}</b>
       </p>
       <p>
-        matches the type declared in C99
+        matches the Type declared in C99
       </p>
       <p>
         <b>int32_t var[2];</b>
