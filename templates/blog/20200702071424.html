@@ -1,4 +1,4 @@
-<h2>How to improve SPVM Performance - SPVM Precompile and SPVM Native API</h2>
+<h2>How to improve SPVM Performance using SPVM Precompile and SPVM Native API</h2>
 
 SPVM Module:
 
@@ -45,8 +45,8 @@ Precompiled SPVM Subroutine. This means SPVM code is converted to Machine Code:
 
 <pre>
 # lib/MyMath.spvm
-package MyMath {
-  precompile sub sum_precompile : int ($nums : int[]) {
+package MyMath : precompile {
+  sub sum_precompile : int ($nums : int[]) {
     
     my $total = 0;
     for (my $i = 0; $i < @$nums; $i++) {
