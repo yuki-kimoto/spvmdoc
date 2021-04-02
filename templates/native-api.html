@@ -176,7 +176,7 @@ int32_t SPNATIVE__Foo__Bar__sum(SPVM_ENV* env, SPVM_VALUE* stack) {
 
   stack[0].ival = total;
 
-  return SPVM_SUCCESS;
+  return 0;
 }
 </pre>
 
@@ -199,7 +199,7 @@ See <a href="#native-api-list">List of SPVM Native APIs</a> about included SPVM 
 
 <h4>Return Value</h4>
 
-The return type is "int32_t". If the subroutine raises an exception, "SPVM_EXCEPTION" is returned, otherwise "SPVM_SUCCESS" is returned.
+The return type is "int32_t". If the subroutine raises an exception, "1" is returned, otherwise "0" is returned.
 
 <h4>Function Name</h4>
 
@@ -618,22 +618,22 @@ env->remove_mortal(env, scope_id, object);
     In the Native Subroutine, it is the return value that indicates whether an exception has occurred.
   </p>
 <pre>
-return SPVM_SUCCESS;
+return 0;
 
-return SPVM_EXCEPTION;
+return 1;
 </pre>
   <p>
-    If no exception occurs, "SPVM_SUCCESS" is returned. This is defined as "0".
+    If no exception occurs, "0" is returned. This is defined as "0".
   <p>
   <p>
-    If an exception occurs, "SPVM_EXCEPTION" is returned. It is defined as a value other than "0".
+    If an exception occurs, "1" is returned. It is defined as a value other than "0".
   <p>
   <p>
     If you want to set the exception message yourself, you can create an exception message with "new_string_nolen" and set it with "set_exception".
   </p>
 <pre>
 env->set_exception(env, env->new_string_nolen(env, "Exception occur");
-return SPVM_EXCEPTION;
+return 1;
 </pre>
   <p>
     If no exception message is set, a default exception message will be set.
@@ -691,7 +691,7 @@ int32_t SPNATIVE__MyTimeInfo__new(SPVM_ENV* env, SPVM_VALUE* stack) {
 
   stack[0].oval = tm_obj;
 
-  return SPVM_SUCCESS;
+  return 0;
 }
 
 int32_t SPNATIVE__MyTimeInfo__sec(SPVM_ENV* env, SPVM_VALUE* stack) {
@@ -701,7 +701,7 @@ int32_t SPNATIVE__MyTimeInfo__sec(SPVM_ENV* env, SPVM_VALUE* stack) {
 
   stack[0].ival = tm_ptr-> tm_sec;
 
-  return SPVM_SUCCESS;
+  return 0;
 }
 
 int32_t SPNATIVE__MyTimeInfo__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
@@ -711,7 +711,7 @@ int32_t SPNATIVE__MyTimeInfo__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
 
   env->free_memory_block (tm_ptr);
 
-  return SPVM_SUCCESS;
+  return 0;
 }
 </pre>
   <p>
@@ -734,7 +734,7 @@ void* tm_obj = env->new_pointer(env, "MyTimeInfo", tm_ptr);
 <pre>
 stack[0].ival = tm_ptr-> tm_sec;
 
-return SPVM_SUCCESS;
+return 0;
 </pre>
   <p>
     Next, let's get the value of tm_sec. sec method. The get_pointer function can be used to get a pointer to the memory allocated as a "struct tm" from a pointer type object.
@@ -758,7 +758,7 @@ int32_t SPNATIVE__MyTimeInfo__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
 
   env->free_memory_block (tm_ptr);
 
-  return SPVM_SUCCESS;
+  return 0;
 }
 </pre>
   <p>
@@ -2445,27 +2445,27 @@ const char* bytes = env->get_chars(env, string_object);
 <h3 id="native-api-list">List of Macro Constants</h3>
 
 <ul class="list">
-  <li><a href="#native-api-native-macro-constants-SPVM_SUCCESS">SPVM_SUCCESS</a></li>
-  <li><a href="#native-api-native-macro-constants-SPVM_EXCEPTION">SPVM_EXCEPTION</a></li>
+  <li><a href="#native-api-native-macro-constants-0">0</a></li>
+  <li><a href="#native-api-native-macro-constants-1">1</a></li>
 </ul>
 
-<h4 id="native-api-native-macro-constants-SPVM_SUCCESS">SPVM_SUCCESS</h4>
+<h4 id="native-api-native-macro-constants-0">0</h4>
 
 Indicate this function don't raise any exception. This value is C<0>.
 
 <pre>
-SPVM_SUCCESS
+0
 </pre>
 
-<h4 id="native-api-native-macro-constants-SPVM_EXCEPTION">SPVM_EXCEPTION</h4>
+<h4 id="native-api-native-macro-constants-1">1</h4>
 
 Indicate this function don't raise any exception. This value is C<1>.
 
 <pre>
-SPVM_EXCEPTION
+1
 </pre>
 
-SPVM_DIE is useful macro function which can set exception message and return SPVM_EXCEPTION.
+SPVM_DIE is useful macro function which can set exception message and return 1.
 
 <h3 id="native-api-list">List of Macro Functions</h3>
 
