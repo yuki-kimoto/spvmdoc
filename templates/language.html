@@ -416,7 +416,7 @@ The following is Syntax Parsing Definition in SPVM, using the syntax in yacc/bis
 %token <opval> RETURN WEAKEN DIE WARN CURRENT_PACKAGE UNWEAKEN '[' '{' '('
 
 %type <opval> grammar
-%type <opval> opt_packages packages package package_block refcnt
+%type <opval> opt_packages packages package package_block refcnt refop
 %type <opval> opt_declarations declarations declaration
 %type <opval> enumeration enumeration_block opt_enumeration_values enumeration_values enumeration_value
 %type <opval> sub cb_obj opt_args args arg invocant has use require our string_length
@@ -444,7 +444,7 @@ The following is Syntax Parsing Definition in SPVM, using the syntax in yacc/bis
 %left <opval> SHIFT
 %left <opval> '+' '-' '.'
 %left <opval> MULTIPLY DIVIDE REMAINDER
-%right <opval> LOGICAL_NOT BIT_NOT '@' REF DEREF PLUS MINUS CONVERT SCALAR LENGTH ISWEAK REFCNT
+%right <opval> LOGICAL_NOT BIT_NOT '@' REF DEREF PLUS MINUS CONVERT SCALAR LENGTH ISWEAK REFCNT REFOP
 %nonassoc <opval> INC DEC
 %left <opval> ARROW
 
@@ -676,9 +676,14 @@ expression
 | str_comparison_op
 | isa
 | logical_op
+| refop
 
 refcnt
 : REFCNT var
+
+refop
+  : REFOP expression
+
 expressions
 : expressions ',' expression
 | expressions ','
@@ -1113,6 +1118,9 @@ The following is a correspondence table between tokens in yacc/bison and keyword
   </tr>
   <tr>
     <td>REFCNT</td><td>refcnt</td>
+  </tr>
+  <tr>
+    <td>REFOP</td><td>refop</td>
   </tr>
   <tr>
     <td>INC</td><td>++</td>
@@ -4152,6 +4160,7 @@ package Foo::Bar {
   <li><a href="#language-operator-comparison-numeric">Numeric Comparison Operator</a></li>
   <li><a href="#language-operator-comparison-string">String Comparison Operator</a></li>
   <li><a href="#language-operator-isa">isa Operator</a></li>
+  <li><a href="#language-operator-ref">ref Operator</a></li>
   <li><a href="#language-operator-logical">Logical Operator</a></li>
   <li><a href="#language-operator-logical-and">Logical AND Operator</a></li>
   <li><a href="#language-operator-logical-or">Logical OR Operator</a></li>
@@ -4933,6 +4942,18 @@ LEFT_EXPRESSION isa RIGHT_TYPE
 <p>
   3. If the Right Type is <a href="#language-type-callback">Callback Type</a>, isa Operator checks whether the Type of Left Expression satisfy the Callback Type at Run Time. If Left Expression satisfies the Callback Type, returns <a href="#language-type-int">int Type</a> 1, otherwise 0. The Type of Left Expression must be <a href="#language-type-object">Object Type</a>, otherwise Compile Error occurs.
 </p>
+
+<h4 id="language-operator-ref">ref Operator</h4>
+
+<b>ref Operator</b> is a Operator to get type name of the object.
+
+<pre>
+ref EXPRESSION
+</pre>
+
+ref Operator return type name if the object defined. Otherwise return undef.
+
+If EXPRESSION is not a object type, a compile error occurs.
 
 <h4 id="language-operator-logical">Logical Operator</h4>
 <p>
