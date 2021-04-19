@@ -451,313 +451,315 @@ The following is Syntax Parsing Definition in SPVM, using the syntax in yacc/bis
 %%
 
 grammar
-: opt_packages
+  : opt_packages
 
 opt_packages
-:	/* Empty */
-|	packages
+  : /* Empty */
+  | packages
 
 packages
-: packages package
-| package
+  : packages package
+  | package
 
 package
-: PACKAGE basic_type package_block
-| PACKAGE basic_type ':' opt_descriptors package_block
-| PACKAGE basic_type ';'
-| PACKAGE basic_type ':' opt_descriptors ';'
+  : PACKAGE basic_type package_block
+  | PACKAGE basic_type ':' opt_descriptors package_block
+  | PACKAGE basic_type ';'
+  | PACKAGE basic_type ':' opt_descriptors ';'
 
 package_block
-: '{' opt_declarations '}'
+  : '{' opt_declarations '}'
 
 opt_declarations
-:	/* Empty */
-|	declarations
+  : /* Empty */
+  | declarations
 
 declarations
-: declarations declaration
-| declaration
+  : declarations declaration
+  | declaration
 
 declaration
-: has
-| sub
-| enumeration
-| our ';'
-| use
-| allow
-| begin_block
+  : has
+  | sub
+  | enumeration
+  | our ';'
+  | use
+  | allow
+  | begin_block
 
 begin_block
-: INIT block
+  : INIT block
 
 use
-: USE basic_type ';'
-| USE basic_type '(' opt_sub_names ')' ';'
+  : USE basic_type ';'
+  | USE basic_type '(' opt_sub_names ')' ';'
 
 require
-: REQUIRE basic_type
+  : REQUIRE basic_type
 
 allow
-: ALLOW basic_type ';'
+  : ALLOW basic_type ';'
 
 enumeration
-: opt_descriptors ENUM enumeration_block
+  : opt_descriptors ENUM enumeration_block
 
 enumeration_block 
-: '{' opt_enumeration_values '}'
+  : '{' opt_enumeration_values '}'
 
 opt_enumeration_values
-:	/* Empty */
-|	enumeration_values
+  : /* Empty */
+  | enumeration_values
 
 enumeration_values
-: enumeration_values ',' enumeration_value 
-| enumeration_values ','
-| enumeration_value
+  : enumeration_values ',' enumeration_value 
+  | enumeration_values ','
+  | enumeration_value
 
 enumeration_value
-: sub_name
-| sub_name ASSIGN CONSTANT
+  : sub_name
+  | sub_name ASSIGN CONSTANT
 
 our
-: OUR PACKAGE_VAR_NAME ':' opt_descriptors type
+  : OUR PACKAGE_VAR_NAME ':' opt_descriptors type
 
 has
-: HAS field_name ':' opt_descriptors type ';'
+  : HAS field_name ':' opt_descriptors type ';'
 
 sub
-: opt_descriptors SUB sub_name ':' type_or_void '(' opt_args opt_vaarg')' block
-| opt_descriptors SUB sub_name ':' type_or_void '(' opt_args opt_vaarg')' ';'
+  : opt_descriptors SUB sub_name ':' type_or_void '(' opt_args opt_vaarg')' block
+  | opt_descriptors SUB sub_name ':' type_or_void '(' opt_args opt_vaarg')' ';'
 
 cb_obj
-: opt_descriptors SUB ':' type_or_void '(' opt_args opt_vaarg')' block
-| '[' args ']' opt_descriptors SUB ':' type_or_void '(' opt_args opt_vaarg')' block
+  : opt_descriptors SUB ':' type_or_void '(' opt_args opt_vaarg')' block
+  | '[' args ']' opt_descriptors SUB ':' type_or_void '(' opt_args opt_vaarg')' block
 
 opt_args
-:	/* Empty */
-|	args
-| invocant
-| invocant ',' args
+  : /* Empty */
+  | args
+  | invocant
+  | invocant ',' args
 
 args
-: args ',' arg
-| args ','
-| arg
+  : args ',' arg
+  | args ','
+  | arg
 
 arg
-: var ':' type
+  : var ':' type
 
 opt_vaarg
-: /* Empty */
-| DOT3
+  : /* Empty */
+  | DOT3
 
 invocant
-: var ':' SELF
+  : var ':' SELF
 
 opt_descriptors
-:	/* Empty */
-|	descriptors
+  : /* Empty */
+  | descriptors
 
 descriptors
-: descriptors DESCRIPTOR
-| DESCRIPTOR
+  : descriptors DESCRIPTOR
+  | DESCRIPTOR
 
 opt_statements
-:	/* Empty */
-|	statements
+  : /* Empty */
+  | statements
 
 statements
-: statements statement 
-| statement
+  : statements statement 
+  | statement
 
 statement
-: if_statement
-| for_statement
-| while_statement
-| block
-| switch_statement
-| case_statement
-| default_statement
-| eval_block
-| if_require_statement
-| expression ';'
-| LAST ';'
-| NEXT ';'
-| RETURN ';'
-| RETURN expression ';'
-| DIE ';'
-| DIE expression ';'
-| WARN ';'
-| WARN expression ';'
-| PRINT expression ';'
-| weaken_field ';'
-| unweaken_field ';'
-| ';'
+  : if_statement
+  | for_statement
+  | while_statement
+  | block
+  | switch_statement
+  | case_statement
+  | default_statement
+  | eval_block
+  | if_require_statement
+  | expression ';'
+  | LAST ';'
+  | NEXT ';'
+  | RETURN ';'
+  | RETURN expression ';'
+  | DIE ';'
+  | DIE expression ';'
+  | WARN ';'
+  | WARN expression ';'
+  | PRINT expression ';'
+  | weaken_field ';'
+  | unweaken_field ';'
+  | ';'
 
 for_statement
-: FOR '(' opt_expression ';' expression ';' opt_expression ')' block
+  : FOR '(' opt_expression ';' expression ';' opt_expression ')' block
 
 while_statement
-: WHILE '(' expression ')' block
+  : WHILE '(' expression ')' block
 
 switch_statement
-: SWITCH '(' expression ')' switch_block
+  : SWITCH '(' expression ')' switch_block
 
 switch_block
-: '{' case_statements '}'
-| '{' case_statements default_statement '}'
+  : '{' case_statements '}'
+  | '{' case_statements default_statement '}'
 
 case_statements
-: case_statements case_statement
-| case_statement
+  : case_statements case_statement
+  | case_statement
 
 case_statement
-: CASE expression ':' block
-| CASE expression ':'
+  : CASE expression ':' block
+  | CASE expression ':'
 
 default_statement
-: DEFAULT ':' block
-| DEFAULT ':'
+  : DEFAULT ':' block
+  | DEFAULT ':'
 
 if_require_statement
-: IF '(' require ')' block
-| IF '(' require ')' block ELSE block
+  : IF '(' require ')' block
+  | IF '(' require ')' block ELSE block
 
 if_statement
-: IF '(' expression ')' block else_statement
-| UNLESS '(' expression ')' block else_statement
+  : IF '(' expression ')' block else_statement
+  | UNLESS '(' expression ')' block else_statement
 
 else_statement
-: /* NULL */
-| ELSE block
-| ELSIF '(' expression ')' block else_statement
+  : /* NULL */
+  | ELSE block
+  | ELSIF '(' expression ')' block else_statement
 
 block 
-: '{' opt_statements '}'
+  : '{' opt_statements '}'
 
 eval_block
-: EVAL block ';'
+  : EVAL block ';'
 
 opt_expressions
-:	/* Empty */
-|	expressions
+  : /* Empty */
+  | expressions
 
 opt_expression
-: /* Empty */
-| expression
+  : /* Empty */
+  | expression
 
 expression
-: var
-| EXCEPTION_VAR
-| package_var_access
-| CONSTANT
-| UNDEF
-| call_sub
-| field_access
-| array_access
-| convert
-| new
-| array_init
-| array_length
-| my_var
-| binary_op
-| unary_op
-| assign
-| inc
-| dec
-| '(' expressions ')'
-| CURRENT_PACKAGE
-| isweak_field
-| comparison_op
-| isa
-| logical_op
+  : var
+  | EXCEPTION_VAR
+  | package_var_access
+  | CONSTANT
+  | UNDEF
+  | call_sub
+  | field_access
+  | array_access
+  | convert
+  | new
+  | array_init
+  | array_length
+  | my_var
+  | binary_op
+  | unary_op
+  | assign
+  | inc
+  | dec
+  | '(' expressions ')'
+  | CURRENT_PACKAGE
+  | isweak_field
+  | comparison_op
+  | isa
+  | logical_op
 
 expressions
-: expressions ',' expression
-| expressions ','
-| expression
+  : expressions ',' expression
+  | expressions ','
+  | expression
 
 unary_op
-: '+' expression %prec PLUS
-| '-' expression %prec MINUS
-| BIT_NOT expression
-| REFCNT var
-| REFOP expression
-| STRING_LENGTH expression
-| DEREF var
-| REF var
+  : '+' expression %prec PLUS
+  | '-' expression %prec MINUS
+  | BIT_NOT expression
+  | REFCNT var
+  | REFOP expression
+  | STRING_LENGTH expression
+  | DEREF var
+  | REF var
 
 inc
-: INC expression
-| expression INC
+  : INC expression
+  | expression INC
 
 dec
-: DEC expression
-| expression DEC
+  : DEC expression
+  | expression DEC
 
 binary_op
-: expression '+' expression
-| expression '-' expression
-| expression MULTIPLY expression
-| expression DIVIDE expression
-| expression REMAINDER expression
-| expression BIT_XOR expression
-| expression '&' expression
-| expression BIT_OR expression
-| expression SHIFT expression
-| expression '.' expression
+  : expression '+' expression
+  | expression '-' expression
+  | expression MULTIPLY expression
+  | expression DIVIDE expression
+  | expression REMAINDER expression
+  | expression BIT_XOR expression
+  | expression '&' expression
+  | expression BIT_OR expression
+  | expression SHIFT expression
+  | expression '.' expression
 
 comparison_op
-: expression NUMEQ expression
-| expression NUMNE expression
-| expression NUMGT expression
-| expression NUMGE expression
-| expression NUMLT expression
-| expression NUMLE expression
-| expression NUMERIC_CMP expression
-| expression STREQ expression
-| expression STRNE expression
-| expression STRGT expression
-| expression STRGE expression
-| expression STRLT expression
-| expression STRLE expression
-| expression STRING_CMP expression
+  : expression NUMEQ expression
+  | expression NUMNE expression
+  | expression NUMGT expression
+  | expression NUMGE expression
+  | expression NUMLT expression
+  | expression NUMLE expression
+  | expression NUMERIC_CMP expression
+  | expression STREQ expression
+  | expression STRNE expression
+  | expression STRGT expression
+  | expression STRGE expression
+  | expression STRLT expression
+  | expression STRLE expression
+  | expression STRING_CMP expression
 
 isa
-: expression ISA type
+  : expression ISA type
 
 logical_op
-: expression LOGICAL_OR expression
-| expression LOGICAL_AND expression
-| LOGICAL_NOT expression
+  : expression LOGICAL_OR expression
+  | expression LOGICAL_AND expression
+  | LOGICAL_NOT expression
 
 assign
-: expression ASSIGN expression
-| expression SPECIAL_ASSIGN expression
+  : expression ASSIGN expression
+  | expression SPECIAL_ASSIGN expression
 
 new
-: NEW basic_type
-| NEW array_type_with_length
-| cb_obj
+  : NEW basic_type
+  | NEW array_type_with_length
+  | cb_obj
 
 array_init
-: '[' opt_expressions ']'
+  : '[' opt_expressions ']'
+  | '{' expressions '}'
+  | '{' '}'
 
 convert
-: '(' type ')' expression %prec CONVERT
+  : '(' type ')' expression %prec CONVERT
 
 array_access
-: expression ARROW '[' expression ']'
-| array_access '[' expression ']'
-| field_access '[' expression ']'
+  : expression ARROW '[' expression ']'
+  | array_access '[' expression ']'
+  | field_access '[' expression ']'
 
 call_sub
-: NAME '(' opt_expressions  ')'
-| basic_type ARROW sub_name '(' opt_expressions  ')'
-| basic_type ARROW sub_name
-| expression ARROW sub_name '(' opt_expressions ')'
-| expression ARROW sub_name
-| expression ARROW '(' opt_expressions ')'
+  : NAME '(' opt_expressions  ')'
+  | basic_type ARROW sub_name '(' opt_expressions  ')'
+  | basic_type ARROW sub_name
+  | expression ARROW sub_name '(' opt_expressions ')'
+  | expression ARROW sub_name
+  | expression ARROW '(' opt_expressions ')'
 
 field_access
 : expression ARROW '{' field_name '}'
@@ -765,74 +767,75 @@ field_access
 | array_access '{' field_name '}'
 
 weaken_field
-: WEAKEN var ARROW '{' field_name '}'
+  : WEAKEN var ARROW '{' field_name '}'
 
 unweaken_field
-: UNWEAKEN var ARROW '{' field_name '}'
+  : UNWEAKEN var ARROW '{' field_name '}'
 
 isweak_field
-: ISWEAK var ARROW '{' field_name '}'
+  : ISWEAK var ARROW '{' field_name '}'
 
 array_length
-: '@' expression
-| '@' '{' expression '}'
-| SCALAR '@' expression
-| SCALAR '@' '{' expression '}'
+  : '@' expression
+  | '@' '{' expression '}'
+  | SCALAR '@' expression
+  | SCALAR '@' '{' expression '}'
 
 my_var
-: MY var ':' type
-| MY var
+  : MY var ':' type
+  | MY var
 
 var
-: VAR_NAME
+  : VAR_NAME
 
 package_var_access
-: PACKAGE_VAR_NAME
+  : PACKAGE_VAR_NAME
 
 type
-: basic_type
-| array_type
-| ref_type
+  : basic_type
+  | array_type
+  | ref_type
 
 basic_type
-: NAME
-| BYTE
-| SHORT
-| INT
-| LONG
-| FLOAT
-| DOUBLE
-| OBJECT
-| STRING
+  : NAME
+  | BYTE
+  | SHORT
+  | INT
+  | LONG
+  | FLOAT
+  | DOUBLE
+  | OBJECT
+  | STRING
 
 ref_type
-: basic_type '&'
+  : basic_type '&'
+
 array_type
-: basic_type '[' ']'
-| array_type '[' ']'
+  : basic_type '[' ']'
+  | array_type '[' ']'
 
 array_type_with_length
-: basic_type '[' expression ']'
-| array_type '[' expression ']'
+  : basic_type '[' expression ']'
+  | array_type '[' expression ']'
 
 type_or_void
-: type
-| VOID
+  : type
+  | VOID
 
 field_name
-: NAME
+  : NAME
 
 sub_name
-: NAME
+  : NAME
 
 opt_sub_names
-:	/* Empty */
-|	sub_names
+  : /* Empty */
+  | sub_names
 
 sub_names
-: sub_names ',' sub_name
-| sub_names ','
-| sub_name
+  : sub_names ',' sub_name
+  | sub_names ','
+  | sub_name
 %%
 </pre>
 
@@ -3902,6 +3905,36 @@ The max of Dimention of Multi-Dimention Array is 255.
 <p>
   If Expression2 or later does not satisfy <a href="#language-type-compatible">Type Compatibility</a>, a Compile Error will occur.
 </p>
+
+<b>Examples:</b>
+
+<pre>
+# int array
+my $nums = [1, 2, 3];
+
+# double array
+my $nums = [1.5, 2.6, 3.7];
+
+# string array
+my $strings = ["foo", "bar", "baz"];
+</pre>
+
+Array Initialization has another syntax. This is same as above array init syntax, but always the generated object type is Array Type of <a href="#language-type-any-object">Any Object Type</a>. And if count of expression is odd number, a compile error occurs.
+
+<pre>
+{}
+{Expression1, Expression2, Expression3, Expression4}
+</pre>
+
+<b>Examples:</b>
+
+<pre>
+# Key values empty
+my $key_values = {};
+
+# Key values
+my $key_values = {foo => 1, bar => "Hello"};
+</pre>
 
 <h4 id="language-expression-callsub">Subroutine Call</h4>
 
