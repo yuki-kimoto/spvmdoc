@@ -2,7 +2,7 @@
 
 <b>SPVM Language Specification</b> is described in this document. Version is 1.0.
 
-Last modified 2021-04-13
+Last modified 2021-04-20
 
 <ul>
   <li><a href="#language-c99">C99 Compliant</a></li>
@@ -388,16 +388,17 @@ Identifiers other than <a href="#language-lex-identifier-package-var-name">Packa
 [a => "b", c => "d"]
 </pre>
 
-<h4 id="language-lex-operator">Operators</h4><!-- 2019/2/27 almost ok-->
+<h4 id="language-lex-operator">Operators</h4>
 
 Operators in SPVM are the followings.
 
 <pre>
 =   >   <   !   ~
-==  <=  >=  !=  &&  || ++ --
+==  <=  >=  !=  <=> &&  || ++ --
 +   -   *   /   &   |   ^   %   <<   >>   >>>
 +=  -=  *=  /=  &=  |=  ^=  %=  <<=  >>=  >>>=
 \   $  @   .   .=
+cmp length isa ref
 </pre>
 
 <h3 id="language-parsing">Syntax Parsing</h3>
@@ -424,7 +425,7 @@ The following is Syntax Parsing Definition in SPVM, using the syntax in yacc/bis
 %type <opval> opt_statements statements statement if_statement else_statement 
 %type <opval> for_statement while_statement switch_statement case_statement default_statement
 %type <opval> block eval_block begin_block switch_block if_require_statement
-%type <opval> unary_op binary_op comparison_op isa logical_op
+%type <opval> unary_op binary_op comparison_op isa logical_op  expression_or_logical_op
 %type <opval> call_sub opt_vaarg
 %type <opval> array_access field_access weaken_field unweaken_field isweak_field convert array_length
 %type <opval> assign inc dec allow
@@ -595,10 +596,10 @@ statement
   | ';'
 
 for_statement
-  : FOR '(' opt_expression ';' expression ';' opt_expression ')' block
+  : FOR '(' opt_expression ';' expression_or_logical_op ';' opt_expression ')' block
 
 while_statement
-  : WHILE '(' expression ')' block
+  : WHILE '(' expression_or_logical_op ')' block
 
 switch_statement
   : SWITCH '(' expression ')' switch_block
@@ -624,13 +625,13 @@ if_require_statement
   | IF '(' require ')' block ELSE block
 
 if_statement
-  : IF '(' expression ')' block else_statement
-  | UNLESS '(' expression ')' block else_statement
+  : IF '(' expression_or_logical_op ')' block else_statement
+  | UNLESS '(' expression_or_logical_op ')' block else_statement
 
 else_statement
   : /* NULL */
   | ELSE block
-  | ELSIF '(' expression ')' block else_statement
+  | ELSIF '(' expression_or_logical_op ')' block else_statement
 
 block 
   : '{' opt_statements '}'
@@ -645,6 +646,10 @@ opt_expressions
 opt_expression
   : /* Empty */
   | expression
+
+expression_or_logical_op
+  : expression
+  | logical_op
 
 expression
   : var
@@ -670,7 +675,6 @@ expression
   | isweak_field
   | comparison_op
   | isa
-  | logical_op
 
 expressions
   : expressions ',' expression
@@ -727,9 +731,10 @@ isa
   : expression ISA type
 
 logical_op
-  : expression LOGICAL_OR expression
-  | expression LOGICAL_AND expression
-  | LOGICAL_NOT expression
+  : expression_or_logical_op LOGICAL_OR expression_or_logical_op
+  | expression_or_logical_op LOGICAL_AND expression_or_logical_op
+  | LOGICAL_NOT expression_or_logical_op
+  | '(' logical_op ')'
 
 assign
   : expression ASSIGN expression
