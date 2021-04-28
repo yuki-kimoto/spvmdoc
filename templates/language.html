@@ -2,7 +2,7 @@
 
 <b>SPVM Language Specification</b> is described in this document. Version is 1.0.
 
-Last modified 2021-04-20
+Last modified 2021-04-28
 
 <ul>
   <li><a href="#language-c99">C99 Compliant</a></li>
@@ -348,7 +348,7 @@ Keywords in SPVM are the followings.
 allow byte INIT case die warn print default double elsif else enum eq
 eval for float gt ge has if callback_t isa int last break length
 lt le long my native ne next new our object package private
-public precompile pointer_t return require norw rw ro self switch
+public precompile pointer_t return require rw ro self switch
 sub string short scalar undef unless use void mulnum_t while
 weaken wo __END__ __PACKAGE__ __FILE__ __LINE__
 </pre>
@@ -971,9 +971,6 @@ The following is a correspondence table between tokens in yacc/bison and keyword
     <td>FATCAMMA</td><td>=></td>
   </tr>
   <tr>
-    <td>NORW</td><td>norw</td>
-  </tr>
-  <tr>
     <td>RW</td><td>rw</td>
   </tr>
   <tr>
@@ -1589,22 +1586,14 @@ List of Package Variable Descriptors.
       <b>rw</b>
     </td>
     <td>
-      This Package Variable has Read accessor and Write Accessor. This is default.
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <b>norw</b>
-    </td>
-    <td>
-      This Package Variable has no Read accessor and Write Accessor.
+      This Package Variable has Read accessor and Write Accessor.
     </td>
   </tr>
 </table>
 
 If both "public" and "private" Descriptors are specified, Compile Error occurs.
 
-If more than one of "ro", "wo", "rw", and "norw" are specified at the same time, Compile Error occurs
+If more than one of "ro", "wo", and "rw" are specified at the same time, Compile Error occurs
 
 Read Accessor of Package Variable has no arguments and the return type is same as the type of Package Variable.
 
@@ -1627,7 +1616,6 @@ package Foo {
   our $NUM_RO : ro int;
   our $NUM_WO : wo int;
   our $NUM_RW : rw int;
-  our $NUM_NORW : norw int;
 }
 </pre>
 
@@ -1740,22 +1728,14 @@ List of Field Descriptors.
       <b>rw</b>
     </td>
     <td>
-      This Field has Read Accessor and Write Accessor. This is default.
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <b>norw</b>
-    </td>
-    <td>
-      This Field has no Read Accessor and Write Accessor.
+      This Field has Read Accessor and Write Accessor.
     </td>
   </tr>
 </table>
 
 If both "public" and "private" Descriptors are specified, Compile Error occurs.
 
-If more than one of "ro", "wo", "rw", and "norw" are specified at the same time, Compile Error occurs
+If more than one of "ro", "wo", and "rw" are specified at the same time, Compile Error occurs
 
 Read Accessor of Field has one argument that is <a href="#language-type-self">self Type</a> and the Return Type is same as the type of Field.
 
@@ -1778,7 +1758,6 @@ package Foo {
   has num_ro : ro int;
   has num_wo : wo int;
   has num_rw : rw int;
-  has num_norw : norw int;
 }
 </pre>
 
