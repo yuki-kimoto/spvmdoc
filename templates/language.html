@@ -445,7 +445,7 @@ The following is Syntax Parsing Definition in SPVM, using the syntax in yacc/bis
 %left <opval> SHIFT
 %left <opval> '+' '-' '.'
 %left <opval> MULTIPLY DIVIDE REMAINDER
-%right <opval> LOGICAL_NOT BIT_NOT '@' REF DEREF PLUS MINUS CONVERT SCALAR STRING_LENGTH ISWEAK REFCNT REFOP
+%right <opval> LOGICAL_NOT BIT_NOT '@' REF DEREF PLUS MINUS CONVERT SCALAR STRING_LENGTH ISWEAK REFCNT REFOP DUMP
 %nonassoc <opval> INC DEC
 %left <opval> ARROW
 
@@ -688,6 +688,7 @@ unary_op
   | REFCNT var
   | REFOP expression
   | STRING_LENGTH expression
+  | DUMP expression
   | DEREF var
   | REF var
 
@@ -1116,6 +1117,9 @@ The following is a correspondence table between tokens in yacc/bison and keyword
   </tr>
   <tr>
     <td>REFOP</td><td>ref</td>
+  </tr>
+  <tr>
+    <td>DUMP</td><td>dump</td>
   </tr>
   <tr>
     <td>INC</td><td>++</td>
@@ -4167,7 +4171,8 @@ package Foo::Bar {
   <li><a href="#language-operator-comparison-numeric">Numeric Comparison Operator</a></li>
   <li><a href="#language-operator-comparison-string">String Comparison Operator</a></li>
   <li><a href="#language-operator-isa">isa Operator</a></li>
-  <li><a href="#language-operator-ref">ref Operator</a></li>
+  <li><a href="#language-operator-refop">ref Operator</a></li>
+  <li><a href="#language-operator-dump">dump Operator</a></li>
   <li><a href="#language-operator-logical">Logical Operator</a></li>
   <li><a href="#language-operator-logical-and">Logical AND Operator</a></li>
   <li><a href="#language-operator-logical-or">Logical OR Operator</a></li>
@@ -4970,7 +4975,7 @@ LEFT_EXPRESSION isa RIGHT_TYPE
   3. If the Right Type is <a href="#language-type-callback">Callback Type</a>, isa Operator checks whether the Type of Left Expression satisfy the Callback Type at Run Time. If Left Expression satisfies the Callback Type, returns <a href="#language-type-int">int Type</a> 1, otherwise 0. The Type of Left Expression must be <a href="#language-type-object">Object Type</a>, otherwise Compile Error occurs.
 </p>
 
-<h4 id="language-operator-ref">ref Operator</h4>
+<h4 id="language-operator-refop">ref Operator</h4>
 
 <b>ref Operator</b> is a Operator to get type name of the object.
 
@@ -4981,6 +4986,20 @@ ref EXPRESSION
 ref Operator return type name if the object defined. Otherwise return undef.
 
 If EXPRESSION is not a object type, a compile error occurs.
+
+<h4 id="language-operator-dump">dump Operator</h4>
+
+<b>dump Operator</b> is a Operator to dump object value.
+
+<pre>
+dump EXPRESSION
+</pre>
+
+dump Operator return the dump string.
+
+If EXPRESSION is not a object type, a compile error occurs.
+
+The contents of the dumped string may vary from SPVM version to version. Please use dump operator only for viewing the content of object data.
 
 <h4 id="language-operator-logical">Logical Operator</h4>
 <p>
